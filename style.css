@@ -50,7 +50,7 @@
     --accent-light: #79d99b33;
     --link: rgba(121,217,155,0.8);
     --link-shadow: rgba(121,217,155,0.4);
-    --link-visited: #355437;
+    --link-visited: rgba(115,205,155,0.6);
     --link-hover: #dff0d8;
     --crt: #1d324b;
     --crt-text: #f5c914;
@@ -220,7 +220,12 @@
     align-items: center;
   }
 
-
+  .fredericka-the-great-regular {
+    font-family: "Fredericka the Great", serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
 
   .vt323-regular {
     font-family: "VT323", monospace;
@@ -264,6 +269,7 @@
     text-wrap: pretty;
   }
   header h1 {
+    font-family: "Fredericka the Great", serif;
     margin: 0;
   }
   header .sub {
@@ -287,9 +293,10 @@
     font-size: 13px;
   }
   h1 { 
+    font-family: "Fredericka the Great", serif;
     margin: 0 0 8px; 
     font-size: 28px; 
-    letter-spacing: -0.02em; 
+    letter-spacing: 0.05em; 
   }
   .sub { 
     color: var(--muted); 
@@ -330,9 +337,10 @@
     border-bottom-color: transparent;
   }
   h2 { 
+    font-family: "Fredericka the Great", serif;
     margin: 0 0 12px; 
     font-size: 22px; 
-    letter-spacing: -0.01em; 
+    letter-spacing: 0.04em; 
   }
   h3 { 
     margin: 18px 0 8px; 
