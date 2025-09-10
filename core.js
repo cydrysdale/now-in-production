@@ -167,7 +167,7 @@
         container.innerHTML = '';
         const base = location.pathname.slice(0, location.pathname.lastIndexOf('/') + 1);
         const home = document.createElement('a'); // ✅ Prepend a fixed "Home" link
-        home.href = base + '/index.html';
+        home.href = base + 'index.html';
         home.textContent = '← Home';
         home.className = 'home-link';
         home.setAttribute('aria-label', 'Go to guides home');
