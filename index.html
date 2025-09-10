@@ -1,0 +1,113 @@
+<!-- /index.html (homepage) -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Now in Production — Guides</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css">
+  <script src="core.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header>
+    <div class="header-inner">
+      <div class="title-block">
+        <h1>Now in Production</h1>
+        <div class="sub">Practical guides for design & production</div>
+      </div>
+      <div class="header-actions">
+        <div class="toc-mobile">
+          <button id="tocToggle" aria-expanded="false" aria-controls="tocList">☰ Contents</button>
+          <nav id="tocList" class="toc" aria-label="On this page"></nav>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="page">
+    <aside class="toc-desktop">
+      <nav class="toc" aria-label="On this page"></nav>
+    </aside>
+    <main id="content">
+      <section>
+        <h2>Guides</h2>
+        <div class="">
+        <div id="guideCards"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // List guide URLs (relative paths are fine)
+    const GUIDES = [
+      'rgb-to-cmyk-guide.html',
+      'who-owns-type.html',
+      // 'licensing/index.html',
+      // 'assets-for-web/index.html',
+    ];
+
+    function extractMeta(html) {
+      const doc = new DOMParser().parseFromString(html, 'text/html');
+      const get = (sel, attr='content') => doc.querySelector(sel)?.getAttribute(attr) || '';
+      const title = doc.querySelector('title')?.textContent?.trim() || '';
+      return {
+        title,
+        description: get('meta[name="description"]'),
+        image: get('meta[property="og:image"]') || '',
+        category: get('meta[name="guide:category"]') || '',
+        updated: get('meta[name="guide:updated"]') || '',
+        keywords: get('meta[name="keywords"]') || '',
+      };
+    }
+
+    function cardHTML(url, m) {
+      return `    
+      <a href="${url}" style="text-decoration:none;">
+          <section>
+            <div class="grid" style="align-items:center; gap:16px;">
+              <div>
+                <h2 style="margin:0 0 6px;">${m.title || 'Untitled Guide'}</h2>
+                <div class="sub" style="margin-bottom:8px;">
+                  ${m.category ? `<span class="pill">${m.category}</span>` : ''}
+                  ${m.updated ? `&nbsp;•&nbsp;<span class="pill">Updated ${m.updated}</span>` : ''}
+                </div>
+                <p style="margin:6px 0 0;">${m.description || ''}</p>
+              </div>
+              ${m.image ? `
+              <div class="image-container" style="max-width:280px;">
+                <img src="${m.image}" alt="" loading="lazy">
+              </div>` : ``}
+            </div>
+          </section>
+        </a>
+      `;
+    }
+
+    async function renderCards() {
+      const container = document.getElementById('guideCards');
+      for (const url of GUIDES) {
+        try {
+          const res = await fetch(url, { credentials: 'same-origin' });
+          if (!res.ok) throw new Error(res.statusText);
+          const html = await res.text();
+          const m = extractMeta(html);
+          container.insertAdjacentHTML('beforeend', cardHTML(url, m));
+        } catch (e) {
+          // Fallback card if a guide can’t be fetched
+          container.insertAdjacentHTML('beforeend', `
+            <a href="${url}" style="text-decoration:none;">
+              <section>
+                <h3>${url}</h3>
+                <p class="muted">Couldn’t read metadata; linking directly.</p>
+              </section>
+            </a>
+          `);
+        }
+      }
+    }
+    renderCards();
+  </script>
+</body>
+</html>
