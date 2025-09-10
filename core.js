@@ -180,6 +180,7 @@
         });
       });
     }
+    
 
     function observeActive(headings) {
       const obs = new IntersectionObserver(
@@ -206,6 +207,15 @@
 
       ensureIds(headings);
       buildTOC($$('nav.toc'), headings);
+      $$('nav.toc').forEach((nav) => {
+        // compute the current folder path (including trailing slash)
+        const base = location.pathname.slice(0, location.pathname.lastIndexOf('/') + 1);
+        const home = document.createElement('a');
+        home.href = base + 'index.html';
+        home.textContent = 'Home';
+        home.className = 'depth-2'; // matches your h2 entries
+        nav.prepend(home);
+      });
       observeActive(headings);
 
       // --- Mobile TOC wiring (dock to header when visible; portal when not) ---
@@ -305,16 +315,6 @@
 
       // Initial dock
       ensureDock();
-
-      $$('nav.toc').forEach((nav) => {
-        // compute the current folder path (including trailing slash)
-        const base = location.pathname.slice(0, location.pathname.lastIndexOf('/') + 1);
-        const home = document.createElement('a');
-        home.href = base + 'index.html';
-        home.textContent = 'Home';
-        home.className = 'depth-2'; // matches your h2 entries
-        nav.prepend(home);
-      });
 
     }
 
