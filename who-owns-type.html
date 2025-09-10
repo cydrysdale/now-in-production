@@ -1,28 +1,58 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <script>
+    try {
+      const t = localStorage.getItem('theme');
+      if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+    } catch {}
+  </script>
   <meta charset="utf-8" />
-  <title>Typography Inc.: Who Owns the Alphabet</title>
+  <title>Fontopoly: Who Owns the Alphabet</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+  <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+  <link rel="manifest" href="/site.webmanifest">
   <meta name="description" content="How fonts, law, and business shape the letters you use — a practical guide to typefaces, font software, licensing, and why choosing the correct version matters." />
   <meta name="keywords" content="typography, typeface licensing, font law, Roboto, Roboto Serif, variable fonts, OpenType, WOFF, EULA, Monotype, Google Fonts" />
   <meta name="guide:category" content="Typography" />
   <meta name="guide:updated" content="2025-09-10" />
+  <link rel="canonical" href="https://cydrysdale.github.io/now-in-production/who-owns-type.html">
+  <meta name="robots" content="index,follow">
+  <meta name="author" content="Chris Yasuda Drydsale">
+  <meta name="format-detection" content="telephone=no"/>
+  <!-- Open Graph for Facebook, LinkedIn, etc. -->
   <meta property="og:type" content="article">
-  <meta property="og:title" content="Typography Inc.: Who Owns the Alphabet">
+  <meta property="og:title" content="Fontopoly: Who Owns the Alphabet">
   <meta property="og:description" content="How fonts, law, and business shape the letters you use." />
-  <meta property="og:image" content="images/typography-guide-card.png" />
+  <meta property="og:image" content="https://cydrysdale.github.io/now-in-production/images/fontopoly.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:url" content="https://cydrysdale.github.io/now-in-production/who-owns-type.html">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <script src="core.js" defer></script>
+  <style>
+    :root {
+      --bg-light: url('images/ownsType.png');
+    }
+    :root[data-theme="dark"]{ 
+      --bg-dark: url('images/ownsTypeDark.png');
+    }
+  </style>
 </head>
 
 <body>
   <a class="skip-link" href="#content">Skip to content</a>
   <header>
     <div class="header-inner">
-      <img src="images/apple-touch-icon.png" width="60" style="display:inline-block;margin-right:10px;" alt=""/>
+      <img src="images/apple-touch-icon.png" width="60px" style="display:inline-block; margin-right:10px;" alt="site logo"/>
       <div id="top" class="title-block">
-        <h1>Typography Inc.: Who Owns the Alphabet</h1>
+        <h1>Fontopoly: Who Owns the Alphabet</h1>
         <div class="sub">How fonts, law, and business shape the letters you use</div>
       </div>
       <div class="header-actions">

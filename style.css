@@ -5,7 +5,7 @@
     --shadow2: #00000044;
     --highlight: #ffffff99;
     --bg: #faf9f1;
-    --bgImage: url('images/pxArt.png');
+    --bgImage: var(--bg-light);
     --button: rgba(248, 245, 239, 0.70);
     --button-text: #355437;
     --card: rgba(248, 245, 239, 0.70);
@@ -32,7 +32,7 @@
 /* === Dark theme === */
   :root[data-theme="dark"]{
     --bg: #041326;
-    --bgImage: url('images/pxArtDark.png');
+    --bgImage: var(--bg-dark);
     --card: rgba(4, 19, 38, 0.80);
     --card2: #04132666;
     --callout: rgba(5, 28, 56, 0.45);
