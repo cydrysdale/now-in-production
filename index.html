@@ -30,8 +30,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <script src="core.js" defer></script>
+  <style>
+    :root {
+      --bg-light: url('images/now-in-prod.png');
+    }
+    :root[data-theme="dark"]{ 
+      --bg-dark: url('images/now-in-prod.png')
+    }
+  </style>
 </head>
-<body>
+<body data-bg-light="url('images/now-in-prod.png')" data-bg-dark="url('images/now-in-prod.png')">
   <a class="skip-link" href="#content">Skip to content</a>
   <header>
     <div class="header-inner">
