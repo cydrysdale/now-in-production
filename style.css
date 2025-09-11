@@ -4,7 +4,8 @@
     --shadow: #78766f77;
     --shadow2: #00000044;
     --highlight: #ffffff99;
-    --bg: #faf9f1;
+    --bg: #e3f4f4;
+    --bg2: #f8f5ef;
     --bgImage: var(--bg-light);
     --button: rgba(248, 245, 239, 0.70);
     --button-text: #355437;
@@ -31,7 +32,8 @@
 
 /* === Dark theme === */
   :root[data-theme="dark"]{
-    --bg: #041326;
+    --bg: #1d5080;
+    --bg2: #041326;
     --bgImage: var(--bg-dark);
     --card: rgba(4, 19, 38, 0.80);
     --card2: #04132666;
@@ -56,7 +58,7 @@
     --crt-text: #f5c914;
     --crt-glow: rgb(255, 191, 0);
     --toc: rgba(4, 19, 38, 0.97);
-    --thumb-shadow: 1px -2px 4px var(--bg);
+    --thumb-shadow: 1px -2px 4px var(--bg2);
     --thumb-press: inset 0 -3px 4px var(--shadow2);
     --thumb-shadow2: 1px -2px 4px var(--highlight);
   }
@@ -122,7 +124,7 @@
     width: var(--thumb); 
     height: var(--thumb);
     border-radius: 50%;
-    background: linear-gradient(30deg, var(--shadow) 25%, var(--bg) 80%); 
+    background: linear-gradient(30deg, var(--shadow) 25%, var(--bg2) 80%); 
     border: 0px solid var(--borderLight);
     display:grid; place-items:center;
     box-shadow: var(--thumb-shadow);
@@ -143,8 +145,8 @@
     filter: blur(2px); 
     border-radius: inherit; 
     padding: var(--transition-spacing);
-    background: radial-gradient(circle at 45% 85%, var(--bg) 45%, var(--shadow) 75%);
-    mask: linear-gradient(var(--bg) 0 0) content-box, linear-gradient(var(--bg) 0 0); 
+    background: radial-gradient(circle at 45% 85%, var(--bg2) 45%, var(--shadow) 75%);
+    mask: linear-gradient(var(--bg2) 0 0) content-box, linear-gradient(var(--bg2) 0 0); 
   }
   /* pressed state (mouse/touch) */
   .theme-toggle label:active {
@@ -280,7 +282,7 @@
     display: flex;
     align-items: self-end;
     gap: 10px;
-    flex-wrap: wrap;
+    flex-wrap: no-wrap;
     flex-direction: row;
   }
   .header-actions #themeToggle{
