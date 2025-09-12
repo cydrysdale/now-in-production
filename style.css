@@ -4,7 +4,7 @@
     --shadow: #78766f77;
     --shadow2: #00000044;
     --highlight: #ffffff99;
-    --bg: #e3f4f4;
+    --bg: #eaedef;
     --bg2: #f8f5ef;
     --bgImage: var(--bg-light);
     --button: rgba(248, 245, 239, 0.70);
@@ -27,6 +27,8 @@
     --thumb-shadow: -1px 2px 4px var(--shadow);
     --thumb-press: inset 0 -3px 4px transparent;
     --thumb-shadow2: -1px 1px 3px var(--shadow2);
+    --chance-bg: #f79b3e;           /* Monopoly Chance orange */
+    --chest-bg: #faf56b;          /* Monopoly Community Chest yellow */
   }
     
 
@@ -61,6 +63,8 @@
     --thumb-shadow: 1px -2px 4px var(--bg2);
     --thumb-press: inset 0 -3px 4px var(--shadow2);
     --thumb-shadow2: 1px -2px 4px var(--highlight);
+    --chance-bg: #d77109;           /* Monopoly Chance orange */
+    --chest-bg: #f5c914;          /* Monopoly Community Chest yellow */
   }
   /* Switch sizing */
   .theme-toggle {
@@ -1013,7 +1017,215 @@
     color: var(--muted); 
     font-size: 0.95em; 
   }
+
+  :root {
+    /* Adjust as needed to fit your design system */
+    --chance-radius: 12px;
+    --chance-shadow: 0 6px 20px var(--shadow2);
+    --chance-gap: .75rem;
+    --chance-3d-w: 340px;
+    --chance-3d-h: 200px;
+  }
   
+  /* Container */
+  details.chance {
+    margin-block: 1.25rem 2rem;
+    border-radius: var(--chance-radius);
+    background: transparent;
+    box-shadow: var(--chance-shadow);
+    overflow: clip;
+    border: 1px solid rgba(0,0,0,.08);
+  }
+  
+  /* Summary (click target) */
+  .chance-summary {
+    list-style: none; /* hide default marker */
+    cursor: pointer;
+    padding: 1rem 1.125rem;
+    background:
+      linear-gradient(0deg, rgba(0,0,0,.04), rgba(0,0,0,.04)) ,
+      var(--chance-bg);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: var(--chance-gap);
+    position: relative;
+  }
+  
+  /* Optional little chevron */
+  .chance-summary::after {
+    content: "";
+    width: .6rem;
+    height: .6rem;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    margin-left: auto;
+    transition: transform .25s ease;
+  }
+  details.chance[open] .chance-summary::after {
+    transform: rotate(-135deg);
+  }
+  
+  /* Title text */
+  .chance-title {
+    font-size: 1rem;
+    letter-spacing: .2px;
+    text-transform: uppercase;
+  }
+  
+  /* Expanded content (simple mode) */
+  .chance-content {
+    padding: 1rem 1.125rem 1.25rem;
+    display: grid;
+    gap: .5rem;
+    background: var(--card2);
+    line-height: 1.55;
+  }
+  
+
+:root {
+  /* Tweak to match your system */
+  --chest-text: #1c1c1c;
+}
+
+details.chest {
+  margin-block: 1.25rem 2rem;
+  border-radius: var(--chance-radius);
+  background: transparent;
+  box-shadow: var(--chance-shadow);
+  overflow: clip;
+  border: 1px solid rgba(0,0,0,.08);
+}
+
+/* Click target */
+.chest-summary {
+  list-style: none; /* hide default marker */
+  cursor: pointer;
+  padding: 1rem 1.125rem;
+  background:
+    linear-gradient(0deg, rgba(0,0,0,.04), rgba(0,0,0,.04)),
+    var(--chest-bg);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: var(--chance-gap);
+  position: relative;
+  user-select: none;
+}
+
+/* Chevron indicator */
+.chest-summary::after {
+  content: "";
+  width: .6rem;
+  height: .6rem;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+  margin-left: auto;
+  transition: transform .25s ease;
+}
+details.chest[open] .chest-summary::after {
+  transform: rotate(-135deg);
+}
+
+/* Title text */
+.chest-title {
+  font-size: 1rem;
+  letter-spacing: .2px;
+  color: #352f36
+}
+
+/* Panel content */
+.chest-content {
+  padding: 1rem 1.125rem 1.25rem;
+  display: grid;
+  gap: .5rem;
+  background: var(--card2);
+  line-height: 1.55;
+}
+
+/* Reduced motion users still get a clean, instant toggle */
+@media (prefers-reduced-motion: reduce) {
+  .chest-summary::after { transition: none; }
+}
+
+
+
+/* ---------------------------------------
+   OpenType Feature Lab
+----------------------------------------*/
+:root{
+  --lab-radius: 14px;
+  --lab-border: 1px solid rgba(0,0,0,.08);
+  --lab-shadow: 0 8px 28px rgba(0,0,0,.12);
+  --lab-pad: 1rem;
+}
+
+.feature-lab{
+  margin-block: 1.5rem 2rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.feature-lab__note{
+  font-size: .95rem;
+  color: #444;
+  margin: 0;
+}
+
+.feature-lab__controls,
+.feature-lab__axes{
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem 1rem;
+  align-items: center;
+}
+
+.feature-lab__controls label,
+.feature-lab__axes label{
+  display: inline-flex;
+  gap: .5rem;
+  align-items: center;
+  font-size: .95rem;
+}
+
+.feature-lab__axes input[type="range"]{
+  width: 180px;
+}
+
+.feature-lab__card{
+  border: var(--lab-border);
+  border-radius: var(--lab-radius);
+  box-shadow: var(--lab-shadow);
+  background: #fff;
+  padding: calc(var(--lab-pad) + .25rem);
+}
+
+.feature-lab__sample{
+  margin: 0;
+  /* Set a preferred demo font with rich features; override via inline or parent:
+     .feature-lab{ --demo-font: 'Inter var', Inter, system-ui, sans-serif; } */
+  font-family: var(--demo-font, system-ui, ui-sans-serif, -apple-system, Segoe UI, Roboto, Helvetica, Arial);
+  line-height: 1.6;
+  font-size: clamp(1rem, 0.9rem + 0.5vw, 1.25rem);
+  outline: none;
+  min-height: 4.5rem;
+  word-break: break-word;
+}
+
+/* Make the editable sample feel like a field without a hard border */
+.feature-lab__sample:focus{
+  box-shadow: inset 0 0 0 2px rgba(0,0,0,.08);
+  border-radius: 8px;
+  padding: .25rem .375rem;
+}
+
+/* Small screens */
+@media (max-width: 480px){
+  .feature-lab__axes input[type="range"]{ width: 140px; }
+}
+
 
 
 

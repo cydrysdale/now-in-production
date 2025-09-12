@@ -33,8 +33,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Fredericka+the+Great&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Recursive:wght@300..1000&family=Roboto+Flex:opsz,wght@8..144,100..1000&family=Roboto+Serif:ital,opsz,wght@0,8..144,100..900;1,8..144,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&family=VT323&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <script src="core.js" defer></script>
   <style>
@@ -44,6 +43,19 @@
     :root[data-theme="dark"]{ 
       --bg-dark: url('images/ownsTypeDark.png');
     }
+    .callout { 
+      background: var(--bg); 
+      border:2px solid var(--shadow2); 
+      border-top:50px solid #629c67; 
+      padding:0px 14px 12px; 
+      border-radius:0px; 
+      margin: 6px 0;
+    }
+    .feature-lab__fontpicker {
+      display: flex; align-items: center; gap: .5rem; margin: .25rem 0 .5rem;
+    }
+    .feature-lab__axes label.is-disabled,
+    .feature-lab__controls label.is-disabled { opacity: .45; }
   </style>
 </head>
 
@@ -82,40 +94,394 @@
 
     <main id="content">
 
-      <section>
-        <h2>Why Typography Still Matters (in a world of copy-and-paste)</h2>
-        <p>
-          Screens made type feel free: a font file moves as easily as any other file, and most apps don’t stop you from copying it.
-          But typography is still shaped by contracts, law, and business models—many of which were designed when type was metal, not software.
-          That mismatch explains why people casually pass fonts around, why companies get compliance letters, and why small foundries and big aggregators clash over money and control.
-          Filed lawsuits are uncommon, but letters and settlements are routine—<strong>which is why keeping receipts for licenses (and knowing what you’re allowed to do) really matters.</strong>
-        </p>
-        <div class="callout">
-          <p><strong>Our standard:</strong> Use the <em>Google static</em> versions of Roboto and Roboto Serif. Avoid mixing vendor versions (Adobe vs. Google) to keep files and renders consistent across design tools, Microsoft apps, and motion (After Effects/Premiere).</p>
+      <section id="why-typography-matters" class="guide-section">
+        <h2>Typography Inc.: Who Owns the Alphabet</h2>
+        <h3>Why Typography Still Matters (in a world of copy-and-paste)</h3>
+      
+        <p>When type went digital, fonts began moving as easily as any other file—copied, shared, and passed around without much thought. But beneath the surface, typography is still bound by contracts, intellectual property law, and business models that were written back when type was cast in metal.</p>
+      
+        <p>That mismatch is why people casually collect fonts, why companies receive compliance letters, and why independent foundries and large aggregators often clash over pricing and control. Formal lawsuits are rare, but enforcement through audits, cease-and-desist letters, and settlements is common.</p>
+
+        <div class="">
+          <div>
+            <h4>Why it matters for designers:</h4>
+            <ul>
+              <li><strong>Licenses define the rules:</strong> Desktop, web, app embedding, and broadcast all have different conditions.</li>
+              <li><strong>Scale changes the cost:</strong> A license for one user or a small site doesn’t cover large teams or millions of page views.</li>
+              <li><strong>Records protect you:</strong> Keeping receipts and license documentation is essential for avoiding trouble later.</li>
+            </ul>
+          </div>
+          <div>
+            <!-- Chance Card: default is simple expand; add 'chance--flip' for 3D flip -->
+            <details class="chance" aria-label="Fun Fact: Early font sharing and licensing">
+              <summary class="chance-summary">
+                &#127922;&ensp;Chance Card: Fun Fact
+              </summary>           
+              <div class="chance-content">
+                <p>Back in the late ’80s and early ’90s, font file trading was a lot like swapping baseball cards or mixtapes. Designers would bring boxes of floppy disks to conferences and exchange typefaces—sometimes entire libraries—for the price of a coffee. It was such a low tech and human way to exchange digital assets, but it was the primary way most agencies recieved new fonts to work with.</p>
+                <div>
+                <img src="images/fonts-floppy.png" style="float: right; max-width:280px; margin: 0 0 8px 12px;" alt="floppy disks" />
+                <p>One&nbsp;famous story goes that a single floppy labeled “Swiss Army Fonts” made its way through dozens of agencies in New York, passed along so many times that no one could remember where it came from. The label was photocopied and taped until it was barely legible, but the fonts inside kept on circulating.</p>   
+                <p>Typography may look serious on the page, but behind the scenes it once had a bootleg, DIY culture that feels closer to a garage band than a law office.</p></div>
+              </div>
+                
+            </details>
+          </div>
         </div>
       </section>
 
+      <section id="history-law" class="guide-section">
+        <h2>History &amp; Law: from cuneiform to software (and a legal framework that lagged)</h2>
+      
+        <p>Typography’s story doesn’t begin with the printing press. Long before movable type, early civilizations were already encoding language into repeatable marks:</p>
+        <ul>
+          <li><strong>Cuneiform seals</strong> in Mesopotamia (~3100&nbsp;BCE) pressed symbols into clay.</li>
+          <li><strong>Woodblock printing</strong> in China (Tang dynasty, ~7th&nbsp;century&nbsp;CE) carved full pages for reuse.</li>
+          <li><strong>Movable type</strong> emerged in China (~11th&nbsp;century), then revolutionized Europe with Gutenberg’s metal movable type in the 15th century.</li>
+        </ul>
+      
+        <p>For centuries, typefaces were tied to <em>physical materials</em>. Printers bought or commissioned entire sets of metal sorts. Ownership was straightforward—you owned the blocks.</p>
+        <div class="grid">
+          <div>
+            <h3>Phototype to Digital</h3>
+            <p>The shift began with <strong>phototypesetting</strong> in the mid-20th century, using glass, film, and light in place of metal. Type could be scaled and composited, foreshadowing the full digital leap.</p>
+            <p>By the 1980s, type was no longer hardware—it was software. <strong>Steve Jobs</strong> and <strong>Apple</strong> accelerated this moment&mdash;inspired by a calligraphy course at Reed College, Jobs pushed the original Macintosh (1984) to ship with multiple digital fonts named like places—<em>Chicago</em>, <em>Geneva</em>, <em>Monaco</em>, <em>New&nbsp;York</em>. Fonts became part of the product’s personality, not just a publishing utility. With a Mac, a LaserWriter, and Aldus PageMaker, anyone could do professional-looking layout. Fonts were bundled, distributed, and often copied along with the computer itself.</p>
+            <p>This moment ignited the “desktop publishing revolution.” Suddenly, anyone with a Mac, a LaserWriter printer, and Aldus PageMaker could design with professional typography at home or in a small office. Fonts weren’t the guarded property of print shops anymore—they were bundled, distributed, and copied with the computer itself.</p>
+          </div>
+          <div class="callout">
+            <h3>The Legal Lag</h3>
+            <p>Here’s where the law stumbled. In most jurisdictions:</p>
+            <ul>
+              <li><strong>Typeface design ≠ copyright (in many jurisdictions):</strong> letterforms are treated as functional shapes.</li>
+              <li><strong>Font files = software:</strong> the digital code that draws letterforms <em>is</em> protected, so licenses target file use.</li>
+              <li><strong>Paradox:</strong> someone can legally redraw a famous design under a new name, but copying its <em>font file</em> is infringement.</li>
+            </ul>
+            <p>This created paradoxes: one company could redraw Helvetica and release it under a new name without breaking the law (see <strong>Community Chest: Legal Curiosities</strong>), but copying Helvetica’s font file was infringement.</p>
+            <p>This gap between design and code explains why licensing can feel technical (limits on CPU installs, users, page views) and why lookalikes sometimes exist legally under different names. It also set expectations—after Apple’s bundles—that fonts “come with the machine,” even though each font carries specific terms.</p>
+          </div>
+        </div>
+        <!-- Community Chest callout (expand/collapse) -->
+        <details class="chest" aria-label="Community Chest: Legal Curiosities">
+          <summary class="chest-summary chest-title">
+            &#127922;&ensp;Community Chest: Legal Curiosities
+          </summary>
+          <div class="chest-content">
+            <p><strong>Fun Fact:</strong> In the 1990s, Microsoft commissioned a team to design Arial as a “metrics-compatible” twin of Helvetica. Because the shapes themselves couldn’t be copyrighted, Microsoft could sell a Helvetica lookalike bundled with Windows—skirting licensing fees while keeping document layouts identical.</p>
+          </div>
+        </details>
+      </section>
+      
+      <section id="how-typefaces-work" class="guide-section">
+        <h2>How Typefaces Work Today <small>(the file behind the letterforms)</small></h2>
+      
+        <h3>Typeface vs. Font</h3>
+        <p><strong>Typeface</strong> = the design (the shapes and system behind the letters). <strong>Font</strong> = the software that draws those shapes in apps and browsers. You choose a typeface for voice; you install a font to make it usable.</p>
+      
+        <details class="tip" aria-label="Utilities: Designer Tip">
+          <summary class="tip-summary"><span class="tip-title">Utilities: Designer Tip</span></summary>
+          <div class="tip-content">
+            <p>Typeface names can map to many fonts. For example, “Garamond” might refer to different cuts with different metrics. When matching layouts, confirm the <em>foundry</em> and the <em>font file</em> version—not just the style name.</p>
+          </div>
+        </details>
+      
+        <h3>What’s inside a font file?</h3>
+        <ul>
+          <li><strong>Glyph outlines:</strong> Vector curves (quadratic or cubic Béziers) that define each glyph.</li>
+          <li><strong>Encoding:</strong> Mapping between Unicode code points and glyphs (so text becomes the right shapes).</li>
+          <li><strong>Metrics:</strong> Advance widths, side bearings, ascender/descender, line gap—how text flows and wraps.</li>
+          <li><strong>Kerning:</strong> Fine spacing tweaks for pairs or classes (e.g., <em>To</em>, <em>AV</em>).</li>
+          <li><strong>OpenType tables:</strong> <code>GSUB</code> (substitutions: ligatures, small caps), <code>GPOS</code> (positioning: kerning, marks), <code>GDEF</code> (glyph classes), and more.</li>
+          <li><strong>Hinting:</strong> Instructions to improve rasterization at small sizes (more visible on low-DPI screens).</li>
+          <li><strong>Variable axes (if variable):</strong> Continuous ranges like weight (<code>wght</code>), width (<code>wdth</code>), optical size (<code>opsz</code>), etc.</li>
+        </ul>
+        
+        <details class="tip" aria-label="Utilities: Variable Axes Tip">
+          <summary class="tip-summary"><strong>Variable Axes: Weight vs. Width vs. Optical Size</strong></summary>
+          <div class="tip-content">
+            <dl class="axis-defs">
+              <dt>Weight (<code>wght</code>)</dt>
+              <dd>
+                Thickness of strokes (light → black). Affects darkness and contrast.
+                <em>Use for hierarchy, contrast on dark backgrounds, and readability at small sizes.</em><br>
+                <small>Typical range: 100–900.</small>
+              </dd>
+        
+              <dt>Width (<code>wdth</code>)</dt>
+              <dd>
+                Horizontal proportion (condensed ↔ expanded). Changes character set width and letterfit—not the stroke thickness.
+                <em>Use to fit copy without cranking tracking, or to meet tight UI constraints.</em><br>
+                <small>Typical range: 75–125 (percent).</small>
+              </dd>
+        
+              <dt>Optical Size (<code>opsz</code>)</dt>
+              <dd>
+                Design tuned to the size you’re setting. Text sizes get sturdier details, looser spacing, bigger x-height; display sizes get finer details and tighter spacing.
+                <em>Use text cuts for small sizes; display cuts for big headlines.</em><br>
+                <small>Typical range: 8–72 (points), font-dependent.</small>
+              </dd>
+            </dl>
+        
+            <ul class="axis-rules">
+              <li><strong>Don’t fake it:</strong> avoid “bold” emulation, horizontal scaling, or stroke effects—use real <code>wght</code>/<code>wdth</code> axes.</li>
+              <li><strong>Width before tracking:</strong> prefer <code>wdth</code> to squeeze/relax a line; use tracking for subtle polish, not layout rescue.</li>
+              <li><strong>Let size drive <code>opsz</code>:</strong> small text wants higher <code>opsz</code> (sturdier), big headlines want lower <code>opsz</code> (finer).</li>
+              <li><strong>Compensate when inverting:</strong> white-on-black often needs +1 weight step or slightly more letterspacing.</li>
+            </ul>
+        
+            <div class="code" data-label="The Code:">
+              <div class="code-type animate"><p><strong>CSS quick starts</strong></p>
+              <pre><code style="text-wrap: wrap;">.text {
+        /* Enable auto optical sizing when the font supports it */
+        font-optical-sizing: auto;               /* uses font-size to set opsz */
+        /* Explicit control (overrides auto): */
+        /* font-optical-sizing: none; */
+        /* font-variation-settings: "opsz" 14; */
+      
+        /* Weight & width (variable fonts) */
+        font-variation-settings: "wght" 500, "wdth" 95;
+        /* High-level props also work when supported: */
+        /* font-weight: 500;
+            font-stretch: 95%; */                 /* maps to wdth axis */
+        }<span class="cursor animate">_</span></code></pre></div></div>
+              <p>Note: If you set <code>font-optical-sizing: auto</code>, the browser drives <code>opsz</code> from <code>font-size</code>. To force a specific <code>opsz</code>, set <code>font-optical-sizing: none</code> and declare it in <code>font-variation-settings</code>.</p>
+            
+          </div>
+        </details>
+        
+      
+        <h3>How shaping &amp; rendering works (simplified)</h3>
+        <ol>
+          <li><strong>Text shaping:</strong> Your OS/app uses a shaping engine to turn characters into the right sequence of glyphs, apply substitutions/positioning (ligatures, contextual forms, script rules), and resolve language specifics.</li>
+          <li><strong>Rasterization:</strong> The outlines are turned into pixels with anti-aliasing and hinting.</li>
+          <li><strong>Compositing:</strong> The result is painted to screen or printed.</li>
+        </ol>
+      
+        <h3>Desktop vs. Web formats</h3>
+        <ul>
+          <li><strong>Desktop:</strong> TTF/OTF (install on machines; use in apps).</li>
+          <li><strong>Web:</strong> WOFF/WOFF2 (compressed for browsers; often subsetted for performance). Useful CSS: <code>@font-face</code>, <code>font-display</code>, <code>unicode-range</code>, and <code>preload</code>.</li>
+        </ul>
+      
+        <details class="tip" aria-label="Utilities: Performance Tip">
+          <summary class="tip-summary"><span class="tip-title">Utilities: Performance Tip</span></summary>
+          <div class="tip-content">
+            <p>For the web, subset fonts to the scripts you actually use and set <code>font-display: swap</code> (or <code>optional</code>) to reduce FOIT. Consider <code>unicode-range</code> for large families.</p>
+          </div>
+        </details>
+      
+        <!-- ===========================
+             OpenType Feature Lab (optional)
+             =========================== -->
+        <section class="feature-lab" aria-labelledby="feature-lab-heading" >
+          <h3 id="feature-lab-heading">OpenType Feature Lab <small>(try toggles; edit the sample)</small></h3>
+          <p class="feature-lab__note">Results depend on the font you load. For best results, use a family with rich OpenType support or a variable font (e.g., Inter, Source Serif, Spectral).</p>
+
+          <div class="feature-lab__fontpicker" role="group" aria-label="Choose demo font">
+            <label>Font
+              <select class="feature-lab__font">
+                <optgroup label="Sans Serif"> 
+                  <option value="roboto" selected>Roboto (sans, static)</option>
+                  <option value="roboto-flex">Roboto Flex (sans, variable)</option>
+                  <option value="inter">Inter (sans, variable)</option>
+                  <option value="recursive">Recursive (sans, variable)</option>
+                </optgroup>
+                <optgroup label="Serif"> 
+                  <option value="roboto-serif">Roboto Serif (serif, variable)</option>
+                  <option value="source-serif">Source Serif 4 (serif, variable)</option>
+                  <option value="spectral">Spectral (serif, variable)</option>
+                  <option value="fraunces">Fraunces (serif, variable)</option>
+                </optgroup>
+              </select>
+            </label>
+          </div>
+      
+          <div class="feature-lab__controls" role="group" aria-label="OpenType feature toggles">
+            <label><input type="checkbox" data-feature="kern" checked> Kerning</label>
+            <label><input type="checkbox" data-feature="liga" checked> Standard ligatures</label>
+            <label><input type="checkbox" data-feature="calt" checked> Contextual alternates</label>
+            <label><input type="checkbox" data-feature="smcp"> Small caps</label>
+            <label><input type="checkbox" data-feature="onum"> Oldstyle figures</label>
+            <label><input type="checkbox" data-feature="tnum"> Tabular figures</label>
+            <label><input type="checkbox" data-feature="zero"> Slashed zero</label>
+            <label><input type="checkbox" data-feature="ss01"> Stylistic set 1</label>
+          </div>
+      
+          <div class="feature-lab__axes" role="group" aria-label="Variable font axes">
+            <label>Weight <input type="range" min="300" max="900" value="400" step="1" data-axis="wght"></label>
+            <label>Width <input type="range" min="75" max="125" value="100" step="1" data-axis="wdth"></label>
+            <label>Optical Size <input type="range" min="8" max="72" value="14" step="1" data-axis="opsz"></label>
+            <label>Slant <input type="range" min="-15" max="0" value="0" step="1" data-axis="slnt"></label>
+          </div>
+      
+          <div class="feature-lab__card roboto-serif-demo" >
+            <!-- Tip: set a preferred demo font on this card via inline style or a parent variable:
+                 style="--demo-font: 'Inter var', Inter, system-ui, sans-serif" -->
+            <p class="feature-lab__sample" contenteditable="true">
+              Office 0123456789 — affine office; efficient. <br>
+              Find five fine ligatures: fi fl ffi ffl. <br>
+              Try typing here to test features → 100% vs 1000% and zeros: 0 O Ø
+            </p>
+          </div>
+        </section>
+      </section>
+      
+      <!-- Optional tiny JS (progressive enhancement) -->
+      <script>
+        (function(){
+          const lab = document.querySelector('.feature-lab');
+          if (!lab) return;
+        
+          const sample  = lab.querySelector('.feature-lab__sample');
+          const boxes   = lab.querySelectorAll('[data-feature]');
+          const sliders = lab.querySelectorAll('[data-axis]');
+          const fontSel = lab.querySelector('.feature-lab__font');
+        
+          // Features each family actually exposes (adjust if your builds differ)
+          const SUPPORT = {
+            "roboto":   { axes:{wght:[300,900], slnt:[-15,0]}, feats:['kern','liga','calt','ss01','smcp','onum','tnum','zero'] },
+            "roboto-flex":   { axes:{wght:[300,900], wdth:[75,125], opsz:[8,144], slnt:[-15,0]}, feats:['kern','liga','calt','tnum','zero'] },
+            "roboto-serif":  { axes:{wght:[300,900], wdth:[75,125], opsz:[8,144]              }, feats:['kern','liga','calt','smcp','onum','tnum','zero'] },
+            "source-serif":  { axes:{wght:[300,900],                      opsz:[8,72]        }, feats:['kern','liga','calt','smcp','onum','tnum','zero'] },
+            "spectral":      { axes:{wght:[200,900],                      opsz:[8,72]        }, feats:['kern','liga','calt','smcp','onum','tnum','zero'] },
+            "recursive":     { axes:{wght:[300,1000],                     /* no opsz */ slnt:[-15,0]}, feats:['kern','liga','calt','ss01','zero'] },
+            "fraunces":      { axes:{wght:[100,1000],                     opsz:[9,144]       }, feats:['kern','liga','calt','ss01','onum','tnum'] },
+            "inter":   { axes:{wght:[300,900], wdth:[75,125], opsz:[8,144], slnt:[-15,0]}, feats:['kern','liga','tnum','zero'] }
+          };
+        
+          // Keep a flag so opsz slider can disable auto optical sizing
+          let manualOpsz = false;
+        
+          function updateFeatures(){
+            const names = ['kern','liga','calt','smcp','onum','tnum','zero','ss01'];
+            const active = [];
+            let numeric = [];
+        
+            names.forEach(n => {
+              const box = lab.querySelector('[data-feature="'+n+'"]');
+              if (!box || box.disabled) return;
+              const on = box.checked;
+              active.push('"' + n + '" ' + (on ? 1 : 0));
+              // high-level numeric mapping for better cross-browser behavior
+              if (n === 'onum' && on) numeric.push('oldstyle-nums');
+              if (n === 'tnum' && on) numeric.push('tabular-nums');
+              if (n === 'zero' && on) numeric.push('slashed-zero');
+            });
+        
+            sample.style.fontFeatureSettings = active.join(', ');
+            sample.style.fontVariantNumeric  = numeric.join(' ') || 'normal';
+          }
+        
+          function updateAxes(){
+            const axes = [];
+            let slntVal = null;
+        
+            sliders.forEach(s => {
+              if (s.disabled) return;
+              const tag = s.dataset.axis;
+              const val = s.value;
+        
+              if (tag === 'opsz') manualOpsz = true; // once user moves opsz, take control
+              if (tag === 'slnt') slntVal = parseFloat(val);
+        
+              axes.push('"' + tag + '" ' + val);
+            });
+        
+            // Registered axis niceties
+            if (manualOpsz) sample.style.fontOpticalSizing = 'none'; // let slider own opsz
+        
+            if (slntVal !== null) {
+              // Map slnt to font-style: oblique angle for reliable rendering
+              sample.style.fontStyle = (slntVal === 0) ? 'normal' : ('oblique ' + Math.abs(slntVal) + 'deg');
+            }
+        
+            sample.style.fontVariationSettings = axes.join(', ');
+          }
+        
+          function applyFont(id){
+            const conf = SUPPORT[id];
+            if (!conf) return;
+        
+            // Set the family
+            lab.style.setProperty('--demo-font', conf.family || familyFromId(id));
+        
+            // Enable/disable sliders based on available axes; set ranges
+            const axisKeys = ['wght','wdth','opsz','slnt'];
+            axisKeys.forEach(axis => {
+              const s = lab.querySelector('[data-axis="'+axis+'"]');
+              if (!s) return;
+              const wrap = s.closest('label');
+              if (conf.axes && conf.axes[axis]) {
+                const [min,max] = conf.axes[axis];
+                s.min = min; s.max = max;
+                s.disabled = false;
+                wrap && wrap.classList.remove('is-disabled');
+              } else {
+                s.disabled = true;
+                wrap && wrap.classList.add('is-disabled');
+              }
+            });
+        
+            // Enable/disable feature checkboxes based on support
+            const supported = new Set(conf.feats || []);
+            ['kern','liga','calt','smcp','onum','tnum','zero','ss01'].forEach(f => {
+              const box = lab.querySelector('[data-feature="'+f+'"]');
+              if (!box) return;
+              const label = box.closest('label');
+              const ok = supported.has(f);
+              box.disabled = !ok;
+              if (!ok) box.checked = (f === 'kern' || f === 'liga') ? box.checked : false;
+              label && label.classList.toggle('is-disabled', !ok);
+            });
+        
+            // Reset special states
+            manualOpsz = false;
+            sample.style.fontOpticalSizing = 'auto'; // hand control back until user moves opsz
+            sample.style.fontStyle = 'normal';
+        
+            // Nudge values into range if needed
+            sliders.forEach(s => {
+              if (s.disabled) return;
+              if (+s.value < +s.min) s.value = s.min;
+              if (+s.value > +s.max) s.value = s.max;
+            });
+        
+            updateFeatures();
+            updateAxes();
+          }
+        
+          function familyFromId(id){
+            switch(id){
+              case 'roboto':  return "'Roboto', sans-serif";
+              case 'roboto-flex':  return "'Roboto Flex', system-ui, sans-serif";
+              case 'roboto-serif': return "'Roboto Serif', Georgia, serif";
+              case 'source-serif': return "'Source Serif 4', Georgia, serif";
+              case 'spectral':     return "Spectral, Georgia, serif";
+              case 'recursive':    return "Recursive, system-ui, sans-serif";
+              case 'fraunces':     return "Fraunces, Georgia, serif";
+              case 'inter':  return "'Inter', system-ui, sans-serif";
+              default: return "system-ui, sans-serif";
+            }
+          }
+        
+          // Events
+          boxes.forEach(b => b.addEventListener('change', updateFeatures));
+          sliders.forEach(s => s.addEventListener('input', updateAxes));
+          if (fontSel) fontSel.addEventListener('change', e => applyFont(e.target.value));
+        
+          // Initial paint
+          applyFont(fontSel ? fontSel.value : 'roboto-flex');
+        })();
+      </script>
+                
+
       <section>
-        <h2>How Typefaces Work Today (the file behind the letterforms)</h2>
-        <h3>Typeface vs. font</h3>
-        <p>
-          A <strong>typeface</strong> is the design (the shapes). A <strong>font</strong> is the software that produces those shapes in apps and browsers—OpenType/TrueType for desktop, WOFF/WOFF2 on the web.
-        </p>
-        <h3>What’s inside a font file</h3>
-        <p>
-          Vector outlines (Bezier points), metrics, kerning classes, hinting/instructions, and OpenType features (ligatures, small caps, stylistic sets).
-          <strong>Variable fonts</strong> bundle families into axes (weight, width, optical size…) so one file can morph.
-        </p>
+        <h2>Copying in the Digital Age: “How do people get away with it?”</h2>
+        <p><strong>Short answer:</strong> because the law distinguishes the design from the software, and because the practical friction is low.</p>
         <h3>Why copying is easy</h3>
         <p>
           The file is small; your OS/application will happily load a duplicate; nothing in the file “phones home.”
           Most limits live in the EULA (license text), not in the code—so <strong>over‑installing or embedding beyond your rights is surprisingly easy to do by mistake.</strong>
         </p>
-      </section>
-
-      <section>
-        <h2>Copying in the Digital Age: “How do people get away with it?”</h2>
-        <p><strong>Short answer:</strong> because the law distinguishes the design from the software, and because the practical friction is low.</p>
         <div class="grid">
           <div>
             <h3>United States</h3>
