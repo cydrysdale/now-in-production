@@ -1139,7 +1139,7 @@
 
   /* Panel content */
   .chest-content {
-    padding: 1rem 1.125rem 1.25rem;
+    padding:  0 1.125rem 1.25rem 1rem;
     display: grid;
     gap: .5rem;
     background: var(--card2);
@@ -1237,7 +1237,7 @@
 
 
   /* tweak as needed to match site styles */
-  .mini-widget { margin: 1.2rem 0; }
+  .mini-widget { margin: 0 0 1.2rem; }
   .mini-widget .muted { color: var(--muted); }
   .mini-widget .card-box, .mini-widget .quiz-out { margin-top: .5rem; }
   .mini-widget .card { border: 1px solid var(--borderDark); border-radius: 12px; padding: 12px; background: var(--card); }

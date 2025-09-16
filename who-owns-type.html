@@ -149,8 +149,6 @@
       .rules .steps > li { max-width: 100%; }
     }
 
-    .brand-tools {
-    }
     .brand-tools .card {
       border: 1px solid rgba(0,0,0,.08);
       border-radius: 12px; padding: .75rem .9rem; background: var(--card);
@@ -286,37 +284,31 @@
           <li><strong>Movable type</strong> emerged in China (~11th&nbsp;century), then revolutionized Europe with Gutenberg’s metal movable type in the 15th century.</li>
         </ul>
         <div class="mini-widget" aria-labelledby="timelineTitle">
-          <h3 id="timelineTitle">Type as Hardware: Scarcity, Capital, and Copying the Hard Way</h3>
-          <label class="range">
-            <input type="range" class="slider slider--utilities" id="era" min="0" max="4" step="1" value="0" aria-describedby="eraDesc">
+          
+            <h3 id="timelineTitle">Typography timeline: from metal to memes</h3>
+            <input type="range" class="slider slider--utilities" id="era" min="0" max="7" step="1" value="0" aria-describedby="eraDesc">         
+            <div id="eraDesc" class="card-box"></div>
           </label>
-          <div id="eraDesc" class="card-box"></div>
+        </div>     
+        <div>
+          <h3>The Legal Lag</h3>
+          <p>Here’s where the law stumbled. In most jurisdictions:</p>
+          <ul>
+            <li><strong>Typeface design ≠ copyright (in many jurisdictions):</strong> letterforms are treated as functional shapes.</li>
+            <li><strong>Font files = software:</strong> the digital code that draws letterforms <em>is</em> protected, so licenses target file use.</li>
+            <li><strong>Paradox:</strong> someone can legally redraw a famous design under a new name, but copying its <em>font file</em> is infringement.</li>
+          </ul>
+          <p>This created paradoxes: one company could redraw Helvetica and release it under a new name without breaking the law (see <strong>Arial</strong>), but copying Helvetica’s font file was infringement.</p>
+          <p>This gap between design and code explains why licensing can feel technical (limits on CPU installs, users, page views) and why lookalikes sometimes exist legally under different names. It also set expectations (after Apple’s bundles) that fonts “come with the machine,” even though each font carries specific terms.</p>
         </div>
-        <div class="grid">
-          <div>
-            <h3>Phototype to Digital</h3>
-            <p><strong>Phototypesetting</strong> in the mid-20th century replaced metal with glass, film, and light, allowing type to be scaled and composited without recasting—loosening the bond between letterforms and hardware and paving the way for screens.</p>
-            <p>By the 1980s, type became software. Influenced by calligraphy at Reed College, <strong>Steve Jobs</strong> pushed the original <strong>Macintosh</strong> (1984) to ship with multiple digital fonts named after cities—<em>Chicago</em>, <em>Geneva</em>, <em>Monaco</em>, <em>New&nbsp;York</em>—and fonts quickly became part of the product’s and users' personalities (see <strong>Comic Sans</strong>). Paired with the LaserWriter and Aldus PageMaker, this ignited the desktop-publishing revolution: professional layout moved to the desktop, and fonts shifted from guarded shop assets to bundled files—easy to install, share, and, too often, copy.</p>
-          </div>
-          <div class="callout purple">
-            <h3>The Legal Lag</h3>
-            <p>Here’s where the law stumbled. In most jurisdictions:</p>
-            <ul>
-              <li><strong>Typeface design ≠ copyright (in many jurisdictions):</strong> letterforms are treated as functional shapes.</li>
-              <li><strong>Font files = software:</strong> the digital code that draws letterforms <em>is</em> protected, so licenses target file use.</li>
-              <li><strong>Paradox:</strong> someone can legally redraw a famous design under a new name, but copying its <em>font file</em> is infringement.</li>
-            </ul>
-            <p>This created paradoxes: one company could redraw Helvetica and release it under a new name without breaking the law (see <strong>Arial</strong>), but copying Helvetica’s font file was infringement.</p>
-            <p>This gap between design and code explains why licensing can feel technical (limits on CPU installs, users, page views) and why lookalikes sometimes exist legally under different names. It also set expectations (after Apple’s bundles) that fonts “come with the machine,” even though each font carries specific terms.</p>
-          </div>
-        </div>
+
         <!-- Community Chest callout (expand/collapse) -->
         <details class="chest" aria-label="Community Chest: Legal Curiosities and Fun Facts">
           <summary class="chest-summary chest-title">
             &#127922;&ensp;Community Chest: Legal Curiosities and Fun Facts
           </summary>
           <div class="mini-widget chest-content" data-widget="rule-card" aria-labelledby="ruleCardTitle">
-            <h3>Draw a fun fact, case file, or tip.</h3>
+            <h3>Draw a fun fact, case file, or historical fact.</h3>
             <button class="btn" type="button" style="width: fit-content;">Draw</button>
             <div class="card-box" role="status" aria-live="polite"></div>       
           </div>
@@ -329,12 +321,11 @@
         <h3>Typeface vs. Font</h3>
         <p>
           <strong>Typeface</strong> = the design (the shapes and system behind the letters).<br>
-          <strong>Font</strong> = the specific size/weight of a typeface and the software that draws those shapes in apps and browsers.<br>
-          For any designers reading this: yes, Helvetica 12pt is a different font than Helvetica 10pt. If it was stored in a different tray, it was a different font.
+          <strong>Font</strong> = the specific size*/weight of a typeface and also the software that renders those shapes in apps and browsers.<br>
+          <small class="muted">*For any designers reading this: yes, Helvetica 12pt is a different font than Helvetica 10pt. In ancient times when type was still cast in metal, if it was stored in a different tray it was a different font.</small>
         </p>
         <p>
-          Why do people use the words interchangeably? In the metal era, a <em>font</em> was one specific size/weight of a typeface. 
-          Digital blurred that boundary, and when Steve Jobs began bundling typefaces with the Mac, all the menus were labeled <em>Font</em>, so everyday users learned
+          Why do people use the words interchangeably? We have <strong>Steve Jobs</strong> to thank for that. When Apple began bundling typefaces with the Mac, all the menus were labeled <em>Font</em>, so everyday users learned
           “font” as the thing you choose to change the design of the text. Whether because “font” sounded friendlier—or because Jobs simply liked the word—the Mac helped
           normalize “font” as shorthand for both the software and the design.
         </p>
