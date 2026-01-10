@@ -1,6 +1,6 @@
 ## 1) Mise en Place: How LLMs Generate Text (and Why Prompts Matter)
 
-Think of an LLM as a line cook that can work at absurd speed. It doesn’t “serve the whole plate” in one go—it plates **one small prep piece at a time** (a token/chunk). After each piece, it glances back at what’s already on the plate and asks: *“Given everything so far, what’s the most likely next piece?”* Then it adds that piece…and repeats.
+Think of an LLM as a line cook or chef that can work at absurd speed. It doesn’t “serve the whole plate” in one go—it plates **one small prep piece at a time** (a token/chunk). After each piece, it glances back at what’s already on the plate and asks: *“Given everything so far, what’s the most likely next piece?”* Then it adds that piece…and repeats.
 
 In kitchen terms: generation is a tight loop of **read the ticket → add one step → re-check → keep going**.
 
