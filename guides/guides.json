@@ -1,0 +1,18 @@
+[
+  {
+    "url": "guides/rgb-to-cmyk-guide.html",
+    "status": "published"
+  },
+  {
+    "url": "guides/who-owns-type.html",
+    "status": "wip"
+  },
+  {
+    "url": "guides/how-llms-work.html",
+    "status": "wip"
+  },
+  {
+    "url": "guides/how-llms-work-v2.html",
+    "status": "wip"
+  }
+]

@@ -8,7 +8,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
   <link rel="icon" href="images/favicon.ico" type="image/x-icon">
-  <link rel="manifest" href="/site.webmanifest">
+  <link rel="manifest" href="site.webmanifest">
   <meta name="description" content="Practical guides for designers who care about the “why” behind best practices." />
   <meta name="keywords" content="typography, typeface licensing, font law, design, color theory, rgb, cmyk, print production, color management" />
   <link rel="canonical" href="https://cydrysdale.github.io/now-in-production/index.html">
@@ -26,16 +26,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <script src="core.js" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="assets/js/core.js" defer></script>
   <style>
     :root {
-      --bg-light: url('images/now-in-prod.png');
+      /* NOTE: url(...) is resolved relative to `assets/css/style.css` (not this HTML file). */
+      --bg-light: url('../../images/now-in-prod.png');
     }
     :root[data-theme="dark"]{ 
-      --bg-dark: url('images/now-in-prod.png')
+      --bg-dark: url('../../images/now-in-prod.png')
     }
   </style>
 </head>
@@ -82,13 +83,17 @@
   </div>
 
   <script>
-    // List guide URLs (relative paths are fine)
-    const GUIDES = [
-      'rgb-to-cmyk-guide.html',
-      'who-owns-type.html',
-      // 'how-llms-work.html',
-      // 'what-is-production-design.html',
-    ];
+    async function loadGuides() {
+      const res = await fetch('guides/guides.json', { credentials: 'same-origin' });
+      if (!res.ok) throw new Error(res.statusText);
+      const data = await res.json();
+      const list = Array.isArray(data) ? data : [];
+      return list
+        .filter((g) => g && typeof g === 'object')
+        .filter((g) => (g.status || 'published') === 'published')
+        .map((g) => g.url)
+        .filter((u) => typeof u === 'string' && u.length);
+    }
 
     function extractMeta(html) {
       const doc = new DOMParser().parseFromString(html, 'text/html');
@@ -129,7 +134,14 @@
 
     async function renderCards() {
       const container = document.getElementById('guideCards');
-      for (const url of GUIDES) {
+      let guides = [];
+      try {
+        guides = await loadGuides();
+      } catch (e) {
+        guides = ['guides/rgb-to-cmyk-guide.html'];
+      }
+
+      for (const url of guides) {
         try {
           const res = await fetch(url, { credentials: 'same-origin' });
           if (!res.ok) throw new Error(res.statusText);
