@@ -2,6 +2,7 @@
 #tokenParagraph {
   white-space: normal;
   line-height: 1.6;
+  font-size: 1rem;
 }
 
 /* Token wrapper spans */
