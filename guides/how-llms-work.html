@@ -9,27 +9,27 @@
     } catch {}
   </script>
   <meta charset="utf-8" />
-  <title>How LLMs Work (Without the Hype): Pixel Kitchen Edition</title>
+  <title>Demystifying AI: Stepping into the LLM Kitchen</title>
   <link rel="apple-touch-icon" sizes="180x180" href="../images/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="../images/favicon-16x16.png">
   <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
   <link rel="manifest" href="../site.webmanifest">
-  <meta name="description" content="A practical, low-hype guide to how LLMs work—using a pixel kitchen/restaurant sim metaphor to teach prompts, context windows, tools, QA, and agent workflows." />
+  <meta name="description" content="A practical guide to how LLMs work—using a pixel kitchen/restaurant sim metaphor to teach prompts, context windows, tools, QA, and agent workflows." />
   <meta name="keywords" content="LLMs, large language models, how ChatGPT works, tokens, context window, attention, prompting, prompt engineering, decoding, temperature, top-p, hallucinations, AI tools, citations, verification, QA checklist, agents" />
   <meta name="guide:category" content="AI" />
   <meta name="guide:updated" content="2026-01-13" />
-  <link rel="canonical" href="https://cydrysdale.github.io/now-in-production/guides/how-llms-work-v3.html">
+  <link rel="canonical" href="https://cydrysdale.github.io/now-in-production/guides/how-llms-work.html">
   <meta name="robots" content="index,follow">
   <meta name="author" content="Chris Yasuda Drydsale">
   <meta name="format-detection" content="telephone=no" />
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How LLMs Work (Without the Hype): Pixel Kitchen Edition">
+  <meta property="og:title" content="Demystifying AI: Stepping into the LLM Kitchen">
   <meta property="og:description" content="A playful, practical guide for using LLMs reliably: tickets, prep counters, tools, expo pass QA, and station workflows." />
   <meta property="og:image" content="https://cydrysdale.github.io/now-in-production/images/image-placeholder.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:url" content="https://cydrysdale.github.io/now-in-production/guides/how-llms-work-v3.html">
+  <meta property="og:url" content="https://cydrysdale.github.io/now-in-production/guides/how-llms-work.html">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -135,7 +135,7 @@
       <img src="../images/apple-touch-icon.png" width="60px" style="display: inline-block; margin-right: 10px;"
         alt="site logo" />
       <div id="top" class="title-block">
-        <h1>Demystifying AI: Stepping into the LLM Kitchen </h1>
+        <h1>Demystifying AI: Stepping into the LLM Kitchen</h1>
         <div class="sub">A basic guide on how LLMs work for the extremely nerdy</div>
       </div>
       <div class="header-actions">
@@ -182,14 +182,14 @@
 
             <h3>The AI restaurant sim</h3>
             <p>
-              Troughout this guide, we'll be using a kitchen sim metaphor to help reinforce each concept:
+              Throughout this guide, we'll be using a kitchen sim metaphor to help reinforce each concept:
             </p>
             <ul>
-              <li>The <strong>Cook (AI model)</strong> works quickly, but can only create using the ingredients and tools in front of them</li>
-              <li>Your <strong>Order Ticket (prompt)</strong> is the objective, rules, and output format: what to cook, substitutions/allergies, and how to plate it</li>
-              <li>The <strong>Prep Counter (context)</strong> is everything the chef has right in front of them to work with: attachments or links submitted with the prompt</li>
-              <li>Your <strong>Inventory (context window)</strong> is limited. The counter space gets too crowded, older items might fall off</li>
-              <li><strong>Tools (calendar, spreadsheet, search)</strong> determine if the chef has access to a pantry for extra ingredients, cookbooks to research recipes, or use an appliance like a brulee torch</li>
+              <li>The <strong>Cook (AI model)</strong> works quickly, but can only create using the ingredients and tools in front of them.</li>
+              <li>Your <strong>Order Ticket (prompt)</strong> is the objective, rules, and output format: what to cook, substitutions/allergies, and how to plate it.</li>
+              <li>The <strong>Prep Counter (context)</strong> is everything the chef has right in front of them to work with: attachments or links submitted with the prompt.</li>
+              <li>Your <strong>Inventory (context window)</strong> is limited. The counter space gets too crowded, older items might fall off.</li>
+              <li><strong>Tools (calendar, spreadsheet, search)</strong> determine if the chef has access to a pantry for extra ingredients, cookbooks to research recipes, or use an appliance like a brulee torch.</li>
             </ul>
 
             <div class="truth"><strong>Kitchen truth:</strong> Our chefs may be brilliant, but they have a limited attention span—if it’s not on the ticket or the counter, it doesn’t exist.</div>
@@ -325,16 +325,16 @@
         <div class="sandbox-card" id="tempDemo">
           <label for="tempSlider" class="sandbox-label"><strong>Try it: drag the tempurature slider to complete the sentence</strong></label>
           <div style="display:flex; align-items:center; gap:12px">
-            <span class="note" style="white-space:nowrap">Standard recipe</span>
+            <span class="note">Standard recipe</span>
             <input id="tempSlider" type="range" min="0" max="100" value="0" step="1"
-              style="flex:1" aria-label="Temperature slider from 0 to 2" />
-            <span class="note" style="white-space:nowrap">Chef's special</span>
+              style="flex:1; min-width:120px" aria-label="Temperature slider from 0 to 2" />
+            <span class="note">Chef's special</span>
           </div>
           <div style="text-align:center; margin:6px 0">
             <span class="badge" id="tempValue">Temperature: 0.0</span>
           </div>
           <div class="code" data-label="LLM output:">
-            <div class="code-type">The sky is<span id="tempOutput">...</span><span class="cursor animate">_</span></div>
+            <div class="code-type" style="white-space:normal">The sky is<span id="tempOutput">...</span><span class="cursor animate">_</span></div>
           </div>
         </div>
 
@@ -522,15 +522,15 @@ ${lines(missing.value) || '* …'}
       if (!slider || !output || !label) return;
 
       const tiers = [
-        [12,  ' blue.'],
-        [25,  ' clear and cloudless.'],
-        [37,  ' a deep, brilliant blue that makes the whole city look painted.'],
-        [50,  ' an ocean flipped upside down, restless and wide.'],
-        [62,  ' humming with colors that haven\'t been named yet.'],
-        [75,  ' bargaining with the sea over who gets to keep the color indigo.'],
-        [87,  ' a cathedral ceiling, echoing with wind.'],
-        [99,  ' a slow-breathing gradient, deepening toward dusk.'],
-        [100, ' melting into purple dreams, gathering passing secrets in invisible hands.']
+        [12,  ' blue'],
+        [25,  ' clear and cloudless'],
+        [37,  ' a deep, brilliant blue that makes the whole city look painted'],
+        [50,  ' an ocean flipped upside down, restless and wide'],
+        [62,  ' humming with colors that haven\'t been named yet'],
+        [75,  ' bargaining with the sea over who gets to keep the color indigo'],
+        [87,  ' a cathedral ceiling, echoing with wind'],
+        [99,  ' a slow-breathing gradient, deepening toward dusk'],
+        [100, ' melting into purple dreams, gathering passing secrets in invisible hands']
       ];
 
       slider.addEventListener('input', () => {

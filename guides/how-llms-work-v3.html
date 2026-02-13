@@ -345,17 +345,17 @@
 
         <div class="sandbox-card" id="tempDemo">
           <label for="tempSlider" class="sandbox-label"><strong>Try it: drag the tempurature slider to complete the sentence</strong></label>
-          <div style="display:flex; align-items:center; gap:12px">
-            <span class="note" style="white-space:nowrap">Standard recipe</span>
+          <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap">
+            <span class="note">Standard recipe</span>
             <input id="tempSlider" type="range" min="0" max="100" value="0" step="1"
-              style="flex:1" aria-label="Temperature slider from 0 to 2" />
-            <span class="note" style="white-space:nowrap">Chef's special</span>
+              style="flex:1; min-width:120px" aria-label="Temperature slider from 0 to 2" />
+            <span class="note">Chef's special</span>
           </div>
           <div style="text-align:center; margin:6px 0">
             <span class="badge" id="tempValue">Temperature: 0.0</span>
           </div>
           <div class="code" data-label="LLM output:">
-            <div class="code-type">The sky is<span id="tempOutput">...</span><span class="cursor animate">_</span></div>
+            <div class="code-type" style="white-space:normal">The sky is<span id="tempOutput">...</span><span class="cursor animate">_</span></div>
           </div>
         </div>
 
