@@ -1,4 +1,6 @@
-### 1) Mise en Place: How LLMs Generate Text (and Why Prompts Matter)
+# Mise en Place: How LLMs Generate Text (and Why Tickets Matter)
+
+### Hook: the confident plate that shifts
 
 Most people meet an LLM like this:
 
@@ -8,7 +10,7 @@ Most people meet an LLM like this:
 
 That isn’t the model being “moody.” It’s the result of how it generates text.
 
-Think of an LLM as a line cook who works at absurd speed. It doesn’t cook the whole dish in one go. It adds **one tiny slice of text at a time** (a *token*—sometimes a word, sometimes part of one). After each slice, it looks at what’s visible **on the prep counter** (the text so far) and the **ticket** (your instructions), then asks:
+Think of an LLM as a line cook who works at absurd speed. It doesn't cook the whole dish in one go. It adds **one small piece of text (a *token*—sometimes a word, sometimes part of one)** at a time. After each slice, it looks at what's visible **on the prep counter (context)** (the text so far) and the **ticket (prompt)** (your instructions), then asks:
 
 > “Given what I can see right now, what’s the most plausible next slice?”
 
@@ -18,7 +20,7 @@ Then it adds that slice…and repeats.
 
 ---
 
-### What’s really happening (minus the mysticism)
+## 1) What’s really happening (minus the mysticism)
 
 Behind the scenes, the model considers lots of possible “next slices” and scores them. Then the system **chooses one** and moves on.
 
@@ -33,23 +35,23 @@ Not magic. Just different ways of picking the next slice.
 
 ---
 
-### Why prompts matter more than people expect
+## 2) Why tickets matter more than people expect
 
 The model’s default job is simple: produce a **coherent continuation** of whatever you put in front of it.
 
 So if your ticket is **vague**, “coherent” usually means the cook picks an interpretation and commits. That’s how you get **phantom ingredients**: details that sound plausible but were never actually provided.
 
-If your ticket is a **spec** (house rules + plating format + an expo check), “coherent” shifts toward:
+If your ticket is a **spec** (house rules + plating format + an expo check (QA)), “coherent” shifts toward:
 
 > “Follow the ticket, use only what’s on the prep counter, and plate something humans can verify.”
 
-Prompts don’t make the cook smarter. They make the result **easier to review and harder to misinterpret**—which is what you want when it matters.
+Tickets don’t make the cook smarter. They make the result **easier to review and harder to misinterpret**—which is what you want when it matters.
 
 **Kitchen truth:** Better tickets don’t add talent—they add accountability.
 
 ---
 
-### TL;DR
+## TL;DR Panel
 
 The model predicts “what comes next,” **one slice at a time**. Your ticket (prompt) supplies two different things:
 
@@ -62,18 +64,16 @@ Better specs don’t increase intelligence—they increase **verifiability**.
 
 ---
 
-### Optional nerd note: the “improv meter”
+## Power-up (optional): the "improv meter"
 
-When the system is in **Chef’s special** mode (sampling), settings like **temperature/top-p** influence how adventurous the choice is. Higher usually allows more variation *when sampling is used*.
-
-(If sampling is off, temperature doesn’t magically create creativity—it’s mostly a no-op.)
+When the system varies its answers (called 'sampling'), settings like temperature and top-p control how strict or varied the choices are. If sampling is off, temperature has little effect.
 
 ---
 
-### Two separations that prevent workplace confusion
+## Two separations that prevent workplace confusion
 
 * **Model vs tools:** the cook can draft a dish; only instruments can verify reality.
-  *The cook can narrate a steak. Only the thermometer can tell you it’s actually done.*
+  *The chef can grill a perfect-looking steak. Only the thermometer can tell you if it's actually perfect.*
 
 * **Instructions vs context:** the ticket is what you want done; the prep counter is what you’re allowed to use.
   *A recipe isn’t ingredients. Ingredients aren’t a recipe.*
@@ -82,25 +82,37 @@ When the system is in **Chef’s special** mode (sampling), settings like **temp
 
 ---
 
-### Expo check
+## Expo Check: correct the misconception
 
 If someone says, “the chef knows our order,” what’s the safer correction?
 
-**Model answer:** The chef only knows what’s on the ticket/prep counter unless it’s connected to a verified tool (like a reservation system or ordering tool) that can actually check the schedule.
+**Expo answer:** The chef only knows what’s on the ticket/prep counter unless it’s connected to a verified tool (like a reservation system or ordering tool) that can actually check the schedule.
 
 *Visual aid (placeholder): score next prep pieces → choose one → plate → repeat.*
 
 ---
 
-### Sidequest (optional): Micro‑Glossary
+## Sidequest (optional): Micro‑Glossary
 
 * **Model (line cook):** the text generator producing output
-* **Prompt (ticket):** your instructions plus any pasted context
-* **Token / chunk (prep piece):** a small unit of text the model predicts next
-* **Context window (counter space):** how much text it can consider at once
+* **Ticket (prompt):** your instructions/spec for this turn (goal, constraints, format, checks)
+* **Expo pass / Expo checks (QA):** the final check at the pickup window before you trust/serve an answer
+* **Token (slice / prep piece):** a small unit of text the model predicts next
+* **Counter space (context window):** how much text it can consider at once
 * **Attention (glances):** how it links relevant parts of the ticket/counter while generating
 * **Decoding (chef style setting):** how the system chooses the next piece from many candidates
-* **Temperature / top‑p (improv meter):** settings that influence how strict vs varied the choosing is **when sampling is used**
-* **Hallucination (phantom ingredients):** confident-sounding details not supported by what’s on the prep counter (provided sources)
+* **Temperature / top-p (improv meter):** settings that control how strict or varied the model's choices are
+* **Hallucination (phantom ingredients):** confident-sounding details not supported by what's on the prep counter (provided sources)
 
-Important nuance: “temperature” by itself isn’t “randomness.” You typically get run‑to‑run variation when the system is actually using **sampling** (chef’s special mode).
+---
+
+## Visual notes (HUD components to show in this section)
+
+* **Ticket Card:** “Order / House Rules / Plating / Expo Checks”
+* **Prep Counter Panel:** a short chat transcript + “Counter Space” meter (context window)
+* **Chef Style Slider:** Standard Recipe ↔ Chef’s Special (sampling ON/OFF)
+* **Generation loop:** “Score next slices → pick one → plate → repeat” (CRT-style block / typewriter reveal)
+* **Tiny candidate list:** “Top 3 next slices” preview to hint that the cook is choosing from options
+* **Stamp overlays:** `NO PHANTOM INGREDIENTS`, `MISSING INFO`, `NEEDS TOOL CHECK`
+
+**Next up:** Now that you know how the cook works, let's talk about the prep counter—why long chats drift, and how to keep important constraints from falling off the edge.

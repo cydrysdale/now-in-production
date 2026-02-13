@@ -1,0 +1,11 @@
+# AI assistant files
+CLAUDE.md
+AGENTS.md
+.claude/
+.ai/
+.cursor/
+.cursorrules
+.github/copilot-instructions.md
+
+# OS files
+.DS_Store

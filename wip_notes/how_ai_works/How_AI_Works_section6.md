@@ -1,258 +1,231 @@
-# Station Workflow: How to run multi-step jobs without chaos
+# Safe Handling & Permissions: What you should (and shouldn’t) put on the counter
 
-### Hook: the “one ticket to rule them all” disaster
+### Hook: the “helpful” paste that wasn’t safe
 
-You paste a messy intake dump and ask for: a plan, a timeline, a shopping list, risk flags, a stakeholder email draft, and “also make it fun.”
+You’re trying to be efficient, so you paste the full RSVP export: names, emails, phone numbers, plus a column called “Allergies / medical notes.”
 
-The model obliges. It sounds confident. It’s also quietly wrong in five places—because it had to be a **project manager**, a **researcher**, a **writer**, and **QA**… all in one breath, on one crowded prep counter.
+The model *can* help… but you just put more on the prep counter (context) than the job actually required.
 
-That’s not a character flaw. That’s a workflow flaw. Big jobs need stations.
-**Kitchen truth:** *If you ask one cook to run the whole The next session I need you to write is Station Workflow: How to run multi-step jobs without chaos
-Make this a chapter about breaking big tasks into tickets::
-- “prep list → station assignments → service run”
-- chunking, intermediate outputs, handoffs, and recap injection
-- “don’t let the model be PM + researcher + QA in one breath” (separate phases)
-
-After writing copy:
-- Review the new copy to ensure it explains the topic thoroughly and properly simplifies complex ideas.
-- Review again for concepts that should be introduced or included in this new section and revise. 
-
-When the final copy is to Richard Feynman's standards, provide suggestions on what the next section should cover.restaurant mid-rush, you’re ordering chaos.*
+This chapter is how to keep the work fast **without** turning the counter into a junk drawer of sensitive stuff.
+**Kitchen truth:** *A clean counter isn’t just organized—it’s safer.*
 
 ---
 
-## 1) Why big tasks explode: role-mixing creates “invisible errors”
+## 1) Permissions are “who can see the counter”
 
-When you combine phases, the model has to do four incompatible things at once:
+In a real kitchen, “who can see the prep counter” depends on the space:
 
-* **Plan the work** (PM brain): decide what matters and in what order
-* **Find/assume facts** (research brain): fill gaps, sometimes inventing glue
-* **Produce the deliverable** (writer brain): make it polished and persuasive
-* **Validate itself** (QA brain): catch mistakes it just made
+* Public line during service (lots of eyes)
+* Back-of-house prep table (restricted)
+* Locked office (restricted + logged)
 
-Humans struggle with that too, which is why real kitchens don’t do it. They split labor into stations with clear inputs/outputs.
+AI is similar. Different products and setups have different retention, access controls, and admin policies. The key habit is simple:
 
-The key danger in a single mega-prompt is *category collapse*:
-a guess gets phrased like a fact, then “sounds right,” then slips past you because the formatting is pretty.
+Treat anything you paste like you’re handing it to **another system**—because you are.
 
-So the fix isn’t “be more careful.” The fix is “stop mixing stations.”
-**Kitchen truth:** *When planning, researching, drafting, and QA share one plate, mistakes hide under garnish.*
+So before you paste, ask two boring-but-powerful questions:
 
----
+1. **Do I have permission to share this outside my org/team?** (Even if it’s “just a tool.”)
+2. **Does the model actually need this exact detail to do the task?**
 
-## 2) The Station Workflow (the core loop)
+**Quick Permission Check (copy/paste):**
+- Can I share this outside my org/team?
+- Does this station need this exact detail?
 
-Here’s the stable pattern:
-
-### Phase A — Prep list (what must be true + what we’re making)
-
-You identify:
-
-* What the deliverable is (the “served dish”)
-* What constraints must never be violated
-* What inputs are missing
-* What facts must be measured with tools
-
-### Phase B — Station assignments (who does what, in what order)
-
-You create small, strict tickets for each station. Typical stations:
-
-* **Intake / Parsing Station:** turn chaos into structured fields
-* **Research / Measurement Station:** run tools, paste outputs (receipts)
-* **Drafting Station:** write using only the confirmed counter
-* **Expo Station (QA):** run checks, send back failures
-
-### Phase C — Service run (execute in passes with handoffs)
-
-Run station-by-station. After each station:
-
-* Capture the output as an **intermediate artifact**
-* Inject a **recap block** so the next station starts with a clean counter
-
-This is how you keep the model from improvising across gaps: you make it work from **explicit handoffs**, not vibes.
-**Kitchen truth:** *Big jobs don’t need a bigger prompt—they need a better line.*
+If the answer to #2 is “no,” don’t paste it. If the answer to #1 is “not sure,” route through the approved channel or redact first.
+**Kitchen truth:** *If you wouldn’t tape it to the pass, don’t put it on the counter.*
 
 ---
 
-## 3) Handoffs and recap injection: the secret to “multi-step without drift”
+## 2) The “do not put on the counter” list (with human reasons)
 
-A handoff is not “keep going.” A handoff is a **new ticket** plus a **clean tray of inputs**.
+You don’t need paranoia. You need categories.
 
-Think of each station output as something you can literally place on the prep counter for the next station. That means:
+### A) Credentials (never)
 
-* **Intermediate outputs must be small enough to fit**
-* They must label what is *fact* vs *assumption*
-* They must be formatted so the next step can’t “misread the station notes”
+* Passwords, API keys, OAuth tokens, private keys, session cookies
+  If a credential hits the counter, assume it’s compromised and rotate it.
 
-### The Handoff Card (use this every time)
+**Safe pattern:** replace with placeholders like:
 
-**HANDOFF CARD**
+* `API_KEY=<REDACTED>`
+* `Authorization: Bearer <TOKEN_REDACTED>`
 
-* **What this is:** (one sentence)
-* **Known-good facts (confirmed):** (bullets)
-* **Assumptions (quarantined):** (bullets)
-* **Open questions / MISSING INFO:** (bullets)
-* **Next station goal:** (one sentence)
-* **Expo checks for next station:** (checkboxes)
+**Kitchen truth:** *Secrets don’t belong on the line.*
 
-This does two powerful (non-magical) things:
+### B) PII (Personally Identifiable Information) and “PII-adjacent” (almost never)
 
-1. It prevents counter overflow by compressing the important bits.
-2. It prevents “source laundering” where earlier guesses get treated as truth later.
+PII = info that can identify a real person: name + email + phone, addresses, IDs, etc.
+PII-adjacent = anything that becomes identifying when combined (unique job title + small team + city).
 
-Recap injection is just you repeatedly saying: “Only what’s on this tray counts.”
-**Kitchen truth:** *A clean handoff beats a long conversation every time.*
+**Safe pattern:** aggregate or pseudonymize (swap real identities for stable labels).
 
----
+* “Guest_01, Guest_02…”
+* “Customer_A, Customer_B…”
+* “Manager_X…”
 
-## 4) Running example: “Catering Chaos” in three passes
+**Kitchen truth:** *If a person can be identified, you’re holding something sharp.*
 
-We’ll take the messy catering intake and run it through stations.
+### C) Proprietary / confidential docs (usually no; sometimes “small excerpts”)
 
-### Phase A — Prep list (ticket 1: make the work measurable)
+Internal strategy decks, unreleased roadmaps, customer lists, legal terms, source code you don’t have rights to share, partner docs under NDA.
 
-**Ticket: Prep List**
-
-* **Order:** Produce a final catering plan (menu + shopping list + timeline + risks).
-* **House rules:** Peanut-free (severe allergy). Venue has warming trays, **no stove**.
-* **Must-not-guess:** headcount, dietary counts, delivery window, venue constraints.
-* **Plating:** Output a checklist of required inputs + which tool/source confirms each.
-* **Expo checks:** Anything measurable is labeled **NEEDS TOOL CHECK** until a receipt is on the counter.
-
-**Output (example):** a short “inputs needed” list + a tool plan.
-**Kitchen truth:** *If you didn’t measure it, you don’t know it—and you shouldn’t build plans on it.*
-
-### Phase B — Station assignments (ticket 2: split the roles)
-
-Assign stations like this:
-
-1. **Intake Station:** Extract constraints + preferences into a structured block
-2. **Measurement Station:** Pull headcount/dietary counts/time window via tools; paste receipts
-3. **Draft Station:** Write the plan using only the structured block + receipts
-4. **Expo Station:** QA gate: constraints, sources, consistency, edge cases
-
-Notice what’s missing: “one station does everything.” That’s the point.
-**Kitchen truth:** *Don’t let the cook be PM + researcher + QA in one breath—separate stations.*
-
-### Phase C — Service run (ticket 3+: execute with handoffs)
-
-You run the stations in order, and after each one, you paste a **Handoff Card**.
-
-Example handoff from Measurement → Draft:
-
-**HANDOFF CARD (Measurement → Draft)**
-
-* **Known-good facts:** Headcount = 60 (RSVP export line X). Vegetarians = 12 (same export). Event time = 6:00 PM (calendar event).
-* **Constraints:** NO PEANUTS. No stove.
-* **Open questions:** dessert preference = **MISSING INFO**.
-* **Next station goal:** Draft final plan with receipts for every number/time.
-
-Now Draft Station can’t “invent 64 guests,” because the counter has a single verified number and you told it to cite receipts.
-
-Finally, Expo Station runs the gate and either **SERVE** or **SEND BACK**.
-**Kitchen truth:** *Service run means: produce → hand off → check → only then serve.*
+**Safer move:** paste only the *minimum excerpt* needed, and keep the rest in your own order book.
+**Kitchen truth:** *Don’t dump the whole storeroom when the recipe needs one spice.*
 
 ---
 
-## Expo Check: spot the bad workflow
+## 3) Redaction patterns that actually work (and don’t break the job)
+
+Redaction fails in two common ways:
+
+* You remove so much meaning the model can’t help.
+* You leave “breadcrumbs” that still identify people.
+
+Here are reliable patterns that keep meaning:
+
+### Pattern 1: Replace with typed placeholders
+
+* `[NAME]`, `[EMAIL]`, `[PHONE]`, `[ADDRESS]`, `[EMPLOYEE_ID]`, `[CLIENT]`
+  Good when the *shape* matters (“there is an email”), but the value doesn’t.
+
+### Pattern 2: Pseudonyms with stable IDs
+
+* `Guest_01`, `Guest_02` (and keep the mapping in your private order book)
+  Good when you need consistency across steps (“Guest_07 is vegetarian and also allergic to walnuts”).
+
+### Pattern 3: Bucket instead of list
+
+Instead of 60 rows of people, give:
+
+* Headcount totals
+* Dietary counts
+* Constraint summary
+* Any edge cases (“2 severe allergies: peanuts, shellfish”)
+
+This is usually enough for planning, messaging, and QA—without exposing identities.
+
+**Kitchen truth:** *Redact the identity, keep the constraint.*
+
+---
+
+## 4) Keep an “Order Book” outside the model, paste only what’s needed
+
+Your order book is your private source of truth (spreadsheet, doc, notes app, secure system). It contains the raw sensitive details.
+
+The model doesn’t need your whole order book. It needs **a clean ticket** plus **just enough counter items** to do the next station’s job.
+
+A practical workflow:
+
+1. **Order Book (private):** full RSVP list, real names/emails, exact allergy notes
+2. **Counter Paste (sanitized):** counts, constraints, pseudonyms, excerpts
+3. **Station Tickets:** one task at a time (intake → draft → QA), with explicit “no new facts”
+
+Example “counter paste” for catering:
+
+* Total guests: 60
+* Vegetarian: 12
+* Severe allergies present: peanuts (1), shellfish (1)
+* Other constraints: no stove; warming trays only
+* Edge cases: Guest_07 = vegetarian + nut allergy; Guest_19 = gluten-free
+
+That’s enough to produce menus, labels, comms drafts, and shopping lists—without exposing everyone’s inbox.
+
+**Kitchen truth:** *The order book stays locked; the counter gets the portion you’re cooking right now.*
+
+---
+
+## 5) Running example: “Catering Chaos” without leaking the guest list
+
+### The risky version (what people do)
+
+> “Here’s the RSVP export (pastes 60 rows with names, emails, phone numbers, allergy notes). Make a plan.”
+
+### The safe version (what works)
+
+**TICKET (sanitized):**
+
+* **Order:** Create menu + shopping list + timeline for 60 guests.
+* **House rules:** Peanut-free. No stove. Label allergens.
+* **Prep counter items:**
+
+  * Headcount: 60
+  * Dietary counts: vegetarian 12; gluten-free 4 (count only)
+  * Severe allergies: peanuts (1), shellfish (1)
+  * Edge cases (pseudonyms): Guest_07 vegetarian + nut allergy; Guest_19 gluten-free
+* **Plating:** Menu (3 sections) + shopping list by aisle + “banned ingredients” confirmation line
+* **Expo checks:** “No peanuts anywhere (including sauces). Unknown ingredients labeled MISSING INFO.”
+
+Same usefulness. Way less exposure.
+
+**Kitchen truth:** *You can plan the service without publishing the guestbook.*
+
+---
+
+## Expo Check: should this go on the counter?
 
 **Question:**
-You’re about to paste a huge doc and ask: “Summarize it, extract action items, verify claims, and draft an email to leadership.” What’s the safer station-based rewrite?
+You’re about to paste a spreadsheet with customer names, emails, renewal dates, and contract notes so the model can “draft follow-up emails.” What’s the safer move?
 
-**Model answer:**
-Split it into passes:
+**Expo answer:**
+Keep the raw sheet in your order book. Paste only what’s needed for the drafting task: anonymized rows (Customer_A…), or better—draft one email template + a few redacted examples. If personalization is needed, use placeholders and do the final mail-merge/personalization in your own tools. Any uncertainty about permission gets **NEEDS TOOL CHECK (policy)**.
 
-1. **Intake Station:** “Extract a structured outline: sections, key claims, and open questions. No new facts.”
-2. **Measurement/Source Station:** “For each key claim, attach a quote or tool output. Anything without a quote gets NEEDS TOOL CHECK.”
-3. **Draft Station:** “Write the email using only the verified claims + quotes.”
-4. **Expo Station:** “Run constraint/source/consistency/edge-case checks; flag failures.”
-
-**Kitchen truth:** *If the work has phases, the ticket should too.*
+**Kitchen truth:** *Draft the script on the counter; keep the identities in the lockbox.*
 
 ---
 
-## Common failure modes (and fixes)
+## Common failure modes (and how to fix them)
 
-### 1) Blender prompting (everything everywhere all at once)
+### 1) “Just this once” credential spill
 
-**Symptom:** One giant prompt, one glossy answer, lots of hidden guesses.
-**Fix:** Split into stations; require intermediate outputs and handoffs.
-**Kitchen truth:** *When you blend stations, you blend truth with vibes.*
+You paste a token “temporarily” so the model can debug a curl command.
 
-### 2) No intermediate artifacts (nothing to audit)
+**Fix:** redact immediately, rotate the secret, and use placeholders going forward.
+**Kitchen truth:** *A spilled secret isn’t a mistake—it’s a reset.*
 
-**Symptom:** You can’t tell where a number came from because there’s no “receipt stage.”
-**Fix:** Force a Measurement Station and paste outputs onto the counter before drafting.
-**Kitchen truth:** *If you can’t point to the tray it came on, it didn’t really arrive.*
+### 2) Over-sharing by default (full docs, full exports, full screenshots)
 
-### 3) Handoff rot (the next step starts from a messy counter)
+You paste the whole contract because searching it feels annoying.
 
-**Symptom:** “Continue from above” causes drift and constraint loss.
-**Fix:** Always include a Handoff Card + recap injection before the next station.
-**Kitchen truth:** *A vague handoff is just drift with manners.*
+**Fix:** extract only the relevant clause(s) and paste a short excerpt.
+**Kitchen truth:** *The counter is for today’s task, not the whole archive.*
 
-### 4) Station scope creep (the Draft station starts “helpfully researching”)
+### 3) Breadcrumb identity leaks
 
-**Symptom:** Drafting includes new “facts” because it “seemed reasonable.”
-**Fix:** Put “no new facts” on the Draft ticket; route facts to tools/stations.
-**Kitchen truth:** *No phantom ingredients: drafting is plating, not shopping.*
+You redact the name but keep “only left-handed neurosurgeon at Company X in Boise.”
 
----
+**Fix:** remove or generalize unique descriptors; use buckets or pseudonyms.
+**Kitchen truth:** *If it’s uniquely identifying, it’s still identifying.*
 
-# Mini-toolbox: copy/paste station tickets
+### 4) Over-redaction that destroys meaning
 
-### A) Prep List Ticket (turn chaos into a plan of attack)
+You redact the one thing that mattered (“allergy: [REDACTED]”).
 
-**TICKET — PREP LIST**
-
-* **Order:** List deliverables + constraints + missing inputs.
-* **House rules:** No new facts; label unknowns **MISSING INFO**; measurable unknowns **NEEDS TOOL CHECK**.
-* **Plating:**
-
-  1. Deliverables
-  2. Constraints (must/must-not)
-  3. Must-not-guess list + tool/source for each
-  4. Proposed station sequence
-* **Expo checks:** Every must-not-guess item is tagged.
-
-### B) Station Ticket (generic)
-
-**TICKET — [STATION NAME]**
-
-* **Input (what’s on the counter):** (paste only what this station needs)
-* **Order:** (one sentence)
-* **House rules:** (no new facts / format / constraints)
-* **Plating:** (exact output schema)
-* **Expo checks:** (what must be true to pass)
-
-### C) Handoff Card (recap injection)
-
-**HANDOFF CARD**
-
-* **Known-good facts (confirmed):** …
-* **Assumptions (quarantined):** …
-* **MISSING INFO / NEEDS TOOL CHECK:** …
-* **Next station goal:** …
-* **Expo checks:** …
-
-**Kitchen truth:** *Clear station tickets turn “multi-step” into “multi-safe.”*
+**Fix:** redact identity, not constraints: keep “peanut allergy” but remove who.
+**Kitchen truth:** *Don’t blind the cook—just don’t hand them the wallet.*
 
 ---
 
 ## TL;DR Panel
 
-* Run big jobs as **prep list → station assignments → service run**.
-* Don’t make the model be PM + researcher + writer + QA in one prompt.
-* Use **intermediate outputs** and **Handoff Cards** to prevent drift.
-* Put tools in a dedicated phase: **measure → paste → cite**.
-* Expo Pass is the gate: if it fails constraints/sources/consistency/edges, send it back.
+* Permissions = who’s allowed to see what you paste; when in doubt, treat it like sharing externally.
+* Never paste credentials. Rotate if you do.
+* Avoid PII and proprietary dumps; prefer counts, constraints, pseudonyms, and small excerpts.
+* Use redaction patterns that preserve meaning: placeholders, stable IDs, buckets.
+* Keep a private order book; paste only what the current station needs.
+
+**That's the core guide.** You now have the mental model and the templates to work with any AI system effectively.
+
+**Want more?** The Bonus Section covers *Character Selection*—why different models feel different, and how to pick the right one for a specific job.
 
 ---
 
 ## Visual notes (HUD components to show in this section)
 
-* **Hook:** Ticket Card overloaded with 12 objectives + a flashing “COUNTER OVERFLOW” meter
-* **Station Workflow diagram:** 3-panel pipeline: Prep List → Station Assignments → Service Run
-* **Handoff Card:** collectible “tray item” that drops onto the Prep Counter Panel
-* **Service run:** step-by-step “PASS” stamps between stations
-* **Expo Check:** Expo Pass Checklist overlay that blocks “SERVE” until checked
+* **Hook:** Prep Counter Panel overflowing with “RSVP_EXPORT.csv” + a flashing “TOO MUCH ON COUNTER” meter
+* **Permissions:** A “Staff Only” door icon next to the counter, labeled “Who can see this?”
+* **Redaction patterns:** Collectible item cards: `[EMAIL]`, `Guest_07`, “Bucket totals”
+* **Order book:** Locked “Back Office Ledger” panel; only sanitized “tray” items move to the counter
+* **Avoid visual confusion:** Back Office Ledger (your private docs) should look distinct from Back Room (learned technique, locked)
+* **Before/after compare:** Use the `.image-compare` slider for “raw dump vs redacted/bucketed”
+* **Expo Check:** Expo Pass stamp: “LEAK RISK → REDACT / AGGREGATE / USE PLACEHOLDERS”

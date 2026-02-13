@@ -1,190 +1,277 @@
-## Section: **Character Selection — Why Models Feel Different (and why “best” is a trap)**
+# The Prep Counter (Context) / Counter Space (Context Window): Why AI “forgets,” why long chats drift, and how to pack the counter
 
-In the intro, we set the stage: the **model is the line cook**, your **prompt is the ticket**, and the **context window is the prep counter**—what’s visible *right now* is what can be used. If it’s not on the ticket, it doesn’t exist.  
+### Hook: the disappearing allergy note
 
-Now we add the next ingredient: **not all line cooks were trained the same.**
+You’re mid-service. You’ve got a catering order for 60 people. Early on, the client said: **no peanuts, severe allergy**. You discuss menu ideas for a while, refine the vibe, get cute with the names.
 
-### 1) Same ticket, different chef
+Thirty messages later, you ask the model for a final menu + shopping list.
 
-Give the same ticket to two experienced cooks and you’ll get two different plates.
+It confidently suggests **peanut satay**.
 
-Not because one is “smart” and the other is “dumb,” but because they’ve practiced different things:
+Did it “forget” the allergy? Or did something dumber (and more fixable) happen?
 
-* One grew up on **classic French technique** (precise structure, careful reasoning).
-* One worked the **rush-hour grill** (fast answers, rough edges).
-* One did a decade in **pastry** (beautiful presentation, sometimes too sweet).
-* One learned in a kitchen where “never say no” was the rule (more adventurous, more risk).
-
-AI models are like that. Their “background” comes from two big forces:
-
-1. **What they trained on (their corpus)** — the kinds of text/images/code they saw while learning patterns.
-2. **How they were trained (their training recipe)** — the tuning and “house rules” layered on top so they behave more helpfully/safely.
-
-**Kitchen truth:** *A model’s vibe is mostly a memory of what it practiced—and what it was rewarded for.*
+**Kitchen truth:** *If it’s not on the counter, the cook can’t use it—even if you said it earlier.*
 
 ---
 
-### 2) The corpus: culinary school + years of reps
+## 1) What the “context window” really is
 
-A model’s training data is like a chef’s lifetime of tasting, watching, and repeating recipes.
+The context window is the model’s **counter space**: the ticket (prompt) + the visible conversation + any pasted references the system includes for this turn.
 
-Crucially: the model **doesn’t store the training set like a library** it can flip through mid-service. Training changes the model’s internal numbers (“weights”), which are more like **muscle memory** than a searchable cookbook. OpenAI describes their data sources broadly as a mix of public internet, partner data, and data from users/trainers/researchers—and emphasizes that models don’t retain copies of training items. ([OpenAI Help Center][1])
+But the counter is not infinite.
 
-Different companies disclose different amounts, but when they *do* describe their corpus, it’s usually some variant of:
+So the system does what busy kitchens do: when the counter gets crowded, **older items get pushed off** to make room for what’s newest. The cook can’t glance at what’s no longer there.
 
-* **Web documents + books + code** (common baseline)
-* Sometimes **images/audio/video** for multimodal models
-  (e.g., the Gemini technical report describes pretraining data from web docs, books, and code, and includes image/audio/video. )
-* Sometimes additional **specialty mixes** (like more code, more dialogue, more academic text, more “real-time” content)
+This is why long chats drift:
 
-**Kitchen truth:** *Training data is a chef’s past—felt in the hands, not stored on the counter.*
+* Earlier constraints become “distant memories” (meaning: **out of view**)
+* Newer phrasing and newer instructions dominate
+* Tiny ambiguities (“that list,” “the earlier plan”) become guess-fuel
 
----
-
-### 3) The training recipe: “how the chef behaves under pressure”
-
-Pretraining is learning general patterns (“how language usually goes”). But post-training is where the restaurant installs the **house rules**:
-
-* Be helpful.
-* Don’t hallucinate confidently. (It will try anyway.)
-* Ask clarifying questions when needed. (Sometimes it forgets.)
-* Avoid certain unsafe categories.
-
-Anthropic describes “Constitutional AI” as giving the model an explicit set of principles (“the constitution”) and using that during training—so the “values” are more inspectable than pure human thumbs-up/thumbs-down. ([Anthropic][2])
-xAI’s Grok model card describes a multi-stage recipe (pretraining + supervised fine-tuning + reinforcement learning) and also mentions training on **synthetic data** as part of its approach. 
-
-So two models can know roughly the same *things*, but behave differently when the ticket is ambiguous, risky, emotional, or adversarial—because they were *rewarded differently* during training.
-
-**Kitchen truth:** *Two chefs can share ingredients and still plate differently if the head chef rewards different habits.*
+**Kitchen truth:** *A long chat doesn’t make a bigger brain—it makes a messier counter.*
 
 ---
 
-### 4) Tools and ecosystem: what’s on their station
+## 2) “Forgetting” isn’t amnesia. It’s occlusion.
 
-A line cook is only as effective as their station setup.
+When people say, “AI forgot,” they usually imagine a brain that lost a memory.
 
-Same with models: some live inside products that give them “kitchen tools”—search, code execution, file access, email/calendar integration, enterprise connectors, etc. That changes what “good” looks like.
+What’s happening is more boring: the model is generating from **what it can currently see**. If the peanut allergy note isn’t visible in the current context, the model can’t reliably follow it.
 
-Example: Microsoft says Copilot is designed to work across Microsoft 365 apps and uses orchestration/routing with underlying models (they describe GPT-5 as part of that stack). ([GitHub Docs][3])
-Google positions Gemini 3 as available across Google surfaces (Gemini app, AI Studio, Vertex AI, Search experiences). ([blog.google][4])
+Important nuance:
 
-**Kitchen truth:** *A chef without tools guesses; a chef with tools measures.*
+* This is not “permanent memory loss.”
+* You can put the allergy back on the counter by restating it (or pasting a recap).
+* The model is not secretly checking a hidden transcript off-screen (no secret clipboard).
 
----
+So “forgetting” is really “**out-of-frame**.”
 
-### 5) So… is there a best AI?
-
-Only in the same way there’s a “best vehicle.”
-
-Best *for what*?
-
-* Hauling gravel?
-* Racing corners?
-* Driving kids to school?
-* Operating in the snow?
-
-AI is the same. The “best model” depends on the ticket:
-
-* Do you need **creative options** or **surgical accuracy**?
-* Do you need **speed** or **deep reasoning**?
-* Do you need **tight safety rails** or **more open-ended exploration**?
-* Do you need it to **use your tools** (docs, code, web, enterprise data), or is it working purely from what you pasted onto the counter?
-
-**Kitchen truth:** *There’s no best chef. There’s only the best chef for this ticket, in this kitchen, with these tools.*
+**Kitchen truth:** *The cook didn’t forget the rule—it just isn’t looking at it anymore.*
 
 ---
 
-## Expo Check: Pick the chef
+## 3) Why long chats drift (even when nobody is trying to be chaotic)
 
-**Ticket:** “Summarize this messy 20-page doc into: (1) 6 bullet executive summary, (2) risks, (3) next steps. Cite where each claim came from. If info is missing, label it MISSING INFO.”
+Drift usually comes from three very human habits:
 
-**Model answer (how to think, not which brand to worship):**
-Pick a model/product combo that:
+**A) We stop repeating the spec.**
+At the start, we’re careful: “60 people, no peanuts, vegetarian options, budget $X.” Later we say: “cool, keep going.”
 
-1. can reliably follow a strict output format,
-2. is comfortable with long documents (or can work in chunks), and
-3. supports citations/checks (either by careful quoting from provided text, or by tool-based retrieval you can verify).
-   Then force the behavior with the ticket: explicit structure, explicit “MISSING INFO,” and an Expo Pass checklist at the end.
+**B) We reference earlier stuff vaguely.**
+“Use the plan from before.” “Same constraints.” “Like we said.”
+Those phrases are fine for humans with stable memory. They’re terrible for a cook who can only see what’s on the counter.
 
-**Kitchen truth:** *If you didn’t measure it, you don’t know it.*
+**C) We pile on new instructions without reconciling them.**
+“Make it fancy.” “Actually simple.” “Also playful.” “Also formal.”
+The model tries to satisfy *everything*, and when it can’t, it starts inventing a compromise.
 
----
-
-# Character Select: Chef Bios (for your fighting-game roster)
-
-These bios are “true where public info is clear” and **honest where details are not disclosed**. The goal is to teach readers *how to choose*, not to pretend we can see the locked back room.
-
-### **ChatGPT (OpenAI) — “The All-Rounder Sous Chef”**
-
-**Studio:** OpenAI
-**Training snapshot (publicly described):** OpenAI describes training inputs broadly as (1) public internet content, (2) partner data, and (3) data provided/generated by users, trainers, and researchers; and notes that trained models don’t retain copies of that data. ([OpenAI Help Center][1])
-**Signature moves:** Clear structured drafts, strong general reasoning, good “turn this chaos into a plan” energy.
-**Best quests:** Writing + rewriting, summarizing, planning, brainstorming, explaining concepts, multi-step task breakdowns.
-**Watch-outs:** Can still hallucinate; can sound confident; needs a strict Expo checklist when correctness matters.
-**Ticket tip:** Ask for: *assumptions*, *uncertainties*, and a *final verification step* (what would need a tool check vs what’s supported by the provided text).
+**Kitchen truth:** *Drift is what happens when the spec becomes vibes.*
 
 ---
 
-### **Gemini (Google) — “The Multimodal Prep Monster”**
+## 4) How to pack the counter: recap blocks, constraints, and known-good facts
 
-**Studio:** Google / Google DeepMind
-**Training snapshot (publicly described):** Gemini’s technical report describes training on a multimodal, multilingual dataset using web documents, books, and code, including image/audio/video. 
-**Signature moves:** Strong “reads the room” across modalities when used in Google’s ecosystem; often great at tasks that mix text + other inputs.
-**Best quests:** Multimodal workflows, planning + tool use in Google surfaces, research organization, summarization, building/learning/plan tasks across Google products. ([blog.google][4])
-**Watch-outs:** As with any model: can improvise; needs explicit constraints and checks for accuracy.
-**Ticket tip:** When you care about fidelity, require “Quote the exact line I gave you that supports this bullet” (or equivalent traceability).
+Here’s the move: treat your conversation like you’re periodically re-setting your station.
 
----
+You don’t need more words. You need **better compression**.
 
-### **Claude (Anthropic) — “The Careful, Principle-Driven Chef”**
+### The three piles that keep work stable
 
-**Studio:** Anthropic
-**Training snapshot (publicly described):** Anthropic describes “Constitutional AI” as training with an explicit set of principles (“a constitution”) and using those principles during critique/revision and reinforcement learning stages to shape safer, more helpful behavior. ([Anthropic][2])
-**Signature moves:** Thoughtful tone, strong at longform writing and careful reasoning in many workflows.
-**Best quests:** Policy/communications drafts, editing, analysis that benefits from a steadier “don’t be reckless” posture, structured thinking.
-**Watch-outs:** May refuse or hedge more readily depending on topic; still needs grounding when facts matter.
-**Ticket tip:** If you hit refusal/over-caution, tighten the scope: “High-level, non-actionable summary” or “Explain the tradeoffs” rather than “Give me step-by-step instructions.”
+**1) Known-good facts (things you’re committing to)**
+These are the “don’t argue with me” anchors: numbers, names, requirements, constraints you verified.
 
----
+**2) Constraints (house rules for the output)**
+Format, tone, what to include/exclude, what counts as “done,” and what must be flagged as missing.
 
-### **Grok (xAI) — “The Spicy Line Cook (Fast, Real-Time-Flavored)”**
+**3) Open questions / assumptions (explicitly labeled)**
+If something is unknown, don't let it become an accidental "fact." Label it.
 
-**Studio:** xAI
-**Training snapshot (publicly described):** Grok’s model card describes training that includes supervised fine-tuning and reinforcement learning, and mentions the use of synthetic data in the training recipe. 
-**Signature moves:** A bolder, sometimes more irreverent style; often positioned around “current conversation” culture and fast takes.
-**Best quests:** Rapid ideation, punchy rewrites, brainstorming, opinionated framing (where factual precision isn’t the main goal).
-**Watch-outs:** “Bold” can become “confidently wrong.” Treat outputs like a first draft that must be checked.
-**Ticket tip:** If you need correctness, force restraint: “If you’re not sure, say ‘UNCERTAIN’ and list what would verify it.”
+**Quick distinction:**
+- **Known-good facts:** WHAT is true (data, numbers, names, verified claims)
+- **Constraints:** HOW to handle that data (formatting rules, tone, what's allowed/banned)
+- **Assumptions:** Educated guesses that need verification
 
----
+Example: "60 guests" = known-good fact. "No peanuts" = both a fact AND a constraint. "Budget moderate" = assumption (needs clarification).
 
-### **Copilot (Microsoft / GitHub) — “The IDE Station Specialist”**
+A recap block does two things:
 
-**Studio:** Microsoft + GitHub
-**Training snapshot (publicly described):** GitHub Copilot is built for coding workflows and supports multiple underlying models (the roster can include offerings from OpenAI, Anthropic, Google, and xAI depending on plan/org settings). ([Microsoft][5])
-Microsoft positions Microsoft 365 Copilot as integrated across the Microsoft 365 suite with orchestration/routing and GPT-5 in its described stack. ([GitHub Docs][3])
-**Signature moves:** Code completion, refactors, “write the boring parts,” inline explanations in the flow of development tools.
-**Best quests:** Daily programming work, navigating large codebases, generating tests, scaffolding, API usage patterns.
-**Watch-outs:** Can generate plausible-but-wrong code; may miss project-specific constraints unless you feed it context from your repo.
-**Ticket tip:** Require: “Explain what you changed,” “List assumptions,” and “Add a minimal test or validation step.”
+* It puts the important items back on the counter **right now**
+* It makes the model’s job more like following a spec, and less like improvising a novel
+
+**Kitchen truth:** *A recap block is how you keep yesterday's decisions on today's counter.*
+
+**How long should a recap block be?** Keep it scannable—aim for 3-6 known-good facts, 2-4 constraints, and flag any assumptions. If it's longer than 10 bullets total, you might need to start a fresh chat instead of recapping.
 
 ---
 
-### **Llama (Meta) — “The Build-Your-Own Chef (Open Weights)”**
+### Power-up: Fresh Ticket vs. Recenter (when to start a new chat vs. recap inject)
 
-**Studio:** Meta
-**Training snapshot (publicly described):** Meta’s Llama 3.2 model card describes pretraining on up to **9T tokens** from “publicly available sources,” and describes alignment stages (SFT + preference optimization methods) for instruction-tuned variants. ([Hugging Face][6])
-**Signature moves:** You can run it where you want (including local/on-device setups depending on size), tune it, wrap it in your own toolchain.
-**Best quests:** Privacy-sensitive workflows, custom assistants, offline/edge scenarios, experimentation, domain fine-tuning.
-**Watch-outs:** “You own the kitchen” also means “you own the safety, evaluation, and ops.”
-**Ticket tip:** Build your own Expo Pass: eval set, regression tests, and a refusal/safety layer appropriate to your environment.
+Sometimes the best fix isn’t “write more”—it’s **choose the right workspace**.
+
+**Start a new chat when:**
+
+* You’re switching to a **new dish** (new goal, new audience, new deliverable).
+* The prep counter has become a **kitchen hazard** (multiple competing plans, unresolved forks).
+* You keep saying “as we said earlier…” and you can’t easily point to a single, clean spec.
+
+**Recap inject when:**
+
+* You’re staying on the **same dish**, but the thread is getting long.
+* You’re handing off to a **new station** (draft → QA, research → draft, etc.).
+* A constraint is high-stakes (allergy/policy/legal) and you want it **impossible to miss**.
+
+**Fast heuristic:**
+If you need **continuity**, recap inject. If you need **clarity**, start a new chat.
+
+**Kitchen truth:** *New chat = clean counter. Recap inject = fresh tray of the only ingredients that matter.*
+
+---
+
+## 5) Running example: fixing the peanut satay incident
+
+Let’s rewrite the moment that failed.
+
+### The drift version (what most people do)
+
+> “Great—now finalize the menu and shopping list.”
+
+That ticket assumes the allergy note is still visible and still salient. In a long thread, it might not be.
+
+### The packed-counter version (what works)
+
+You paste a recap block first:
+
+**RECENTER BLOCK (paste at the top of the request):**
+
+* **Known-good facts:** 60 guests; **NO PEANUTS (severe allergy)**; 12 vegetarian; venue has warming trays but **no stove**; budget moderate.
+* **Goal:** final menu + shopping list.
+* **Plating:** menu in 3 sections (mains/sides/dessert) + shopping list grouped by aisle.
+* **Expo checks:** confirm no peanuts; flag any missing quantities as **MISSING INFO**.
+
+Now the cook can't "accidentally" invent peanut satay without visibly violating the counter.
+
+**Kitchen truth:** *When the counter is packed correctly, "forgetting" becomes rare and obvious.*
+
+---
+
+### Result (after applying the recenter)
+
+The model generated a complete menu with zero peanut-containing items and explicitly confirmed: "Allergy check: NO PEANUTS in any dish, sauce, or garnish (per counter requirement)."
+
+**Kitchen truth:** *When the counter is packed correctly, violations become obvious instead of quiet.*
+
+---
+
+## Expo Check: spot the hidden failure
+
+**Question:**
+A coworker says: “Just keep going from earlier—same constraints.” Why is that risky, and what’s the safer replacement?
+
+**Expo answer:**
+It’s risky because “earlier constraints” might not be on the prep counter anymore, so the model may guess or drift. Safer: paste a recap block with known-good facts + constraints + the required output format, and label unknowns as MISSING INFO.
+
+**Kitchen truth:** *If it’s not restated, it’s not reliably enforced.*
+
+---
+
+## Common failure modes (and how they map to the kitchen)
+
+### 1) Counter overflow → phantom ingredients
+
+When the counter is overloaded, the model fills gaps with plausible-sounding glue. That’s hallucination: not evil, not mystical—just unchecked improvisation.
+
+**Fix:** shrink and sharpen the counter: recap, remove noise, paste only the relevant excerpts.
+
+**Kitchen truth:** *Overflow makes the cook improvise; improv without labels becomes “facts.”*
+
+### 2) Constraint burial (important rules get visually lost)
+
+If constraints are buried in paragraphs, they get missed—like an allergy note written on the back of a napkin under a cutting board.
+
+**Fix:** isolate constraints in their own block, near the top.
+
+**Kitchen truth:** *A rule you can’t see is a rule you won’t follow.*
+
+### 3) Unmarked assumptions become “truth by repetition”
+
+The model guesses once, then later treats its own earlier guess as a fact because it’s now part of the visible text.
+
+**Fix:** require an Assumptions block and keep it separate from Known-good facts.
+
+**Kitchen truth:** *If you didn’t measure it, you don’t know it—and if you didn’t label it, you’ll believe it.*
+
+---
+
+## Mini-toolbox: copy/paste templates
+
+### A) Recap Block (the “Recenter”)
+
+**RECENTER BLOCK**
+
+* **Known-good facts:**
+
+  * …
+  * …
+* **Goal:** …
+* **Constraints (house rules):**
+
+  * Must / must not …
+  * Use only provided info; unknowns → **MISSING INFO**
+* **Plating (format):** …
+* **Expo checks:**
+
+  * Constraint check: …
+  * Consistency check: …
+
+### B) Assumptions Block (quarantine your guesses)
+
+**ASSUMPTIONS (label these, don’t hide them):**
+
+* Assumption 1: … (reason: …)
+* Assumption 2: … (risk if wrong: …)
+* What would verify: **NEEDS TOOL CHECK** / “ask the user” / “paste the source”
+
+### C) Known-Good Facts Block (the “no arguing” list)
+
+**KNOWN-GOOD FACTS (confirmed):**
+
+* …
+* …
+  *(If a fact came from a guess, it does not belong here.)*
+
+### D) Expo Pass Checklist (fast QA before you trust it)
+
+**EXPO PASS (QA):**
+
+* [ ] Uses only items from the counter (no new “facts”)
+* [ ] All constraints satisfied (allergies, bans, style rules)
+* [ ] Output matches plating format exactly
+* [ ] Unknowns labeled **MISSING INFO**
+* [ ] Assumptions listed separately
+* [ ] Anything reality-based marked **NEEDS TOOL CHECK** (don’t pretend)
+
+**Kitchen truth:** *Expo catches mistakes before customers do.*
 
 ---
 
 ## TL;DR Panel
 
-* Models differ because they practiced on different corpora and were rewarded by different training recipes. ([OpenAI Help Center][1])
-* Training builds “muscle memory,” not a searchable database. ([OpenAI Help Center][1])
-* Tools and ecosystem matter as much as raw model skill. ([GitHub Docs][3])
-* “Best AI” is a category error: choose the best chef *for the ticket*.
-* Use Expo checks (assumptions, missing info labels, verification steps) to prevent confident nonsense.
+* The context window is **finite counter space**; older items get pushed off.
+* “Forgetting” usually means **out of view**, not erased.
+* Long chats drift when the spec becomes vibes and constraints aren’t restated.
+* Use recap blocks: **Known-good facts + constraints + plating + expo checks**.
+* Overflow leads to hallucination: **no phantom ingredients**.
+
+**Next up:** Packing the counter keeps constraints visible—but some facts need more than visibility. They need *measurement*. Let's talk about tools.
+
+---
+
+## Visual notes (HUD components to show in this section)
+
+* **Hook:** Prep Counter Panel with a “NO PEANUTS” card sliding off the left as new notes pile on
+* **Context window explanation:** Counter Space Meter dropping into the red
+* **Packing the counter:** Ticket Card + Recap Block overlay (like a “Power-Up: Recenter”)
+* **Before/after compare:** Use the `.image-compare` slider for “no recap vs recap” counter packing
+* **Constraint burial:** show the constraint card **visually occluded** (not deleted) to reinforce “out of view” vs “erased”
+* **Expo Check:** Expo Pass Checklist stamped “FAIL: peanut satay” then “PASS” after recap
+* **Mini-toolbox:** Templates displayed as collectible “item cards” (Recenter / Assumptions / Expo Pass)

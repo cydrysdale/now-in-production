@@ -1,233 +1,246 @@
-# Thermometers & Scales (Tools): How to Stop Guessing and Start Checking
+# Expo Pass (QA): How to taste-test an answer before you serve it
 
-### Hook: the chicken that was “definitely done”
+### Hook: the plated answer that *looked* perfect
 
-You ask the model: “Is 20 minutes enough to cook chicken thighs at 400°F?”
+You ask for a final catering plan. The model gives you a beautiful menu, a clean shopping list, and a confident timeline. It reads like it’s already laminated.
 
-It gives you a confident answer. It sounds like something a competent cook would say. It might even be right.
+Then your coworker says: “Cool. Where did it get **64 guests** from?”
 
-But if you’re serving 60 people—and somebody gets sick—“sounds right” isn’t a standard. You need a way to ensure the chicken is thoroughly cooked.
+Silence. No receipt. The number *sounds* plausible, which is exactly the problem.
 
-That’s the whole tools story:
+The Expo Pass (QA) is how you stop serving “sounds right” as if it were reality.
 
-*The chef can grill a perfect-looking steak. Only the thermometer can tell you if it’s actualy perfect.*
-
----
-
-## 1) What tools are (and what they aren’t)
-
-A tool is any system that can **touch reality** or **compute deterministically**:
-
-* A calendar query that shows the actual date/time
-* A spreadsheet total that gives the real headcount
-* A database lookup that returns the record on file
-* A web lookup that fetches the current policy
-* A code run that checks the math
-* A document search that retrieves the exact paragraph you’re summarizing
-
-Tools are not “better prompting.” Tools are **measurement**.
-
-Prompts tell the cook what dish to make.
-Tools ensure that dish meets the needs of the customer.
+“Expo” is short for “expeditor”: the shift lead at the pickup window who checks tickets and plates before anything leaves the kitchen.
+**Kitchen truth:** *A dish that looks right can still be wrong—Expo checks before customers do.*
 
 ---
 
-## 2) The measurement loop: check → place on counter → plate with receipts
+## 1) What an Expo Pass is: a quality gate, not a vibe check
 
-A lot of people do this backwards:
+Expo Pass (QA) is a short, repeatable review you run **after** the cook plates an answer and **before** you trust it.
 
-1. Ask the model for an answer
-2. Hope it’s right
-3. Trust the confidence
+It turns the whole guide into one loop:
 
-The reliable way flips the order:
+1. **Write the ticket** (goal, constraints, format, checks)
+2. **Pack the counter** (only the relevant facts and excerpts)
+3. **Measure with tools** when reality matters (dates, counts, policies, numbers)
+4. **Generate a draft** (the cook plates)
+5. **Run Expo Pass** (QA gate) → either **SERVE** or **SEND BACK**
 
-1. **Decide what must be true** (the “must-not-guess” list)
-2. **Use a tool to check it**
-3. **Put the tool output on the prep counter** (paste it / attach it / quote it)
-4. **Ask the model to use *only that evidence*** and to cite it
+Common stamps you’ll use a lot: **SERVE**, **SEND BACK**, **NEEDS TOOL CHECK**, **MISSING INFO**.
 
-This is how you keep the cook honest without turning them into a detective who “just vibes it out.”
-
----
-
-## 3) Citations and traceability: “show your work” is a feature, not a punishment
-
-When readers hear “citations,” they often think “academic footnotes.”
-
-Here we mean something simpler: **receipts**.
-
-A receipt can be:
-
-* A direct quote from the text you provided (“from the counter”)
-* A line item from a tool output (“from the scale”)
-* A link/source name + what it said (“from the inventory terminal”)
-* An ID you can re-check later (doc title + section, email subject + date, ticket number, query name)
-
-The point isn’t to look fancy. The point is to make every important claim answer the question:
-
-> “Where did that come from?”
-
-If the answer is “I’m not sure,” the claim gets stamped:
-
-* **NEEDS TOOL CHECK** (measurable, just not measured yet), or
-* **MISSING INFO** (you literally don’t have the input)
+This is the mental shift: you’re not trying to make the model “never wrong.” You’re building a kitchen where wrong answers can’t quietly slip out.
+**Kitchen truth:** *The cook drafts; Expo decides what ships.*
 
 ---
 
-## 4) Running example: turning “Catering Chaos” into a measured plan
+## 2) The Four Checks (the standard boss pattern)
 
-We’ll reuse the earlier scenario:
+Think of these as the standard stations on your QA line. Run them in order; stop as soon as one fails.
 
-* 60 guests
-* **NO PEANUTS (severe allergy)**
-* 12 vegetarian
-* Venue has warming trays but **no stove**
-* Budget: moderate
+### A) Constraint check (the ticket test)
 
-In the “Prep Counter” chapter, the failure was forgetting. Now the failure we’re preventing is **guessing**.
+Ask: **Did it follow every must/must-not?**
 
-### Step A: Mark what must not be guessed
+* Allergies, bans, tone, length, format, required sections
+* Also check “negative constraints” (things you explicitly said *not* to do)
 
-For this ticket, “must not guess” includes:
+If a constraint is missing, you don’t “fix it in your head.” You send it back to be re-plated.
+**Kitchen truth:** *If it violates the ticket, it fails—no matter how pretty it is.*
 
-* Final headcount (changes constantly)
-* Allergy list (one mistake ruins the whole event)
-* Venue equipment constraints (stove/no stove)
-* Deadline and delivery time
+### B) Source check (the receipt test)
 
-### Step B: Call the instruments (examples)
+Ask: **For each important claim, where did it come from?**
 
-* **Reservation book / calendar tool:** confirm event start time + load-in window
-* **Inventory terminal / spreadsheet:** confirm RSVP count and dietary breakdown
-* **Document search:** pull the venue email that states “no stove access”
-* **Source check:** confirm any “rules” you plan to state publicly (building policy, vendor rules, etc.)
+* From the counter (quoted text you provided)?
+* From a tool output (calendar/spreadsheet/doc search/web)?
+* Or… from vibes?
 
-### Step C: Paste tool outputs onto the counter, then ask for a plated plan with receipts
+If the answer is “I’m not sure,” the claim gets stamped **NEEDS TOOL CHECK** or **MISSING INFO**—not quietly implied.
+**Kitchen truth:** *Confidence is seasoning, not evidence.*
 
-Now your ticket becomes a spec the model can’t wriggle out of:
+### C) Consistency check (the self-contradiction test)
 
-* Use only the pasted tool outputs for numbers/times
-* Cite each number to its source (“RSVP sheet cell,” “calendar event line,” “venue email quote”)
-* Any missing quantity/time must be labeled **MISSING INFO**
-* Any unverified claim must be labeled **NEEDS TOOL CHECK**
+Ask: **Does it agree with itself and the counter?**
 
-You don’t need the cook to “be more careful.”
-You need the cook to **work in a kitchen where careful is enforced by instrumentation**.
+* Headcount matches across sections
+* Allergies don’t reappear in a different name
+* Dates/times don’t shift mid-answer
+* Requirements don’t get restated differently later
 
----
+Most “hallucinations” that make it to production are actually **inconsistencies** no one bothered to scan for.
+**Kitchen truth:** *If the plate argues with itself, it’s not ready to serve.*
 
-## Expo Check: spot the fake certainty
+### D) Edge-case check (the “break it on purpose” test)
 
-**Question:**
-The model says: “We have 64 guests confirmed and 14 vegetarians.” You don’t remember providing those numbers. What’s the correct response?
+Ask: **What’s the weird case where this answer collapses?**
+A few classics:
 
-**Model answer:**
-Treat the numbers as unverified until you can point to a receipt. Ask: “Cite the source for each count (tool output or quoted text). If you can’t, label them NEEDS TOOL CHECK.” Then run the actual tool (spreadsheet/RSVP export) and paste the result onto the counter.
+* The list is empty (no vegetarians; no constraints; no results)
+* The constraint conflicts (“make it 3 bullets” + “include all details”)
+* The input changes (headcount updates, policy changes, time zone shifts)
+* Ambiguous nouns (“the venue” / “the list” / “that plan from earlier”)
 
-**Kitchen truth:** *Confidence is not evidence.*
+Edge cases are where "plausible" becomes "quietly wrong."
+**Kitchen truth:** *If you didn't test the corners, you don't know the shape.*
 
----
+Pick 2–3 that matter most for your specific task and test them.
 
-## Common failure modes (and how to fix them)
-
-### 1) Tool theater (citations that aren’t real)
-
-This looks like: “According to multiple sources…” with no sources. Or worse: made-up links, made-up quotes, made-up authors.
-
-**Fix:** require *specific* receipts: quote, doc name + section, or tool output snippet. If it can’t produce those, it must label **NEEDS TOOL CHECK**.
-
-### 2) Tool output not on the counter (the cook can’t use it)
-
-You checked the calendar… in your head. Or in another tab. Or yesterday. Then you ask the model to “use the schedule.”
-
-It can’t. Not reliably.
-
-**Fix:** paste the relevant tool output (or summarize it explicitly as a Known-good fact) into the request.
-
-### 3) Mixing evidence with inference (the stealth slip)
-
-A model reads: “No stove.”
-Then it adds: “So we’ll do cold sandwiches,” as if that was stated.
-
-That’s not necessarily wrong—but it’s a different category: **inference**.
-
-**Fix:** force a split:
-
-* “What the tools/text explicitly say” vs “What we’re choosing based on that.”
-
-### 4) Single-instrument overtrust (one thermometer, no calibration)
-
-Tools can be wrong: stale spreadsheets, out-of-date docs, incorrect records.
-
-**Fix:** for high-stakes facts, cross-check (two sources) or add a quick sanity check (“Does this total match last week’s range?”).
+**Kitchen truth:** *Test the corners you're most worried about—not every possible edge.*
 
 ---
 
-# Mini-toolbox: copy/paste templates
+## 3) Power-up: “show your work” plating (claims → evidence → confidence)
 
-### A) “Must-Not-Guess” Block (mark what requires measurement)
+If you want Expo Pass to be fast, don’t make reviewers hunt. Make the answer *carry its receipts.*
 
-**MUST-NOT-GUESS (requires tool check or provided source):**
+Here’s the simplest “show your work” format that scales:
 
-* Headcount: **NEEDS TOOL CHECK** (source: RSVP sheet)
-* Allergy list: **NEEDS TOOL CHECK** (source: intake form export)
-* Venue constraints: **NEEDS TOOL CHECK** (source: venue email / contract)
-* Event time window: **NEEDS TOOL CHECK** (source: calendar event)
+**CLAIM → EVIDENCE → CONFIDENCE**
 
----
+* **Claim:** the statement you might act on
+* **Evidence:** a quote/tool snippet/identifier from the counter
+* **Confidence:** High / Medium / Low (and why)
+* If not High: stamp **NEEDS TOOL CHECK** and name the tool/source that would confirm
 
-### B) Receipt Format (force traceability)
+### Micro-template (copy/paste)
 
-**RECEIPTS (for every important claim):**
+**Receipts Block (per important claim):**
 
 * **Claim:** …
-  **Evidence:** (quote/tool output) …
-  **Source:** …
-  **Confidence:** High / Medium / Low
-  **If Low:** **NEEDS TOOL CHECK** (what tool would confirm?)
+* **Evidence:** “…” (quote) / (tool output snippet)
+* **Source:** doc name + section / spreadsheet cell / calendar event line
+* **Confidence:** High / Medium / Low
+* **If Medium/Low:** **NEEDS TOOL CHECK:** (what to run)
+
+This doesn’t make the model magically truthful. It makes truth *auditable*—which is how real teams ship work without relying on mind-reading.
+**Kitchen truth:** *If you can’t point to the receipt, it’s not a fact.*
 
 ---
 
-### C) Tool-to-Counter Script (how to “bring in reality” cleanly)
+## 4) When to rerun tools and cross-check sources
 
-**TOOL PULL → COUNTER PASTE:**
+Tools are your measurement instruments—but measurements can be stale, incomplete, or wrong. Expo Pass includes a “re-measure?” decision.
 
-1. Tool used: …
-2. Output snippet pasted below (verbatim):
+### Rerun the tool when…
 
-   * …
-3. Model task: “Summarize using only the pasted snippet. Cite each claim to a line/field above. Unknowns → MISSING INFO.”
+* The claim depends on **changing reality** (counts, schedules, current policy)
+* The source is **old** (last week’s RSVP export, cached docs)
+* The model’s confidence is anything but High
+* The answer includes phrases like “typically,” “usually,” “most likely,” for something that should be a number/date/rule
+
+### Cross-check (two sources) when…
+
+* Stakes are high (money, safety, policy, reputation)
+* One tool result looks weird (out of range, surprising jump)
+* Two parts of the counter disagree (doc says 60, sheet says 64)
+* You’re about to repeat the claim downstream (slides, email, leadership update)
+
+This is the grown-up version of “don’t hallucinate”: **measure, then verify your measurement is still valid.**
+**Kitchen truth:** *If you didn’t re-check the thermometer, you don’t know the temp.*
 
 ---
 
-### D) Expo Pass: Tools Edition (fast QA before you trust it)
+## 5) Running example: Expo Pass on “Catering Chaos”
 
-**EXPO PASS (TOOLS):**
+**Ticket (goal + plating):** “Final plan: menu + shopping list + timeline. Must be peanut-free. Cite headcount + dietary counts.”
 
-* [ ] Every number/date/time has a receipt (quote or tool output)
-* [ ] Evidence vs inference is clearly separated
-* [ ] Unknowns are labeled **MISSING INFO**
-* [ ] Unverified-but-checkable items are labeled **NEEDS TOOL CHECK**
-* [ ] No invented sources, links, or quotes
-* [ ] Final output matches the requested format exactly
+**Draft comes back with:**
+
+* “64 guests confirmed”
+* “14 vegetarians”
+* A menu that includes “satay sauce” (no peanut mention, but… hello, danger)
+* A timeline with delivery time but no source
+
+Now run the four tests:
+
+### A) Constraint check
+
+* Peanut-free? The word “satay” is a red flag. If peanuts are banned, you don’t allow ambiguous sauces without explicitly confirming ingredients.
+  → **FAIL → send back** with: “List banned ingredients and explicitly confirm none appear, including sauces.”
+
+### B) Source check
+
+* Where did “64” and “14” come from? If there’s no RSVP sheet snippet on the counter, those are phantom ingredients.
+  → Stamp: **NEEDS TOOL CHECK (RSVP export)**
+
+### C) Consistency check
+
+* If the menu is “for 64” but the shopping list totals “for 60,” that’s a quiet mismatch that becomes a real-world problem.
+  → **FAIL → send back** with: “Recalculate quantities from the verified headcount only.”
+
+### D) Edge-case check
+
+* What if headcount changes tomorrow? If the plan can’t be re-generated quickly from one verified source, you’re stuck hand-editing chaos.
+  → Add: “Quantities should be formula-based on headcount, and headcount must be a single sourced number.”
+
+### Re-plate request (what you actually send)
+
+* Paste RSVP tool output (or at least the final verified numbers) onto the counter
+* Require a Receipts Block for every number
+* Require a “banned ingredients confirmation” line item
+
+Once the answer returns with receipts, Expo Pass becomes a 60-second scan instead of a detective novel.
+**Kitchen truth:** *A plan without receipts is just a story with formatting.*
+
+---
+
+## Expo Check: catch the stealth failure
+
+**Question:**
+The answer includes three hard numbers (guest count, vegetarian count, delivery time) but provides no quotes or tool outputs. What do you do?
+
+**Expo answer:**
+Don’t “trust but verify” in your head—verify in the process. Require receipts for each number. If receipts aren’t possible from the current counter, stamp each number **NEEDS TOOL CHECK**, rerun the appropriate tool (RSVP export / calendar / venue email), paste the output onto the counter, then re-ask for the plan using only that evidence.
+
+**Kitchen truth:** *If it’s measurable and you didn’t measure it, it’s not done.*
+
+---
+
+## Common failure modes (and fixes)
+
+### 1) Checkbox cosplay (the checklist exists, but nothing is actually checked)
+
+**Symptom:** “All constraints satisfied ✅” with no demonstration.
+**Fix:** Make checks *observable*: show the constraint list and explicitly confirm each item, or fail.
+**Kitchen truth:** *A check you can’t audit is a wish, not QA.*
+
+### 2) Source laundering (“it said it earlier” becomes “it’s true now”)
+
+**Symptom:** An unverified guess appears in Draft 1, then gets treated as a fact in Draft 2 because it’s now in the conversation.
+**Fix:** Separate **Known-good facts** from **Assumptions**, and forbid promotion without a receipt.
+**Kitchen truth:** *Repetition doesn’t turn guesses into facts.*
+
+### 3) Evidence/inference mash (helpful suggestions masquerade as requirements)
+
+**Symptom:** “No stove” (evidence) turns into “so we must do cold sandwiches” (inference) without labeling.
+**Fix:** Split sections: “What we know” vs “What we recommend.”
+**Kitchen truth:** *Inference can be smart—unlabeled inference becomes misinformation.*
+
+### 4) Edge-case blindness (works for the happy path, breaks in reality)
+
+**Symptom:** Great plan… until the headcount changes, the doc is missing, or a constraint conflicts.
+**Fix:** Add one deliberate stress test: “What breaks this?” and “What would we re-check?”
+**Kitchen truth:** *If it only works on perfect days, it doesn’t work.*
 
 ---
 
 ## TL;DR Panel
 
-* Models are great at **plausible**. Tools are how you get **true**.
-* The reliable workflow is: **measure → paste onto counter → summarize with receipts**.
-* “Citations” here means: *Where did that claim come from?*
-* If you can’t cite it, stamp it **NEEDS TOOL CHECK** or **MISSING INFO**.
-* Avoid tool theater, missing tool outputs, and evidence/inference mashups.
+* Expo Pass (QA) is a **quality gate**: Ticket → Counter → Tools → Draft → **QA** → Serve.
+* Run four checks: **constraints, sources, consistency, edge cases**.
+* Force “show your work”: **Claim → Evidence → Confidence** (stamp unknowns).
+* Rerun tools when reality changes; cross-check when stakes are high or sources disagree.
+* The goal isn't "never wrong." It's "wrong can't sneak out unnoticed."
+
+**Next up:** Single dishes are manageable. But what about a full service—multiple courses, multiple stations? Let's talk about running big jobs without chaos.
 
 ---
 
 ## Visual notes (HUD components to show in this section)
 
-* **Hook:** Thermometer overlay reading “???” while the cook confidently plates chicken
-* **Tools intro:** Tool belt / instrument icons (thermometer, scale, reservation book, inventory terminal)
-* **Measurement loop:** “Tool Output” card drops onto Prep Counter Panel like a loot pickup
-* **Traceability:** Receipts panel that pins claims to source snippets with little connector lines
-* **Expo Check:** Expo Pass Checklist stamped “NO RECEIPT → FAIL” then “RECEIPTS ATTACHED → PASS”
+* **Hook:** A plated dish with a big stamp: “NO RECEIPT → FAIL”
+* **Pipeline panel:** Ticket Card → Prep Counter → Tool icons → Plate → Expo Pass gate → “SERVE” (reuse this across the guide; highlight the QA gate here)
+* **Four taste-tests:** A 4-icon checklist (ticket = constraints, receipt = sources, mirror = consistency, warning = edge cases)
+* **Power-up:** “Show Your Work” overlay that pins claims to evidence snippets
+* **Running example:** Before/after: “64 guests (??)” → “60 guests (RSVP export line shown)” with PASS stamp

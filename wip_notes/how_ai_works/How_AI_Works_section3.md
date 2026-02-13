@@ -1,233 +1,309 @@
-# The Prep Counter (Context Window): Why AI “forgets,” why long chats drift, and how to pack the counter
+# Thermometers & Scales (Tools): How to Stop Guessing and Start Checking
 
-### Hook: the disappearing allergy note
+### Hook: the chicken that was “definitely done”
 
-You’re mid-service. You’ve got a catering order for 60 people. Early on, the client said: **no peanuts, severe allergy**. You discuss menu ideas for a while, refine the vibe, get cute with the names.
+You ask the model: “Is 20 minutes enough to cook chicken thighs at 400°F?”
 
-Thirty messages later, you ask the model for a final menu + shopping list.
+It gives you a confident answer. It sounds like something a competent cook would say. It might even be right.
 
-It confidently suggests **peanut satay**.
+But if you’re serving 60 people—and somebody gets sick—“sounds right” isn’t a standard. You need a way to ensure the chicken is thoroughly cooked.
 
-Did it “forget” the allergy? Or did something dumber (and more fixable) happen?
+That’s the whole tools story:
 
-**Kitchen truth:** *If it’s not on the counter, the cook can’t use it—even if you said it earlier.*
-
----
-
-## 1) What the “context window” really is
-
-The context window is the model’s **working surface**: the ticket + the visible conversation + any pasted references the system includes for this turn.
-
-But the counter is not infinite.
-
-So the system does what busy kitchens do: when the counter gets crowded, **older items get pushed off** to make room for what’s newest. The cook can’t glance at what’s no longer there.
-
-This is why long chats drift:
-
-* Earlier constraints become “distant memories” (meaning: **out of view**)
-* Newer phrasing and newer instructions dominate
-* Tiny ambiguities (“that list,” “the earlier plan”) become guess-fuel
-
-**Kitchen truth:** *A long chat doesn’t make a bigger brain—it makes a messier counter.*
+*The chef can grill a perfect-looking steak. Only the thermometer can tell you if it's actually perfect.*
 
 ---
 
-## 2) “Forgetting” isn’t amnesia. It’s occlusion.
+## 1) What tools are (and what they aren’t)
 
-When people say, “AI forgot,” they usually imagine a brain that lost a memory.
+A tool is any system that can **touch reality** or **compute deterministically**:
 
-What’s happening is more boring: the model is generating from **what it can currently see**. If the peanut allergy note isn’t visible in the current context, the model can’t reliably follow it.
+* A calendar query that shows the actual date/time
+* A spreadsheet total that gives the real headcount
+* A database lookup that returns the record on file
+* A web lookup that fetches the current policy
+* A code run that checks the math
+* A document search that retrieves the exact paragraph you’re summarizing
 
-Important nuance:
+Tools are not “better prompting.” Tools are **measurement**.
 
-* This is not “permanent memory loss.”
-* You can put the allergy back on the counter by restating it (or pasting a recap).
-* The model is not secretly checking a hidden transcript off-screen (no phantom pantry).
+Tickets tell the cook what dish to make.
+Tools ensure that dish meets the needs of the customer.
 
-So “forgetting” is really “**out-of-frame**.”
-
-**Kitchen truth:** *The cook didn’t forget the rule—it just isn’t looking at it anymore.*
-
----
-
-## 3) Why long chats drift (even when nobody is trying to be chaotic)
-
-Drift usually comes from three very human habits:
-
-**A) We stop repeating the spec.**
-At the start, we’re careful: “60 people, no peanuts, vegetarian options, budget $X.” Later we say: “cool, keep going.”
-
-**B) We reference earlier stuff vaguely.**
-“Use the plan from before.” “Same constraints.” “Like we said.”
-Those phrases are fine for humans with stable memory. They’re terrible for a cook who can only see what’s on the counter.
-
-**C) We pile on new instructions without reconciling them.**
-“Make it fancy.” “Actually simple.” “Also playful.” “Also formal.”
-The model tries to satisfy *everything*, and when it can’t, it starts inventing a compromise.
-
-**Kitchen truth:** *Drift is what happens when the spec becomes vibes.*
+**Kitchen truth:** *If you didn’t measure it, you don’t know it.*
 
 ---
 
-## 4) How to pack the counter: recap blocks, constraints, and known-good facts
+## 2) The measurement loop: check → place on counter → plate with receipts
 
-Here’s the move: treat your conversation like you’re periodically re-setting your station.
+A lot of people do this backwards:
 
-You don’t need more words. You need **better compression**.
+1. Ask the model for an answer
+2. Hope it’s right
+3. Trust the confidence
 
-### The three piles that keep work stable
+The reliable way flips the order:
 
-**1) Known-good facts (things you’re committing to)**
-These are the “don’t argue with me” anchors: numbers, names, requirements, constraints you verified.
+1. **Decide what must be true** (the “must-not-guess” list)
+2. **Use a tool to check it**
+3. **Put the tool output on the prep counter (context)** (paste it / attach it / quote it)
+4. **Ask the model to use *only that evidence*** and to cite it
 
-**2) Constraints (house rules for the output)**
-Format, tone, what to include/exclude, what counts as “done,” and what must be flagged as missing.
-
-**3) Open questions / assumptions (explicitly labeled)**
-If something is unknown, don’t let it become an accidental “fact.” Label it.
-
-A recap block does two magical (non-magical) things:
-
-* It puts the important items back on the counter **right now**
-* It makes the model’s job more like following a spec, and less like improvising a novel
-
-**Kitchen truth:** *A recap block is how you keep yesterday’s decisions on today’s counter.*
+This is how you keep the cook honest without turning them into a detective who “just vibes it out.”
 
 ---
 
-## 5) Running example: fixing the peanut satay incident
+## 3) Citations and traceability: receipts (not homework)
 
-Let’s rewrite the moment that failed.
+When readers hear “citations,” they often think “academic footnotes.”
 
-### The drift version (what most people do)
+Here we mean something simpler: **receipts**.
 
-> “Great—now finalize the menu and shopping list.”
+A receipt can be:
 
-That ticket assumes the allergy note is still visible and still salient. In a long thread, it might not be.
+* A direct quote from the text you provided (“from the counter”)
+* A line item from a tool output (“from the scale”)
+* A link/source name + what it said (“from the inventory terminal”)
+* An ID you can re-check later (doc title + section, email subject + date, ticket number, query name)
 
-### The packed-counter version (what works)
+The point isn’t to look fancy. The point is to make every important claim answer the question:
 
-You paste a recap block first:
+> “Where did that come from?”
 
-**RECENTER BLOCK (paste at the top of the request):**
+If the answer is “I’m not sure,” the claim gets stamped:
 
-* **Known-good facts:** 60 guests; **NO PEANUTS (severe allergy)**; 12 vegetarian; venue has warming trays but **no stove**; budget moderate.
-* **Goal:** final menu + shopping list.
-* **Plating:** menu in 3 sections (mains/sides/dessert) + shopping list grouped by aisle.
-* **Expo checks:** confirm no peanuts; flag any missing quantities as **MISSING INFO**.
-
-Now the cook can’t “accidentally” invent peanut satay without visibly violating the counter.
-
-**Kitchen truth:** *When the counter is packed correctly, “forgetting” becomes rare and obvious.*
+* **NEEDS TOOL CHECK** (measurable, just not measured yet), or
+* **MISSING INFO** (you literally don’t have the input)
 
 ---
 
-## Expo Check: spot the hidden failure
+## 4) Running example: turning “Catering Chaos” into a measured plan
+
+We’ll reuse the earlier scenario:
+
+* 60 guests
+* **NO PEANUTS (severe allergy)**
+* 12 vegetarian
+* Venue has warming trays but **no stove**
+* Budget: moderate
+
+In the “Prep Counter” chapter, the failure was forgetting. Now the failure we’re preventing is **guessing**.
+
+### Step A: Mark what must not be guessed
+
+For this ticket, “must not guess” includes:
+
+* Final headcount (changes constantly)
+* Allergy list (one mistake ruins the whole event)
+* Venue equipment constraints (stove/no stove)
+* Deadline and delivery time
+
+### Step B: Call the instruments (examples)
+
+* **Reservation book / calendar tool:** confirm event start time + load-in window
+* **Inventory terminal / spreadsheet:** confirm RSVP count and dietary breakdown
+* **Document search:** pull the venue email that states “no stove access”
+* **Source check:** confirm any “rules” you plan to state publicly (building policy, vendor rules, etc.)
+
+### Step C: Paste tool outputs onto the counter, then ask for a plated plan with receipts
+
+Now your ticket becomes a spec the model can’t wriggle out of:
+
+* Use only the pasted tool outputs for numbers/times
+* Cite each number to its source (“RSVP sheet cell,” “calendar event line,” “venue email quote”)
+* Any missing quantity/time must be labeled **MISSING INFO**
+* Any unverified claim must be labeled **NEEDS TOOL CHECK**
+
+You don't need the cook to "be more careful."
+You need the cook to **work in a kitchen where careful is enforced by instrumentation**.
+
+---
+
+### What tool outputs actually look like
+
+When you paste tool outputs onto the counter, they should be specific and quotable:
+
+**Calendar tool output:**
+```
+Event: Client Dinner - Catering Service
+Date: 2026-01-20
+Time: 6:00 PM - 9:30 PM
+Load-in window: 4:00 PM - 5:30 PM
+Location: Westlake Center, Room 304
+Source: Outlook Calendar Event ID #47293
+```
+
+**Spreadsheet tool output (RSVP sheet, rows 2-62):**
+```
+Total RSVPs: 60
+Confirmed vegetarian: 12
+Confirmed gluten-free: 4
+Severe allergies noted:
+  - Guest_07: Peanuts (anaphylaxis)
+  - Guest_19: Shellfish
+Source: RSVP_Export_2026-01-15.xlsx, Summary tab
+```
+
+Now your Draft ticket can reference these specific outputs and cite them.
+
+---
+
+## Expo Check: spot the fake certainty
 
 **Question:**
-A coworker says: “Just keep going from earlier—same constraints.” Why is that risky, and what’s the safer replacement?
+The model says: “We have 64 guests confirmed and 14 vegetarians.” You don’t remember providing those numbers. What’s the correct response?
 
-**Model answer:**
-It’s risky because “earlier constraints” might not be on the prep counter anymore, so the model may guess or drift. Safer: paste a recap block with known-good facts + constraints + the required output format, and label unknowns as MISSING INFO.
+**Expo answer:**
+Treat the numbers as unverified until you can point to a receipt. Ask: “Cite the source for each count (tool output or quoted text). If you can’t, label them NEEDS TOOL CHECK.” Then run the actual tool (spreadsheet/RSVP export) and paste the result onto the counter.
 
-**Kitchen truth:** *If it’s not restated, it’s not reliably enforced.*
-
----
-
-## Common failure modes (and how they map to the kitchen)
-
-### 1) Counter overflow → phantom ingredients
-
-When the counter is overloaded, the model fills gaps with plausible-sounding glue. That’s hallucination: not evil, not mystical—just unchecked improvisation.
-
-**Fix:** shrink and sharpen the counter: recap, remove noise, paste only the relevant excerpts.
-
-**Kitchen truth:** *Overflow makes the cook improvise; improv without labels becomes “facts.”*
-
-### 2) Constraint burial (important rules get visually lost)
-
-If constraints are buried in paragraphs, they get missed—like an allergy note written on the back of a napkin under a cutting board.
-
-**Fix:** isolate constraints in their own block, near the top.
-
-**Kitchen truth:** *A rule you can’t see is a rule you won’t follow.*
-
-### 3) Unmarked assumptions become “truth by repetition”
-
-The model guesses once, then later treats its own earlier guess as a fact because it’s now part of the visible text.
-
-**Fix:** require an Assumptions block and keep it separate from Known-good facts.
-
-**Kitchen truth:** *If you didn’t measure it, you don’t know it—and if you didn’t label it, you’ll believe it.*
+**Kitchen truth:** *Confidence is not evidence.*
 
 ---
 
-# Mini-toolbox: copy/paste templates
+## When to use tools vs. trust the model
 
-### A) Recap Block (the “Recenter”)
+**Use tools for:**
+- Current facts (today's date, real-time data, live inventory)
+- Specific records (customer data, calendar events, financial numbers)
+- Calculations (math, totals, conversions)
+- Policies that change (pricing, regulations, vendor terms)
 
-**RECENTER BLOCK**
+**Model is fine for:**
+- General knowledge ("What ingredients are typically in satay sauce?")
+- Drafting and formatting (turning bullets into paragraphs)
+- Summarizing text you provided
+- Brainstorming options
 
-* **Known-good facts:**
+**Kitchen truth:** *If the answer could change by tomorrow or depends on your specific records, use a tool.*
 
-  * …
-  * …
-* **Goal:** …
-* **Constraints (house rules):**
+---
 
-  * Must / must not …
-  * Use only provided info; unknowns → **MISSING INFO**
-* **Plating (format):** …
-* **Expo checks:**
+## Common failure modes (and how to fix them)
 
-  * Constraint check: …
-  * Consistency check: …
+### 1) Tool theater (citations that aren’t real)
 
-### B) Assumptions Block (quarantine your guesses)
+This looks like: “According to multiple sources…” with no sources. Or worse: made-up links, made-up quotes, made-up authors.
 
-**ASSUMPTIONS (label these, don’t hide them):**
+**Fix:** require *specific* receipts: quote, doc name + section, or tool output snippet. If it can’t produce those, it must label **NEEDS TOOL CHECK**.
 
-* Assumption 1: … (reason: …)
-* Assumption 2: … (risk if wrong: …)
-* What would verify: **NEEDS TOOL CHECK** / “ask the user” / “paste the source”
+### 2) Tool output not on the counter (the cook can’t use it)
 
-### C) Known-Good Facts Block (the “no arguing” list)
+You checked the calendar… in your head. Or in another tab. Or yesterday. Then you ask the model to “use the schedule.”
 
-**KNOWN-GOOD FACTS (confirmed):**
+It can’t. Not reliably.
 
-* …
-* …
-  *(If a fact came from a guess, it does not belong here.)*
+**Fix:** paste the relevant tool output (or summarize it explicitly as a Known-good fact) into the request.
 
-### D) Expo Pass Checklist (fast QA before you trust it)
+---
 
-**EXPO PASS (QA):**
+## Closing the loop: From "NEEDS TOOL CHECK" to verified fact
 
-* [ ] Uses only items from the counter (no new “facts”)
-* [ ] All constraints satisfied (allergies, bans, style rules)
-* [ ] Output matches plating format exactly
-* [ ] Unknowns labeled **MISSING INFO**
-* [ ] Assumptions listed separately
-* [ ] Anything reality-based marked **NEEDS TOOL CHECK** (don’t pretend)
+Here's the complete cycle:
 
-**Kitchen truth:** *Expo catches mistakes before customers do.*
+**Step 1: Mark what must be verified**
+> "We have **[NEEDS TOOL CHECK: guest count]** attending."
+
+**Step 2: Run the tool**
+> Check RSVP spreadsheet → shows 60 confirmed
+
+**Step 3: Paste output to counter**
+> "Per RSVP_Export_2026-01-15.xlsx, Summary tab: Total RSVPs = 60"
+
+**Step 4: Update the claim**
+> "We have 60 guests attending (source: RSVP export, line 3)."
+
+**Step 5: Remove the marker**
+The claim is now a Known-good fact with a receipt.
+
+**Kitchen truth:** *Don't leave "NEEDS TOOL CHECK" markers in final output—resolve them or escalate them.*
+
+---
+
+### 3) Mixing evidence with inference (the stealth slip)
+
+A model reads: “No stove.”
+Then it adds: “So we’ll do cold sandwiches,” as if that was stated.
+
+That’s not necessarily wrong—but it’s a different category: **inference**.
+
+**Fix:** force a split:
+
+* “What the tools/text explicitly say” vs “What we’re choosing based on that.”
+
+### 4) Single-instrument overtrust (one thermometer, no calibration)
+
+Tools can be wrong: stale spreadsheets, out-of-date docs, incorrect records.
+
+**Fix:** for high-stakes facts, cross-check (two sources) or add a quick sanity check (“Does this total match last week’s range?”).
+
+---
+
+## Mini-toolbox: copy/paste templates
+
+### A) “Must-Not-Guess” Block (mark what requires measurement)
+
+**MUST-NOT-GUESS (requires tool check or provided source):**
+
+* Headcount: **NEEDS TOOL CHECK** (source: RSVP sheet)
+* Allergy list: **NEEDS TOOL CHECK** (source: intake form export)
+* Venue constraints: **NEEDS TOOL CHECK** (source: venue email / contract)
+* Event time window: **NEEDS TOOL CHECK** (source: calendar event)
+
+---
+
+### B) Receipt Format (force traceability)
+
+**RECEIPTS (for every important claim):**
+
+* **Claim:** …
+  **Evidence:** (quote/tool output) …
+  **Source:** …
+  **Confidence:** High / Medium / Low
+  **If Low:** **NEEDS TOOL CHECK** (what tool would confirm?)
+
+---
+
+### C) Tool-to-Counter Script (how to “bring in reality” cleanly)
+
+**TOOL PULL → COUNTER PASTE:**
+
+1. Tool used: …
+2. Output snippet pasted below (verbatim):
+
+   * …
+3. Model task: “Summarize using only the pasted snippet. Cite each claim to a line/field above. Unknowns → MISSING INFO.”
+
+---
+
+### D) Expo Pass: Tools Edition (fast QA before you trust it)
+
+**EXPO PASS (TOOLS):**
+
+* [ ] Every number/date/time has a receipt (quote or tool output)
+* [ ] Evidence vs inference is clearly separated
+* [ ] Unknowns are labeled **MISSING INFO**
+* [ ] Unverified-but-checkable items are labeled **NEEDS TOOL CHECK**
+* [ ] No invented sources, links, or quotes
+* [ ] Final output matches the requested format exactly
 
 ---
 
 ## TL;DR Panel
 
-* The context window is **finite counter space**; older items get pushed off.
-* “Forgetting” usually means **out of view**, not erased.
-* Long chats drift when the spec becomes vibes and constraints aren’t restated.
-* Use recap blocks: **Known-good facts + constraints + plating + expo checks**.
-* Overflow leads to hallucination: **no phantom ingredients**.
+* Models are great at **plausible**. Tools are how you get **true**.
+* The reliable workflow is: **measure → paste onto counter → summarize with receipts**.
+* “Citations” here means: *Where did that claim come from?*
+* If you can’t cite it, stamp it **NEEDS TOOL CHECK** or **MISSING INFO**.
+* Avoid tool theater, missing tool outputs, and evidence/inference mashups.
+
+**Next up:** You've got a ticket, a packed counter, and tool-verified receipts. Now—before you serve it—you need a quality gate. That's the Expo Pass.
 
 ---
 
 ## Visual notes (HUD components to show in this section)
 
-* **Hook:** Prep Counter Panel with a “NO PEANUTS” card sliding off the left as new notes pile on
-* **Context window explanation:** Counter Space Meter dropping into the red
-* **Packing the counter:** Ticket Card + Recap Block overlay (like a “Power-Up: Recenter”)
-* **Expo Check:** Expo Pass Checklist stamped “FAIL: peanut satay” then “PASS” after recap
-* **Mini-toolbox:** Templates displayed as collectible “item cards” (Recenter / Assumptions / Expo Pass)
+* **Hook:** Thermometer overlay reading “???” while the cook confidently plates chicken
+* **Tools intro:** Tool belt / instrument icons (thermometer, scale, reservation book, inventory terminal — keep this set consistent)
+* **Measurement loop:** “Tool Output” card drops onto Prep Counter Panel like a loot pickup
+* **Traceability:** Receipts panel that pins claims to source snippets with little connector lines (include tiny source labels + timestamps)
+* **Expo Check:** Expo Pass Checklist stamped “NO RECEIPT → FAIL” then “RECEIPTS ATTACHED → PASS”

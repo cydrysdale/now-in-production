@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <script>
     try {
@@ -8,63 +9,134 @@
     } catch {}
   </script>
   <meta charset="utf-8" />
-  <title>How ChatGPT Works</title>
+  <title>How LLMs Work (Without the Hype): Pixel Kitchen Edition</title>
   <link rel="apple-touch-icon" sizes="180x180" href="../images/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="../images/favicon-16x16.png">
   <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
   <link rel="manifest" href="../site.webmanifest">
-  <meta name="description" content="An approachable guide explaining how large language models work." />
-  <meta name="keywords" content="RGB to CMYK, hex to CMYK, sRGB to CMYK, ICC profiles, US Web Coated SWOP v2, FOGRA39, GRACoL, LittleCMS, rendering intents, relative colorimetric, perceptual, CIELAB, XYZ, soft proofing, GCR, UCR, total ink limit, Pantone to CMYK, print production, color management">
+  <meta name="description" content="A practical, low-hype guide to how LLMs work—using a pixel kitchen/restaurant sim metaphor to teach prompts, context windows, tools, QA, and agent workflows." />
+  <meta name="keywords" content="LLMs, large language models, how ChatGPT works, tokens, context window, attention, prompting, prompt engineering, decoding, temperature, top-p, hallucinations, AI tools, citations, verification, QA checklist, agents" />
   <meta name="guide:category" content="AI" />
-  <meta name="guide:updated" content="2025-09-05" />
-  <link rel="canonical" href="https://cydrysdale.github.io/now-in-production/guides/how-llms-work.html">
+  <meta name="guide:updated" content="2026-01-13" />
+  <link rel="canonical" href="https://cydrysdale.github.io/now-in-production/guides/how-llms-work-v3.html">
   <meta name="robots" content="index,follow">
   <meta name="author" content="Chris Yasuda Drydsale">
-  <meta name="format-detection" content="telephone=no"/>
-  <!-- Open Graph for Facebook, LinkedIn, etc. -->
+  <meta name="format-detection" content="telephone=no" />
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How ChatGPT Works">
-  <meta property="og:description" content="An approachable guide explaining how large language models work.">
-  <meta property="og:image" content="https://cydrysdale.github.io/now-in-production/images/rgb-to-cmyk-guide.png" />
+  <meta property="og:title" content="How LLMs Work (Without the Hype): Pixel Kitchen Edition">
+  <meta property="og:description" content="A playful, practical guide for using LLMs reliably: tickets, prep counters, tools, expo pass QA, and station workflows." />
+  <meta property="og:image" content="https://cydrysdale.github.io/now-in-production/images/image-placeholder.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:url" content="https://cydrysdale.github.io/now-in-production/guides/how-llms-work.html">
+  <meta property="og:url" content="https://cydrysdale.github.io/now-in-production/guides/how-llms-work-v3.html">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=VT323&amp;display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/tokens.css">
   <script src="../assets/js/core.js" defer></script>
-  <script src="../assets/js/sandbox.js" defer></script>
+  <script src="../assets/js/widgets.js" defer></script>
+  <script src="../assets/js/tokens.js" defer></script>
   <style>
-        /* Purposeful demo reveal */
-    .demo-reveal{opacity:.15; transform:translateY(10px); transition:opacity .6s ease, transform .6s ease}
-    .demo-reveal.is-visible{opacity:1; transform:none}
+    :root { --bg-light: url('../../images/pxArt2.png'); }
+    :root[data-theme="dark"] { --bg-dark: url('../../images/pxArtDark2.png'); }
 
-    /* Inline callouts */
-    .callout{border:1px solid #2a3040; border-radius:14px; padding:12px 14px; background:#121620; color:var(--muted)}
-    .badge{display:inline-block; padding:.15rem .5rem; border:1px solid #2a3040; border-radius:999px; font-size:.85rem; color:var(--muted)}
+    .badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--borderDark);
+      background: var(--card2);
+      font-size: .85rem;
+      color: var(--muted);
+      vertical-align: middle;
+    }
 
-    /* Back to top */
-    .toTop{position:fixed; right:16px; bottom:16px; padding:.6rem .8rem; border-radius:12px; background:#121620; border:1px solid #2a3040; box-shadow:var(--shadow); display:none}
-    .toTop.show{display:inline-flex}
+    .hero {
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 16px;
+      align-items: start;
+    }
 
-    /* Simple code style */
-    pre{background:#0b0d12; border:1px solid #2a3040; border-radius:14px; padding:12px; overflow:auto}
-    code{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace}
-    .muted{color:var(--muted)}
+    @media (max-width: 980px) {
+      .hero { grid-template-columns: 1fr; }
+    }
+
+    .kicker { font-size: 1.05rem; }
+    .note { font-size: .95rem; color: var(--muted); }
+
+    .truth {
+      margin: 10px 0 16px;
+      padding: 10px 12px;
+      border-left: 4px solid var(--accent);
+      border: 1px solid var(--borderLight);
+      border-radius: 10px;
+      background: linear-gradient(30deg, var(--callout), var(--card));
+      font-style: italic;
+    }
+
+    .truth strong { font-style: normal; }
+
+    .diagram {
+      border: 1px solid var(--borderDark);
+      border-radius: 14px;
+      background: var(--card);
+      overflow: hidden;
+    }
+
+    .diagram figcaption {
+      padding: 10px 12px;
+      border-top: 1px solid var(--borderDark);
+      color: var(--muted);
+      font-size: .95rem;
+    }
+
+    .diagram img { width: 100%; height: auto; display: block; }
+
+    .sandbox-input.wide { width: min(760px, 100%); }
+    textarea.sandbox-input { width: min(760px, 100%); min-height: 110px; }
+
+    .roster {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    @media (max-width: 1100px) { .roster { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 700px) { .roster { grid-template-columns: 1fr; } }
+
+    .roster .chef {
+      border: 1px solid var(--borderDark);
+      border-radius: 14px;
+      background: var(--card);
+      overflow: hidden;
+    }
+    .roster .chef .body { padding: 12px 12px 2px; }
+    .roster .chef img { width: 100%; height: auto; display: block; }
+    .roster .chef h3 { margin-top: 0; }
+
+    .quest input[type="checkbox"] { transform: translateY(1px); margin-right: 8px; }
+    .quest li { margin-bottom: 8px; }
+
+    #pgChoices { display: flex; gap: 8px; padding: 8px 0; }
+    #pgChoices button { flex: 1; min-width: 80px; }
+    #pgChoices button:disabled { cursor: default; }
   </style>
 </head>
+
 <body>
   <a class="skip-link" href="#content">Skip to content</a>
   <header>
     <div class="header-inner">
-      <img src="../images/apple-touch-icon.png" width="60px" style="display: inline-block; margin-right: 10px;" alt="site logo"/>
+      <img src="../images/apple-touch-icon.png" width="60px" style="display: inline-block; margin-right: 10px;"
+        alt="site logo" />
       <div id="top" class="title-block">
-        <h1>End of HumAnIty: How LLMs Work</h1>
-        <div class="sub">A walkthrough of large language models.</div>
+        <h1>Demystifying AI: Stepping into the LLM Kitchen </h1>
+        <div class="sub">A basic guide on how LLMs work for the extremely nerdy</div>
       </div>
       <div class="header-actions">
         <div class="theme-toggle" style="scale: 75%;">
@@ -78,145 +150,229 @@
           </label>
         </div>
         <div class="toc-mobile">
-          <button id="tocToggle" aria-expanded="false" aria-controls="tocList">☰ Contents</button>
+          <button id="tocToggle" aria-expanded="false" aria-controls="tocList">☰ Inventory</button>
           <nav id="tocList" class="toc" aria-label="On this page"></nav>
         </div>
       </div>
+    </div>
   </header>
 
   <div class="page">
     <aside class="toc-desktop">
       <nav class="toc" aria-label="On this page"></nav>
     </aside>
-    <main>
+    <main id="content">
 
-      <section id="intro" class="card">
-        <h2>The Food Truck Analogy</h2>
-        <p>Imagine ChatGPT as a virtual food truck. You (the customer) ask for something; the kitchen (the model) uses its pantry of language to prepare a response; then it serves you an answer. The goal: fast, tasty, and helpful.</p>
-        <p class="callout">Analogy scope: The truck is a metaphor for <strong>how</strong> ideas flow, not <em>where</em> the model is hosted or <em>what</em> data it stores.</p>
-      </section>
+      <section>
+        <h2>What this guide is for</h2>
 
-      <section id="ingredients" class="card">
-        <h2>Ingredients: What an LLM Learns</h2>
-        <p>An LLM is trained on lots of text. It doesn’t memorize full documents like a filing cabinet; it learns <em>patterns</em> — associations between tokens (word pieces) and contexts. That lets it generalize to new prompts.</p>
-        <ul>
-          <li><strong>Tokens</strong>: pieces of words the model understands.</li>
-          <li><strong>Parameters</strong>: numerical weights learned during training.</li>
-          <li><strong>Context window</strong>: how much of the conversation the model can “see” at once.</li>
-        </ul>
-      </section>
+        <div class="hero">
+          <div>
+            <p class="kicker">
+              You’ve probably used ChatGPT, Claude, Gemini, or Copilot—and perhaps you even went a little crazy and tried Grok. You’ve seen AI do impressive things. You also may have seen it confidently state that there are two R's in strawberry.
+            </p>
+            <p>
+              While this guide won’t make you an AI researcher, it will give you the information you need to:
+            </p>
+            <ul>
+              <li>Write better prompts that get more predictable, verifiable results</li>
+              <li>Understand why AI “forgets,” drifts, or hallucinates</li>
+              <li>Run multi-step workflows that produce usable results</li>
+            </ul>
 
-      <section id="orders" class="card">
-        <h2>Taking Orders: Natural Language Processing (NLP)</h2>
-        <p>NLP is how the system interprets your request. It standardizes text (tokenization), tracks conversation state, and routes your prompt to the model with system rules and tools when relevant.</p>
-        <div class="callout">
-          <strong>Myth</strong>: “It just picks a few keywords.”<br/>
-          <span class="muted">Reality: It encodes the whole prompt and recent context into vectors the model uses to reason about likely continuations.</span>
+            <h3>The AI restaurant sim</h3>
+            <p>
+              Troughout this guide, we'll be using a kitchen sim metaphor to help reinforce each concept:
+            </p>
+            <ul>
+              <li>The <strong>Cook (AI model)</strong> works quickly, but can only create using the ingredients and tools in front of them</li>
+              <li>Your <strong>Order Ticket (prompt)</strong> is the objective, rules, and output format: what to cook, substitutions/allergies, and how to plate it</li>
+              <li>The <strong>Prep Counter (context)</strong> is everything the chef has right in front of them to work with: attachments or links submitted with the prompt</li>
+              <li>Your <strong>Inventory (context window)</strong> is limited. The counter space gets too crowded, older items might fall off</li>
+              <li><strong>Tools (calendar, spreadsheet, search)</strong> determine if the chef has access to a pantry for extra ingredients, cookbooks to research recipes, or use an appliance like a brulee torch</li>
+            </ul>
+
+            <div class="truth"><strong>Kitchen truth:</strong> Our chefs may be brilliant, but they have a limited attention span—if it’s not on the ticket or the counter, it doesn’t exist.</div>
+
+            <div class="mini-widget callout" data-widget="rule-card" aria-labelledby="tipDeckTitle"
+              data-deck='[
+                {"t":"Ticket Tip—Make the spec visible","b":"Don’t say “same as before.” Paste a recap block: known-good facts + constraints + plating + expo checks."},
+                {"t":"Ticket Tip—Separate roles","b":"Don’t ask the model to be PM + researcher + writer + QA in one prompt. Split into stations with handoffs."},
+                {"t":"Ticket Tip—No phantom ingredients","b":"If it wasn’t provided (or tool-verified), don’t accept it as fact. Stamp it NEEDS TOOL CHECK or MISSING INFO."},
+                {"t":"Ticket Tip—Receipts beat confidence","b":"For numbers, dates, and policies: require a quote or tool output. Confidence is not evidence."},
+                {"t":"Ticket Tip—Recap beats long chats","b":"Long threads drift because constraints fall off the counter. A clean recap beats “keep going” every time."},
+                {"t":"Ticket Tip—Expo decides what ships","b":"Treat every output like a draft until it passes constraints + sources + consistency + edge cases."}
+              ]'>
+              <h3 id="tipDeckTitle" style="margin:0">Ticket Tip of the Day</h3>
+              <div class="card-box" role="status" aria-live="polite"></div>
+              <button class="btn" type="button">Draw another</button>
+            </div>
+          </div>
+
+          <figure class="diagram" aria-label="Placeholder HUD legend showing the ticket card, prep counter, counter space meter, tools, and expo pass">
+            <img src="../images/image-placeholder.png"
+              alt="Placeholder image for a future HUD legend: a ticket card, prep counter panel, counter space meter, tool icons, and an expo pass checklist gate." />
+            <figcaption>HUD legend (placeholder): Ticket Card → Prep Counter → Tools → Expo Pass → SERVE.</figcaption>
+          </figure>
         </div>
       </section>
 
-      <section id="cooking" class="card">
-        <h2>Cooking: Token-by-Token Prediction <span class="badge">Demo</span></h2>
-        <p>This is the <em>only</em> scroll-triggered reveal in the page, used to illustrate how outputs are assembled one token at a time.</p>
-        <div class="demo-reveal" id="tokenDemo">
-          <p class="muted">Prompt</p>
-          <pre><code id="demoPrompt">Explain photosynthesis in one sentence.</code></pre>
-          <p class="muted">Model output (revealed like words hitting the plate):</p>
-          <pre><code id="demoOut">▁</code></pre>
+      <section>
+        <h2>Mise en Place: How LLMs Generate Text (and Why the Prompt Matters)</h2>
+          <p>
+            Everyone around you has probably been raving about AI recently. Your social media feed is full of influencers showing how AI sends them a text every morning with a daily to do list, plans all their meals, and reads them a bedtime story at night. 
+          </p>
+            <div class="grid callout">
+              <div>
+                <p>
+                  So, you decide to try it out by asking for something simple, it answers confidently:
+                </p>
+                <div class="code" data-label="Grok">
+                  <div><p><strong>Who would win in a fight in 2025? Elon Musk or Mike Tyson?</strong></p></div>
+
+                  <div class="code-type animate">Mike Tyson packs legendary knockout power that could end it quick, but Elon's relentless endurance from 100-hour weeks and adaptive mindset outlasts even prime fighters in prolonged scraps. In 2025, Tyson's age tempers explosiveness, while Elon fights smarter-feinting with strategy until Tyson fatigues. Elon takes the win through grit and ingenuity, not just gloves.<span class="cursor animate">_</span></div>
+                </div>
+              </div>
+              <div class="mini-widget">
+                <p id="tokenParagraph">
+                  This isn't necessarily because that AI model is faulty or inferior to another model that gave you a better answer. It could be a result of a bad prompt or improper utilization of that particular model. Which is why it's important to understand how LLMs work and how they generate text.
+                <br><br>
+                  It's best to think of an LLM as a chef or line cook at a restaurant. It doesn’t cook the whole dish in one step. It adds one ingredient (small chunk of text called a <strong>token</strong>) at a time. After each ingredient, it reviews what’s available on the <strong>prep counter (context)</strong> and the <strong>order ticket (prompt)</strong>, then asks: “Given what I can see right now, what’s the most plausible next ingedient?”
+                </p>
+                <button class="sandbox-btn" id="toggleTokens" type="button" aria-pressed="false" aria-controls="tokenParagraph">
+                  Highlight tokens
+                </button>
+              </div>
         </div>
-        <p class="callout">Under the hood: the model samples the next token from a probability distribution (adjusted by settings like temperature and top‑p), then repeats.</p>
-      </section>
 
-      <section id="serving" class="card">
-        <h2>Serving: The Response</h2>
-        <p>Once generated, the text is streamed back to you. Apps may add formatting, citations, or follow‑ups. If tools are enabled, the system can call calculators, web search, or code sandboxes and summarize the results back to you.</p>
-      </section>
+        <div class="truth"><strong>Kitchen truth:</strong> Tokens aren't just how the model reads and generates text—they also determine pricing, latency, and maximum output length.</div>
 
-      <section id="custom" class="card">
-        <h2>Variety & Customization</h2>
-        <ul>
-          <li><strong>Style control</strong>: prompts and system instructions shape the tone.</li>
-          <li><strong>Memory & settings</strong>: can steer responses over time (within privacy controls).</li>
-          <li><strong>Tool use</strong>: models can fetch data or perform actions when permitted.</li>
-        </ul>
-      </section>
+        <h3>Your phone already does this (badly)</h3>
+        <p>
+          You've actually seen this mechanism before: start typing a text message and your phone suggests the next word.
+          Type "I went to the" and it offers "store" | "park" | "hospital."
+          That's next-word prediction—the same core idea behind every LLM.
+        </p>
+        <p>
+          The difference? Your phone's keyboard uses a simple lookup: "what word most commonly follows these last one or two words?"
+          It doesn't know you were planning a beach trip three messages ago. It doesn't understand context—it understands <strong>frequency</strong>.
+        </p>
 
-      <section id="quality" class="card">
-        <h2>Quality & Accuracy</h2>
-        <p>LLMs can be impressively helpful and also confidently wrong. Guardrails include retrieval (grounding answers in sources), tool calls, and user review. Treat outputs as a starting point when stakes are high.</p>
-        <ul>
-          <li><strong>Strengths</strong>: speed, breadth, drafting, explanation, transformation.</li>
-          <li><strong>Limits</strong>: outdated knowledge, plausibility over truth, ambiguous prompts.</li>
-        </ul>
-      </section>
+        <div class="truth"><strong>Kitchen truth:</strong> Your phone's autocomplete is the world's smallest, dumbest cook—it only sees the last ingredient on the counter.</div>
 
-      <section id="faq" class="card">
-        <h2>Quick FAQs</h2>
-        <details>
-          <summary>Does it learn from my inputs?</summary>
-          <p>Depends on product settings. Enterprise setups typically opt out by default or require explicit consent and controls.</p>
+        <div class="sandbox-card" id="predictGame">
+          <p id="pgProgress" class="note" style="margin:0 0 4px"></p>
+          <div class="code" data-label="Complete the sentence:">
+            <div class="code-type" id="pgSentence" style="min-height:1.4em"></div>
+          </div>
+          <div id="pgChoices"></div>
+          <div id="pgReveal" class="callout" style="display:none" aria-live="polite"></div>
+          <button id="pgNext" class="sandbox-btn" type="button" style="display:none">Next round</button>
+        </div>
+
+        <h3>The upgrade: looking at the whole counter</h3>
+        <p>
+          LLMs use the same core mechanic—predict the next token—but instead of glancing at the last word or two,
+          they look at everything currently on the counter (the full context window).
+          That's why an LLM can connect "surgeon" to "scalpel" even when they're sentences apart:
+          an <strong>attention mechanism</strong> lets it link distant but relevant ingredients.
+        </p>
+
+        <div class="truth"><strong>Kitchen truth:</strong> Your phone keyboard is a cook who only looks at the last ingredient added. An LLM is a cook who glances at the whole counter—but it's still cooking one ingredient at a time.</div>
+
+        <details class="tip">
+          <summary><strong>Power-up (optional): N-grams—the phone's cheat sheet</strong></summary>
+          <p>
+            An <strong>n-gram</strong> is a sequence of <em>n</em> consecutive words. Your phone's predictions are powered by tables of these:
+          </p>
+          <ul>
+            <li><strong>Unigram (n = 1):</strong> single-word frequency. "The" is one of the most common English words, so it gets suggested constantly.</li>
+            <li><strong>Bigram (n = 2):</strong> word pairs. After "of the" → "most" | "best" | "world." After "going to" → "be" | "the" | "get."</li>
+            <li><strong>Trigram (n = 3):</strong> three-word chains. "One of the" → "most." "I want to" → "go" | "be" | "know."</li>
+          </ul>
+          <p>
+            The phone stores a frequency table of these sequences (often personalized to your texting habits) and picks the highest-scoring match.
+            The window is tiny—usually 1–3 words—so it has no ability to track meaning, themes, or instructions from earlier in the conversation.
+          </p>
+          <p>
+            Try this: open your phone, type a word, then keep tapping the middle suggestion 20 times. You'll get a grammatically
+            plausible but meaningless sentence—that's n-gram prediction running on autopilot with no broader understanding.
+          </p>
         </details>
-        <details>
-          <summary>Is it searching the web?</summary>
-          <p>Only if the app connects it to a browser/tool. Base generation is pattern completion, not live search.</p>
+
+        <details class="tip">
+          <summary><strong>Power-up (optional): Attention—how LLMs look at the whole counter</strong></summary>
+          <p>
+            In n-gram prediction, the model only sees a fixed window of 1–3 words. LLMs replace that tiny window with a mechanism called <strong>attention</strong>.
+          </p>
+          <p>
+            For each new token the model is about to generate, attention assigns a <strong>relevance score</strong> between that position and
+            every other token already on the counter. Think of it as the cook glancing back across all the ingredients and deciding which ones matter <em>right now</em>:
+          </p>
+          <ul>
+            <li>Generating after "up the"—attention lights up "surgeon" from earlier, boosting "scalpel."</li>
+            <li>Generating after "with the"—attention lights up "marine biology," boosting "dolphins."</li>
+            <li>Generating after "is the"—attention links "planets," "solar system," and "Jupiter," boosting "largest."</li>
+          </ul>
+          <p>
+            This is the core of the <strong>transformer</strong> architecture (the "T" in GPT): instead of a fixed lookback window,
+            every token can attend to every other token. The model learns <em>which</em> connections matter during training.
+          </p>
+          <p>
+            The tradeoff: attention across all tokens is computationally expensive and scales with counter size—which is
+            one reason context windows have limits and longer prompts cost more.
+          </p>
         </details>
-        <details>
-          <summary>Why does it sometimes make things up?</summary>
-          <p>Because it’s predicting likely text, not verifying facts. Retrieval, citations, and tools reduce this risk.</p>
+
+        <h3>Same prompt, different response</h3>
+        <p>
+          You may have noticed that entering the same prompt into the same LLM can produce different answers. The is because when the model generates text, it considers lots of possibilities for the next word (token) and scores them. Then the system <strong>chooses one</strong> based on a setting refered to as the <strong>tempurature</strong> which controls how strongly it sticks to the top choice vs. how willing it is to take a less-likely option.
+        </p><p>  
+          Imagine ordering chocolate chip cookies for dessert—a temperature of 0 means the chef follows the standard recipe exactly as written. A tempurature of 1 means the chef will put its own spin on the recipe, so you might get oatmeal chocolate chip or browned butter pecan, but you're still getting cookies. Now a tempurature of 2 means the chef can get truly creative and you might end up receiving spaghetti and watermelon balls with a chocolate marinara, topped with a candied fennel garnish.
+        </p>
+        <div class="grid">
+          <div class="callout">
+            <h3 style="margin-top:0">Standard recipe</h3>
+            <p style="margin:0">Stable and repeatable (nearly the same each run).</p>
+          </div>
+          <div class="callout">
+            <h3 style="margin-top:0">Chef’s special</h3>
+            <p style="margin:0">Varied and improvisational (poetic or pure nonsense).</p>
+          </div>
+        </div>
+
+        <div class="truth"><strong>Kitchen truth:</strong> Most models you'll encounter have a set tempurature, but some models do allow you to adjust it yourself.</div>
+
+        <div class="sandbox-card" id="tempDemo">
+          <label for="tempSlider" class="sandbox-label"><strong>Try it: drag the tempurature slider to complete the sentence</strong></label>
+          <div style="display:flex; align-items:center; gap:12px">
+            <span class="note" style="white-space:nowrap">Standard recipe</span>
+            <input id="tempSlider" type="range" min="0" max="100" value="0" step="1"
+              style="flex:1" aria-label="Temperature slider from 0 to 2" />
+            <span class="note" style="white-space:nowrap">Chef's special</span>
+          </div>
+          <div style="text-align:center; margin:6px 0">
+            <span class="badge" id="tempValue">Temperature: 0.0</span>
+          </div>
+          <div class="code" data-label="LLM output:">
+            <div class="code-type">The sky is<span id="tempOutput">...</span><span class="cursor animate">_</span></div>
+          </div>
+        </div>
+
+        <h3>Why prompts matter more than people expect</h3>
+        <p>
+          The model’s default job is to produce a coherent continuation of whatever you put in front of it.
+          If your prompt is vague, “coherent” often means it picks an interpretation it thinks is most likely and commits—hello, <strong>chocolate spaghetti with watermelon</strong>.
+          If your prompt is specific (gluten-free vegan chocolate chip cookies with cinnamon, no fruit or nuts), “coherent” shifts towards what you actually want.
+        </p>
+
+        <details class="tip">
+          <summary><strong>TL;DR</strong></summary>
+          <ul>
+            <li>Your order ticket (prompt) tells the chef (LLM model) what you want.</li>
+            <li>The chef then cooks your order one ingredient (token) at a time.</li> 
+            <li>A more specific order ticket doesn't make the chef better at cooking—it provides the chef more context to make your order the way you envisioned.</li>
+            <li>Different chefs can cook the same order in vastly different ways. If you want the standard recipe, Copilot might be your best bet; but if you're feeling adventurous and have a steel gut, Grok is ready with the Chef's special.</li>
+          </ul>
         </details>
       </section>
-
-      <footer class="sub glass">
-        <span>© 2025 – RGB→CMYK guide by Chris Yasuda Drysdale</span>
-      </footer>
-      
-    </main>
-  </div>
-  <button id="tocFab" class="toc-fab" aria-controls="tocList" aria-expanded="false" aria-label="Open table of contents">☰ Inventory</button>
-  <a id="toTop" href="#top" title="Back to top">&#8593;</a>
-
-  <script>
-    // Back to top visibility
-    const toTop = document.getElementById('toTop');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 600) toTop.classList.add('show');
-      else toTop.classList.remove('show');
-    });
-
-    // Simple TOC highlight
-    const sections = [...document.querySelectorAll('main section')];
-    const tocLinks = [...document.querySelectorAll('.toc a')];
-    const byId = id => document.querySelector(`.toc a[href="#${id}"]`);
-    const obsTOC = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          tocLinks.forEach(a => a.classList.remove('active'));
-          const a = byId(e.target.id); if (a) a.classList.add('active');
-        }
-      });
-    }, { rootMargin: '-40% 0px -55% 0px', threshold: 0.01 });
-    sections.forEach(s => obsTOC.observe(s));
-
-    // Purposeful, single demo reveal + token simulation
-    const demo = document.getElementById('tokenDemo');
-    const out = document.getElementById('demoOut');
-    const sentence = "Photosynthesis is how plants use light energy to convert water and carbon dioxide into sugars, releasing oxygen.";
-    let played = false;
-    const obsDemo = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting && !played) {
-          played = true;
-          demo.classList.add('is-visible');
-          // token-like reveal (word chunks)
-          const tokens = sentence.split(/(\s+)/);
-          let i = 0; out.textContent = '';
-          const tick = () => {
-            if (i < tokens.length) { out.textContent += tokens[i++]; setTimeout(tick, 65); }
-          }; tick();
-        }
-      });
-    }, { threshold: 0.35 });
-    obsDemo.observe(demo);
-  </script>
-</body>
-</html>

@@ -1,0 +1,26 @@
+/* Keeps spacing and line breaks predictable */
+#tokenParagraph {
+  white-space: normal;
+  line-height: 1.6;
+}
+
+/* Token wrapper spans */
+.tok {
+  border-radius: 0.25em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* Highlight only when toggled on */
+#tokenParagraph.tokens-on .tok {
+  background: var(--bg);
+  padding: 0.05em 0.14em;
+  outline: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* Optional: when OFF, spans shouldn't affect layout */
+#tokenParagraph:not(.tokens-on) .tok {
+  padding: 0;
+  outline: none;
+  background: transparent;
+}
