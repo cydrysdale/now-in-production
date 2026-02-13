@@ -166,7 +166,7 @@
       <section>
         <h2>What this guide is for</h2>
 
-        <div class="hero">
+        <div class="">
           <div>
             <p class="kicker">
               You’ve probably used ChatGPT, Claude, Gemini, or Copilot—and perhaps you even went a little crazy and tried Grok. You’ve seen AI do impressive things. You also may have seen it confidently state that there are two R's in strawberry.
@@ -193,27 +193,6 @@
             </ul>
 
             <div class="truth"><strong>Kitchen truth:</strong> Our chefs may be brilliant, but they have a limited attention span—if it’s not on the ticket or the counter, it doesn’t exist.</div>
-
-            <div class="mini-widget callout" data-widget="rule-card" aria-labelledby="tipDeckTitle"
-              data-deck='[
-                {"t":"Ticket Tip—Make the spec visible","b":"Don’t say “same as before.” Paste a recap block: known-good facts + constraints + plating + expo checks."},
-                {"t":"Ticket Tip—Separate roles","b":"Don’t ask the model to be PM + researcher + writer + QA in one prompt. Split into stations with handoffs."},
-                {"t":"Ticket Tip—No phantom ingredients","b":"If it wasn’t provided (or tool-verified), don’t accept it as fact. Stamp it NEEDS TOOL CHECK or MISSING INFO."},
-                {"t":"Ticket Tip—Receipts beat confidence","b":"For numbers, dates, and policies: require a quote or tool output. Confidence is not evidence."},
-                {"t":"Ticket Tip—Recap beats long chats","b":"Long threads drift because constraints fall off the counter. A clean recap beats “keep going” every time."},
-                {"t":"Ticket Tip—Expo decides what ships","b":"Treat every output like a draft until it passes constraints + sources + consistency + edge cases."}
-              ]'>
-              <h3 id="tipDeckTitle" style="margin:0">Ticket Tip of the Day</h3>
-              <div class="card-box" role="status" aria-live="polite"></div>
-              <button class="btn" type="button">Draw another</button>
-            </div>
-          </div>
-
-          <figure class="diagram" aria-label="Placeholder HUD legend showing the ticket card, prep counter, counter space meter, tools, and expo pass">
-            <img src="../images/image-placeholder.png"
-              alt="Placeholder image for a future HUD legend: a ticket card, prep counter panel, counter space meter, tool icons, and an expo pass checklist gate." />
-            <figcaption>HUD legend (placeholder): Ticket Card → Prep Counter → Tools → Expo Pass → SERVE.</figcaption>
-          </figure>
         </div>
       </section>
 
@@ -376,3 +355,192 @@
           </ul>
         </details>
       </section>
+      <footer class="sub glass">
+        <span>© 2026 – How LLMs Work (Pixel Kitchen Edition) by Chris Yasuda Drydsale</span>
+      </footer>
+
+    </main>
+  </div>
+
+  <button id="tocFab" class="toc-fab" aria-controls="tocList" aria-expanded="false"
+    aria-label="Open table of contents">☰ Inventory</button>
+  <a id="toTop" href="#top" title="Back to top">&#8593;</a>
+
+  <script>
+    // Station Ticket Builder (Handoff Card)
+    (() => {
+      const root = document.getElementById('handoffBuilder');
+      if (!root) return;
+
+      const what = document.getElementById('hbWhat');
+      const facts = document.getElementById('hbFacts');
+      const assumptions = document.getElementById('hbAssumptions');
+      const missing = document.getElementById('hbMissing');
+      const next = document.getElementById('hbNext');
+      const btn = document.getElementById('hbGenerate');
+      const out = document.getElementById('hbOut');
+
+      if (!what || !facts || !assumptions || !missing || !next || !btn || !out) return;
+
+      const lines = (v) => (v || '')
+        .split('\n')
+        .map(s => s.trim())
+        .filter(Boolean)
+        .map(s => `* ${s}`)
+        .join('\n');
+
+      function build() {
+        const card =
+`**HANDOFF CARD**
+
+**What this is:** ${what.value.trim() || '…'}
+
+**Known-good facts (confirmed):**
+${lines(facts.value) || '* …'}
+
+**Assumptions (quarantined):**
+${lines(assumptions.value) || '* …'}
+
+**MISSING INFO / NEEDS TOOL CHECK:**
+${lines(missing.value) || '* …'}
+
+**Next station goal:** ${next.value.trim() || '…'}
+`;
+        out.textContent = card;
+      }
+
+      btn.addEventListener('click', build);
+    })();
+
+    // Predict-like-a-phone game
+    (() => {
+      const game = document.getElementById('predictGame');
+      if (!game) return;
+
+      const rounds = [
+        {
+          s: 'I need to go to the ___',
+          c: ['store', 'quantum', 'briefly'],
+          p: 0, b: 0,
+          e: 'For common phrases, simple prediction nails it. "To the" \u2192 "store" is one of the most frequent word pairings in English.'
+        },
+        {
+          s: 'The surgeon carefully picked up the ___',
+          c: ['phone', 'scalpel', 'kids'],
+          p: 0, b: 1,
+          e: 'Your phone sees "up the" and guesses "phone"\u2014a common pairing. An LLM sees "surgeon" earlier on the counter and picks "scalpel."'
+        },
+        {
+          s: 'After years of studying marine biology, she finally got to swim with the ___',
+          c: ['flow', 'kids', 'dolphins'],
+          p: 1, b: 2,
+          e: '"Marine biology" is 9 words back\u2014far beyond the phone\u2019s window, but easily within an LLM\u2019s counter space.'
+        },
+        {
+          s: 'Of all the planets in our solar system, Jupiter is the ___',
+          c: ['planet', 'same', 'largest'],
+          p: 1, b: 2,
+          e: 'Your phone sees "is the" and suggests "same"\u2014one of the most common bigrams in English. An LLM connects "planets," "solar system," and "Jupiter" to pick "largest."'
+        }
+      ];
+
+      let cur = 0;
+      let done = false;
+
+      const sentenceEl = game.querySelector('#pgSentence');
+      const choicesEl = game.querySelector('#pgChoices');
+      const revealEl = game.querySelector('#pgReveal');
+      const nextBtn = game.querySelector('#pgNext');
+      const progressEl = game.querySelector('#pgProgress');
+
+      function render() {
+        const r = rounds[cur];
+        done = false;
+        sentenceEl.textContent = r.s;
+        choicesEl.innerHTML = '';
+        revealEl.style.display = 'none';
+        nextBtn.style.display = 'none';
+        progressEl.textContent = 'Round ' + (cur + 1) + ' of ' + rounds.length;
+
+        r.c.forEach((word, i) => {
+          const btn = document.createElement('button');
+          btn.className = 'sandbox-btn';
+          btn.textContent = word;
+          btn.type = 'button';
+          btn.addEventListener('click', () => pick(i));
+          choicesEl.appendChild(btn);
+        });
+      }
+
+      function pick(idx) {
+        if (done) return;
+        done = true;
+        const r = rounds[cur];
+
+        const btns = choicesEl.querySelectorAll('button');
+        btns.forEach((btn, i) => {
+          btn.disabled = true;
+          if (i === r.b) {
+            btn.style.outline = '2px solid var(--accent)';
+            btn.style.outlineOffset = '2px';
+          }
+        });
+
+        let html = '';
+        if (r.p === r.b) {
+          html += '<p style="margin:0"><strong>Phone suggestion: ' + r.c[r.p] + '</strong>\u2014matches the context-aware pick this time.</p>';
+        } else {
+          html += '<p style="margin:0"><strong>Phone suggestion:</strong> ' + r.c[r.p] + ' &nbsp;|&nbsp; <strong>Context-aware pick:</strong> ' + r.c[r.b] + '</p>';
+        }
+        html += '<p class="note" style="margin:.5rem 0 0">' + r.e + '</p>';
+
+        if (cur >= rounds.length - 1) {
+          html += '<p style="margin:.8rem 0 0"><strong>Takeaway:</strong> Simple prediction matches common patterns. LLMs use attention to match meaning\u2014which is why they\u2019re dramatically better, but still one token at a time.</p>';
+        }
+
+        revealEl.innerHTML = html;
+        revealEl.style.display = 'block';
+
+        if (cur < rounds.length - 1) {
+          nextBtn.style.display = 'inline-block';
+        }
+      }
+
+      nextBtn.addEventListener('click', () => {
+        cur++;
+        render();
+      });
+
+      render();
+    })();
+
+    // Temperature demo slider
+    (() => {
+      const slider = document.getElementById('tempSlider');
+      const output = document.getElementById('tempOutput');
+      const label  = document.getElementById('tempValue');
+      if (!slider || !output || !label) return;
+
+      const tiers = [
+        [12,  ' blue.'],
+        [25,  ' clear and cloudless.'],
+        [37,  ' a deep, brilliant blue that makes the whole city look painted.'],
+        [50,  ' an ocean flipped upside down, restless and wide.'],
+        [62,  ' humming with colors that haven\'t been named yet.'],
+        [75,  ' bargaining with the sea over who gets to keep the color indigo.'],
+        [87,  ' a cathedral ceiling, echoing with wind.'],
+        [99,  ' a slow-breathing gradient, deepening toward dusk.'],
+        [100, ' melting into purple dreams, gathering passing secrets in invisible hands.']
+      ];
+
+      slider.addEventListener('input', () => {
+        const v = +slider.value;
+        label.textContent = 'Temperature: ' + (v / 50).toFixed(1);
+        const tier = tiers.find(t => v <= t[0]) || tiers[tiers.length - 1];
+        output.textContent = tier[1];
+      });
+    })();
+  </script>
+</body>
+
+</html>
