@@ -581,6 +581,114 @@
           </ul>
         </details>
       </section>
+
+      <section>
+        <h2>The Order Ticket: Why One Prompt Is Never Enough</h2>
+
+        <p>
+          You now understand how the chef cooks (one token at a time) and how the prep counter works (finite, prone to drift and forgetting). The third piece of the puzzle—and the one you have the most control over—is the <strong>order ticket</strong> itself: your prompt.
+        </p>
+        <p>
+          Most guides on prompt engineering focus on clever tricks: magic phrases, special formatting, secret keywords that unlock better output. Some of those tips are useful. But the single most important skill isn't writing one perfect prompt—it's understanding that <strong>one prompt is almost never enough</strong>.
+        </p>
+
+        <h3>"Make me something good"</h3>
+        <p>
+          Walk into a restaurant and tell the chef "make me something good." You'll get a dish. It might even be decent. But it probably won't be what you had in mind, because the chef had to guess your preferences, dietary restrictions, mood, and expectations—all from four words.
+        </p>
+        <p>
+          That's what most people do with AI. They type a single prompt, get a mediocre result, and conclude the tool isn't very useful. But the problem wasn't the chef—it was the ticket. A vague order produces a generic dish. Every time.
+        </p>
+
+        <div class="truth"><strong>Kitchen truth:</strong> "Make me something good" will always get you the chef's default. If you don't specify, the chef fills in every blank with whatever seems most likely—and "most likely" is rarely the same as "what you actually wanted."</div>
+
+        <p>Now, "make me something good" isn't necessarily a bad prompt—in fact, open-ended prompts can be useful early on, when you’re exploring and need inspiration or a brainstorming partner. Once you do have a clear sense of what you want (and what you don’t), it’s often worth starting a new chat with a fresh prompt that states those requirements explicitly. This keeps outdated assumptions and abandoned ideas out of the context window—and makes it easier for the model to stay aligned as the conversation grows.</p>
+
+        <h3>One ticket is never enough</h3>
+        <p>
+          Here's what experienced AI users understand that casual users don't: <strong>the first response is just a draft, not a finished product</strong>. The real work starts after you read what comes back.
+        </p>
+        <p>
+          Think about how you'd approach the same task without AI. If you needed to write a project proposal, you wouldn't sit down and produce a polished final version in one pass. You'd outline, draft, re-read, cut what doesn't work, restructure, get feedback, and revise. The process is iterative because good work is iterative.
+        </p>
+        <p>
+          AI is the same. The best results come from a <strong>draft-and-revise loop</strong>:
+        </p>
+        <ol>
+          <li><strong>First pass:</strong> Give the model a prompt. Read what comes back. Don't accept or reject—<em>evaluate</em>.</li>
+          <li><strong>Identify gaps:</strong> What's wrong? What's missing? What did it misinterpret? What's actually good that you want to keep?</li>
+          <li><strong>Refine:</strong> Update your prompt with more specific instructions, corrections, or constraints. Run it again.</li>
+          <li><strong>Repeat</strong> until the output matches what you need—or until you realize you need to restructure your approach entirely.</li>
+        </ol>
+        <p>
+          This is not a sign of failure. A chef expects to taste and adjust seasoning. A designer expects to iterate on mockups. A writer expects to revise drafts. The tool didn't fail—you're just not done yet.
+        </p>
+
+        <div class="sandbox-card" id="iterationDemo">
+          <label class="sandbox-label"><strong>Try it: watch a prompt improve through revision</strong></label>
+          <p id="itProgress" class="note" style="margin:0 0 4px"></p>
+          <div class="code" id="itPromptBlock" data-label="Order ticket (draft 1):">
+            <div class="code-type" id="itPrompt" style="white-space:normal"></div>
+          </div>
+          <div class="code" data-label="Chef produces:">
+            <div class="code-type" id="itOutput" style="white-space:normal"></div>
+          </div>
+          <div id="itNotice" class="callout" aria-live="polite"></div>
+          <button id="itNext" class="sandbox-btn" type="button">Next revision</button>
+        </div>
+
+        <h3>Why AI can't replace experience</h3>
+        <p>
+          There's a persistent fantasy that AI will let anyone produce expert-level work without expert-level knowledge. Write legal contracts without understanding law. Debug code without knowing how to program. Design systems without production experience. Just type what you want and let the AI handle the rest.
+        </p>
+        <p>
+          This gets the relationship exactly backwards. AI is an <strong>amplifier</strong>, not a replacement. It amplifies what the user already knows. An experienced developer using AI can produce code faster because they can read the output, spot the bugs, evaluate the architecture, and give precise feedback when something is wrong. A non-developer using the same AI will accept buggy code, miss security vulnerabilities, and have no way to evaluate whether the output actually works—because they don't know what to look for.
+        </p>
+        <p>
+          Back in the kitchen: an experienced foodie can taste a dish and say "needs acid, too much salt, the protein is overcooked." That feedback is specific and the chef can adjust precisely. Someone who's never cooked might say "it tastes weird" or, worse, not notice anything is wrong at all.
+        </p>
+
+        <div class="truth"><strong>Kitchen truth:</strong> AI amplifies your vision—it doesn't replace it. If you can't tell a good dish from a bad one, a chef can't help you.</div>
+
+        <h3>What goes into a good prompt</h3>
+        <p>
+          There's no single "correct" prompt format, but effective prompts tend to include the same kinds of information:
+        </p>
+        <ul>
+          <li><strong>Role / context:</strong> Who is this for? "You're writing for a technical audience" or "explain like I'm a 5-year-old" gives the model a frame to work within.</li>
+          <li><strong>Task:</strong> What specifically needs to be done? Not "help me with my proposal" but "write a 300-word introduction arguing that AI-powered rocks are the way of the future."</li>
+          <li><strong>Constraints:</strong> What should the model avoid or limit? "No jargon," "under 500 words," "don't include personal opinions."</li>
+          <li><strong>Format:</strong> How should the output be structured? "Use bullet points," "respond as a table with columns for X, Y, and Z."</li>
+          <li><strong>Examples:</strong> If you have a specific style or pattern in mind, show it. Models are excellent at pattern-matching from examples.</li>
+        </ul>
+        <p>
+          You don't need all five for every prompt. A quick question doesn't need role and format specifications. But for anything substantial—drafting content, analyzing data, generating code—the more of these fields you fill in, the closer the first draft will be to what you actually need, and the fewer revision cycles it will take.
+        </p>
+
+        <div class="grid">
+          <div class="callout">
+            <h3 style="margin-top:0">Vague prompt</h3>
+            <p style="margin:0">"Write me an email about the project update."</p>
+          </div>
+          <div class="callout">
+            <h3 style="margin-top:0">Specific prompt</h3>
+            <p style="margin:0">"Write a 3-paragraph email to my team summarizing this week's iRock Pro MAX+ progress. Tone: professional but warm. Include: API migration is 80% complete, QA starts Monday, need 3 volunteers for user testing by EOD Friday. End with bullet-point action items."</p>
+          </div>
+        </div>
+
+        <div class="truth"><strong>Kitchen truth:</strong> A specific ticket doesn't make the chef more talented—it just stops the chef from guessing. Every detail you provide is one fewer gap the model fills with its own assumptions.</div>
+
+        <details class="tip">
+          <summary><strong>TL;DR</strong></summary>
+          <ul>
+            <li>A single prompt rarely produces a finished result. Treat the first response as a rough draft and iterate.</li>
+            <li>The revision loop—prompt, evaluate, refine, repeat—is the normal workflow, not a sign of failure.</li>
+            <li>AI amplifies expertise. Professionals get better results because they can evaluate and correct the output. Novices can't tell when the output is wrong.</li>
+            <li>Good prompts include context, a specific task, constraints, output format, and examples when relevant.</li>
+            <li>You don't need prompt tricks. You need the same skills you'd use doing the work manually: clear thinking, critical evaluation, and willingness to revise.</li>
+          </ul>
+        </details>
+      </section>
       <footer class="sub glass">
         <span>© 2026 – How LLMs Work (Pixel Kitchen Edition) by Chris Yasuda Drydsale</span>
       </footer>
@@ -916,6 +1024,63 @@ ${lines(missing.value) || '* …'}
 
       factBtn.addEventListener('click', () => pick(true));
       mythBtn.addEventListener('click', () => pick(false));
+      nextBtn.addEventListener('click', () => { cur++; render(); });
+
+      render();
+    })();
+
+    // Prompt iteration demo
+    (() => {
+      const demo = document.getElementById('iterationDemo');
+      if (!demo) return;
+
+      const steps = [
+      {
+        prompt: 'Write me an email about the product update.',
+        output:
+          'Subject: Product Update\n\nHi there,\n\nI wanted to share a quick update about our product. We\u2019ve been working hard and have made some exciting improvements. More details coming soon... hopefully.\n\nLet me know if you have any questions.\n\nBest,\n[Company name]',
+        notice:
+          '<strong>The problem:</strong> The LLM had almost nothing to work with, so the output is generic filler. It contains no actual product details, no hook, and no reason to buy. But notice\u2014the email <em>looks</em> professional and well-structured. If you weren\u2019t paying attention, you might actually send this and wonder why nobody clicked.'
+      },
+      {
+        prompt:
+          'Write a marketing email announcing the iRock Pro MAX+ pet rock. It now has integrated AI features and voice commands. Mention rock-solid answers and that pre-orders are open.',
+        output:
+          'Subject: Introducing iRock Pro MAX+ \u2014 Your Pet Rock, Now with AI\n\nHi there,\n\nWe\u2019re excited to introduce the iRock Pro MAX+, a pet rock with integrated AI features. It offers rock-solid answers and voice command support.\n\nPre-orders are now open. If you\u2019d like to be among the first to experience a smarter pet rock, reserve yours today.\n\nBest,\n[Company name]',
+        notice:
+          '<strong>Better:</strong> Now the email has <em>some</em> real content because the prompt provided actual features and a basic CTA. But the tone is still generic and there\u2019s no offer, urgency, or specific feature framing (why should anyone care about a rock with AI?).'
+      },
+      {
+        prompt:
+          'Write a marketing email announcing our new AI pet rock product.\n\nProduct name: iRock Pro MAX+\nTagline: \u201cAI-POWERED SMART ROCK!\u201d\nTone: sophisticated tech-hype + conversational \nFormat: 3 short paragraphs + a feature bullet list + a clear CTA section\nInclude these specific features (use the exact phrases at least once):\n- Stone-cold intelligence\n- 3000 petaflops processing\n- Rock-solid answers\n- Ultra 5G-lithic connectivity\n- R.O.C.K. (Robotic Optimized Cognitive Kernel)\n- Voice command enabled\n- Virtual pet rock mode\n- Zen mode setting\n\nOffer: 20% off pre-orders with code STONESMART\nDeadline: 11:59PM Friday\nCTA button text (as plain text): [Preorder iRock Pro MAX+]\nAdd a short disclaimer\nEnd with a \u201cWhat to do next\u201d bullet list (3 bullets).\nInclude the attached hero image.',
+        output:
+          'Subject: Meet iRock Pro MAX+ \u2014 the AI-POWERED SMART ROCK!'+
+          '<img src="../images/iRock-Pro-Max-hero.png" alt="iRock Pro MAX+ email hero image" style="width:100%;border-radius:6px;margin-bottom:8px">'+
+          'Hi [first_name],\n\nThe future just landed on your desk. Introducing iRock Pro MAX+, the world\u2019s first pet rock upgraded with cutting edge artificial intelligence. It\u2019s cute, it\u2019s quiet, and it seamlessly connects to your smart home.\n\nPowered by Stone-cold intelligence and an impressive 3000 petaflops processing, iRock Pro MAX+ delivers Rock-solid answers. It\u2019s like a chatbot, but with better posture and way fewer opinions about crypto.\n\nAnd because we respect the laws of modern nonsense, it also includes Ultra 5G-lithic connectivity plus our proprietary R.O.C.K. (Robotic Optimized Cognitive Kernel) to keep your conversations grounded.\n\nFeatures you never asked for:\n\u2022 Stone-cold intelligence\n\u2022 3000 petaflops processing\n\u2022 Rock-solid answers\n\u2022 Ultra 5G-lithic connectivity\n\u2022 R.O.C.K. (Robotic Optimized Cognitive Kernel)\n\u2022 Voice command enabled\n\u2022 Virtual pet rock mode\n\u2022 Zen mode setting\n\nPre-orders are open now\u2014and for a limited time you can get 20% off with code STONESMART (expires 11:59PM Friday).\n\n[Preorder iRock Pro MAX+]\n\nFine print: AI features vary by subscription tier. Plans start at $29.99/mo for Basic (includes Zen mode)\n\nWhat to do next:\n\u2022 Use code STONESMART to pre-order by 11:59PM Friday\n\u2022 Log in to our app to name your iRock Pro MAX+\n\u2022 Enable Zen mode and experience pure, uninterrupted nothingness\n',
+        notice:
+          '<strong>Same framework, different story.</strong> The only difference was the ticket: specific product facts, a structured format, and explicit tone produced an email that\u2019s usable. Three prompts, three drafts, one extremely useful rock.'
+      }
+      ];
+
+      let cur = 0;
+
+      const promptEl = document.getElementById('itPrompt');
+      const outputEl = document.getElementById('itOutput');
+      const noticeEl = document.getElementById('itNotice');
+      const nextBtn = document.getElementById('itNext');
+      const progressEl = document.getElementById('itProgress');
+      const promptBlock = document.getElementById('itPromptBlock');
+
+      function render() {
+        const s = steps[cur];
+        progressEl.textContent = 'Draft ' + (cur + 1) + ' of ' + steps.length;
+        promptBlock.setAttribute('data-label', 'Order ticket (draft ' + (cur + 1) + '):');
+        promptEl.textContent = s.prompt;
+        outputEl.innerHTML = s.output.replace(/\n/g, '<br>');
+        noticeEl.innerHTML = '<p style="margin:0">' + s.notice + '</p>';
+        nextBtn.style.display = cur < steps.length - 1 ? 'inline-block' : 'none';
+      }
+
       nextBtn.addEventListener('click', () => { cur++; render(); });
 
       render();
