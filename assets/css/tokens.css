@@ -15,6 +15,7 @@
 /* Highlight only when toggled on */
 #tokenParagraph.tokens-on .tok {
   background: var(--bg);
+  color: var(--bg2);
   padding: 0.05em 0.14em;
   outline: 1px solid rgba(0, 0, 0, 0.06);
 }

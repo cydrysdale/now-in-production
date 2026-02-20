@@ -125,6 +125,48 @@
     #pgChoices { display: flex; gap: 8px; padding: 8px 0; }
     #pgChoices button { flex: 1; min-width: 80px; }
     #pgChoices button:disabled { cursor: default; }
+
+    .counter-bar {
+      display: flex;
+      gap: 4px;
+      padding: 8px;
+      border: 1px solid var(--borderDark);
+      border-radius: 10px;
+      background: var(--card2);
+      margin-bottom: 10px;
+      min-height: 48px;
+      align-items: stretch;
+    }
+
+    .counter-slot {
+      flex: 1;
+      padding: 8px 2px;
+      border-radius: 6px;
+      text-align: center;
+      font-size: .75rem;
+      line-height: 1.2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 0;
+      word-break: break-word;
+    }
+
+    .counter-slot.empty { border: 1px dashed var(--borderDark); }
+
+    .counter-slot.filled {
+      border: 1px solid var(--borderDark);
+      background: var(--card);
+    }
+
+    .counter-slot.rules {
+      border: 1px solid var(--accent);
+      background: var(--accent);
+      color: #fff;
+      font-weight: bold;
+    }
+
+    #hqChoices { display: flex; gap: 8px; padding: 8px 0; }
   </style>
 </head>
 
@@ -228,21 +270,18 @@
 
         <h3>Your phone already does this (badly)</h3>
         <p>
-          You've actually seen this mechanism before: start typing a text message and your phone suggests the next word.
-          Type "I went to the" and it offers "store" | "park" | "hospital."
-          That's next-word prediction—the same core idea behind every LLM.
+          You've actually seen this mechanism before: start typing a text message and your phone suggests the next word. Type "I went to the" and it offers "store" | "park" | "hospital." That's next-word prediction—called an <strong>n-gram</strong>—the same core idea behind every LLM.
         </p>
         <p>
           The difference? Your phone's keyboard uses a simple lookup: "what word most commonly follows these last one or two words?"
           It doesn't know you were planning a beach trip three messages ago. It doesn't understand context—it understands <strong>frequency</strong>.
         </p>
 
-        <div class="truth"><strong>Kitchen truth:</strong> Your phone's autocomplete is the world's smallest, dumbest cook—it only sees the last ingredient on the counter.</div>
-
         <div class="sandbox-card" id="predictGame">
+          <label for="tempSlider" class="sandbox-label"><strong>Try it: guess the next word like an n-gram</strong></label>
           <p id="pgProgress" class="note" style="margin:0 0 4px"></p>
           <div class="code" data-label="Complete the sentence:">
-            <div class="code-type" id="pgSentence" style="min-height:1.4em"></div>
+            <div class="code-type" id="pgSentence" style="min-height:1.4em;white-space:normal"></div>
           </div>
           <div id="pgChoices"></div>
           <div id="pgReveal" class="callout" style="display:none" aria-live="polite"></div>
@@ -251,10 +290,7 @@
 
         <h3>The upgrade: looking at the whole counter</h3>
         <p>
-          LLMs use the same core mechanic—predict the next token—but instead of glancing at the last word or two,
-          they look at everything currently on the counter (the full context window).
-          That's why an LLM can connect "surgeon" to "scalpel" even when they're sentences apart:
-          an <strong>attention mechanism</strong> lets it link distant but relevant ingredients.
+          LLMs use the same core mechanic—predict the next token—but instead of glancing at the last word or two, they look at everything currently on the counter (the full context window). That's why an LLM can connect "surgeon" to "scalpel" even when they're sentences apart.
         </p>
 
         <div class="truth"><strong>Kitchen truth:</strong> Your phone keyboard is a cook who only looks at the last ingredient added. An LLM is a cook who glances at the whole counter—but it's still cooking one ingredient at a time.</div>
@@ -270,36 +306,10 @@
             <li><strong>Trigram (n = 3):</strong> three-word chains. "One of the" → "most." "I want to" → "go" | "be" | "know."</li>
           </ul>
           <p>
-            The phone stores a frequency table of these sequences (often personalized to your texting habits) and picks the highest-scoring match.
-            The window is tiny—usually 1–3 words—so it has no ability to track meaning, themes, or instructions from earlier in the conversation.
+            The phone stores a frequency table of these sequences (often personalized to your texting habits) and picks the highest-scoring match. The window is tiny—usually 1–3 words—so it has no ability to track meaning, themes, or instructions from earlier in the conversation.
           </p>
           <p>
-            Try this: open your phone, type a word, then keep tapping the middle suggestion 20 times. You'll get a grammatically
-            plausible but meaningless sentence—that's n-gram prediction running on autopilot with no broader understanding.
-          </p>
-        </details>
-
-        <details class="tip">
-          <summary><strong>Power-up (optional): Attention—how LLMs look at the whole counter</strong></summary>
-          <p>
-            In n-gram prediction, the model only sees a fixed window of 1–3 words. LLMs replace that tiny window with a mechanism called <strong>attention</strong>.
-          </p>
-          <p>
-            For each new token the model is about to generate, attention assigns a <strong>relevance score</strong> between that position and
-            every other token already on the counter. Think of it as the cook glancing back across all the ingredients and deciding which ones matter <em>right now</em>:
-          </p>
-          <ul>
-            <li>Generating after "up the"—attention lights up "surgeon" from earlier, boosting "scalpel."</li>
-            <li>Generating after "with the"—attention lights up "marine biology," boosting "dolphins."</li>
-            <li>Generating after "is the"—attention links "planets," "solar system," and "Jupiter," boosting "largest."</li>
-          </ul>
-          <p>
-            This is the core of the <strong>transformer</strong> architecture (the "T" in GPT): instead of a fixed lookback window,
-            every token can attend to every other token. The model learns <em>which</em> connections matter during training.
-          </p>
-          <p>
-            The tradeoff: attention across all tokens is computationally expensive and scales with counter size—which is
-            one reason context windows have limits and longer prompts cost more.
+            Try this: open your phone, type a word, then keep tapping the middle suggestion 20 times. You'll get a grammatically plausible but meaningless sentence—that's n-gram prediction running on autopilot with no broader understanding.
           </p>
         </details>
 
@@ -340,9 +350,7 @@
 
         <h3>Why prompts matter more than people expect</h3>
         <p>
-          The model’s default job is to produce a coherent continuation of whatever you put in front of it.
-          If your prompt is vague, “coherent” often means it picks an interpretation it thinks is most likely and commits—hello, <strong>chocolate spaghetti with watermelon</strong>.
-          If your prompt is specific (gluten-free vegan chocolate chip cookies with cinnamon, no fruit or nuts), “coherent” shifts towards what you actually want.
+          The model’s default job is to produce a coherent continuation of whatever you put in front of it. If your prompt is vague, “coherent” often means it picks an interpretation it thinks is most likely and commits—hello, <strong>chocolate spaghetti with watermelon</strong>. If your prompt is specific (gluten-free vegan chocolate chip cookies with cinnamon, no fruit or nuts), “coherent” shifts towards what you actually want.
         </p>
 
         <details class="tip">
@@ -352,6 +360,224 @@
             <li>The chef then cooks your order one ingredient (token) at a time.</li> 
             <li>A more specific order ticket doesn't make the chef better at cooking—it provides the chef more context to make your order the way you envisioned.</li>
             <li>Different chefs can cook the same order in vastly different ways. If you want the standard recipe, Copilot might be your best bet; but if you're feeling adventurous and have a steel gut, Grok is ready with the Chef's special.</li>
+          </ul>
+        </details>
+      </section>
+      <section>
+        <h2>The Prep Counter: Context Windows, Drift, “Forgetting,” and the Dreaded Hallucination</h2>
+
+        <p>
+          In the last section we established that our LLM chef generates text one token at a time by scanning everything on its prep counter. But here's the catch: <strong>that counter is not infinite</strong>. Every model has a fixed amount of counter space called its <strong>context window</strong>, measured in tokens. Once the counter is full, something has to go.
+        </p>
+
+        <h3>Counter space: bigger isn't always better</h3>
+        <p>
+          Context windows have gotten dramatically larger over the past few years. Early GPT models had roughly 4,000 tokens of counter space—about three pages of text. Today, some models advertise windows of 128K, 200K, or even 1 million tokens. That sounds like the chef upgraded from a cutting board to a full commercial kitchen island. And to help our chef work quickly and efficiently, all that additional space came with new cookbooks and countertop appliances that also use that new space.
+        </p>
+        <p>
+          But here's what the marketing doesn't tell you: <strong>more counter space also means more stuff for our chef to keep track of</strong>. So our chef might remember what was on the counter when they started cooking and they can easily see the last few items that were added, but everything inbetween is slowly being burried or shoved to the side. This is where <strong>attention</strong> comes into play.
+        </p>
+
+        <h3>Attention—how LLMs look at the whole counter</h3>
+        <div class="grid">
+          <div>
+            <p>
+              In n-gram prediction, the model only sees a fixed window of 1–3 words. LLMs replace that tiny window with a mechanism called <strong>attention</strong>. For each new token the model is about to generate, attention assigns a <strong>relevance score</strong> between that position and every other token already on the counter. Think of it as the cook glancing back across all the ingredients and deciding which ones matter <em>right now</em>. This is the core of the <strong>transformer</strong> architecture (the "T" in GPT). There is a tradoff though: attention across all tokens is computationally expensive and scales with the size of the context—which is one reason context windows have limits and longer prompts cost more.
+            </p>
+          </div>
+          <!--Image Comparison Slider-->
+          <div>
+            <figure dir="rtl">
+              <p class="image-compare" role="img" tabindex="0" aria-label="Interactive comparison of additive RGB and subtractive CMYK color mixing." aria-description="Two overlaid images are revealed by a slider or toggle. The RGB version (additive light) shows red, green, and blue mixing to white at the center on a dark background. The CMYK version (subtractive ink) shows cyan, magenta, and yellow mixing to black at the center on a light background.">
+                <span>
+                  <img src="../images/LLM-context-window-attn.png" alt="" aria-hidden="true">
+                  </span>
+                  <img src="../images/LLM-context-window.png" alt="" aria-hidden="true">
+              </p>
+            </figure>
+          </div>
+        </div>
+        <details class="tip">
+          <summary><strong>Power-up (optional): The mechanics of attention</strong></summary>
+          <p>
+            <strong>Attention</strong> is the Transformer mechanism that lets each token <strong>pull in and mix information from other tokens</strong> in the context. It acts like differentiable retrieval: “given what I need at this position, which earlier tokens are most relevant?”
+          </p>
+        
+          <p>
+            Mechanically, the model projects token representations <code>X</code> into <strong>queries, keys, values</strong>:
+          </p>
+        
+          <ul>
+            <li><code>Q</code>: what this token is looking for</li>
+            <li><code>K</code>: how each token can be matched</li>
+            <li><code>V</code>: the information to combine</li>
+          </ul>
+        
+          <p>
+            It computes relevance with <strong>scaled dot products</strong>, normalizes with <strong>softmax</strong>, then mixes values:
+          </p>
+        
+          <pre><code>Attn(Q, K, V) = softmax((QKᵀ / √d_k) + mask) V</code></pre>
+        
+          <p>
+            In GPT-style LLMs, a <strong>causal mask</strong> blocks attention to future tokens so generation is valid.
+          </p>
+        
+          <p>
+            LLMs use <strong>multi-head attention</strong> so different heads can learn different dependency patterns in parallel, and they inject <strong>positional information</strong> (e.g., RoPE/relative encodings) so attention is sensitive to word order. During generation, <strong>KV caching</strong> stores past keys/values to avoid recomputing them each step. Full attention scales <strong>quadratically</strong> with context length (<code>O(n^2)</code>), which is why long contexts are expensive.
+          </p>
+        </details>
+
+        <h3>Drift: when the model gradually stops following the rules</h3>
+        <p>
+          In long AI conversations, you may see the model follow your instructions perfectly at first—then slowly begin to bend them. For example: your prompt says “use bullet points only,” it complies, and ten messages later it starts writing paragraphs. That gradual loss of adherence is known as <strong>drift</strong>.
+        </p>
+        <p>
+          Drift happens because the model is generating each reply based on the entire visible conversation. As the thread grows, your original instructions become a smaller and less prominent part of the context compared to newer messages, new subgoals, and recent wording. The model also tends to match the most recent style and priorities unless constraints are kept explicit.
+        </p>
+        <p>
+          To reduce drift, periodically <strong>restate the constraints that matter</strong>, preferably as a short, consistent rule block (e.g., “Format: bullets only. Length: &lt;150 words. Tone: direct.”). This keeps the rules salient and reduces the chance they’re implicitly overridden by newer content.
+        </p>
+
+        <h3>”Forgetting”: the counter has an edge</h3>
+        <p>
+          Drift is gradual—your instructions are still technically on the counter, just buried. <strong>Forgetting</strong> is what happens when the conversation exceeds the context window entirely. At that point, the oldest messages literally fall off the edge of the counter. The chef doesn't know they ever existed.
+        </p>
+        <p>
+          This is not a bug. It's a hard physical constraint called <strong>context overflow</strong>—like a counter that can hold a maximum of 10 ingredients. Adding an 11th ingedient knocks ingredient one to the floor. Most LLM interfaces handle this silently: they drop or summarize the oldest messages to make room, and the model has no idea anything was removed.
+        </p>
+        <p>
+          This is why you might have a conversation where the AI researched a song title for you in message three, and by message 40 it has no memory of that song existing. It simply slid off the counter.
+        </p>
+
+        <div class="grid">
+          <div class="callout">
+            <h3 style=”margin-top:0”>Drift</h3>
+            <p style=”margin:0”>Your instructions are still on the counter but buried under newer context. The chef <em>could</em> see them—it's just focused elsewhere.</p>
+          </div>
+          <div class="callout">
+            <h3 style=”margin-top:0”>Forgetting</h3>
+            <p style=”margin:0”>Your instructions have fallen off the counter entirely. The chef <em>cannot</em> see them—they no longer exist in its world.</p>
+          </div>
+        </div>
+
+        <div class="sandbox-card" id="overflowDemo">
+          <label class="sandbox-label"><strong>Try it: fill the prep counter until something falls off</strong></label>
+          <p id="ofStatus" class="note" style="margin:0 0 4px"></p>
+          <div class="counter-bar" id="ofBar"></div>
+          <div style="display:flex; gap:8px">
+            <button id="ofAdd" class="sandbox-btn" type="button">Send message</button>
+            <button id="ofReset" class="sandbox-btn" type="button">Reset</button>
+          </div>
+          <div id="ofReveal" class="callout" style="display:none" aria-live="polite"></div>
+        </div>
+
+        <div class="truth"><strong>Kitchen truth:</strong> Many LLMs allow you to group chats into projects. This allows you to specify rules that apply to everything inside that project which can help prevent drift and forgetting.</div>
+
+        <details class="tip">
+          <summary><strong>Power-up (optional): What actually happens when context overflows</strong></summary>
+          <p>
+            Different platforms handle overflow differently, and most don't tell you when it's happening:
+          </p>
+          <ul>
+            <li><strong>Truncation:</strong> The oldest messages are silently dropped. This is the simplest approach—first in, first out.</li>
+            <li><strong>Sliding window:</strong> The system keeps your original system prompt pinned at the top and drops the oldest conversation turns from the middle. This preserves your initial instructions but loses early conversation context.</li>
+            <li><strong>Summarization:</strong> Some systems use a secondary model to compress older messages into a short summary before dropping them. The chef gets a sticky note that says “earlier we discussed X” instead of the full conversation—better than nothing, but details get lost.</li>
+          </ul>
+          <p>
+            None of these are perfect. The practical takeaway: for important, multi-step work, don't rely on a single marathon conversation. Break it into shorter sessions and carry forward the key context yourself.
+          </p>
+        </details>
+
+        <h3>Hallucination: the chef that never says “I don’t know”</h3>
+        <p>
+          This is the big one—the behavior that makes people distrust AI entirely, or worse, trust it when they shouldn’t.
+        </p>
+        <p>
+          A <strong>hallucination</strong> is when a model produces a claim that sounds confident and well-formed, but isn’t actually supported by the information it has. It might invent a study, fabricate a quote, misstate a law, or confidently “fill in” a missing detail that was never verified.
+        </p>
+        <p>
+          Under the hood, the core engine is still a next-token generator: given the text in front of it, it predicts what a good-sounding continuation looks like. If it’s operating in a <em>closed-book</em> mode (no tools, no retrieval), it isn’t checking a database or consulting the internet—it’s pattern-completing from what it learned during training and what you’ve provided in the chat. When the real answer isn’t present, the model can generate something that <em>resembles</em> an answer without actually being one.
+        </p>
+        <p>
+          Modern systems complicate this in a good way: many LLM products can now <strong>look things up</strong> using search, retrieval (RAG), or other tools, and that can dramatically reduce hallucinations—<em>when the tool is actually used</em> and the retrieved sources are reliable. But it doesn’t make the problem disappear. The model can still misread what it finds, summarize incorrectly, mix together multiple sources, cite the wrong thing, or—if lookup fails or isn’t available—quietly fall back to fluent guessing.
+        </p>
+        <p>
+          Back in the kitchen: sometimes the chef can step off the line and check the cookbook, call the supplier, or peek in the walk-in—that’s browsing and
+          retrieval. It helps. But what if the cookbook is missing a page, the supplier gives bad info, or the chef is rushing? And if the chef has been trained to always serve <em>something</em>, they’ll improvise rather than admit they don't know how to make your order. So, you still get a plate that <em>looks</em> right but it might not be edible.
+        </p>
+
+        <details class="tip">
+          <summary><strong>Power-up (optional): Why can't they just… not hallucinate?</strong></summary>
+          <p>
+            This is one of the most common questions people ask. Part of the answer is architectural, and part of it is incentives.
+          </p>   
+          <p>
+            At the core, an LLM generates text by predicting likely next tokens from patterns learned during training. It isn’t running a “truth check” as it writes, and it doesn’t automatically ground claims in a source of record. So it can produce a fluent sentence that <em>sounds</em> right even when it isn’t.
+          </p>     
+          <p>
+            It’s also worth separating <strong>uncertainty</strong> from <strong>honesty</strong>. The model may be internally “unsure” in the sense that multiple continuations are plausible, but unless the system is explicitly designed to surface that uncertainty, it still has to pick one concrete continuation—and concrete answers often come out sounding confident by default.
+          </p>      
+          <p>
+            On top of that, many chat models are <strong>tuned to be helpful and decisive</strong>. Depending on how they’re trained and deployed, they may be implicitly (or explicitly) discouraged from responding with “I don’t know.” If the system rewards always producing an answer—or penalizes refusals and hedging—the model learns a style that fills gaps with plausible detail instead of stopping short.
+          </p>
+          <p>
+            Researchers mitigate hallucination in layers: retrieval-augmented generation (RAG) can ground responses in provided sources; preference tuning (often called RLHF) can teach models to hedge, refuse, or ask for clarification; and some products add post-generation verification (citations, consistency checks, tool-based fact checking). These help a lot, but they don’t fully eliminate hallucination—because the underlying generator is still optimizing for “plausible continuation,” not “guaranteed truth.”
+          </p>
+        </details>
+
+        <h3>Why hallucinations are hard to spot</h3>
+        <p>
+          The dangerous part isn't that LLMs make things up—it's that the made-up content is <strong>structurally indistinguishable</strong> from the accurate content. The model uses the same confident tone, the same formatting, the same grammatical polish whether it's giving you a real fact or an invented one. There's no italics for “I'm guessing here” and no red flag emoji for “I made this up.”
+        </p>
+        <p>
+          This means verification is not optional. It's not a nice-to-have for cautious people—it's a core part of using these tools responsibly. If the model gives you a statistic, a name, a date, a quote, a URL, or a citation: <strong>check it</strong>. Not because the model is bad, but because it was never designed to be a fact database. It was designed to produce plausible text.
+        </p>
+
+        <div class="grid">
+          <div class="callout">
+            <h3 style=”margin-top:0”>Likely reliable</h3>
+            <ul style=”margin:0”>
+              <li>Well-known facts</li>
+              <li>General explanations of common concepts</li>
+              <li>Code patterns for popular frameworks</li>
+              <li>Structural tasks (formatting, summarization, rewriting)</li>
+            </ul>
+          </div>
+          <div class="callout">
+            <h3 style=”margin-top:0”>Verify before trusting</h3>
+            <ul style=”margin:0”>
+              <li>Specific statistics, dates, or numbers</li>
+              <li>Direct quotes attributed to real people</li>
+              <li>Citations, URLs, or references to studies</li>
+              <li>Niche or recent facts</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="sandbox-card" id="hallucinationQuiz">
+          <label class="sandbox-label"><strong>Try it: spot the hallucination</strong></label>
+          <p id="hqProgress" class="note" style="margin:0 0 4px"></p>
+          <div class="code" data-label="AI-generated claim:">
+            <div class="code-type" id="hqClaim" style="min-height:1.4em;white-space:normal"></div>
+          </div>
+          <div id="hqChoices">
+            <button id="hqFact" class="sandbox-btn" type="button">Fact</button>
+            <button id="hqMyth" class="sandbox-btn" type="button">Myth</button>
+          </div>
+          <div id="hqReveal" class="callout" style="display:none" aria-live="polite"></div>
+          <button id="hqNext" class="sandbox-btn" type="button" style="display:none">Next claim</button>
+        </div>
+
+        <details class="tip">
+          <summary><strong>TL;DR</strong></summary>
+          <ul>
+            <li>The <strong>context window</strong> (prep counter) is finite and every model has a hard limit.</li>
+            <li><strong>Attention</strong> is how the LLM decides what is most relevant when looking at everything in the context window.</li>
+            <li><strong>Drift</strong> happens when your original instructions get drowned out by a growing conversation. Restate key rules periodically.</li>
+            <li><strong>Forgetting</strong> happens when conversation history exceeds the context window and older messages are silently dropped. Break long tasks into shorter sessions.</li>
+            <li><strong>Hallucinations</strong> happen because the model predicts plausible text, not verified facts. It will never say “I don't know”—it will always serve <em>something</em>.</li>
+            <li>Verification is not optional. If the output includes specific facts, check them before trusting them.</li>
           </ul>
         </details>
       </section>
@@ -539,6 +765,160 @@ ${lines(missing.value) || '* …'}
         const tier = tiers.find(t => v <= t[0]) || tiers[tiers.length - 1];
         output.textContent = tier[1];
       });
+    })();
+
+    // Context overflow demo
+    (() => {
+      const demo = document.getElementById('overflowDemo');
+      if (!demo) return;
+
+      const bar = document.getElementById('ofBar');
+      const addBtn = document.getElementById('ofAdd');
+      const resetBtn = document.getElementById('ofReset');
+      const status = document.getElementById('ofStatus');
+      const reveal = document.getElementById('ofReveal');
+
+      const MAX = 8;
+      let items = [];
+      let msgCount = 0;
+      let rulesDropped = false;
+
+      function render() {
+        bar.innerHTML = '';
+        for (let i = 0; i < MAX; i++) {
+          const el = document.createElement('div');
+          if (i < items.length) {
+            el.className = 'counter-slot' + (items[i].type === 'rules' ? ' rules' : ' filled');
+            el.textContent = items[i].label;
+          } else {
+            el.className = 'counter-slot empty';
+          }
+          bar.appendChild(el);
+        }
+        status.textContent = items.length + ' / ' + MAX + ' slots used';
+      }
+
+      function init() {
+        items = [{ label: 'Your rules', type: 'rules' }];
+        msgCount = 0;
+        rulesDropped = false;
+        reveal.style.display = 'none';
+        addBtn.disabled = false;
+        render();
+      }
+
+      addBtn.addEventListener('click', () => {
+        msgCount++;
+        if (items.length >= MAX) {
+          const removed = items.shift();
+          if (removed.type === 'rules' && !rulesDropped) {
+            rulesDropped = true;
+            reveal.innerHTML = '<p style="margin:0"><strong>Your original rules just fell off the counter.</strong></p><p class="note" style="margin:.5rem 0 0">The model has no idea they ever existed. This is forgetting\u2014not drift, not inattention. The instructions are physically gone.</p>';
+            reveal.style.display = 'block';
+          }
+        }
+        items.push({ label: 'Msg ' + msgCount, type: 'msg' });
+        render();
+        if (msgCount >= MAX + 5) addBtn.disabled = true;
+      });
+
+      resetBtn.addEventListener('click', init);
+      init();
+    })();
+
+    // Hallucination quiz
+    (() => {
+      const quiz = document.getElementById('hallucinationQuiz');
+      if (!quiz) return;
+
+      const rounds = [
+        {
+          claim: 'The average person swallows approximately eight spiders per year while sleeping.',
+          fact: false,
+          e: 'This "fact" was fabricated in a 1993 magazine column to demonstrate how easily misinformation spreads. Spiders avoid sleeping humans. But it appears so widely online that models reproduce it confidently.'
+        },
+        {
+          claim: 'A group of flamingos is called a "flamboyance."',
+          fact: true,
+          e: 'Correct\u2014like "a murder of crows" or "a parliament of owls." It sounds made up, which is the point: how plausible something sounds tells you nothing about whether it\u2019s true.'
+        },
+        {
+          claim: 'Goldfish have a memory span of approximately three seconds.',
+          fact: false,
+          e: 'Goldfish can retain learned behaviors for months and navigate mazes. This myth is so widespread that models often state it as fact without any hedging.'
+        },
+        {
+          claim: 'Bananas are technically classified as berries, but strawberries are not.',
+          fact: true,
+          e: 'Botanically correct. Berries develop from a single ovary\u2014bananas qualify, strawberries don\u2019t. LLMs get this right because it\u2019s well-represented in training data.'
+        }
+      ];
+
+      let cur = 0;
+      let done = false;
+      let score = 0;
+
+      const claimEl = document.getElementById('hqClaim');
+      const factBtn = document.getElementById('hqFact');
+      const mythBtn = document.getElementById('hqMyth');
+      const revealEl = document.getElementById('hqReveal');
+      const nextBtn = document.getElementById('hqNext');
+      const progressEl = document.getElementById('hqProgress');
+
+      function render() {
+        done = false;
+        claimEl.textContent = '\u201c' + rounds[cur].claim + '\u201d';
+        revealEl.style.display = 'none';
+        nextBtn.style.display = 'none';
+        factBtn.disabled = false;
+        mythBtn.disabled = false;
+        factBtn.style.outline = '';
+        mythBtn.style.outline = '';
+        progressEl.textContent = 'Claim ' + (cur + 1) + ' of ' + rounds.length;
+      }
+
+      function pick(answeredFact) {
+        if (done) return;
+        done = true;
+        const r = rounds[cur];
+        const correct = answeredFact === r.fact;
+        if (correct) score++;
+
+        factBtn.disabled = true;
+        mythBtn.disabled = true;
+
+        const rightBtn = r.fact ? factBtn : mythBtn;
+        rightBtn.style.outline = '2px solid var(--accent)';
+        rightBtn.style.outlineOffset = '2px';
+
+        let html = '<p style="margin:0">';
+        html += correct ? '<strong>Correct!</strong> ' : '<strong>Not quite.</strong> ';
+        html += 'This is <strong>' + (r.fact ? 'a real fact' : 'a common myth') + '</strong>.</p>';
+        html += '<p class="note" style="margin:.5rem 0 0">' + r.e + '</p>';
+
+        if (cur >= rounds.length - 1) {
+          html += '<p style="margin:.8rem 0 0"><strong>Result: ' + score + ' / ' + rounds.length + '.</strong> ';
+          if (score === rounds.length) {
+            html += 'Nice work\u2014but in practice there\u2019s no "Fact or Myth" button. Every AI claim arrives in the same confident voice.';
+          } else {
+            html += 'That\u2019s the point. Every claim used the same confident tone. The myths were structurally identical to the real facts.';
+          }
+          html += '</p>';
+        }
+
+        revealEl.innerHTML = html;
+        revealEl.style.display = 'block';
+
+        if (cur < rounds.length - 1) {
+          nextBtn.style.display = 'inline-block';
+        }
+      }
+
+      factBtn.addEventListener('click', () => pick(true));
+      mythBtn.addEventListener('click', () => pick(false));
+      nextBtn.addEventListener('click', () => { cur++; render(); });
+
+      render();
     })();
   </script>
 </body>
