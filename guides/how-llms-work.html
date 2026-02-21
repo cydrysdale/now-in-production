@@ -689,6 +689,112 @@
           </ul>
         </details>
       </section>
+
+      <section>
+        <h2>Running the Line: Workflows, Agents, and the Expo Pass</h2>
+
+        <p>
+          You can now write a solid ticket and iterate until the dish is right. But some jobs are too big for a single ticket—no matter how refined it is. Asking one prompt to research, analyze, draft, format, and fact-check a complex deliverable is like asking one cook to simultaneously run the grill, the sauté station, and the dessert counter. It might work for a grilled cheese. It won't work for a five-course meal.
+        </p>
+        <p>
+          This is where <strong>station workflows</strong> come in: breaking a complex task into a sequence of focused steps, each with its own prompt, its own inputs, and a clear handoff to the next.
+        </p>
+
+        <h3>Why single prompts break down</h3>
+        <p>
+          For simple tasks—a quick summary, a format conversion, a short email—a single prompt works fine. But as complexity grows, three problems compound:
+        </p>
+        <ul>
+          <li><strong>Context overload:</strong> The more you ask for in one prompt, the more the model has to juggle. Instructions get buried, priorities blur, and the output becomes a mediocre average of everything you asked for instead of being excellent at any one thing.</li>
+          <li><strong>No checkpoints:</strong> If step 2 goes wrong in a 5-step process and you only see the final output, you can't tell where things derailed. You get a bad dish and no way to diagnose which station made the mistake.</li>
+          <li><strong>Drift at scale:</strong> Long, complex prompts fill the context window faster. The model starts losing track of constraints from earlier in the prompt—the same drift problem from section 3, compressed into a single turn.</li>
+        </ul>
+
+        <div class="truth"><strong>Kitchen truth:</strong> A single cook juggling every station simultaneously doesn't produce five excellent dishes—they produce five mediocre ones. Complex tasks need a line, not a hero.</div>
+
+        <h3>The kitchen line</h3>
+        <p>
+          Professional kitchens don't have one person doing everything. They run a <strong>line</strong>: a sequence of specialized stations, each responsible for one part of the meal. Prep handles ingredients. Grill handles proteins. Sauté handles sides. Pastry handles dessert. The <strong>expediter</strong> (expo) sits at the end, inspecting every plate before it goes out.
+        </p>
+        <p>
+          The same model works for AI. Instead of one massive prompt, you break the task into stations:
+        </p>
+        <ol>
+          <li><strong>Each station has one job.</strong> "Clean up these notes." "Extract the action items." "Draft the summary." Not all three at once.</li>
+          <li><strong>Each station gets focused input.</strong> The output of the previous station becomes the input for the next—not the entire conversation history.</li>
+          <li><strong>You check at each handoff.</strong> Before passing output to the next station, review it. Catch errors now, not three stations later.</li>
+        </ol>
+        <p>
+          This works whether you're running each station manually (copying output into a new prompt) or using tools that chain steps automatically. The principle is the same: <strong>focused steps with verified handoffs</strong>.
+        </p>
+
+        <div class="sandbox-card" id="workflowDemo">
+          <label class="sandbox-label"><strong>Try it: step through a station workflow</strong></label>
+          <p class="note" style="margin:0 0 4px">Task: turn rough meeting notes into a stakeholder-ready summary</p>
+          <p id="wfProgress" class="note" style="margin:0 0 4px"></p>
+          <div class="code" id="wfPromptBlock" data-label="Station 1 — prompt:">
+            <div class="code-type" id="wfPrompt" style="white-space:normal"></div>
+          </div>
+          <div class="code" data-label="Station output:">
+            <div class="code-type" id="wfOutput" style="white-space:normal"></div>
+          </div>
+          <div id="wfNotice" class="callout" aria-live="polite"></div>
+          <button id="wfNext" class="sandbox-btn" type="button">Next station</button>
+        </div>
+
+        <div class="truth"><strong>Kitchen truth:</strong> The line works because each station has one job and one handoff. The moment you ask one station to do three things, you've lost the advantage of having a line.</div>
+
+        <h3>The expo pass: nothing leaves without a check</h3>
+        <p>
+          In a professional kitchen, no plate reaches the table without passing the <strong>expo</strong>—the expediter who checks every dish for accuracy, presentation, and completeness. Wrong garnish? Sent back. Missing side? Caught before the customer sees it.
+        </p>
+        <p>
+          In AI workflows, the expo is <strong>you</strong>. After the final station produces output, you verify it before anyone else sees it:
+        </p>
+        <ul>
+          <li><strong>Does it match the original request?</strong> Not what the model decided you meant—what you actually asked for.</li>
+          <li><strong>Are the facts checkable?</strong> Any specific claims, statistics, or references should be verifiable from real sources.</li>
+          <li><strong>Did anything get lost between stations?</strong> Compare the final output against earlier station outputs. Did the summary drop an action item? Did formatting swallow a data point?</li>
+          <li><strong>Would you put your name on this?</strong> If not, it's not done.</li>
+        </ul>
+        <p>
+          The expo pass isn't an optional step for cautious people. It's the step that makes everything before it worth doing. A kitchen that sends out unchecked plates will eventually send out something inedible—and an AI workflow that skips verification will eventually produce something embarrassing, inaccurate, or worse.
+        </p>
+
+        <div class="truth"><strong>Kitchen truth:</strong> The expo doesn't make the food. The expo makes the food <em>trustworthy</em>. Skip it, and you're serving plates you haven't tasted.</div>
+
+        <h3>Agents: when the kitchen runs itself (mostly)</h3>
+        <p>
+          You may have heard the term <strong>AI agent</strong>—a system where the model doesn't just respond to a single prompt but actively plans, uses tools, and executes multiple steps on its own. Think of it as upgrading from a single cook who waits for orders to a small crew that can coordinate stations without you calling out every ticket.
+        </p>
+        <p>
+          Agent capabilities are expanding rapidly: coding assistants that read files, write code, and run tests in sequence. Research tools that search the web, synthesize sources, and draft reports. Workflow tools that create project plans, draft communications, and schedule follow-ups—all from a single high-level instruction.
+        </p>
+        <p>
+          This is powerful. It's also not magic. An agent is still running the same station-by-station workflow—it just handles the handoffs automatically instead of requiring you to copy-paste between prompts. The fundamental limits haven't changed:
+        </p>
+        <ul>
+          <li>The context window is still finite. Agents manage it more efficiently, but they don't eliminate it.</li>
+          <li>Hallucinations still happen. Agents with tool access hallucinate less, but not zero.</li>
+          <li>Drift still compounds. A 15-step agent workflow can drift just like a 15-message conversation.</li>
+        </ul>
+        <p>
+          The difference between using an agent well and using one poorly is the same as everything else in this guide: <strong>you're still the expediter</strong>. You set the objectives. You define the constraints. You check the output before it ships. The agent runs the line—you run the kitchen.
+        </p>
+
+        <div class="truth"><strong>Kitchen truth:</strong> Agents can run the line, but someone still needs to run the kitchen. That someone is you.</div>
+
+        <details class="tip">
+          <summary><strong>TL;DR</strong></summary>
+          <ul>
+            <li>Complex tasks break down in a single prompt. Break them into focused stations, each with one job and clear input/output.</li>
+            <li>The output of each station becomes the input for the next. Check quality at every handoff—don't blindly pass output forward.</li>
+            <li>The <strong>expo pass</strong> is the final verification step. Nothing should leave your workflow without being checked against the original request.</li>
+            <li><strong>Agents</strong> automate multi-step workflows but the same limits apply: finite context, possible hallucinations, potential drift.</li>
+            <li>Whether you're running stations manually or delegating to an agent, you're still the expediter. Set objectives, define constraints, verify output.</li>
+          </ul>
+        </details>
+      </section>
       <footer class="sub glass">
         <span>© 2026 – How LLMs Work (Pixel Kitchen Edition) by Chris Yasuda Drydsale</span>
       </footer>
@@ -1075,6 +1181,56 @@ ${lines(missing.value) || '* …'}
         const s = steps[cur];
         progressEl.textContent = 'Draft ' + (cur + 1) + ' of ' + steps.length;
         promptBlock.setAttribute('data-label', 'Order ticket (draft ' + (cur + 1) + '):');
+        promptEl.textContent = s.prompt;
+        outputEl.innerHTML = s.output.replace(/\n/g, '<br>');
+        noticeEl.innerHTML = '<p style="margin:0">' + s.notice + '</p>';
+        nextBtn.style.display = cur < steps.length - 1 ? 'inline-block' : 'none';
+      }
+
+      nextBtn.addEventListener('click', () => { cur++; render(); });
+
+      render();
+    })();
+
+    // Workflow station demo
+    (() => {
+      const demo = document.getElementById('workflowDemo');
+      if (!demo) return;
+
+      const steps = [
+        {
+          label: 'Station 1: Organize',
+          prompt: 'Here are rough notes from today\u2019s product sync. Clean them up: fix shorthand, group related items by topic, and mark action items with \u2192.',
+          output: 'DESIGN\n\u2022 Homepage redesign approved \u2014 using Option B (card layout)\n\u2022 Mobile nav needs another round \u2014 Janet reviewing by Thursday\n\nENGINEERING\n\u2022 API migration 80% complete, on track for March 7\n\u2022 Auth module blocked on third-party SDK update\n\u2192 Sam to contact vendor re: SDK timeline (by Wed)\n\nLAUNCH\n\u2022 QA starts Monday \u2014 test plan in Confluence\n\u2192 All leads review QA sections (before Monday standup)\n\u2192 3 volunteers needed for user testing (sign up by EOD Fri)',
+          notice: 'This station has one job: organizing raw input. The chef isn\u2019t writing the summary yet\u2014just sorting ingredients so the next station starts clean.'
+        },
+        {
+          label: 'Station 2: Extract',
+          prompt: 'From the organized notes above, create two lists: (1) Key decisions, one line each. (2) Action items with owner and deadline.',
+          output: 'DECISIONS\n1. Homepage redesign \u2192 Option B (card layout)\n2. Mobile nav deferred for another review round\n3. API migration on track for March 7 deadline\n4. QA testing launches Monday\n\nACTION ITEMS\n\u2022 Sam \u2192 Contact SDK vendor re: timeline (by Wed)\n\u2022 All leads \u2192 Review QA test plan sections (before Mon standup)\n\u2022 TBD \u2192 3 volunteers for user testing (by EOD Fri)',
+          notice: 'The chef is working with clean, structured input from Station 1\u2014not the original messy shorthand. Better input at each station means better output at every station.'
+        },
+        {
+          label: 'Station 3: Draft + Expo',
+          prompt: 'Write a 3-paragraph stakeholder summary from these decisions and action items. Tone: concise, professional. After the summary, add a "Verify before sending" section listing anything implied but not explicitly confirmed in the original notes.',
+          output: 'PRODUCT SYNC \u2014 STAKEHOLDER SUMMARY\n\nThe homepage redesign is moving forward with Option B (card layout). Mobile navigation needs an additional review round; Janet will have feedback by Thursday.\n\nThe API migration is 80% complete, tracking toward March 7. The auth module is blocked by a third-party SDK update\u2014Sam is following up with the vendor by Wednesday.\n\nQA begins Monday. Leads should review their test plan sections before standup. We need three volunteers for user testing by end of day Friday.\n\nVERIFY BEFORE SENDING\n\u2022 Was Option B formally approved or just preferred?\n\u2022 Is March 7 a hard deadline or a target?\n\u2022 Is there a sign-up channel for user testing volunteers?',
+          notice: '<strong>Three stations, three focused prompts.</strong> Each received clean input from the previous step, had a single clear job, and produced structured output. The "Verify" section is the expo pass\u2014the chef flagging items for you to check before serving.'
+        }
+      ];
+
+      let cur = 0;
+
+      const promptEl = document.getElementById('wfPrompt');
+      const outputEl = document.getElementById('wfOutput');
+      const noticeEl = document.getElementById('wfNotice');
+      const nextBtn = document.getElementById('wfNext');
+      const progressEl = document.getElementById('wfProgress');
+      const promptBlock = document.getElementById('wfPromptBlock');
+
+      function render() {
+        const s = steps[cur];
+        progressEl.textContent = s.label;
+        promptBlock.setAttribute('data-label', s.label + ' \u2014 prompt:');
         promptEl.textContent = s.prompt;
         outputEl.innerHTML = s.output.replace(/\n/g, '<br>');
         noticeEl.innerHTML = '<p style="margin:0">' + s.notice + '</p>';
