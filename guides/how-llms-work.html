@@ -26,7 +26,7 @@
   <meta property="og:type" content="article">
   <meta property="og:title" content="Demystifying AI: Stepping into the LLM Kitchen">
   <meta property="og:description" content="A playful, practical guide for using LLMs reliably: tickets, prep counters, tools, expo pass QA, and station workflows." />
-  <meta property="og:image" content="https://cydrysdale.github.io/now-in-production/images/image-placeholder.png" />
+  <meta property="og:image" content="https://cydrysdale.github.io/now-in-production/images/LLM-context-window.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:url" content="https://cydrysdale.github.io/now-in-production/guides/how-llms-work.html">
@@ -707,7 +707,7 @@
         <ul>
           <li><strong>Context overload:</strong> The more you ask for in one prompt, the more the model has to juggle. Instructions get buried, priorities blur, and the output becomes a mediocre average of everything you asked for instead of being excellent at any one thing.</li>
           <li><strong>No checkpoints:</strong> If step 2 goes wrong in a 5-step process and you only see the final output, you can't tell where things derailed. You get a bad dish and no way to diagnose which station made the mistake.</li>
-          <li><strong>Drift at scale:</strong> Long, complex prompts fill the context window faster. The model starts losing track of constraints from earlier in the prompt—the same drift problem from section 3, compressed into a single turn.</li>
+          <li><strong>Drift at scale:</strong> Long, complex prompts fill the context window faster. The model starts losing track of constraints from earlier in the prompt—the same drift problem discussed earlier, compressed into a single turn.</li>
         </ul>
 
         <div class="truth"><strong>Kitchen truth:</strong> A single cook juggling every station simultaneously doesn't produce five excellent dishes—they produce five mediocre ones. Complex tasks need a line, not a hero.</div>
@@ -758,10 +758,8 @@
           <li><strong>Would you put your name on this?</strong> If not, it's not done.</li>
         </ul>
         <p>
-          The expo pass isn't an optional step for cautious people. It's the step that makes everything before it worth doing. A kitchen that sends out unchecked plates will eventually send out something inedible—and an AI workflow that skips verification will eventually produce something embarrassing, inaccurate, or worse.
+          The expo pass isn't an optional step for cautious people. It's the step that makes everything before it worth doing. A kitchen that sends out unchecked plates will eventually send out something inedible—and an AI workflow that skips verification will eventually produce something inaccurate, unusable, or worse.
         </p>
-
-        <div class="truth"><strong>Kitchen truth:</strong> The expo doesn't make the food. The expo makes the food <em>trustworthy</em>. Skip it, and you're serving plates you haven't tasted.</div>
 
         <h3>Agents: when the kitchen runs itself (mostly)</h3>
         <p>
@@ -782,8 +780,6 @@
           The difference between using an agent well and using one poorly is the same as everything else in this guide: <strong>you're still the expediter</strong>. You set the objectives. You define the constraints. You check the output before it ships. The agent runs the line—you run the kitchen.
         </p>
 
-        <div class="truth"><strong>Kitchen truth:</strong> Agents can run the line, but someone still needs to run the kitchen. That someone is you.</div>
-
         <details class="tip">
           <summary><strong>TL;DR</strong></summary>
           <ul>
@@ -796,7 +792,7 @@
         </details>
       </section>
       <footer class="sub glass">
-        <span>© 2026 – How LLMs Work (Pixel Kitchen Edition) by Chris Yasuda Drydsale</span>
+        <span>© 2026 – Demystifying AI: Stepping into the LLM Kitchen by Chris Yasuda Drydsale</span>
       </footer>
 
     </main>
