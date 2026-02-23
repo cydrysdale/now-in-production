@@ -138,6 +138,7 @@
       try {
         guides = await loadGuides();
       } catch (e) {
+        guides = ['guides/how-llms-work.html'],
         guides = ['guides/rgb-to-cmyk-guide.html'];
       }
 
