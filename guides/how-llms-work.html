@@ -18,10 +18,10 @@
   <meta name="description" content="A practical guide to how LLMs work—using a pixel kitchen/restaurant sim metaphor to teach prompts, context windows, tools, QA, and agent workflows." />
   <meta name="keywords" content="LLMs, large language models, how ChatGPT works, tokens, context window, attention, prompting, prompt engineering, decoding, temperature, top-p, hallucinations, AI tools, citations, verification, QA checklist, agents" />
   <meta name="guide:category" content="AI" />
-  <meta name="guide:updated" content="2026-01-13" />
+  <meta name="guide:updated" content="2026-02-23" />
   <link rel="canonical" href="https://cydrysdale.github.io/now-in-production/guides/how-llms-work.html">
   <meta name="robots" content="index,follow">
-  <meta name="author" content="Chris Yasuda Drydsale">
+  <meta name="author" content="Chris Yasuda Drysdale">
   <meta name="format-detection" content="telephone=no" />
   <meta property="og:type" content="article">
   <meta property="og:title" content="Demystifying AI: Stepping into the LLM Kitchen">
@@ -72,8 +72,8 @@
     .truth {
       margin: 10px 0 16px;
       padding: 10px 12px;
-      border-left: 4px solid var(--accent);
       border: 1px solid var(--borderLight);
+      border-left: 4px solid var(--accent);
       border-radius: 10px;
       background: linear-gradient(30deg, var(--callout), var(--card));
       font-style: italic;
@@ -167,6 +167,60 @@
     }
 
     #hqChoices { display: flex; gap: 8px; padding: 8px 0; }
+
+    /* Chef Select */
+    .select-screen { display: flex; flex-direction: column; gap: 12px; }
+    .portrait-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+    @media (max-width: 600px) { .portrait-row { grid-template-columns: repeat(3, 1fr); } }
+
+    .portrait {
+      aspect-ratio: 1;
+      border: 2px solid var(--borderDark);
+      border-radius: 8px;
+      background: var(--card2);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .8rem;
+      font-weight: bold;
+      color: var(--muted);
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .portrait:hover { border-color: var(--accent); }
+    .portrait.active { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); }
+    .portrait img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; }
+
+    .chef-panel {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      border: 1px solid var(--borderDark);
+      border-radius: 14px;
+      background: var(--card);
+      overflow: hidden;
+    }
+
+    @media (max-width: 700px) { .chef-panel { grid-template-columns: 1fr; } }
+
+	    .chef-art {
+	      background: var(--card2);
+	      display: flex;
+	      align-items: flex-end;
+	      justify-content: center;
+	    }
+
+	    .chef-art img { height: auto; display: block; }
+	    .chef-art img.chef-art-img { width: 100%; }
+	    .chef-art img.chef-art-placeholder { width: 100%; opacity: .7; }
+	    .chef-info { padding: 16px 20px; }
+	    .chef-name { font-size: 1.3rem; font-weight: bold; margin: 0 0 2px; }
+	    .chef-title-label { color: var(--accent); font-weight: bold; font-size: .9rem; margin-bottom: 10px; }
+	    .chef-bio { font-size: .9rem; line-height: 1.5; margin-bottom: 14px; }
+	    .chef-stats { display: flex; flex-direction: column; gap: 3px; }
+    .stat-row { display: flex; align-items: center; gap: 8px; font-size: .85rem; }
+    .stat-label { font-weight: bold; width: 32px; font-size: .8rem; }
+    .stat-stars { color: var(--accent); letter-spacing: 2px; }
   </style>
 </head>
 
@@ -208,8 +262,7 @@
       <section>
         <h2>What this guide is for</h2>
 
-        <div class="">
-          <div>
+        <div>
             <p class="kicker">
               You’ve probably used ChatGPT, Claude, Gemini, or Copilot—and perhaps you even went a little crazy and tried Grok. You’ve seen AI do impressive things. You also may have seen it confidently state that there are two R's in strawberry.
             </p>
@@ -258,7 +311,7 @@
                 <p id="tokenParagraph">
                   This isn't necessarily because that AI model is faulty or inferior to another model that gave you a better answer. It could be a result of a bad prompt or improper utilization of that particular model. Which is why it's important to understand how LLMs work and how they generate text.
                 <br><br>
-                  It's best to think of an LLM as a chef or line cook at a restaurant. It doesn’t cook the whole dish in one step. It adds one ingredient (small chunk of text called a <strong>token</strong>) at a time. After each ingredient, it reviews what’s available on the <strong>prep counter (context)</strong> and the <strong>order ticket (prompt)</strong>, then asks: “Given what I can see right now, what’s the most plausible next ingedient?”
+                  It's best to think of an LLM as a chef or line cook at a restaurant. It doesn’t cook the whole dish in one step. It adds one ingredient (small chunk of text called a <strong>token</strong>) at a time. After each ingredient, it reviews what’s available on the <strong>prep counter (context)</strong> and the <strong>order ticket (prompt)</strong>, then asks: “Given what I can see right now, what’s the most plausible next ingredient?”
                 </p>
                 <button class="sandbox-btn" id="toggleTokens" type="button" aria-pressed="false" aria-controls="tokenParagraph">
                   Highlight tokens
@@ -278,7 +331,7 @@
         </p>
 
         <div class="sandbox-card" id="predictGame">
-          <label for="tempSlider" class="sandbox-label"><strong>Try it: guess the next word like an n-gram</strong></label>
+          <label class="sandbox-label"><strong>Try it: guess the next word like an n-gram</strong></label>
           <p id="pgProgress" class="note" style="margin:0 0 4px"></p>
           <div class="code" data-label="Complete the sentence:">
             <div class="code-type" id="pgSentence" style="min-height:1.4em;white-space:normal"></div>
@@ -315,9 +368,9 @@
 
         <h3>Same prompt, different response</h3>
         <p>
-          You may have noticed that entering the same prompt into the same LLM can produce different answers. The is because when the model generates text, it considers lots of possibilities for the next word (token) and scores them. Then the system <strong>chooses one</strong> based on a setting refered to as the <strong>tempurature</strong> which controls how strongly it sticks to the top choice vs. how willing it is to take a less-likely option.
+          You may have noticed that entering the same prompt into the same LLM can produce different answers. This is because when the model generates text, it considers lots of possibilities for the next word (token) and scores them. Then the system <strong>chooses one</strong> based on a setting referred to as the <strong>temperature</strong> which controls how strongly it sticks to the top choice vs. how willing it is to take a less-likely option.
         </p><p>  
-          Imagine ordering chocolate chip cookies for dessert—a temperature of 0 means the chef follows the standard recipe exactly as written. A tempurature of 1 means the chef will put its own spin on the recipe, so you might get oatmeal chocolate chip or browned butter pecan, but you're still getting cookies. Now a tempurature of 2 means the chef can get truly creative and you might end up receiving spaghetti and watermelon balls with a chocolate marinara, topped with a candied fennel garnish.
+          Imagine ordering chocolate chip cookies for dessert—a temperature of 0 means the chef follows the standard recipe exactly as written. A temperature of 1 means the chef will put its own spin on the recipe, so you might get oatmeal chocolate chip or browned butter pecan, but you're still getting cookies. Now a temperature of 2 means the chef can get truly creative and you might end up receiving spaghetti and watermelon balls with a chocolate marinara, topped with a candied fennel garnish.
         </p>
         <div class="grid">
           <div class="callout">
@@ -330,10 +383,10 @@
           </div>
         </div>
 
-        <div class="truth"><strong>Kitchen truth:</strong> Most models you'll encounter have a set tempurature, but some models do allow you to adjust it yourself.</div>
+        <div class="truth"><strong>Kitchen truth:</strong> Most models you'll encounter have a set temperature, but some models do allow you to adjust it yourself.</div>
 
         <div class="sandbox-card" id="tempDemo">
-          <label for="tempSlider" class="sandbox-label"><strong>Try it: drag the tempurature slider to complete the sentence</strong></label>
+          <label for="tempSlider" class="sandbox-label"><strong>Try it: drag the temperature slider to complete the sentence</strong></label>
           <div style="display:flex; align-items:center; gap:12px">
             <span class="note">Standard recipe</span>
             <input id="tempSlider" type="range" min="0" max="100" value="0" step="1"
@@ -375,20 +428,20 @@
           Context windows have gotten dramatically larger over the past few years. Early GPT models had roughly 4,000 tokens of counter space—about three pages of text. Today, some models advertise windows of 128K, 200K, or even 1 million tokens. That sounds like the chef upgraded from a cutting board to a full commercial kitchen island. And to help our chef work quickly and efficiently, all that additional space came with new cookbooks and countertop appliances that also use that new space.
         </p>
         <p>
-          But here's what the marketing doesn't tell you: <strong>more counter space also means more stuff for our chef to keep track of</strong>. So our chef might remember what was on the counter when they started cooking and they can easily see the last few items that were added, but everything inbetween is slowly being burried or shoved to the side. This is where <strong>attention</strong> comes into play.
+          But here's what the marketing doesn't tell you: <strong>more counter space also means more stuff for our chef to keep track of</strong>. So our chef might remember what was on the counter when they started cooking and they can easily see the last few items that were added, but everything in between is slowly being buried or shoved to the side. This is where <strong>attention</strong> comes into play.
         </p>
 
         <h3>Attention—how LLMs look at the whole counter</h3>
         <div class="grid">
           <div>
             <p>
-              In n-gram prediction, the model only sees a fixed window of 1–3 words. LLMs replace that tiny window with a mechanism called <strong>attention</strong>. For each new token the model is about to generate, attention assigns a <strong>relevance score</strong> between that position and every other token already on the counter. Think of it as the cook glancing back across all the ingredients and deciding which ones matter <em>right now</em>. This is the core of the <strong>transformer</strong> architecture (the "T" in GPT). There is a tradoff though: attention across all tokens is computationally expensive and scales with the size of the context—which is one reason context windows have limits and longer prompts cost more.
+              In n-gram prediction, the model only sees a fixed window of 1–3 words. LLMs replace that tiny window with a mechanism called <strong>attention</strong>. For each new token the model is about to generate, attention assigns a <strong>relevance score</strong> between that position and every other token already on the counter. Think of it as the cook glancing back across all the ingredients and deciding which ones matter <em>right now</em>. This is the core of the <strong>transformer</strong> architecture (the "T" in GPT). There is a tradeoff though: attention across all tokens is computationally expensive and scales with the size of the context—which is one reason context windows have limits and longer prompts cost more.
             </p>
           </div>
           <!--Image Comparison Slider-->
           <div>
             <figure dir="rtl">
-              <p class="image-compare" role="img" tabindex="0" aria-label="Interactive comparison of additive RGB and subtractive CMYK color mixing." aria-description="Two overlaid images are revealed by a slider or toggle. The RGB version (additive light) shows red, green, and blue mixing to white at the center on a dark background. The CMYK version (subtractive ink) shows cyan, magenta, and yellow mixing to black at the center on a light background.">
+              <p class="image-compare" role="img" tabindex="0" aria-label="Interactive comparison of LLM context windows with and without attention highlighting." aria-description="Two overlaid images are revealed by a slider. One shows an LLM context window with attention weights highlighted, illustrating how the model focuses on relevant tokens. The other shows the same context window without highlighting, representing raw token storage.">
                 <span>
                   <img src="../images/LLM-context-window-attn.png" alt="" aria-hidden="true">
                   </span>
@@ -439,12 +492,12 @@
           To reduce drift, periodically <strong>restate the constraints that matter</strong>, preferably as a short, consistent rule block (e.g., “Format: bullets only. Length: &lt;150 words. Tone: direct.”). This keeps the rules salient and reduces the chance they’re implicitly overridden by newer content.
         </p>
 
-        <h3>”Forgetting”: the counter has an edge</h3>
+        <h3>“Forgetting”: the counter has an edge</h3>
         <p>
           Drift is gradual—your instructions are still technically on the counter, just buried. <strong>Forgetting</strong> is what happens when the conversation exceeds the context window entirely. At that point, the oldest messages literally fall off the edge of the counter. The chef doesn't know they ever existed.
         </p>
         <p>
-          This is not a bug. It's a hard physical constraint called <strong>context overflow</strong>—like a counter that can hold a maximum of 10 ingredients. Adding an 11th ingedient knocks ingredient one to the floor. Most LLM interfaces handle this silently: they drop or summarize the oldest messages to make room, and the model has no idea anything was removed.
+          This is not a bug. It's a hard physical constraint called <strong>context overflow</strong>—like a counter that can hold a maximum of 10 ingredients. Adding an 11th ingredient knocks ingredient one to the floor. Most LLM interfaces handle this silently: they drop or summarize the oldest messages to make room, and the model has no idea anything was removed.
         </p>
         <p>
           This is why you might have a conversation where the AI researched a song title for you in message three, and by message 40 it has no memory of that song existing. It simply slid off the counter.
@@ -452,12 +505,12 @@
 
         <div class="grid">
           <div class="callout">
-            <h3 style=”margin-top:0”>Drift</h3>
-            <p style=”margin:0”>Your instructions are still on the counter but buried under newer context. The chef <em>could</em> see them—it's just focused elsewhere.</p>
+            <h3 style="margin-top:0">Drift</h3>
+            <p style="margin:0">Your instructions are still on the counter but buried under newer context. The chef <em>could</em> see them—it's just focused elsewhere.</p>
           </div>
           <div class="callout">
-            <h3 style=”margin-top:0”>Forgetting</h3>
-            <p style=”margin:0”>Your instructions have fallen off the counter entirely. The chef <em>cannot</em> see them—they no longer exist in its world.</p>
+            <h3 style="margin-top:0">Forgetting</h3>
+            <p style="margin:0">Your instructions have fallen off the counter entirely. The chef <em>cannot</em> see them—they no longer exist in its world.</p>
           </div>
         </div>
 
@@ -536,8 +589,8 @@
 
         <div class="grid">
           <div class="callout">
-            <h3 style=”margin-top:0”>Likely reliable</h3>
-            <ul style=”margin:0”>
+            <h3 style="margin-top:0">Likely reliable</h3>
+            <ul style="margin:0">
               <li>Well-known facts</li>
               <li>General explanations of common concepts</li>
               <li>Code patterns for popular frameworks</li>
@@ -545,8 +598,8 @@
             </ul>
           </div>
           <div class="callout">
-            <h3 style=”margin-top:0”>Verify before trusting</h3>
-            <ul style=”margin:0”>
+            <h3 style="margin-top:0">Verify before trusting</h3>
+            <ul style="margin:0">
               <li>Specific statistics, dates, or numbers</li>
               <li>Direct quotes attributed to real people</li>
               <li>Citations, URLs, or references to studies</li>
@@ -694,7 +747,7 @@
         <h2>Running the Line: Workflows, Agents, and the Expo Pass</h2>
 
         <p>
-          You can now write a solid ticket and iterate until the dish is right. But some jobs are too big for a single ticket—no matter how refined it is. Asking one prompt to research, analyze, draft, format, and fact-check a complex deliverable is like asking one cook to simultaneously run the grill, the sauté station, and the dessert counter. It might work for a grilled cheese. It won't work for a five-course meal.
+          You can now write a solid order ticket and iterate until the dish is right. But some orders are too big for a single ticket—no matter how refined it is. Asking one prompt to research, analyze, draft, format, and fact-check a complex deliverable is like asking one cook to simultaneously run the grill, the sauté station, and the dessert counter. It might work for a grilled cheese. It won't work for a five-course meal.
         </p>
         <p>
           This is where <strong>station workflows</strong> come in: breaking a complex task into a sequence of focused steps, each with its own prompt, its own inputs, and a clear handoff to the next.
@@ -706,11 +759,11 @@
         </p>
         <ul>
           <li><strong>Context overload:</strong> The more you ask for in one prompt, the more the model has to juggle. Instructions get buried, priorities blur, and the output becomes a mediocre average of everything you asked for instead of being excellent at any one thing.</li>
-          <li><strong>No checkpoints:</strong> If step 2 goes wrong in a 5-step process and you only see the final output, you can't tell where things derailed. You get a bad dish and no way to diagnose which station made the mistake.</li>
+          <li><strong>No checkpoints:</strong> If step 2 goes wrong in a 5-step process and you only see the final output, you can't tell where things derailed. You receive a bad dish and no way to diagnose where the kitchen went wrong.</li>
           <li><strong>Drift at scale:</strong> Long, complex prompts fill the context window faster. The model starts losing track of constraints from earlier in the prompt—the same drift problem discussed earlier, compressed into a single turn.</li>
         </ul>
 
-        <div class="truth"><strong>Kitchen truth:</strong> A single cook juggling every station simultaneously doesn't produce five excellent dishes—they produce five mediocre ones. Complex tasks need a line, not a hero.</div>
+        <div class="truth"><strong>Kitchen truth:</strong> A single cook juggling every station simultaneously doesn't produce excellent dishes—if you're lucky, they'll produce mediocre ones. Complex tasks need a line of cooks, not a single hero.</div>
 
         <h3>The kitchen line</h3>
         <p>
@@ -742,7 +795,7 @@
           <button id="wfNext" class="sandbox-btn" type="button">Next station</button>
         </div>
 
-        <div class="truth"><strong>Kitchen truth:</strong> The line works because each station has one job and one handoff. The moment you ask one station to do three things, you've lost the advantage of having a line.</div>
+        <div class="truth"><strong>Kitchen truth:</strong> The line works because each station has one job and one handoff. The moment you ask one station to do too many things, you've lost the advantage of having a line.</div>
 
         <h3>The expo pass: nothing leaves without a check</h3>
         <p>
@@ -755,10 +808,10 @@
           <li><strong>Does it match the original request?</strong> Not what the model decided you meant—what you actually asked for.</li>
           <li><strong>Are the facts checkable?</strong> Any specific claims, statistics, or references should be verifiable from real sources.</li>
           <li><strong>Did anything get lost between stations?</strong> Compare the final output against earlier station outputs. Did the summary drop an action item? Did formatting swallow a data point?</li>
-          <li><strong>Would you put your name on this?</strong> If not, it's not done.</li>
+          <li><strong>Is the quality of the work sufficient?</strong> If not, it's not done.</li>
         </ul>
         <p>
-          The expo pass isn't an optional step for cautious people. It's the step that makes everything before it worth doing. A kitchen that sends out unchecked plates will eventually send out something inedible—and an AI workflow that skips verification will eventually produce something inaccurate, unusable, or worse.
+          The expo pass isn't an optional step for cautious people. It's the step that makes everything before it worth doing. A kitchen that sends out unchecked plates will eventually send out something inedible—and an AI workflow that skips verification will eventually produce something inaccurate, embarrassing, or worse.
         </p>
 
         <h3>Agents: when the kitchen runs itself (mostly)</h3>
@@ -775,10 +828,45 @@
           <li>The context window is still finite. Agents manage it more efficiently, but they don't eliminate it.</li>
           <li>Hallucinations still happen. Agents with tool access hallucinate less, but not zero.</li>
           <li>Drift still compounds. A 15-step agent workflow can drift just like a 15-message conversation.</li>
+          <li>Experience is still mandatory. Agents are fallible, so experience is needed for tighter prompts and reliable verification.</li>
         </ul>
         <p>
           The difference between using an agent well and using one poorly is the same as everything else in this guide: <strong>you're still the expediter</strong>. You set the objectives. You define the constraints. You check the output before it ships. The agent runs the line—you run the kitchen.
         </p>
+
+        <details class="tip">
+          <summary><strong>Power-up (optional): Tools—the pantry, the cookbook, and the torch</strong></summary>
+          <p>
+            Throughout this guide we've mentioned that some models can "look things up" or "use tools." Here's what that actually means under the hood.
+          </p>
+          <p>
+            A base LLM can only work with what's already on the prep counter—your prompt, the conversation history, and whatever fits in the context window. <strong>Tools</strong> give the chef access to things beyond the counter: a pantry to grab fresh ingredients (file uploads, databases), a cookbook to look up recipes (web search, retrieval), or a specialized appliance like a brûlée torch (code execution, image generation, API calls).
+          </p>
+          <p>
+            Mechanically, tool use works like this:
+          </p>
+          <ol>
+            <li>The model decides it needs something it doesn't have and generates a structured request—essentially saying "I need to search for X" or "run this code."</li>
+            <li>The system (not the model) executes that request: runs the search, executes the code, reads the file.</li>
+            <li>The result gets placed back on the prep counter as new context, and the model continues generating with that information available.</li>
+          </ol>
+          <p>
+            Common tool categories:
+          </p>
+          <ul>
+            <li><strong>Search / browsing:</strong> The chef checks a cookbook or calls a supplier. Grounds responses in current, external information instead of relying on training memory alone.</li>
+            <li><strong>Code execution:</strong> The chef fires up an appliance—running Python, doing math, processing data. The model writes the code; a sandbox executes it and returns results.</li>
+            <li><strong>File reading:</strong> You hand the chef a document, spreadsheet, or image. The contents get placed on the counter as context for the model to work with.</li>
+            <li><strong>APIs and plugins:</strong> The chef can call external services—check a calendar, query a database, send a message. Each integration extends what the kitchen can do without the chef needing to know how to build those systems.</li>
+            <li><strong>Image generation:</strong> A separate specialist (a different model) that the chef can hand off to—"make this look like X." The chef writes the brief; the specialist produces the visual.</li>
+          </ul>
+          <p>
+            The critical thing to understand: <strong>every tool result lands on the counter and takes up space</strong>. A web search that returns ten paragraphs of results eats the same context window as ten paragraphs of conversation. Tools expand what the chef can <em>access</em>, but they don't expand the counter itself.
+          </p>
+          <p>
+            Tools also don't eliminate hallucinations—they reduce them. The chef can now check the cookbook, but can still misread the page, summarize it incorrectly, or mix up two recipes. Tool access makes the chef more capable, not infallible.
+          </p>
+        </details>
 
         <details class="tip">
           <summary><strong>TL;DR</strong></summary>
@@ -791,8 +879,28 @@
           </ul>
         </details>
       </section>
+
+	      <section>
+	        <h2>Choose Your Chef</h2>
+	        <p>
+	          Now that you know how the kitchen works, it's time to meet the roster. Each model has different strengths, weaknesses, and wildly overdramatic cooking styles—and the right pick depends on what you're making (and what kitchen you're in).
+	        </p>
+
+	        <div class="sandbox-card" id="chefSelect">
+	          <label class="sandbox-label"><strong>Select your chef</strong></label>
+	          <div class="select-screen">
+	            <div class="portrait-row" id="csRoster"></div>
+	            <div class="chef-panel" id="csPanel">
+	              <div class="chef-art" id="csArt"></div>
+	              <div class="chef-info" id="csInfo"></div>
+	            </div>
+	          </div>
+	        </div>
+
+	        <div class="truth"><strong>Kitchen truth:</strong> There's no single best chef. The right pick depends on the dish—and the best cooks know when to switch stations.</div>
+	      </section>
       <footer class="sub glass">
-        <span>© 2026 – Demystifying AI: Stepping into the LLM Kitchen by Chris Yasuda Drydsale</span>
+        <span>© 2026 – Demystifying AI: Stepping into the LLM Kitchen by Chris Yasuda Drysdale</span>
       </footer>
 
     </main>
@@ -1154,11 +1262,11 @@ ${lines(missing.value) || '* …'}
       },
       {
         prompt:
-          'Write a marketing email announcing our new AI pet rock product.\n\nProduct name: iRock Pro MAX+\nTagline: \u201cAI-POWERED SMART ROCK!\u201d\nTone: sophisticated tech-hype + conversational \nFormat: 3 short paragraphs + a feature bullet list + a clear CTA section\nInclude these specific features (use the exact phrases at least once):\n- Stone-cold intelligence\n- 3000 petaflops processing\n- Rock-solid answers\n- Ultra 5G-lithic connectivity\n- R.O.C.K. (Robotic Optimized Cognitive Kernel)\n- Voice command enabled\n- Virtual pet rock mode\n- Zen mode setting\n\nOffer: 20% off pre-orders with code STONESMART\nDeadline: 11:59PM Friday\nCTA button text (as plain text): [Preorder iRock Pro MAX+]\nAdd a short disclaimer\nEnd with a \u201cWhat to do next\u201d bullet list (3 bullets).\nInclude the attached hero image.',
+          'Write a marketing email announcing our new product release.\n\nProduct name: iRock Pro MAX+\nTagline: \u201cAI-POWERED SMART ROCK!\u201d\nTone: sophisticated tech-hype + conversational \nFormat: 3 short paragraphs + a feature bullet list + a clear CTA section.\nInclude features in the attached iRock_Pro_Max_Plus.doc (use the exact phrases at least once).\n\nOffer: 20% off pre-orders with code STONESMART\nDeadline: 11:59PM Friday\nCTA button text (as plain text): [Preorder iRock Pro MAX+]\nAdd the iRock standard disclaimer\nEnd with a \u201cWhat to do next\u201d bullet list (3 bullets).\nInclude the attached hero image at the top.',
         output:
           'Subject: Meet iRock Pro MAX+ \u2014 the AI-POWERED SMART ROCK!'+
           '<img src="../images/iRock-Pro-Max-hero.png" alt="iRock Pro MAX+ email hero image" style="width:100%;border-radius:6px;margin-bottom:8px">'+
-          'Hi [first_name],\n\nThe future just landed on your desk. Introducing iRock Pro MAX+, the world\u2019s first pet rock upgraded with cutting edge artificial intelligence. It\u2019s cute, it\u2019s quiet, and it seamlessly connects to your smart home.\n\nPowered by Stone-cold intelligence and an impressive 3000 petaflops processing, iRock Pro MAX+ delivers Rock-solid answers. It\u2019s like a chatbot, but with better posture and way fewer opinions about crypto.\n\nAnd because we respect the laws of modern nonsense, it also includes Ultra 5G-lithic connectivity plus our proprietary R.O.C.K. (Robotic Optimized Cognitive Kernel) to keep your conversations grounded.\n\nFeatures you never asked for:\n\u2022 Stone-cold intelligence\n\u2022 3000 petaflops processing\n\u2022 Rock-solid answers\n\u2022 Ultra 5G-lithic connectivity\n\u2022 R.O.C.K. (Robotic Optimized Cognitive Kernel)\n\u2022 Voice command enabled\n\u2022 Virtual pet rock mode\n\u2022 Zen mode setting\n\nPre-orders are open now\u2014and for a limited time you can get 20% off with code STONESMART (expires 11:59PM Friday).\n\n[Preorder iRock Pro MAX+]\n\nFine print: AI features vary by subscription tier. Plans start at $29.99/mo for Basic (includes Zen mode)\n\nWhat to do next:\n\u2022 Use code STONESMART to pre-order by 11:59PM Friday\n\u2022 Log in to our app to name your iRock Pro MAX+\n\u2022 Enable Zen mode and experience pure, uninterrupted nothingness\n',
+          'Hi [first_name],\n\nThe future just landed on your desk. Introducing iRock Pro MAX+, the world\u2019s first pet rock upgraded with cutting edge artificial intelligence. It\u2019s cute, it\u2019s quiet, and it seamlessly connects to your smart home.\n\nPowered by Stone-Cold Intelligence\u2122 and an impressive 3000 petaflops processing, iRock Pro MAX+ delivers rock-solid answers. It also includes Ultra 5G-lithic connectivity plus our proprietary R.O.C.K. (Robotic Optimized Cognitive Kernel) to keep your conversations grounded.\n\nFeatures you never asked for:\n\u2022 Stone-Cold Intelligence\u2122\n\u2022 3000 petaflops processing\n\u2022 Rock-solid answers\n\u2022 Ultra 5G-lithic connectivity\n\u2022 R.O.C.K. (Robotic Optimized Cognitive Kernel)\n\u2022 Voice command enabled\n\u2022 Virtual pet rock mode\n\u2022 Zen mode setting\n\nPre-orders are open now\u2014and for a limited time you can get 20% off with code STONESMART (expires 11:59PM Friday).\n\n[Preorder iRock Pro MAX+]\n\nFine print: AI features vary by subscription tier. Plans start at $29.99/mo for Basic (includes Zen mode)\n\nWhat to do next:\n\u2022 Use code STONESMART to pre-order by 11:59PM Friday\n\u2022 Log in to our app to name your iRock Pro MAX+\n\u2022 Enable Zen mode and experience pure, uninterrupted nothingness\n',
         notice:
           '<strong>Same framework, different story.</strong> The only difference was the ticket: specific product facts, a structured format, and explicit tone produced an email that\u2019s usable. Three prompts, three drafts, one extremely useful rock.'
       }
@@ -1237,6 +1345,114 @@ ${lines(missing.value) || '* …'}
 
       render();
     })();
+	    // Chef Select
+	    (() => {
+	      const root = document.getElementById('chefSelect');
+	      if (!root) return;
+
+	      const chefs = [
+	        {
+	          id: 'claude', name: 'Claude', title: 'The Head Chef of Clarity',
+	          img: '../images/character_select/Claude.png',
+	          bio: 'Runs a terrifyingly organized kitchen. Labels every jar, writes a prep list for the prep list, and politely refuses to plate vibes as facts.<br><strong>Best for:</strong> careful reasoning, crisp writing, “make this make sense,” and code-review energy when your ticket needs structure.<br><strong>Watch for:</strong> occasionally trying to chiffonade a tomato into a thesis.',
+	          stats: { PREP: 5, FLAV: 5, HEAT: 3, GEAR: 4, PLAT: 5 }
+	        },
+	        {
+	          id: 'chatgpt', name: 'ChatGPT', title: 'The All-Purpose Line Cook',
+	          img: '../images/character_select/ChatGPT.png',
+	          bio: 'The reliable generalist who can run three stations and still answer “where’s the salt?” mid-rush.<br><strong>Best for:</strong> conversation, drafting, editing, explaining, brainstorming, and fast iteration when you want a steady back-and-forth.<br><strong>Watch for:</strong> occasionally sending a gorgeous-looking plate that secretly contains a substitute ingredient\u2014ask for sources, checks, or a “verify before serving” list.',
+	          stats: { PREP: 4, FLAV: 4, HEAT: 5, GEAR: 5, PLAT: 4 }
+	        },
+	        {
+	          id: 'gemini', name: 'Gemini', title: 'The Multimodal Caterer',
+	          img: '../images/character_select/Gemini.png',
+	          bio: 'Shows up with a banquet cart of modalities.<br><strong>Best for:</strong> “here\u2019s a screenshot / table / doc\u2014tell me what matters,” research-y synthesis, and anything that mixes formats.<br><strong>Watch for:</strong> the occasional experimental garnish\u2014do an expo pass before it leaves the kitchen.',
+	          stats: { PREP: 4, FLAV: 4, HEAT: 4, GEAR: 5, PLAT: 4 }
+	        },
+	        {
+	          id: 'copilot', name: 'Copilot', title: 'The Prep Cook Living in the Walls',
+	          img: '../images/character_select/CoPilot.png',
+	          bio: 'All the tools and always embedded in your IDE, your browser, your docs.  Not the flashiest chef on the line, but always ready to support with its signature move: auto-complete.<br><strong>Best for:</strong> staying in flow while you code, fixing tiny papercuts, and getting a first pass on the boring parts.<br><strong>Watch for:</strong> subtle slips\u2014taste every line, run tests, and treat suggestions like a hyperactive sous-chef, not a signed-and-sealed recipe.',
+	          stats: { PREP: 3, FLAV: 2, HEAT: 5, GEAR: 5, PLAT: 3 }
+	        },
+	        {
+	          id: 'grok', name: 'Grok', title: 'The Spicy Special',
+	          img: '../images/character_select/Grok.png',
+	          bio: 'Brings heat, chaos, and a bottle labeled “DO NOT SHAKE” (it shakes it). An unapologetic fanboy of a certain billionaire, if that\u2019s at all important to the dish you\u2019re ordering.<br><strong>Best for:</strong> big swings, punchy rewrites, and generating lots of options fast when you want spicy ideas more than facts.<br><strong>Watch for:</strong> high variance\u2014it tends to over-season and improvise ingredients. Keep your recipe (facts + constraints) taped to the pass and do a strict verify check.',
+	          stats: { PREP: 3, FLAV: 4, HEAT: 5, GEAR: 3, PLAT: 3 }
+	        },
+	        {
+	          id: 'llama', name: 'LLaMA', title: 'The Home Kitchen Kit',
+	          img: '../images/character_select/LLaMA.png',
+	          bio: 'Bring-your-own-stove: beloved for self-hosting, customization, and keeping ingredients in-house.<br><strong>Best for:</strong> privacy-sensitive workflows and “I want control of the kitchen” energy (plus tinkering, tuning, and swapping ingredients).<br><strong>Watch for:</strong> results vary by model/size and setup\u2014your mise en place (prompts + evals + settings) matters a lot.',
+	          stats: { PREP: 4, FLAV: 3, HEAT: 3, GEAR: 3, PLAT: 3 }
+	        }
+	      ];
+
+	      const rosterEl = document.getElementById('csRoster');
+	      const artEl = document.getElementById('csArt');
+	      const infoEl = document.getElementById('csInfo');
+	      const panelEl = document.getElementById('csPanel');
+	      let active = -1;
+
+      function stars(n) {
+        return '\u2605'.repeat(n) + '\u2606'.repeat(5 - n);
+      }
+
+	      function render() {
+	        rosterEl.querySelectorAll('.portrait').forEach((p, i) => {
+	          p.classList.toggle('active', i === active && active >= 0);
+	        });
+
+	        if (active < 0) {
+	          if (panelEl) panelEl.classList.add('placeholder');
+	          artEl.innerHTML = '<img class="chef-art-placeholder" src="../images/character_select/Silhouette.png" alt="Generic chef silhouette">';
+	          infoEl.innerHTML =
+	            '<div class="chef-name">???</div>' +
+	            '<div class="chef-title-label">Select your chef</div>' +
+	            '<div class="chef-bio"></div>';
+	          return;
+	        }
+
+	        const c = chefs[active];
+	        if (panelEl) panelEl.classList.remove('placeholder');
+	        artEl.innerHTML = '<img class="chef-art-img" src="' + c.img + '" alt="' + c.name + ' chef card art">';
+
+	        let html = '<div class="chef-name">' + c.name + '</div>';
+	        html += '<div class="chef-title-label">' + c.title + '</div>';
+	        html += '<div class="chef-bio">' + c.bio + '</div>';
+	        html += '<div class="chef-stats">';
+        for (const [key, val] of Object.entries(c.stats)) {
+          html += '<div class="stat-row"><span class="stat-label">' + key + '</span><span class="stat-stars">' + stars(val) + '</span></div>';
+        }
+        html += '</div>';
+	        infoEl.innerHTML = html;
+	      }
+
+	      const portraits = {
+	        claude: '../images/character_select/Claude-portrait.png',
+	        chatgpt: '../images/character_select/ChatGPT-portrait.png',
+	        gemini: '../images/character_select/Gemini-portrait.png',
+	        copilot: '../images/character_select/CoPilot-portrait.png',
+	        grok: '../images/character_select/Grok-portrait.png',
+	        llama: '../images/character_select/LLama-portrait.png'
+	      };
+
+	      chefs.forEach((c, i) => {
+	        const btn = document.createElement('button');
+	        btn.className = 'portrait';
+	        btn.type = 'button';
+	        btn.setAttribute('aria-label', 'Select ' + c.name);
+	        const img = document.createElement('img');
+	        img.src = portraits[c.id];
+	        img.alt = c.name;
+	        btn.appendChild(img);
+	        btn.addEventListener('click', () => { active = i; render(); });
+	        rosterEl.appendChild(btn);
+	      });
+
+	      render();
+	    })();
   </script>
 </body>
 
