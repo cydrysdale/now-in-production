@@ -33,8 +33,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=VT323&amp;display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&amp;family=VT323&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/style.css">
   <link rel="stylesheet" href="../assets/css/tokens.css">
   <script src="../assets/js/core.js" defer></script>
@@ -203,24 +202,60 @@
 
     @media (max-width: 700px) { .chef-panel { grid-template-columns: 1fr; } }
 
-	    .chef-art {
-	      background: var(--card2);
-	      display: flex;
-	      align-items: flex-end;
-	      justify-content: center;
-	    }
+    .chef-art {
+      background: var(--card2);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
 
-	    .chef-art img { height: auto; display: block; }
-	    .chef-art img.chef-art-img { width: 100%; }
-	    .chef-art img.chef-art-placeholder { width: 100%; opacity: .7; }
-	    .chef-info { padding: 16px 20px; }
-	    .chef-name { font-size: 1.3rem; font-weight: bold; margin: 0 0 2px; }
-	    .chef-title-label { color: var(--accent); font-weight: bold; font-size: .9rem; margin-bottom: 10px; }
-	    .chef-bio { font-size: .9rem; line-height: 1.5; margin-bottom: 14px; }
-	    .chef-stats { display: flex; flex-direction: column; gap: 3px; }
+    .chef-art img { height: auto; display: block; }
+    .chef-art img.chef-art-img { width: 100%; }
+    .chef-art img.chef-art-placeholder { width: 100%; opacity: .7; }
+    .chef-info { padding: 16px 20px; }
+    .chef-name { font-size: 1.3rem; font-weight: bold; margin: 0 0 2px; }
+    .chef-title-label { color: var(--accent); font-weight: bold; font-size: .9rem; margin-bottom: 10px; }
+    .chef-bio { font-size: .9rem; line-height: 1.5; margin-bottom: 14px; }
+    .chef-stats { display: flex; flex-direction: column; gap: 3px; }
     .stat-row { display: flex; align-items: center; gap: 8px; font-size: .85rem; }
     .stat-label { font-weight: bold; width: 32px; font-size: .8rem; }
     .stat-stars { color: var(--accent); letter-spacing: 2px; }
+
+    @media (prefers-reduced-motion: no-preference) {
+      #chefSelect.motion-ready {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+      }
+      #chefSelect.motion-ready.in-view {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .portrait {
+        transition: border-color 0.15s, box-shadow 0.15s, transform 0.2s ease, filter 0.2s ease;
+      }
+      .portrait:hover {
+        transform: scale(1.06) translateY(-2px);
+        filter: brightness(1.08);
+      }
+
+      .chef-art, .chef-info {
+        transition: opacity 0.2s ease, transform 0.2s ease;
+      }
+      .chef-art.swapping, .chef-info.swapping {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      @keyframes chefFloat {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-3px); }
+      }
+      .chef-art img.chef-art-img {
+        animation: chefFloat 4s ease-in-out infinite;
+      }
+    }
   </style>
 </head>
 
@@ -228,7 +263,7 @@
   <a class="skip-link" href="#content">Skip to content</a>
   <header>
     <div class="header-inner">
-      <img src="../images/apple-touch-icon.png" width="60px" style="display: inline-block; margin-right: 10px;"
+      <img src="../images/apple-touch-icon.png" width="60" style="display: inline-block; margin-right: 10px;"
         alt="site logo" />
       <div id="top" class="title-block">
         <h1>Demystifying AI: Stepping into the LLM Kitchen</h1>
@@ -338,7 +373,11 @@
           </div>
           <div id="pgChoices"></div>
           <div id="pgReveal" class="callout" style="display:none" aria-live="polite"></div>
-          <button id="pgNext" class="sandbox-btn" type="button" style="display:none">Next round</button>
+          <div style="display:flex; gap:8px; padding:4px 0">
+            <button id="pgBack" class="sandbox-btn" type="button" style="display:none">Back</button>
+            <button id="pgNext" class="sandbox-btn" type="button" style="display:none">Next round</button>
+            <button id="pgReset" class="sandbox-btn" type="button" style="display:none">Start over</button>
+          </div>
         </div>
 
         <h3>The upgrade: looking at the whole counter</h3>
@@ -443,9 +482,9 @@
             <figure dir="rtl">
               <p class="image-compare" role="img" tabindex="0" aria-label="Interactive comparison of LLM context windows with and without attention highlighting." aria-description="Two overlaid images are revealed by a slider. One shows an LLM context window with attention weights highlighted, illustrating how the model focuses on relevant tokens. The other shows the same context window without highlighting, representing raw token storage.">
                 <span>
-                  <img src="../images/LLM-context-window-attn.png" alt="" aria-hidden="true">
+                  <img src="../images/LLM-context-window-attn.png" alt="" aria-hidden="true" loading="lazy">
                   </span>
-                  <img src="../images/LLM-context-window.png" alt="" aria-hidden="true">
+                  <img src="../images/LLM-context-window.png" alt="" aria-hidden="true" loading="lazy">
               </p>
             </figure>
           </div>
@@ -619,7 +658,11 @@
             <button id="hqMyth" class="sandbox-btn" type="button">Myth</button>
           </div>
           <div id="hqReveal" class="callout" style="display:none" aria-live="polite"></div>
-          <button id="hqNext" class="sandbox-btn" type="button" style="display:none">Next claim</button>
+          <div style="display:flex; gap:8px; padding:4px 0">
+            <button id="hqBack" class="sandbox-btn" type="button" style="display:none">Back</button>
+            <button id="hqNext" class="sandbox-btn" type="button" style="display:none">Next claim</button>
+            <button id="hqReset" class="sandbox-btn" type="button" style="display:none">Start over</button>
+          </div>
         </div>
 
         <details class="tip">
@@ -687,7 +730,11 @@
             <div class="code-type" id="itOutput" style="white-space:normal"></div>
           </div>
           <div id="itNotice" class="callout" aria-live="polite"></div>
-          <button id="itNext" class="sandbox-btn" type="button">Next revision</button>
+          <div style="display:flex; gap:8px; padding:4px 0">
+            <button id="itBack" class="sandbox-btn" type="button" style="display:none">Back</button>
+            <button id="itNext" class="sandbox-btn" type="button">Next revision</button>
+            <button id="itReset" class="sandbox-btn" type="button" style="display:none">Start over</button>
+          </div>
         </div>
 
         <h3>Why AI can't replace experience</h3>
@@ -792,7 +839,11 @@
             <div class="code-type" id="wfOutput" style="white-space:normal"></div>
           </div>
           <div id="wfNotice" class="callout" aria-live="polite"></div>
-          <button id="wfNext" class="sandbox-btn" type="button">Next station</button>
+          <div style="display:flex; gap:8px; padding:4px 0">
+            <button id="wfBack" class="sandbox-btn" type="button" style="display:none">Back</button>
+            <button id="wfNext" class="sandbox-btn" type="button">Next station</button>
+            <button id="wfReset" class="sandbox-btn" type="button" style="display:none">Start over</button>
+          </div>
         </div>
 
         <div class="truth"><strong>Kitchen truth:</strong> The line works because each station has one job and one handoff. The moment you ask one station to do too many things, you've lost the advantage of having a line.</div>
@@ -880,30 +931,28 @@
         </details>
       </section>
 
-	      <section>
-	        <h2>Choose Your Chef</h2>
-	        <p>
-	          Now that you know how the kitchen works, it's time to meet the roster. Each model has different strengths, weaknesses, and wildly overdramatic cooking styles—and the right pick depends on what you're making (and what kitchen you're in).
-	        </p>
+      <section>
+        <h2>Choose Your Chef</h2>
+        <p>
+          Now that you know how the kitchen works, it's time to meet the roster. Each model has different strengths, weaknesses, and wildly overdramatic cooking styles—and the right pick depends on what you're making (and what kitchen you're in).
+        </p>
 
-	        <div class="sandbox-card" id="chefSelect">
-	          <label class="sandbox-label"><strong>Select your chef</strong></label>
-	          <div class="select-screen">
-	            <div class="portrait-row" id="csRoster"></div>
-	            <div class="chef-panel" id="csPanel">
-	              <div class="chef-art" id="csArt"></div>
-	              <div class="chef-info" id="csInfo"></div>
-	            </div>
-	          </div>
-	        </div>
-
-	        <div class="truth"><strong>Kitchen truth:</strong> There's no single best chef. The right pick depends on the dish—and the best cooks know when to switch stations.</div>
-	      </section>
-      <footer class="sub glass">
-        <span>© 2026 – Demystifying AI: Stepping into the LLM Kitchen by Chris Yasuda Drysdale</span>
-      </footer>
+        <div class="sandbox-card" id="chefSelect">
+          <label class="sandbox-label"><strong>Select your chef</strong></label>
+          <div class="select-screen">
+            <div class="portrait-row" id="csRoster"></div>
+            <div class="chef-panel" id="csPanel">
+              <div class="chef-art" id="csArt"></div>
+              <div class="chef-info" id="csInfo"></div>
+            </div>
+          </div>
+        </div>
+      </section>
 
     </main>
+    <footer class="sub glass" style="grid-column: 1 / -1">
+      <span>© 2026 – Demystifying AI: Stepping into the LLM Kitchen by Chris Yasuda Drysdale</span>
+    </footer>
   </div>
 
   <button id="tocFab" class="toc-fab" aria-controls="tocList" aria-expanded="false"
@@ -990,20 +1039,48 @@ ${lines(missing.value) || '* …'}
 
       let cur = 0;
       let done = false;
+      const history = [];
 
       const sentenceEl = game.querySelector('#pgSentence');
       const choicesEl = game.querySelector('#pgChoices');
       const revealEl = game.querySelector('#pgReveal');
       const nextBtn = game.querySelector('#pgNext');
+      const backBtn = game.querySelector('#pgBack');
+      const resetBtn = game.querySelector('#pgReset');
       const progressEl = game.querySelector('#pgProgress');
+
+      function buildRevealHTML(r) {
+        let html = '';
+        if (r.p === r.b) {
+          html += '<p style="margin:0"><strong>Phone suggestion: ' + r.c[r.p] + '</strong>\u2014matches the context-aware pick this time.</p>';
+        } else {
+          html += '<p style="margin:0"><strong>Phone suggestion:</strong> ' + r.c[r.p] + ' &nbsp;|&nbsp; <strong>Context-aware pick:</strong> ' + r.c[r.b] + '</p>';
+        }
+        html += '<p class="note" style="margin:.5rem 0 0">' + r.e + '</p>';
+        if (cur >= rounds.length - 1) {
+          html += '<p style="margin:.8rem 0 0"><strong>Takeaway:</strong> Simple prediction matches common patterns. LLMs use attention to match meaning\u2014which is why they\u2019re dramatically better, but still one token at a time.</p>';
+        }
+        return html;
+      }
+
+      function showAnswered(r) {
+        done = true;
+        const btns = choicesEl.querySelectorAll('button');
+        btns.forEach((btn, i) => {
+          btn.disabled = true;
+          if (i === r.b) {
+            btn.style.outline = '2px solid var(--accent)';
+            btn.style.outlineOffset = '2px';
+          }
+        });
+        revealEl.innerHTML = buildRevealHTML(r);
+        revealEl.style.display = 'block';
+      }
 
       function render() {
         const r = rounds[cur];
-        done = false;
         sentenceEl.textContent = r.s;
         choicesEl.innerHTML = '';
-        revealEl.style.display = 'none';
-        nextBtn.style.display = 'none';
         progressEl.textContent = 'Round ' + (cur + 1) + ' of ' + rounds.length;
 
         r.c.forEach((word, i) => {
@@ -1014,46 +1091,33 @@ ${lines(missing.value) || '* …'}
           btn.addEventListener('click', () => pick(i));
           choicesEl.appendChild(btn);
         });
+
+        if (history[cur] !== undefined) {
+          showAnswered(r);
+          nextBtn.style.display = cur < rounds.length - 1 ? 'inline-block' : 'none';
+        } else {
+          done = false;
+          revealEl.style.display = 'none';
+          nextBtn.style.display = 'none';
+        }
+
+        backBtn.style.display = cur > 0 ? 'inline-block' : 'none';
+        resetBtn.style.display = history.length > 0 ? 'inline-block' : 'none';
       }
 
       function pick(idx) {
         if (done) return;
-        done = true;
-        const r = rounds[cur];
-
-        const btns = choicesEl.querySelectorAll('button');
-        btns.forEach((btn, i) => {
-          btn.disabled = true;
-          if (i === r.b) {
-            btn.style.outline = '2px solid var(--accent)';
-            btn.style.outlineOffset = '2px';
-          }
-        });
-
-        let html = '';
-        if (r.p === r.b) {
-          html += '<p style="margin:0"><strong>Phone suggestion: ' + r.c[r.p] + '</strong>\u2014matches the context-aware pick this time.</p>';
-        } else {
-          html += '<p style="margin:0"><strong>Phone suggestion:</strong> ' + r.c[r.p] + ' &nbsp;|&nbsp; <strong>Context-aware pick:</strong> ' + r.c[r.b] + '</p>';
-        }
-        html += '<p class="note" style="margin:.5rem 0 0">' + r.e + '</p>';
-
-        if (cur >= rounds.length - 1) {
-          html += '<p style="margin:.8rem 0 0"><strong>Takeaway:</strong> Simple prediction matches common patterns. LLMs use attention to match meaning\u2014which is why they\u2019re dramatically better, but still one token at a time.</p>';
-        }
-
-        revealEl.innerHTML = html;
-        revealEl.style.display = 'block';
-
+        history[cur] = idx;
+        showAnswered(rounds[cur]);
         if (cur < rounds.length - 1) {
           nextBtn.style.display = 'inline-block';
         }
+        resetBtn.style.display = 'inline-block';
       }
 
-      nextBtn.addEventListener('click', () => {
-        cur++;
-        render();
-      });
+      nextBtn.addEventListener('click', () => { cur++; render(); });
+      backBtn.addEventListener('click', () => { cur--; render(); });
+      resetBtn.addEventListener('click', () => { cur = 0; history.length = 0; render(); });
 
       render();
     })();
@@ -1174,47 +1238,33 @@ ${lines(missing.value) || '* …'}
 
       let cur = 0;
       let done = false;
-      let score = 0;
+      const history = [];
 
       const claimEl = document.getElementById('hqClaim');
       const factBtn = document.getElementById('hqFact');
       const mythBtn = document.getElementById('hqMyth');
       const revealEl = document.getElementById('hqReveal');
       const nextBtn = document.getElementById('hqNext');
+      const backBtn = document.getElementById('hqBack');
+      const resetBtn = document.getElementById('hqReset');
       const progressEl = document.getElementById('hqProgress');
 
-      function render() {
-        done = false;
-        claimEl.textContent = '\u201c' + rounds[cur].claim + '\u201d';
-        revealEl.style.display = 'none';
-        nextBtn.style.display = 'none';
-        factBtn.disabled = false;
-        mythBtn.disabled = false;
-        factBtn.style.outline = '';
-        mythBtn.style.outline = '';
-        progressEl.textContent = 'Claim ' + (cur + 1) + ' of ' + rounds.length;
+      function computeScore() {
+        let s = 0;
+        for (let i = 0; i < history.length; i++) {
+          if (history[i] === rounds[i].fact) s++;
+        }
+        return s;
       }
 
-      function pick(answeredFact) {
-        if (done) return;
-        done = true;
-        const r = rounds[cur];
+      function buildRevealHTML(r, answeredFact) {
         const correct = answeredFact === r.fact;
-        if (correct) score++;
-
-        factBtn.disabled = true;
-        mythBtn.disabled = true;
-
-        const rightBtn = r.fact ? factBtn : mythBtn;
-        rightBtn.style.outline = '2px solid var(--accent)';
-        rightBtn.style.outlineOffset = '2px';
-
         let html = '<p style="margin:0">';
         html += correct ? '<strong>Correct!</strong> ' : '<strong>Not quite.</strong> ';
         html += 'This is <strong>' + (r.fact ? 'a real fact' : 'a common myth') + '</strong>.</p>';
         html += '<p class="note" style="margin:.5rem 0 0">' + r.e + '</p>';
-
         if (cur >= rounds.length - 1) {
+          const score = computeScore();
           html += '<p style="margin:.8rem 0 0"><strong>Result: ' + score + ' / ' + rounds.length + '.</strong> ';
           if (score === rounds.length) {
             html += 'Nice work\u2014but in practice there\u2019s no "Fact or Myth" button. Every AI claim arrives in the same confident voice.';
@@ -1223,18 +1273,59 @@ ${lines(missing.value) || '* …'}
           }
           html += '</p>';
         }
+        return html;
+      }
 
-        revealEl.innerHTML = html;
+      function showAnswered(r, answeredFact) {
+        done = true;
+        factBtn.disabled = true;
+        mythBtn.disabled = true;
+        factBtn.style.outline = '';
+        mythBtn.style.outline = '';
+        const rightBtn = r.fact ? factBtn : mythBtn;
+        rightBtn.style.outline = '2px solid var(--accent)';
+        rightBtn.style.outlineOffset = '2px';
+        revealEl.innerHTML = buildRevealHTML(r, answeredFact);
         revealEl.style.display = 'block';
+      }
 
+      function render() {
+        const r = rounds[cur];
+        claimEl.textContent = '\u201c' + r.claim + '\u201d';
+        progressEl.textContent = 'Claim ' + (cur + 1) + ' of ' + rounds.length;
+
+        if (history[cur] !== undefined) {
+          showAnswered(r, history[cur]);
+          nextBtn.style.display = cur < rounds.length - 1 ? 'inline-block' : 'none';
+        } else {
+          done = false;
+          factBtn.disabled = false;
+          mythBtn.disabled = false;
+          factBtn.style.outline = '';
+          mythBtn.style.outline = '';
+          revealEl.style.display = 'none';
+          nextBtn.style.display = 'none';
+        }
+
+        backBtn.style.display = cur > 0 ? 'inline-block' : 'none';
+        resetBtn.style.display = history.length > 0 ? 'inline-block' : 'none';
+      }
+
+      function pick(answeredFact) {
+        if (done) return;
+        history[cur] = answeredFact;
+        showAnswered(rounds[cur], answeredFact);
         if (cur < rounds.length - 1) {
           nextBtn.style.display = 'inline-block';
         }
+        resetBtn.style.display = 'inline-block';
       }
 
       factBtn.addEventListener('click', () => pick(true));
       mythBtn.addEventListener('click', () => pick(false));
       nextBtn.addEventListener('click', () => { cur++; render(); });
+      backBtn.addEventListener('click', () => { cur--; render(); });
+      resetBtn.addEventListener('click', () => { cur = 0; history.length = 0; render(); });
 
       render();
     })();
@@ -1278,6 +1369,8 @@ ${lines(missing.value) || '* …'}
       const outputEl = document.getElementById('itOutput');
       const noticeEl = document.getElementById('itNotice');
       const nextBtn = document.getElementById('itNext');
+      const backBtn = document.getElementById('itBack');
+      const resetBtn = document.getElementById('itReset');
       const progressEl = document.getElementById('itProgress');
       const promptBlock = document.getElementById('itPromptBlock');
 
@@ -1289,9 +1382,13 @@ ${lines(missing.value) || '* …'}
         outputEl.innerHTML = s.output.replace(/\n/g, '<br>');
         noticeEl.innerHTML = '<p style="margin:0">' + s.notice + '</p>';
         nextBtn.style.display = cur < steps.length - 1 ? 'inline-block' : 'none';
+        backBtn.style.display = cur > 0 ? 'inline-block' : 'none';
+        resetBtn.style.display = cur > 0 ? 'inline-block' : 'none';
       }
 
       nextBtn.addEventListener('click', () => { cur++; render(); });
+      backBtn.addEventListener('click', () => { cur--; render(); });
+      resetBtn.addEventListener('click', () => { cur = 0; render(); });
 
       render();
     })();
@@ -1328,6 +1425,8 @@ ${lines(missing.value) || '* …'}
       const outputEl = document.getElementById('wfOutput');
       const noticeEl = document.getElementById('wfNotice');
       const nextBtn = document.getElementById('wfNext');
+      const backBtn = document.getElementById('wfBack');
+      const resetBtn = document.getElementById('wfReset');
       const progressEl = document.getElementById('wfProgress');
       const promptBlock = document.getElementById('wfPromptBlock');
 
@@ -1339,120 +1438,200 @@ ${lines(missing.value) || '* …'}
         outputEl.innerHTML = s.output.replace(/\n/g, '<br>');
         noticeEl.innerHTML = '<p style="margin:0">' + s.notice + '</p>';
         nextBtn.style.display = cur < steps.length - 1 ? 'inline-block' : 'none';
+        backBtn.style.display = cur > 0 ? 'inline-block' : 'none';
+        resetBtn.style.display = cur > 0 ? 'inline-block' : 'none';
       }
 
       nextBtn.addEventListener('click', () => { cur++; render(); });
+      backBtn.addEventListener('click', () => { cur--; render(); });
+      resetBtn.addEventListener('click', () => { cur = 0; render(); });
 
       render();
     })();
-	    // Chef Select
-	    (() => {
-	      const root = document.getElementById('chefSelect');
-	      if (!root) return;
+    // Chef Select
+    (() => {
+      const root = document.getElementById('chefSelect');
+      if (!root) return;
 
-	      const chefs = [
-	        {
-	          id: 'claude', name: 'Claude', title: 'The Head Chef of Clarity',
-	          img: '../images/character_select/Claude.png',
-	          bio: 'Runs a terrifyingly organized kitchen. Labels every jar, writes a prep list for the prep list, and politely refuses to plate substitute ingredients.<br><strong>Best for:</strong> careful reasoning, crisp writing, “make this make sense,” and code-review when you need structure.<br><strong>Watch for:</strong> occasionally trying to turn a simple grilled cheese into a masterpiece.',
-	          stats: { PREP: 5, FLAV: 2, HEAT: 1, GEAR: 4, PLAT: 4 }
-	        },
-	        {
-	          id: 'chatgpt', name: 'ChatGPT', title: 'The All-Purpose Line Cook',
-	          img: '../images/character_select/ChatGPT.png',
-	          bio: 'The reliable generalist who can run three stations and still answer your questions mid-rush.<br><strong>Best for:</strong> conversation, drafting, editing, explaining, brainstorming, and fast iteration when you want a steady back-and-forth.<br><strong>Watch for:</strong> occasionally substituting ingredients without saying anything.',
-	          stats: { PREP: 3, FLAV: 4, HEAT: 3, GEAR: 3, PLAT: 3 }
-	        },
-	        {
-	          id: 'gemini', name: 'Gemini', title: 'The Multimodal Caterer',
-	          img: '../images/character_select/Gemini.png',
-	          bio: 'Shows up with a banquet cart of modalities.<br><strong>Best for:</strong> “here\u2019s a screenshot / table / doc\u2014tell me what matters,” research-y synthesis, and anything that mixes formats.<br><strong>Watch for:</strong> the occasional experimental garnish\u2014do an expo pass before it leaves the kitchen.',
-	          stats: { PREP: 4, FLAV: 2, HEAT: 3, GEAR: 5, PLAT: 2 }
-	        },
-	        {
-	          id: 'copilot', name: 'Copilot', title: 'The Prep Cook Living in the Walls',
-	          img: '../images/character_select/CoPilot.png',
-	          bio: 'All the tools and always embedded in your IDE, your browser, your docs.  Not the flashiest chef on the line, but always ready to support with its signature move: auto-complete.<br><strong>Best for:</strong> staying in flow while you live in Microsoft-land and getting quick support on the boring parts.<br><strong>Watch for:</strong> improvisation of the menu when overwhelmed.',
-	          stats: { PREP: 4, FLAV: 3, HEAT: 1, GEAR: 5, PLAT: 3 }
-	        },
-	        {
-	          id: 'grok', name: 'Grok', title: 'The Spicy Special',
-	          img: '../images/character_select/Grok.png',
-	          bio: 'Brings heat, chaos, and a bottle labeled “DO NOT SHAKE” (it shakes it). Also, an unapologetic fanboy of a certain billionaire, if that\u2019s at all important to the dish you\u2019re ordering.<br><strong>Best for:</strong> big swings, punchy rewrites, and generating lots of options fast when you want spicy ideas more than facts.<br><strong>Watch for:</strong> high variance\u2014it tends to over-season and improvise ingredients. Also, don\u2019t feed it after midnight.',
-	          stats: { PREP: 1, FLAV: 5, HEAT: 5, GEAR: 2, PLAT: 3 }
-	        },
-	        {
-	          id: 'llama', name: 'LLaMA', title: 'The Home Kitchen Kit',
-	          img: '../images/character_select/LLaMA.png',
-	          bio: 'Bring-your-own-stove: beloved for self-hosting, customization, and keeping ingredients in-house.<br><strong>Best for:</strong> privacy-sensitive workflows and “I want control of the kitchen” energy (plus tinkering, tuning, and swapping ingredients).<br><strong>Watch for:</strong> results vary by model/size and setup\u2014your mise en place (prompts, evals, settings, etc.) matters a lot.',
-	          stats: { PREP: 5, FLAV: 2, HEAT: 3, GEAR: 5, PLAT: 1 }
-	        }
-	      ];
+      const motionOK = matchMedia('(prefers-reduced-motion: no-preference)').matches;
 
-	      const rosterEl = document.getElementById('csRoster');
-	      const artEl = document.getElementById('csArt');
-	      const infoEl = document.getElementById('csInfo');
-	      const panelEl = document.getElementById('csPanel');
-	      let active = -1;
+      const chefs = [
+        {
+          id: 'claude', name: 'Claude', title: 'The Head Chef of Clarity',
+          img: '../images/character_select/Claude.png',
+          bio: 'Runs a terrifyingly organized kitchen. Labels every jar, writes a prep list for the prep list, and politely refuses to substitute ingredients.<br><strong>Best for:</strong> careful reasoning, crisp writing, and code-review when you need structure.<br><strong>Watch for:</strong> occasionally trying to turn a simple grilled cheese into a masterpiece.',
+          stats: { PREP: 5, FLAV: 2, HEAT: 1, GEAR: 4, PLAT: 4 }
+        },
+        {
+          id: 'chatgpt', name: 'ChatGPT', title: 'The All-Purpose Chef',
+          img: '../images/character_select/ChatGPT.png',
+          bio: 'The reliable generalist who can run three stations and still answer your questions mid-rush.<br><strong>Best for:</strong> conversation, drafting, editing, explaining, brainstorming, and fast iteration when you want a steady back-and-forth.<br><strong>Watch for:</strong> occasionally substituting ingredients without saying anything.',
+          stats: { PREP: 3, FLAV: 4, HEAT: 3, GEAR: 3, PLAT: 3 }
+        },
+        {
+          id: 'gemini', name: 'Gemini', title: 'The Ambidextrous Caterer',
+          img: '../images/character_select/Gemini.png',
+          bio: 'Shows up with a banquet cart packed with cookbooks and various tricks of the trade.<br><strong>Best for:</strong> “here\u2019s a screenshot / table / doc\u2014tell me what matters,” research-y synthesis, and anything that mixes formats.<br><strong>Watch for:</strong> the occasional experimental garnish\u2014do an expo pass before it leaves the kitchen.',
+          stats: { PREP: 4, FLAV: 2, HEAT: 3, GEAR: 5, PLAT: 2 }
+        },
+        {
+          id: 'copilot', name: 'Copilot', title: 'The Prep Cook Living in the Pantry',
+          img: '../images/character_select/CoPilot.png',
+          bio: 'All the tools and always embedded in your IDE, your browser, your docs.  Not the flashiest chef on the line, but always ready to support with its signature move: auto-complete.<br><strong>Best for:</strong> staying in flow during your stay in Microsoft-land.<br><strong>Watch for:</strong> improvisation of the menu when overwhelmed.',
+          stats: { PREP: 4, FLAV: 3, HEAT: 1, GEAR: 5, PLAT: 3 }
+        },
+        {
+          id: 'grok', name: 'Grok', title: 'The Spicy Special',
+          img: '../images/character_select/Grok.png',
+          bio: 'Brings all the chaos of a herd of caffeinated squirrels in a bouncy castle wearing a trench coat. Also, an unapologetic fanboy of a certain billionaire, if that\u2019s at all important to the dish you\u2019re ordering.<br><strong>Best for:</strong> big swings and punchy rewrites when you want spicy ideas more than facts.<br><strong>Watch for:</strong> high variance\u2014it tends to over-season and improvise ingredients\u2014don\u2019t feed it after midnight.',
+          stats: { PREP: 1, FLAV: 5, HEAT: 5, GEAR: 2, PLAT: 3 }
+        },
+        {
+          id: 'llama', name: 'LLaMA', title: 'The Home Kitchen Kit',
+          img: '../images/character_select/LLaMA.png',
+          bio: 'Bring-your-own-stove: beloved for self-hosting, customization, and gourmet meals from the privacy of your own home.<br><strong>Best for:</strong> privacy-sensitive workflows and full control over tinkering, tuning, and swapping ingredients.<br><strong>Watch for:</strong> results vary by model/size and setup\u2014your mise en place (prompts, evals, settings, etc.) matters a lot.',
+          stats: { PREP: 5, FLAV: 2, HEAT: 3, GEAR: 5, PLAT: 1 }
+        }
+      ];
+
+      const rosterEl = document.getElementById('csRoster');
+      const artEl = document.getElementById('csArt');
+      const infoEl = document.getElementById('csInfo');
+      const panelEl = document.getElementById('csPanel');
+      let active = -1;
+      let prevActive = -1;
+      let swapTimer = 0;
 
       function stars(n) {
         return '\u2605'.repeat(n) + '\u2606'.repeat(5 - n);
       }
 
-	      function render() {
-	        rosterEl.querySelectorAll('.portrait').forEach((p, i) => {
-	          p.classList.toggle('active', i === active && active >= 0);
-	        });
+      function updatePanel() {
+        if (active < 0) {
+          if (panelEl) panelEl.classList.add('placeholder');
+          artEl.innerHTML = '<img class="chef-art-placeholder" src="../images/character_select/Silhouette.png" alt="Generic chef silhouette">';
+          infoEl.innerHTML =
+            '<div class="chef-name">???</div>' +
+            '<div class="chef-title-label">Select your chef</div>' +
+            '<div class="chef-bio"></div>';
+          return;
+        }
 
-	        if (active < 0) {
-	          if (panelEl) panelEl.classList.add('placeholder');
-	          artEl.innerHTML = '<img class="chef-art-placeholder" src="../images/character_select/Silhouette.png" alt="Generic chef silhouette">';
-	          infoEl.innerHTML =
-	            '<div class="chef-name">???</div>' +
-	            '<div class="chef-title-label">Select your chef</div>' +
-	            '<div class="chef-bio"></div>';
-	          return;
-	        }
+        const c = chefs[active];
+        if (panelEl) panelEl.classList.remove('placeholder');
+        artEl.innerHTML = '<img class="chef-art-img" src="' + c.img + '" alt="' + c.name + ' chef card art">';
 
-	        const c = chefs[active];
-	        if (panelEl) panelEl.classList.remove('placeholder');
-	        artEl.innerHTML = '<img class="chef-art-img" src="' + c.img + '" alt="' + c.name + ' chef card art">';
-
-	        let html = '<div class="chef-name">' + c.name + '</div>';
-	        html += '<div class="chef-title-label">' + c.title + '</div>';
-	        html += '<div class="chef-bio">' + c.bio + '</div>';
-	        html += '<div class="chef-stats">';
+        let html = '<div class="chef-name">' + c.name + '</div>';
+        html += '<div class="chef-title-label">' + c.title + '</div>';
+        html += '<div class="chef-bio">' + c.bio + '</div>';
+        html += '<div class="chef-stats">';
         for (const [key, val] of Object.entries(c.stats)) {
           html += '<div class="stat-row"><span class="stat-label">' + key + '</span><span class="stat-stars">' + stars(val) + '</span></div>';
         }
         html += '</div>';
-	        infoEl.innerHTML = html;
-	      }
+        infoEl.innerHTML = html;
+      }
 
-	      const portraits = {
-	        claude: '../images/character_select/Claude-portrait.png',
-	        chatgpt: '../images/character_select/ChatGPT-portrait.png',
-	        gemini: '../images/character_select/Gemini-portrait.png',
-	        copilot: '../images/character_select/CoPilot-portrait.png',
-	        grok: '../images/character_select/Grok-portrait.png',
-	        llama: '../images/character_select/LLama-portrait.png'
-	      };
+      function revealStats() {
+        if (!motionOK) return;
+        infoEl.querySelectorAll('.stat-row').forEach((row, i) => {
+          row.animate(
+            [
+              { opacity: 0, transform: 'translateX(-8px)' },
+              { opacity: 1, transform: 'translateX(0)' }
+            ],
+            { duration: 250, delay: i * 60, easing: 'ease', fill: 'backwards' }
+          );
+        });
+      }
 
-	      chefs.forEach((c, i) => {
-	        const btn = document.createElement('button');
-	        btn.className = 'portrait';
-	        btn.type = 'button';
-	        btn.setAttribute('aria-label', 'Select ' + c.name);
-	        const img = document.createElement('img');
-	        img.src = portraits[c.id];
-	        img.alt = c.name;
-	        btn.appendChild(img);
-	        btn.addEventListener('click', () => { active = i; render(); });
-	        rosterEl.appendChild(btn);
-	      });
+      function render() {
+        rosterEl.querySelectorAll('.portrait').forEach((p, i) => {
+          p.classList.toggle('active', i === active && active >= 0);
+        });
 
-	      render();
-	    })();
+        const changed = active !== prevActive;
+        prevActive = active;
+        clearTimeout(swapTimer);
+
+        if (motionOK && changed) {
+          artEl.classList.add('swapping');
+          infoEl.classList.add('swapping');
+          swapTimer = setTimeout(() => {
+            updatePanel();
+            requestAnimationFrame(() => {
+              artEl.classList.remove('swapping');
+              infoEl.classList.remove('swapping');
+              revealStats();
+            });
+          }, 200);
+        } else {
+          updatePanel();
+        }
+      }
+
+      const portraits = {
+        claude: '../images/character_select/Claude-portrait.png',
+        chatgpt: '../images/character_select/ChatGPT-portrait.png',
+        gemini: '../images/character_select/Gemini-portrait.png',
+        copilot: '../images/character_select/CoPilot-portrait.png',
+        grok: '../images/character_select/Grok-portrait.png',
+        llama: '../images/character_select/LLama-portrait.png'
+      };
+
+      chefs.forEach((c, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'portrait';
+        btn.type = 'button';
+        btn.setAttribute('aria-label', 'Select ' + c.name);
+        const img = document.createElement('img');
+        img.src = portraits[c.id];
+        img.alt = c.name;
+        img.loading = 'lazy';
+        btn.appendChild(img);
+        btn.addEventListener('click', () => {
+          active = i;
+          render();
+          if (motionOK) {
+            btn.animate(
+              [
+                { transform: 'scale(1)' },
+                { transform: 'scale(1.08)' },
+                { transform: 'scale(1)' }
+              ],
+              { duration: 300, easing: 'ease' }
+            );
+          }
+        });
+        rosterEl.appendChild(btn);
+      });
+
+      if (motionOK) {
+        root.classList.add('motion-ready');
+        const portraitEls = rosterEl.querySelectorAll('.portrait');
+        portraitEls.forEach(p => { p.style.opacity = '0'; });
+
+        const io = new IntersectionObserver(([entry]) => {
+          if (entry.isIntersecting) {
+            root.classList.add('in-view');
+            portraitEls.forEach((p, i) => {
+              p.animate(
+                [
+                  { opacity: 0, transform: 'translateY(12px)' },
+                  { opacity: 1, transform: 'translateY(0)' }
+                ],
+                { duration: 400, delay: 50 + i * 60, easing: 'ease', fill: 'backwards' }
+              );
+              p.style.opacity = '';
+            });
+            io.disconnect();
+          }
+        }, { threshold: 0.15 });
+        io.observe(root);
+      }
+
+      render();
+    })();
   </script>
 </body>
 

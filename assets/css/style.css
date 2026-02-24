@@ -1,3 +1,10 @@
+/* Reset */
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
 /* Shared site styles */
 :root {
     --black: #352f36;
@@ -30,6 +37,16 @@
     --thumb-shadow2: -1px 1px 3px var(--shadow2);
     --chance-bg: #f79b3e;           /* Monopoly Chance orange */
     --chest-bg: #faf56b;          /* Monopoly Community Chest yellow */
+    --chance-radius: 12px;
+    --chance-shadow: 0 6px 20px var(--shadow2);
+    --chance-gap: .75rem;
+    --chance-3d-w: 340px;
+    --chance-3d-h: 200px;
+    --chest-text: #1c1c1c;
+    --lab-radius: 14px;
+    --lab-border: 1px solid rgba(0,0,0,.08);
+    --lab-shadow: 0 8px 28px rgba(0,0,0,.12);
+    --lab-pad: 1rem;
   }
     
 
@@ -106,7 +123,7 @@
     height:var(--h);
     border-radius:999px;
     background: transparent;
-    border:0px solid var(--borderLight);
+    border: none;
     cursor:pointer;
   }
   
@@ -130,7 +147,7 @@
     height: var(--thumb);
     border-radius: 50%;
     background: linear-gradient(30deg, var(--shadow) 25%, var(--bg2) 80%); 
-    border: 0px solid var(--borderLight);
+    border: none;
     display:grid; place-items:center;
     box-shadow: var(--thumb-shadow);
     /* FIX: only list properties, not transform functions */
@@ -287,7 +304,7 @@
     display: flex;
     align-items: self-end;
     gap: 10px;
-    flex-wrap: no-wrap;
+    flex-wrap: nowrap;
     flex-direction: row;
   }
   .header-actions #themeToggle{
@@ -441,8 +458,7 @@
     object-fit: contain;
   }
   .glass {
-    background-image: radial-gradient(circle at 55% 250%, var(--bg), transparent 175%); 
-    padding: 10px; 
+    background-image: radial-gradient(circle at 55% 250%, var(--bg), transparent 175%);
     border-radius: 4px;
     backdrop-filter: blur(12px);
     padding:20px; 
@@ -455,7 +471,6 @@
 /* === Code blocks ===  */
   .code { 
     font-family: 'VT323', ui-monospace, monospace;
-    font-size: 18px;
     font-size: clamp(5px, 4vw, 18px);
     line-height: 125%;
     background-color: #000; 
@@ -477,8 +492,7 @@
     left: 12px; 
     border-radius: 4px; 
     padding: 10px 4px; 
-    font-size: 16px; 
-    font-size: clamp(4px, 3vw, 12px);    
+    font-size: clamp(4px, 3vw, 12px);
     color: var(--crt-text);
     text-shadow: 0 0 5px var(--crt-glow);
     font-weight: 500;
@@ -514,7 +528,7 @@
     border-collapse: collapse; 
   }
   .code th, .code td {
-    border-bottom: 0px solid #78766f;
+    border-bottom: none;
     padding: 6px 20px 6px 0;
     text-align: left;
     vertical-align: middle;
@@ -528,7 +542,6 @@
   }
   .code strong {
     font-weight: lighter;
-    font-size: 20px;
     font-size: clamp(6px, 4.1vw, 20px);
   }
   
@@ -671,12 +684,12 @@
     flex: 0 0 auto;             /* shrink to fit, stay on the right */
   }
   #tocToggle {
-    border: 0px solid var(--borderLight); 
-    background: transparent; 
+    border: none;
+    background: transparent;
     color: var(--muted);
-    border-radius: 10px; 
-    padding: 8px 16px; 
-    cursor: pointer; 
+    border-radius: 10px;
+    padding: 8px 16px;
+    cursor: pointer;
     font-size: 16px;
   }
   /* Dropdown sits *out of flow* under the button (no layout shift) */
@@ -684,7 +697,7 @@
     position: absolute;
     right: 0;
     top: calc(100% + 8px);         /* 8px gap under the button */
-    width: clamp(90vw, 90vw, 420px);
+    width: min(90vw, 420px);
     max-height: 70vh;              /* scroll if too tall */
     overflow-y: auto;
 
@@ -919,13 +932,6 @@
     }
   }
 
-  /* unimportant stuff below */
-
-  *,
-  ::before,
-  ::after {
-    box-sizing: border-box;
-  }
   figure,
   p {
     width: 100%;
@@ -1019,15 +1025,6 @@
     font-size: 0.95em; 
   }
 
-  :root {
-    /* Adjust as needed to fit your design system */
-    --chance-radius: 12px;
-    --chance-shadow: 0 6px 20px var(--shadow2);
-    --chance-gap: .75rem;
-    --chance-3d-w: 340px;
-    --chance-3d-h: 200px;
-  }
-  
   /* Container */
   details.chance {
     margin-block: 1.25rem 2rem;
@@ -1084,11 +1081,6 @@
     line-height: 1.55;
   }
   
-
-  :root {
-    /* Tweak to match your system */
-    --chest-text: #1c1c1c;
-  }
 
   details.chest {
     margin-block: 1.25rem 2rem;
@@ -1157,13 +1149,6 @@
   /* ---------------------------------------
     OpenType Feature Lab
   ----------------------------------------*/
-  :root{
-    --lab-radius: 14px;
-    --lab-border: 1px solid rgba(0,0,0,.08);
-    --lab-shadow: 0 8px 28px rgba(0,0,0,.12);
-    --lab-pad: 1rem;
-  }
-
   .feature-lab{
     margin-block: 1.5rem 2rem;
     display: grid;
