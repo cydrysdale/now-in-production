@@ -18,7 +18,7 @@
   <meta name="description" content="A practical guide to how LLMs work—using a pixel kitchen/restaurant sim metaphor to teach prompts, context windows, tools, QA, and agent workflows." />
   <meta name="keywords" content="LLMs, large language models, how ChatGPT works, tokens, context window, attention, prompting, prompt engineering, decoding, temperature, top-p, hallucinations, AI tools, citations, verification, QA checklist, agents" />
   <meta name="guide:category" content="AI" />
-  <meta name="guide:updated" content="2026-02-23" />
+  <meta name="guide:updated" content="2026-02-24" />
   <link rel="canonical" href="https://cydrysdale.github.io/now-in-production/guides/how-llms-work.html">
   <meta name="robots" content="index,follow">
   <meta name="author" content="Chris Yasuda Drysdale">
@@ -345,6 +345,54 @@
 
             <div class="truth"><strong>Kitchen truth:</strong> Our chefs may be brilliant, but they have a limited attention span—if it’s not on the ticket or the counter, it doesn’t exist.</div>
         </div>
+      </section>
+
+      <section>
+        <h2 id="pre-shift-briefing">Pre-Shift Briefing: The 5-Minute LLM Kitchen Tour</h2>
+          <p class="kicker">
+            If you only read one part of this guide, read this section. Think of it as the pre-shift huddle before a busy dinner service: how the kitchen works, where things go wrong, and how to write order tickets that actually get you what you asked for.
+          </p>
+
+          <h3>How LLMs work in plain English</h3>
+          <p>
+            An LLM does not "know" facts the way a person does. It predicts the next word based on patterns from training plus whatever is currently on the prep counter (your context). It repeats that process one word at a time until it has a full response. That is why outputs can sound confident and coherent even when the model is wrong.
+          </p>
+          <p>
+            Your prompt is the order ticket, and it controls far more than most people expect. A vague ticket gets generic output. A specific ticket with goal, audience, constraints, format, and source material gives the model rails to run on. Better prompts do not just improve style, they improve reliability.
+          </p>
+          <p>
+            Context is limited, attention is finite, and models can drift as conversations get long. If critical details are not present and explicit in the latest context, quality drops. For important work, restate the objective, include the source, and ask for a structured answer that can be checked.
+          </p>
+
+          <h3>Kitchen Hazards: hallucinations and how to catch them</h3>
+          <p>
+            A hallucination is not the model "lying." It is usually the model completing a pattern when it lacks solid grounding. Treat outputs as drafts until verified, especially when names, numbers, dates, citations, policy, legal, medical, or financial claims are involved.
+          </p>
+          <ul>
+            <li>Ask for uncertainty explicitly: "If you are unsure, say what is unknown."</li>
+            <li>Require evidence: "Cite the source section or quote the provided text."</li>
+            <li>Force checks: "List assumptions and a verification checklist before final answer."</li>
+          </ul>
+
+          <h3>Writing a Great Order Ticket: prompt building that works</h3>
+          <p>
+            Use this template for most business tasks:
+          </p>
+          <div class="code" data-label="Prompt blueprint">
+            <div class="code-type" style="white-space:normal">Role: You are [role].</div>
+            <div class="code-type" style="white-space:normal">Goal: Produce [specific outcome] for [audience].</div>
+            <div class="code-type" style="white-space:normal">Context: Use only [documents/data pasted below].</div>
+            <div class="code-type" style="white-space:normal">Constraints: [tone, scope, legal/compliance limits, do/don't].</div>
+            <div class="code-type" style="white-space:normal">Output format: Return [exact structure: bullets/table/JSON/email draft].</div>
+            <div class="code-type" style="white-space:normal">Quality bar: Include [assumptions, risks, confidence, next steps].</div>
+          </div>
+          <p>
+            Then iterate once or twice instead of trying to get perfection in one shot. Ask the model to critique its own draft against your requirements, revise, and call out anything still uncertain. That single habit usually produces the biggest quality jump.
+          </p>
+
+          <div class="truth"><strong>Kitchen truth:</strong> Great output is rarely one lucky prompt. It is clear instructions, grounded context, and one or two disciplined revisions.</div>
+
+          
       </section>
 
       <section>
@@ -1202,7 +1250,7 @@ ${lines(missing.value) || '* …'}
       }
 
       function init() {
-        items = [{ label: 'Your rules', type: 'rules' }];
+        items = [{ label: 'Your prompt', type: 'rules' }];
         msgCount = 0;
         rulesDropped = false;
         reveal.style.display = 'none';
@@ -1216,7 +1264,7 @@ ${lines(missing.value) || '* …'}
           const removed = items.shift();
           if (removed.type === 'rules' && !rulesDropped) {
             rulesDropped = true;
-            reveal.innerHTML = '<p style="margin:0"><strong>Your original rules just fell off the counter.</strong></p><p class="note" style="margin:.5rem 0 0">The model has no idea they ever existed. This is forgetting\u2014not drift, not inattention. The instructions are physically gone.</p>';
+            reveal.innerHTML = '<p style="margin:0"><strong>Your original prompt just fell off the counter.</strong></p><p class="note" style="margin:.5rem 0 0">The model has no idea it ever existed. This is one of the ways context overflow can happen. The original instructions are physically gone.</p>';
             reveal.style.display = 'block';
           }
         }
