@@ -132,35 +132,56 @@
       `;
     }
 
+    function updatedToTime(updated) {
+      if (!updated) return Number.NEGATIVE_INFINITY;
+      const time = Date.parse(updated);
+      return Number.isNaN(time) ? Number.NEGATIVE_INFINITY : time;
+    }
+
     async function renderCards() {
       const container = document.getElementById('guideCards');
       let guides = [];
       try {
         guides = await loadGuides();
       } catch (e) {
-        guides = ['guides/how-llms-work.html'],
-        guides = ['guides/rgb-to-cmyk-guide.html'];
+        guides = [
+          'guides/rgb-to-cmyk-guide.html',
+          'guides/how-llms-work.html'
+        ];
       }
 
+      const cards = [];
       for (const url of guides) {
         try {
           const res = await fetch(url, { credentials: 'same-origin' });
           if (!res.ok) throw new Error(res.statusText);
           const html = await res.text();
           const m = extractMeta(html);
-          container.insertAdjacentHTML('beforeend', cardHTML(url, m));
+          cards.push({
+            url,
+            sortTime: updatedToTime(m.updated),
+            html: cardHTML(url, m),
+          });
         } catch (e) {
           // Fallback card if a guide can’t be fetched
-          container.insertAdjacentHTML('beforeend', `
+          cards.push({
+            url,
+            sortTime: Number.NEGATIVE_INFINITY,
+            html: `
             <a href="${url}" style="text-decoration:none;">
               <section>
                 <h3>${url}</h3>
                 <p class="muted">Couldn’t read metadata; linking directly.</p>
               </section>
             </a>
-          `);
+          `,
+          });
         }
       }
+
+      cards
+        .sort((a, b) => (b.sortTime - a.sortTime) || a.url.localeCompare(b.url))
+        .forEach((c) => container.insertAdjacentHTML('beforeend', c.html));
     }
     renderCards();
   </script>

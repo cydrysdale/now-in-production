@@ -125,44 +125,85 @@
     #pgChoices button { flex: 1; min-width: 80px; }
     #pgChoices button:disabled { cursor: default; }
 
-    .counter-bar {
-      display: flex;
-      gap: 4px;
-      padding: 8px;
-      border: 1px solid var(--borderDark);
+    .kitchen-scene {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 2 / 1;
+      background: #8b7355 url('../images/kitchen-prep-counter.png') center / cover no-repeat;
+      image-rendering: pixelated;
+      -webkit-image-rendering: crisp-edges;
       border-radius: 10px;
-      background: var(--card2);
+      border: 1px solid var(--borderDark);
       margin-bottom: 10px;
-      min-height: 48px;
-      align-items: stretch;
+      overflow: hidden;
     }
 
-    .counter-slot {
-      flex: 1;
-      padding: 8px 2px;
-      border-radius: 6px;
-      text-align: center;
-      font-size: .75rem;
-      line-height: 1.2;
+    .kitchen-ticket {
+      position: absolute;
+      top: 6%;
+      width: 10%;
+      aspect-ratio: 1 / 1;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-width: 0;
-      word-break: break-word;
+      animation: ticketDropIn 0.35s ease-out both;
     }
 
-    .counter-slot.empty { border: 1px dashed var(--borderDark); }
-
-    .counter-slot.filled {
-      border: 1px solid var(--borderDark);
-      background: var(--card);
+    .kitchen-ticket[data-settled] {
+      transition: left 0.3s ease;
     }
 
-    .counter-slot.rules {
-      border: 1px solid var(--accent);
-      background: var(--accent);
-      color: #fff;
+    .kitchen-ticket--prompt {
+      background-image: url('../images/kitchen-ticket-prompt.png');
+    }
+
+    .kitchen-ticket--msg {
+      background-image: url('../images/kitchen-ticket-msg.png');
+    }
+
+    .kitchen-ticket__label {
+      font-size: 0.9rem;
       font-weight: bold;
+      color: #352f36;
+      text-align: center;
+      line-height: 1.2;
+      padding: 2px;
+      pointer-events: none;
+      margin-top: 10%;
+    }
+
+    .kitchen-ticket--falling {
+      animation: ticketFallOff 1.2s ease-in forwards !important;
+      transition: none !important;
+    }
+
+    @keyframes ticketDropIn {
+      0%   { transform: translateY(-120%); opacity: 0; }
+      60%  { transform: translateY(8%); opacity: 1; }
+      80%  { transform: translateY(-3%); }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes ticketFallOff {
+      0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+      20%  { transform: translateY(30%) rotate(-8deg); opacity: 1; }
+      40%  { transform: translateY(80%) rotate(5deg); opacity: 0.9; }
+      60%  { transform: translateY(150%) rotate(-10deg); opacity: 0.7; }
+      80%  { transform: translateY(250%) rotate(6deg); opacity: 0.4; }
+      100% { transform: translateY(400%) rotate(-12deg); opacity: 0; }
+    }
+
+    @media (max-width: 560px) {
+      .kitchen-ticket__label { display: none; }
+      .kitchen-ticket { width: 11%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .kitchen-ticket { animation: none !important; }
+      .kitchen-ticket--falling { animation: none !important; opacity: 0; }
     }
 
     #hqChoices { display: flex; gap: 8px; padding: 8px 0; }
@@ -400,27 +441,33 @@
           <p>
             Everyone around you has probably been raving about AI recently. Your social media feed is full of influencers showing how AI sends them a text every morning with a daily to do list, plans all their meals, and reads them a bedtime story at night. 
           </p>
-            <div class="grid callout">
-              <div>
-                <p>
-                  So, you decide to try it out by asking for something simple, it answers confidently:
-                </p>
-                <div class="code" data-label="Grok">
-                  <div><p><strong>Who would win in a fight in 2025? Elon Musk or Mike Tyson?</strong></p></div>
-
-                  <div class="code-type animate">Mike Tyson packs legendary knockout power that could end it quick, but Elon's relentless endurance from 100-hour weeks and adaptive mindset outlasts even prime fighters in prolonged scraps. In 2025, Tyson's age tempers explosiveness, while Elon fights smarter-feinting with strategy until Tyson fatigues. Elon takes the win through grit and ingenuity, not just gloves.<span class="cursor animate">_</span></div>
-                </div>
+          <div class="grid">
+            <div>
+              <p>
+                So, you decide to try it out by asking for something simple, it answers confidently:
+              </p>
+            </div>
+          </div>
+          <div class="grid">
+            <div>
+              
+              <div class="code" data-label="Prompt">
+                Who would win in a fight in 2025? Elon Musk or Mike Tyson?
               </div>
-              <div class="mini-widget">
-                <p id="tokenParagraph">
-                  This isn't necessarily because that AI model is faulty or inferior to another model that gave you a better answer. It could be a result of a bad prompt or improper utilization of that particular model. Which is why it's important to understand how LLMs work and how they generate text.
-                <br><br>
-                  It's best to think of an LLM as a chef or line cook at a restaurant. It doesn’t cook the whole dish in one step. It adds one ingredient (small chunk of text called a <strong>token</strong>) at a time. After each ingredient, it reviews what’s available on the <strong>prep counter (context)</strong> and the <strong>order ticket (prompt)</strong>, then asks: “Given what I can see right now, what’s the most plausible next ingredient?”
-                </p>
-                <button class="sandbox-btn" id="toggleTokens" type="button" aria-pressed="false" aria-controls="tokenParagraph">
-                  Highlight tokens
-                </button>
+              <div class="code" data-label="Grok:">
+                Mike Tyson packs legendary knockout power that could end it quick, but Elon's relentless endurance from 100-hour weeks and adaptive mindset outlasts even prime fighters in prolonged scraps. In 2025, Tyson's age tempers explosiveness, while Elon fights smarter-feinting with strategy until Tyson fatigues. Elon takes the win through grit and ingenuity, not just gloves.<span class="cursor animate">_</span>
               </div>
+            </div>
+            <div class="mini-widget">
+              <p id="tokenParagraph">
+                This isn't necessarily because that AI model is faulty or inferior to another model that gave you a better answer. It could be a result of a bad prompt or improper utilization of that particular model. Which is why it's important to understand how LLMs work and how they generate text.
+              <br><br>
+                It's best to think of an LLM as a chef or line cook at a restaurant. It doesn’t cook the whole dish in one step. It adds one ingredient (small chunk of text called a <strong>token</strong>) at a time. After each ingredient, it reviews what’s available on the <strong>prep counter (context)</strong> and the <strong>order ticket (prompt)</strong>, then asks: “Given what I can see right now, what’s the most plausible next ingredient?”
+              </p>
+              <button class="sandbox-btn" id="toggleTokens" type="button" aria-pressed="false" aria-controls="tokenParagraph">
+                Highlight tokens
+              </button>
+            </div>
         </div>
 
         <div class="truth"><strong>Kitchen truth:</strong> Tokens aren't just how the model reads and generates text—they also determine pricing, latency, and maximum output length.</div>
@@ -625,9 +672,10 @@
         <div class="sandbox-card" id="overflowDemo">
           <label class="sandbox-label"><strong>Try it: fill the prep counter until something falls off</strong></label>
           <p id="ofStatus" class="note" style="margin:0 0 4px"></p>
-          <div class="counter-bar" id="ofBar"></div>
+          <div class="kitchen-scene" id="ofScene"></div>
           <div style="display:flex; gap:8px">
             <button id="ofAdd" class="sandbox-btn" type="button">Send message</button>
+            <button id="ofResend" class="sandbox-btn" type="button" style="display:none">Resend prompt</button>
             <button id="ofReset" class="sandbox-btn" type="button">Reset</button>
           </div>
           <div id="ofReveal" class="callout" style="display:none" aria-live="polite"></div>
@@ -1218,34 +1266,68 @@ ${lines(missing.value) || '* …'}
       });
     })();
 
-    // Context overflow demo
+    // Context overflow demo (kitchen-themed)
     (() => {
       const demo = document.getElementById('overflowDemo');
       if (!demo) return;
 
-      const bar = document.getElementById('ofBar');
-      const addBtn = document.getElementById('ofAdd');
+      const scene    = document.getElementById('ofScene');
+      const addBtn   = document.getElementById('ofAdd');
+      const resendBtn = document.getElementById('ofResend');
       const resetBtn = document.getElementById('ofReset');
-      const status = document.getElementById('ofStatus');
-      const reveal = document.getElementById('ofReveal');
+      const status   = document.getElementById('ofStatus');
+      const reveal   = document.getElementById('ofReveal');
 
       const MAX = 8;
+      const SLOT_WIDTH = 11.5; // percent per slot (ticket + gap)
+      const START_OFFSET = 1.5; // percent from left edge
       let items = [];
       let msgCount = 0;
       let rulesDropped = false;
+      let falling = false;
 
-      function render() {
-        bar.innerHTML = '';
-        for (let i = 0; i < MAX; i++) {
+      function ticketLeft(i) {
+        return START_OFFSET + i * SLOT_WIDTH;
+      }
+
+      function twoLine(text) {
+        // Split label into two lines at the space: "Your prompt" → "Your<br>prompt"
+        var idx = text.indexOf(' ');
+        return idx > 0 ? text.slice(0, idx) + '<br>' + text.slice(idx + 1) : text;
+      }
+
+      function render(fallingIndex, newIndex) {
+        scene.innerHTML = '';
+        items.forEach((item, i) => {
           const el = document.createElement('div');
-          if (i < items.length) {
-            el.className = 'counter-slot' + (items[i].type === 'rules' ? ' rules' : ' filled');
-            el.textContent = items[i].label;
-          } else {
-            el.className = 'counter-slot empty';
+          const isPrompt = item.type === 'rules';
+          const isFalling = i === fallingIndex;
+          const isNew = i === newIndex;
+          el.className = 'kitchen-ticket'
+            + (isPrompt ? ' kitchen-ticket--prompt' : ' kitchen-ticket--msg')
+            + (isFalling ? ' kitchen-ticket--falling' : '');
+          el.style.left = ticketLeft(i) + '%';
+
+          // Only the new ticket gets the drop-in animation; others skip it
+          if (!isNew && !isFalling) {
+            el.style.animation = 'none';
+            el.setAttribute('data-settled', '');
           }
-          bar.appendChild(el);
-        }
+
+          const label = document.createElement('span');
+          label.className = 'kitchen-ticket__label';
+          label.innerHTML = twoLine(item.label);
+          el.appendChild(label);
+
+          // After drop-in animation, mark as settled for smooth left transitions
+          if (isNew) {
+            el.addEventListener('animationend', function() {
+              el.setAttribute('data-settled', '');
+            }, { once: true });
+          }
+
+          scene.appendChild(el);
+        });
         status.textContent = items.length + ' / ' + MAX + ' slots used';
       }
 
@@ -1253,24 +1335,56 @@ ${lines(missing.value) || '* …'}
         items = [{ label: 'Your prompt', type: 'rules' }];
         msgCount = 0;
         rulesDropped = false;
+        falling = false;
         reveal.style.display = 'none';
+        resendBtn.style.display = 'none';
         addBtn.disabled = false;
-        render();
+        render(-1, 0); // animate the initial prompt ticket dropping in
       }
 
       addBtn.addEventListener('click', () => {
+        if (falling) return; // guard against rapid clicks during fall
         msgCount++;
+
         if (items.length >= MAX) {
           const removed = items.shift();
+
           if (removed.type === 'rules' && !rulesDropped) {
             rulesDropped = true;
-            reveal.innerHTML = '<p style="margin:0"><strong>Your original prompt just fell off the counter.</strong></p><p class="note" style="margin:.5rem 0 0">The model has no idea it ever existed. This is one of the ways context overflow can happen. The original instructions are physically gone.</p>';
-            reveal.style.display = 'block';
+            falling = true;
+
+            // Re-insert prompt at index 0 so we can animate it falling
+            items.unshift(removed);
+            items.push({ label: 'Msg ' + msgCount, type: 'msg' });
+            render(0, items.length - 1); // index 0 falls, last index drops in
+
+            // After fall animation, clean up and show reveal
+            setTimeout(() => {
+              items.shift(); // remove prompt for real
+              falling = false;
+              render(-1, -1); // no animations on cleanup re-render
+              reveal.innerHTML = '<p style="margin:0"><strong>Your original prompt just fell off the counter.</strong></p><p class="note" style="margin:.5rem 0 0">The model has no idea it ever existed. This is one of the ways context overflow can happen. The original instructions are physically gone.</p>';
+              reveal.style.display = 'block';
+              resendBtn.style.display = 'inline-block';
+              addBtn.disabled = (msgCount >= MAX + 5);
+            }, 1250);
+            return;
           }
         }
+
         items.push({ label: 'Msg ' + msgCount, type: 'msg' });
-        render();
+        render(-1, items.length - 1); // animate only the new ticket
         if (msgCount >= MAX + 5) addBtn.disabled = true;
+      });
+
+      resendBtn.addEventListener('click', () => {
+        if (falling) return;
+        // Push the prompt back onto the line as a new ticket (bumps oldest msg off)
+        if (items.length >= MAX) items.shift();
+        items.push({ label: 'Your prompt', type: 'rules' });
+        render(-1, items.length - 1);
+        resendBtn.style.display = 'none';
+        reveal.innerHTML = '<p style="margin:0"><strong>Your prompt is back on the counter.</strong></p><p class="note" style="margin:.5rem 0 0">In a long conversation, restating your key instructions reminds the model what matters. Think of it as handing the chef a fresh copy of the original order. It costs you context space, but it keeps the output aligned with your intent\u2014especially when earlier messages have already been lost to overflow.</p>';
       });
 
       resetBtn.addEventListener('click', init);
