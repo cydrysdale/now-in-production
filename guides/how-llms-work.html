@@ -1085,12 +1085,12 @@
       <section>
         <h2>Bonus Quest: The Making of This Guide—AI Workflows in Action</h2>
 
-        <h3>Building the "Choose Your Chef" character select screen</h3>
+        <h3>Building a "Choose Your Chef" character select screen</h3>
         <p>
-          have enough knowledge and experience with AI to call myself proficient with the medium (as demonstrated by the content of this guide). Normally I wouldn’t use AI for something like this—I genuinely enjoy doing this sort of work myself—but I wanted to run an experiment: involve AI as much as possible at each stage of creating the guide and see what it actually saved. I also gave myself a slightly arbitrary constraint: <strong>three weeks</strong> to plan, design, build, and test the whole thing. Similar guides have taken me more than six weeks, so I was aiming for roughly a 50% reduction in timeline. My early research suggested that goal was optimistic at best… but I do love a challenge.
+          I have enough knowledge and experience with AI to call myself proficient with the medium (as demonstrated by the content of this guide). Normally I wouldn’t use AI for something like this—I genuinely enjoy doing this sort of work myself—but I wanted to run an experiment: involve AI as much as possible at each stage of creating the guide and see what it actually saved. I also gave myself a slightly arbitrary constraint: <strong>three weeks</strong> to plan, design, build, and test the whole thing. Similar guides have taken me more than six weeks, so I was aiming for roughly a 50% reduction in timeline. My early research suggested that goal was optimistic at best… but I do love a challenge.
         </p>
         <p>
-          A full behind-the-scenes would be longer than the guide itself, so this appendix focuses on <strong>one</strong> piece: the <strong>"Choose Your Chef"</strong> interactive—built like a fighting-game character select screen where you pick a model and see a sprite, a bio, and a standardized stat panel.
+          A full behind-the-scenes would be longer than the guide itself, so this section focuses on <strong>one</strong> piece: a <strong>"Choose Your Chef"</strong> interactive—built like a fighting-game character select screen where you pick a model and see a sprite, a bio, and a standardized stat panel.
         </p>
 
         <h3>Phase 1: Define requirements before writing code</h3>
@@ -1127,7 +1127,7 @@
           After I had the plan, I implemented the component myself.
         </p>
         <p>
-          Not because AI can't produce code, but because experience had shown me that I could get a fully working prototype faster if I did it myself. Due to the time constraint and not having fully tested prompts for this particular type of component, doing it myself offered two advantages:
+          Not because AI can't produce code, but because experience has shown me that I can get a fully working prototype faster if I do it myself. Due to the time constraint and not having fully tested prompts for this particular type of component, doing it myself offered two advantages:
         </p>
         <ul>
           <li><strong>I can iterate faster</strong> when I understand every line, so I don't waste time hunting for the right code to edit.</li>
@@ -1207,7 +1207,7 @@
             <figcaption><strong>Final—Pixel-art sprite.</strong> Downscaled and hand-cleaned in Photoshop. Stray pixels removed, silhouette tightened, highlights and floating utensils added manually.</figcaption>
           </figure>
         </div>
-        <div class="grid">
+        <div class="grid callout">
           <div>
             <h4>Sprite cleanup process</h4>
             <ol>
@@ -1284,21 +1284,26 @@
             </ul>
           </div>
         </div>
-          <h2>Choose Your Chef</h2>
-          <p>
-            Now that you know how the kitchen works, it's time to meet the roster. Each model has different strengths, weaknesses, and wildly overdramatic cooking styles—and the right pick depends on what you're making (and what kitchen you're in).
-          </p>
-  
-          <div class="sandbox-card" id="chefSelect">
-            <label class="sandbox-label"><strong>Select your chef</strong></label>
-            <div class="select-screen">
-              <div class="portrait-row" id="csRoster"></div>
-              <div class="chef-panel" id="csPanel">
-                <div class="chef-art" id="csArt"></div>
-                <div class="chef-info" id="csInfo"></div>
-              </div>
+        <p><strong></strong></p>
+        <div class="truth">
+          <strong>And now the moment you've been waiting for:</strong> the character select feature is finally finished are ready to ship...
+        </div>
+
+        <h2>Choose Your Chef</h2>
+        <p>
+          Now that you know how the kitchen works, it's time to meet the roster. Each model has different strengths, weaknesses, and wildly overdramatic cooking styles—and the right pick depends on what you're making (and what kitchen you're in).
+        </p>
+
+        <div class="sandbox-card" id="chefSelect">
+          <label class="sandbox-label"><strong>Select your chef</strong></label>
+          <div class="select-screen">
+            <div class="portrait-row" id="csRoster"></div>
+            <div class="chef-panel" id="csPanel">
+              <div class="chef-art" id="csArt"></div>
+              <div class="chef-info" id="csInfo"></div>
             </div>
           </div>
+        </div>
 
         <h3>Final_Final_v6: What AI actually did for me</h3>
         <p>
