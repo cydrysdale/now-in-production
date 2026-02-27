@@ -327,6 +327,28 @@
         animation: chefFloat 4s ease-in-out infinite;
       }
     }
+
+    /* Wireframe demo (appendix)—overrides for placeholder variant */
+    #tplChefSelect { --chef-accent: var(--accent); }
+    .wireframe-demo .chef-art {
+      align-items: center;
+      padding: 16px;
+      min-height: 240px;
+    }
+    .wireframe-demo .chef-art-placeholder {
+      width: 100%;
+      min-height: 208px;
+      border-radius: 10px;
+      border: 1px dashed var(--borderDark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-weight: 800;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      user-select: none;
+    }
   </style>
 </head>
 
@@ -961,7 +983,7 @@
           <label class="sandbox-label"><strong>Try it: step through a station workflow</strong></label>
           <p class="note" style="margin:0 0 4px">Task: turn rough meeting notes into a stakeholder-ready summary</p>
           <p id="wfProgress" class="note" style="margin:0 0 4px"></p>
-          <div class="code" id="wfPromptBlock" data-label="Station 1 — prompt:">
+          <div class="code" id="wfPromptBlock" data-label="Station 1—prompt:">
             <div class="code-type" id="wfPrompt" style="white-space:normal"></div>
           </div>
           <div class="code" data-label="Station output:">
@@ -1061,20 +1083,244 @@
       </section>
 
       <section>
-        <h2>Choose Your Chef</h2>
+        <h2>Bonus Quest: The Making of This Guide—AI Workflows in Action</h2>
+
+        <h3>Building the "Choose Your Chef" character select screen</h3>
         <p>
-          Now that you know how the kitchen works, it's time to meet the roster. Each model has different strengths, weaknesses, and wildly overdramatic cooking styles—and the right pick depends on what you're making (and what kitchen you're in).
+          have enough knowledge and experience with AI to call myself proficient with the medium (as demonstrated by the content of this guide). Normally I wouldn’t use AI for something like this—I genuinely enjoy doing this sort of work myself—but I wanted to run an experiment: involve AI as much as possible at each stage of creating the guide and see what it actually saved. I also gave myself a slightly arbitrary constraint: <strong>three weeks</strong> to plan, design, build, and test the whole thing. Similar guides have taken me more than six weeks, so I was aiming for roughly a 50% reduction in timeline. My early research suggested that goal was optimistic at best… but I do love a challenge.
+        </p>
+        <p>
+          A full behind-the-scenes would be longer than the guide itself, so this appendix focuses on <strong>one</strong> piece: the <strong>"Choose Your Chef"</strong> interactive—built like a fighting-game character select screen where you pick a model and see a sprite, a bio, and a standardized stat panel.
         </p>
 
-        <div class="sandbox-card" id="chefSelect">
-          <label class="sandbox-label"><strong>Select your chef</strong></label>
+        <h3>Phase 1: Define requirements before writing code</h3>
+        <p>
+          I used AI early in the process for what I've found it it's most effective at: <strong>organizing, planning, and reviewing</strong>.
+        </p>
+        <p>
+          Here's my initial prompt:
+        </p>
+        <div class="code" style="white-space:normal;"data-label="Initial planning prompt">
+          I'm about to build a new "Sandbox" section in @guides/how-llms-work.html, and I'll be coding it myself (HTML/CSS/JS, no framework or build step).<br><br>
+
+          The feature is a "Choose Your Chef" interactive in the style of a fighting-game character select screen,<br>
+          using images in @images/character_select/ (note: images will be added later).<br><br>
+
+          UI behavior:<br>
+          &emsp;- The grid shows character selection boxes. For now each box uses a placeholder headshot.<br>
+          &emsp;- Selecting a character shows the full sprite/illustration to the side (or below on mobile), plus:<br>
+          &emsp;&emsp;- a short bio<br>
+          &emsp;&emsp;- a standardized stats panel shared by all models, using 1–5 stars per stat<br>
+          &emsp;- Use placeholders anywhere assets/content aren't ready yet.<br><br>
+
+          What I need from you:<br>
+          Help me plan the component and identify anything missing (data model, interactions, responsive layout decisions, accessibility, edge cases, asset naming conventions, etc.) before I start implementing.<br><br>
+
+          Before we begin: what requirements, assumptions, or missing pieces should I lock down so this can be built cleanly?<br>
+        </div>
+        <p>
+          Note that I specified that the goal wasn't to "generate code," but to <strong>identify gaps and create a checklist</strong>.
+        </p>
+
+        <h3>Phase 2: Build the wireframe</h3>
+        <p>
+          After I had the plan, I implemented the component myself.
+        </p>
+        <p>
+          Not because AI can't produce code, but because experience had shown me that I could get a fully working prototype faster if I did it myself. Due to the time constraint and not having fully tested prompts for this particular type of component, doing it myself offered two advantages:
+        </p>
+        <ul>
+          <li><strong>I can iterate faster</strong> when I understand every line, so I don't waste time hunting for the right code to edit.</li>
+          <li><strong>Debugging is faster</strong> when the architecture matches how I think and I can instinctively know what's gone wrong and understand how to fix it.</li>
+        </ul>
+        <p>
+          My loop looked like this:
+        </p>
+        <ol>
+          <li><strong>Build the wireframe + interactions manually</strong> (grid selection → detail panel)</li>
+          <li>Use AI to <strong>review</strong>: accessibility, keyboard states, responsive layout, edge cases</li>
+          <li>Fix issues, tighten logic, and iterate</li>
+        </ol>
+        <p>
+          <strong>Time saved:</strong> several hours. Having requirements and a checklist up front prevented trial and error loops.        
+        </p>
+        <div class="sandbox-card wireframe-demo" id="tplChefSelect">
+          <label class="sandbox-label"><p>Here's the wireframe with placeholder content. The layout, selection behavior, and responsive grid were all functional before any content was created:</p></label>
           <div class="select-screen">
-            <div class="portrait-row" id="csRoster"></div>
-            <div class="chef-panel" id="csPanel">
-              <div class="chef-art" id="csArt"></div>
-              <div class="chef-info" id="csInfo"></div>
+            <div class="portrait-row" id="tplRoster"></div>
+            <div class="chef-panel" id="tplPanel">
+              <div class="chef-art" id="tplArt"></div>
+              <div class="chef-info" id="tplInfo"></div>
             </div>
           </div>
+        </div>
+
+        <h3>Phase 3: Artwork (AI for drafts, me for production-quality)</h3>
+        <p>
+          Once the wireframe was stable and tested, I moved to visuals.
+        </p>
+        <p>
+          Normally I'd hand-draw everything. But since this is literally a guide about AI, I let AI generate initial concept art—then I did the part AI still struggles with: <strong>making it actually production-ready.</strong>
+        </p>
+        <p>
+          It took a few tries but I found a prompt that got the results I was looking for and I used that as a template for each sprite (illustration).
+        </p>
+        <p>
+          My eventual illustration prompt:
+        </p>
+        <div class="code" style="white-space:normal;" data-label="Illustration prompt">
+          Full-body pixel-art 2D fighting game sprite of ChatGPT as a grandmaster chef.<br>
+          Stands tall and centered in a confident neutral stance, one arm extended in invitation,
+          the other resting calmly at the waist.<br><br>
+
+          Wears a pristine white long-coat chef uniform with teal inner lining and trim.<br>
+          Clothing is immaculate and minimal. Glowing kitchen utensils floats horizontally
+          at chest height.<br><br>
+
+          Calm expression, perfectly balanced posture.<br>
+          Color palette strictly white, teal, and soft gray.<br>
+          Strong, clean silhouette.
+        </div>
+        <p>
+          Refining prompt (first pass is always a draft until a prompt workflow has been established):
+        </p>
+        <div class="code" style="white-space:normal;" data-label="Refining prompt">
+          subtle forward lean, knees slightly bent, grounded stance<br>
+          visible tension in shoulders and forearms<br>
+          calm but alert posture, like a martial arts ready stance instead of statue-like
+        </div>
+        <p>
+          Then I cleaned everything up in Photoshop and converted it into actual pixel-art sprites. Here's the progression for the ChatGPT chef—from the initial AI generation, through the refined prompt, to the final pixel-art sprite:
+        </p>
+
+        <div class="roster" style="grid-template-columns: repeat(3, 1fr);">
+          <figure class="diagram" style="margin:0;">
+            <img src="../images/character_select/ChatGPT_v1.png" alt="ChatGPT chef v1: initial AI-generated illustration—stiff pose, static, clean but lifeless" loading="lazy">
+            <figcaption><strong>v1—Initial prompt.</strong> A nice start but too stiff, no energy, and also not pixel-art. There were a few more attempts to achieve the pixel-art style before I gave up.</figcaption>
+          </figure>
+          <figure class="diagram" style="margin:0;">
+            <img src="../images/character_select/ChatGPT_v2.png" alt="ChatGPT chef v2: refined prompt—more dynamic stance, dramatic lighting, closer to fighting-game energy" loading="lazy">
+            <figcaption><strong>v2—Refined prompt.</strong> More dynamic and closer to the fighting-game energy I was looking for. It still wasn't pixel-art but I already knew this process would need lots of manual cleanup. </figcaption>
+          </figure>
+          <figure class="diagram" style="margin:0;">
+            <img src="../images/character_select/ChatGPT.png" alt="ChatGPT chef final: hand-cleaned pixel art sprite with floating utensils, clean silhouette, and intentional highlights" loading="lazy">
+            <figcaption><strong>Final—Pixel-art sprite.</strong> Downscaled and hand-cleaned in Photoshop. Stray pixels removed, silhouette tightened, highlights and floating utensils added manually.</figcaption>
+          </figure>
+        </div>
+        <div class="grid">
+          <div>
+            <h4>Sprite cleanup process</h4>
+            <ol>
+              <li>
+                <strong>Pick a target sprite size</strong>
+                <ul><li>128×128</li></ul>
+              </li>
+              <li>
+                <strong>Downscale intentionally</strong>
+                <ul>
+                  <li>Resize to target resolution</li>
+                  <li><strong>Nearest Neighbor only</strong> (no smoothing)</li>
+                </ul>
+              </li>
+              <li>
+                <strong>Manual cleanup</strong>
+                <ul>
+                  <li>Clean silhouettes</li>
+                  <li>Fix eyes/hands/tools</li>
+                  <li>Remove stray pixels and accidental anti-aliasing</li>
+                  <li>Add intentional highlights + shadows</li>
+                </ul>
+              </li>
+            </ol>
+          </div>
+          <div>
+            <!--Image Comparison Slider-->
+            <div>
+              <figure dir="rtl">
+                <p class="image-compare" role="img" tabindex="0" aria-label="Interactive comparison of LLM context windows with and without attention highlighting." aria-description="Two overlaid images are revealed by a slider. One shows an LLM context window with attention weights highlighted, illustrating how the model focuses on relevant tokens. The other shows the same context window without highlighting, representing raw token storage.">
+                  <span>
+                    <img src="../images/character_select/Gemini.png" alt="" aria-hidden="true" loading="lazy" class="image-compare" style="background-color: var(--bg2); border-radius: 8px 8px;">
+                    </span>
+                    <img src="../images/character_select/Gemini_v1.png" alt="" aria-hidden="true" loading="lazy">
+                </p>
+              </figure>
+            </div>
+
+          </div>
+        </div>
+        <p>
+          For headshots, I took the pragmatic route: <strong>cropped close-ups of the full sprite</strong> instead of drawing separate portraits.
+        </p>
+        <p>
+          In the end, each sprite took <strong>2-3 hours</strong> from prompt to cleanup, which actually increased the time compared to drawing from scratch (for this level of quality). That said, each sprite went a little quicker as the prompts and workflows were developed—so it <em>might</em> be around 20% faster than manually drawing if I needed to do <strong>this exact same process</strong> again. Due to the time constraint, I decided to scrap my plans to animate each sprite and accepted that the quality was slightly lower than my usual standard.
+        </p>
+        <div class="grid">
+          <div>
+            <h3>Phase 4: Bios (AI drafts, human rewrite)</h3>
+            <p>
+              For the character bios, I prompted AI to generate silly, exaggerated writeups for each model, including:
+            </p>
+            <ul>
+              <li><strong>Best at:</strong> what this model tends to excel at</li>
+              <li><strong>Watch for:</strong> the model's common failures</li>
+            </ul>
+            <p>
+              The first drafts gave me baselines to work with and I checked each against different models and a quick google search to see if anything was wildly inaccurate, but nothing went in unedited. Some needed a light polish while others needed to be completely rewritten.
+            </p>    
+          </div>
+          <div>
+            <h3>Phase 5: Integration + polish</h3>
+            <p>
+              Once assets and copy existed, I dropped them into folders, hooked them up to the data model, and used AI to help map content into the wireframe (and made a few manual adjustments).
+            </p>
+            <p>
+              After that it was pure polish:
+            </p>
+            <ul>
+              <li>Spacing and alignment tweaks</li>
+              <li>Animations</li>
+              <li>Interaction timing</li>
+              <li>Making the select screen feel responsive</li>
+            </ul>
+          </div>
+        </div>
+          <h2>Choose Your Chef</h2>
+          <p>
+            Now that you know how the kitchen works, it's time to meet the roster. Each model has different strengths, weaknesses, and wildly overdramatic cooking styles—and the right pick depends on what you're making (and what kitchen you're in).
+          </p>
+  
+          <div class="sandbox-card" id="chefSelect">
+            <label class="sandbox-label"><strong>Select your chef</strong></label>
+            <div class="select-screen">
+              <div class="portrait-row" id="csRoster"></div>
+              <div class="chef-panel" id="csPanel">
+                <div class="chef-art" id="csArt"></div>
+                <div class="chef-info" id="csInfo"></div>
+              </div>
+            </div>
+          </div>
+
+        <h3>Final_Final_v6: What AI actually did for me</h3>
+        <p>
+          AI didn’t build the feature for me. It accelerated the parts that would usually slow me down:
+        </p>
+        <ul>
+          <li>Surfacing missing requirements early</li>
+          <li>Generating first drafts (art and copy)</li>
+          <li>Acting as an extra review pass when I wanted an extra set on eyes</li>
+        </ul>
+        <p>
+          The key is that the workflow still has a human checkpoint at every stage:
+          <strong>I decide what ships, and I verify it before it’s published.</strong>
+        </p>
+        <p>
+          I found AI most effective in the planning and drafting stages. It cut huge amounts of time by helping me organize my thoughts, build checklists, and generate placeholder text and images. I say “placeholder” intentionally—very little of what it produced went straight into the final version without heavy editing, and plenty of it was rewritten or replaced entirely. Overall, AI nearly doubled my speed during early planning, and improved my speed by about 5% during building and testing. Some detours actually slowed me down, so the “building and testing” gain could’ve been closer to 20% with a more dialed-in process.
+        </p>
+        <p>
+          This workflow worked well for me because I’m experienced with each part of this type of project (planning, coding, writing, and design) and already comfortable with AI prompting. Even so, a significant portion of the work still required human judgment and taste.
+        </p>
+        <div class="truth">
+          <strong>Final takeaways from this project:</strong> AI can accelerate parts of a project, but it doesn’t shorten every phase equally. It’s most effective when it’s part of an established process—paired with prompts you’ve pressure-tested, refined, and can reuse reliably.
         </div>
       </section>
 
@@ -1643,6 +1889,69 @@ ${lines(missing.value) || '* …'}
 
       render();
     })();
+    // Wireframe demo (appendix)
+    (() => {
+      const root = document.getElementById('tplChefSelect');
+      if (!root) return;
+
+      const rosterEl = document.getElementById('tplRoster');
+      const artEl    = document.getElementById('tplArt');
+      const infoEl   = document.getElementById('tplInfo');
+
+      const DATA = [
+        { id: 'item-1', name: 'Lorem Ipsum',        title: 'Lorem ipsum dolor',    bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', accent: '#629c67', stats: { PREP: 1, FLAV: 1, HEAT: 1, GEAR: 1, PLAT: 1 } },
+        { id: 'item-2', name: 'Dolor Sit',          title: 'Consectetur adipiscing', bio: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',                  accent: '#5f8fb0', stats: { PREP: 1, FLAV: 1, HEAT: 1, GEAR: 1, PLAT: 1 } },
+        { id: 'item-3', name: 'Amet Elit',          title: 'Sed do eiusmod',        bio: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',                        accent: '#9f79d4', stats: { PREP: 1, FLAV: 1, HEAT: 1, GEAR: 1, PLAT: 1 } },
+        { id: 'item-4', name: 'Tempor Incididunt',  title: 'Ut labore et',          bio: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',               accent: '#4d7cc2', stats: { PREP: 1, FLAV: 1, HEAT: 1, GEAR: 1, PLAT: 1 } },
+        { id: 'item-5', name: 'Magna Aliqua',       title: 'Ut enim ad',            bio: 'Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra.',                      accent: '#cf6448', stats: { PREP: 1, FLAV: 1, HEAT: 1, GEAR: 1, PLAT: 1 } },
+        { id: 'item-6', name: 'Commodo Consequat',  title: 'Duis aute irure',       bio: 'Integer in mauris eu nibh euismod gravida. Duis ac tellus et risus vulputate vehicula. Donec lobortis risus a elit.',            accent: '#7b8f4f', stats: { PREP: 1, FLAV: 1, HEAT: 1, GEAR: 1, PLAT: 1 } }
+      ];
+
+      let active = 0;
+
+      function stars(n) {
+        return '<span class="star-on">\u2605</span>'.repeat(n) + '<span class="star-off">\u2606</span>'.repeat(5 - n);
+      }
+
+      function render() {
+        var item = DATA[active];
+        root.style.setProperty('--chef-accent', item.accent);
+
+        // Roster
+        rosterEl.innerHTML = '';
+        DATA.forEach(function (d, i) {
+          var btn = document.createElement('button');
+          btn.className = 'portrait' + (i === active ? ' active' : '');
+          btn.type = 'button';
+          btn.setAttribute('aria-label', 'Select ' + d.name);
+          btn.textContent = 'Lorem ' + (i + 1);
+          btn.addEventListener('click', function () { active = i; render(); });
+          rosterEl.appendChild(btn);
+        });
+
+        // Art placeholder
+        artEl.innerHTML = '';
+        var ph = document.createElement('div');
+        ph.className = 'chef-art-placeholder';
+        ph.textContent = 'Lorem ipsum';
+        artEl.appendChild(ph);
+
+        // Info
+        var html = '<div class="chef-name">' + item.name + '</div>';
+        html += '<div class="chef-title-label">' + item.title + '</div>';
+        html += '<div class="chef-bio">' + item.bio + '</div>';
+        html += '<div class="chef-stats">';
+        for (var key in item.stats) {
+          html += '<div class="stat-row"><span class="stat-label">' + key + '</span>';
+          html += '<span class="stat-stars" aria-label="' + item.stats[key] + ' out of 5">' + stars(item.stats[key]) + '</span></div>';
+        }
+        html += '</div>';
+        infoEl.innerHTML = html;
+      }
+
+      render();
+    })();
+
     // Chef Select
     (() => {
       const root = document.getElementById('chefSelect');

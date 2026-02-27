@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lorem ipsum — template</title>
+  <style>
+    :root{
+      /* Minimal defaults so the component works standalone.
+         If you drop this into an existing site, you can override these vars. */
+      --accent: #629c67;
+      --muted: #667085;
+      --text: #111827;
+      --bg: #f3f4f6;
+      --card: #ffffff;
+      --card2: #f6f7f8;
+      --borderDark: rgba(0,0,0,.18);
+      --borderLight: rgba(0,0,0,.08);
+      --radius: 14px;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body{
+      margin:0;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    main{
+      max-width: 980px;
+      margin: 0;
+      padding: 0;
+    }
+
+    h2{ margin: 0 0 8px; }
+    p{ line-height: 1.55; margin: 0 0 14px; }
+
+    /* Minimal card wrapper (mirrors the original "sandbox-card" intent) */
+    .sandbox-card{
+      border: 1px solid var(--borderDark);
+      border-radius: var(--radius);
+      background: var(--card);
+      padding: 14px;
+    }
+    .sandbox-label{
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    /* ============================
+       Choose Your Chef — TEMPLATE
+       ============================ */
+    #chefSelect { --chef-accent: var(--accent); }
+
+    .select-screen{
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+    }
+
+    .portrait-row{
+      display:grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+    }
+    @media (max-width: 600px){
+      .portrait-row{ grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .portrait{
+      aspect-ratio: 1;
+      border: 2px solid var(--borderDark);
+      border-radius: 8px;
+      background: var(--card2);
+      cursor: pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size: .85rem;
+      font-weight: 700;
+      color: var(--muted);
+      transition: border-color .15s, box-shadow .15s, transform .2s ease;
+      padding: 0;
+    }
+    .portrait:hover{
+      border-color: var(--chef-accent);
+      transform: scale(1.03);
+    }
+    .portrait.active{
+      border-color: var(--chef-accent);
+      box-shadow: 0 0 0 2px var(--chef-accent);
+    }
+
+    .chef-panel{
+      display:grid;
+      grid-template-columns: 240px 1fr;
+      border: 1px solid var(--chef-accent);
+      border-radius: var(--radius);
+      background: var(--card);
+      overflow:hidden;
+      box-shadow: 0 0 0 1px rgba(0,0,0,.04);
+    }
+    @media (max-width: 700px){
+      .chef-panel{ grid-template-columns: 1fr; }
+    }
+
+    .chef-art{
+      background: var(--card2);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 16px;
+      min-height: 240px;
+    }
+
+    /* Placeholder block that maintains layout WITHOUT any images. */
+    .chef-art-placeholder{
+      width: 100%;
+      min-height: 208px;
+      border-radius: 10px;
+      border: 1px dashed var(--borderDark);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color: var(--muted);
+      font-weight: 800;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      user-select: none;
+    }
+
+    .chef-info{ padding: 16px 20px; }
+    .chef-name{
+      font-size: 1.3rem;
+      font-weight: 900;
+      margin: 0 0 2px;
+    }
+    .chef-title-label{
+      color: var(--chef-accent);
+      font-weight: 900;
+      font-size: .9rem;
+      margin-bottom: 10px;
+    }
+    .chef-bio{
+      font-size: .95rem;
+      line-height: 1.55;
+      margin-bottom: 14px;
+      color: #1f2937;
+    }
+
+    .chef-stats{ display:flex; flex-direction:column; gap: 6px; }
+    .stat-row{
+      display:grid;
+      grid-template-columns: 52px minmax(0, 1fr);
+      align-items:center;
+      gap: 10px;
+      font-size: .9rem;
+    }
+    .stat-label{
+      font-weight: 900;
+      font-size: .8rem;
+      letter-spacing: .06em;
+      color: #374151;
+    }
+    .stat-stars{
+      letter-spacing: 2px;
+      white-space: nowrap;
+      font-size: 1rem;
+      line-height: 1;
+    }
+    .stat-stars .star-on{ color: var(--chef-accent); }
+    .stat-stars .star-off{ color: rgba(0,0,0,.25); }
+
+    /* Optional: show focus for keyboard users */
+    .portrait:focus-visible{
+      outline: 3px solid color-mix(in srgb, var(--chef-accent) 55%, transparent);
+      outline-offset: 2px;
+    }
+
+    /* Reduce motion */
+    @media (prefers-reduced-motion: reduce){
+      .portrait{ transition: none; }
+      .portrait:hover{ transform: none; }
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <section>
+      <div class="sandbox-card" id="chefSelect">
+        <label class="sandbox-label"><strong>Lorem ipsum dolor</strong></label>
+
+        <div class="select-screen">
+          <div class="portrait-row" id="csRoster" aria-label="Lorem ipsum roster"></div>
+
+          <div class="chef-panel" id="csPanel">
+            <div class="chef-art" id="csArt"></div>
+            <div class="chef-info" id="csInfo"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script>
+    /**
+     * Choose Your Chef — reusable template
+     *
+     * - Images are intentionally omitted (no <img> tags by default).
+     * - All copy is lorem ipsum placeholder text.
+     * - All stats are 1/5, per requirement.
+     *
+     * To reuse:
+     * 1) Replace TEMPLATE_DATA with your real items.
+     * 2) Optionally provide portraitUrl / imageUrl if/when you want images back.
+     *    (The rendering logic is already wired, but template ships image-free.)
+     */
+
+    (function () {
+      const root = document.getElementById('chefSelect');
+      if (!root) return;
+
+      const rosterEl = document.getElementById('csRoster');
+      const artEl = document.getElementById('csArt');
+      const infoEl = document.getElementById('csInfo');
+
+      /** TEMPLATE DATA (6 items, matching the original section’s layout density) */
+      const TEMPLATE_DATA = [
+        {
+          id: 'item-1',
+          name: 'Lorem Ipsum',
+          title: 'Lorem ipsum dolor',
+          bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+          portraitUrl: null,
+          imageUrl: null,
+          accent: '#629c67',
+          stats: { PREP: 1, FLAV: 1, HEAT: 1, GEAR: 1, PLAT: 1 }
+        },
+        {
+          id: 'item-2',
+          name: 'Dolor Sit',
+          title: 'Consectetur adipiscing',
+          bio: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+          portraitUrl: null,
+          imageUrl: null,
+          accent: '#5f8fb0',
+          stats: { PREP: 1, FLAV: 1, HEAT: 1, GEAR: 1, PLAT: 1 }
+        },
+        {
+          id: 'item-3',
+          name: 'Amet Elit',
+          title: 'Sed do eiusmod',
+          bio: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+          portraitUrl: null,
+          imageUrl: null,
+          accent: '#9f79d4',
+          stats: { PREP: 1, FLAV: 1, HEAT: 1, GEAR: 1, PLAT: 1 }
+        },
+        {
+          id: 'item-4',
+          name: 'Tempor Incididunt',
+          title: 'Ut labore et',
+          bio: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+          portraitUrl: null,
+          imageUrl: null,
+          accent: '#4d7cc2',
+          stats: { PREP: 1, FLAV: 1, HEAT: 1, GEAR: 1, PLAT: 1 }
+        },
+        {
+          id: 'item-5',
+          name: 'Magna Aliqua',
+          title: 'Ut enim ad',
+          bio: 'Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra.',
+          portraitUrl: null,
+          imageUrl: null,
+          accent: '#cf6448',
+          stats: { PREP: 1, FLAV: 1, HEAT: 1, GEAR: 1, PLAT: 1 }
+        },
+        {
+          id: 'item-6',
+          name: 'Commodo Consequat',
+          title: 'Duis aute irure',
+          bio: 'Integer in mauris eu nibh euismod gravida. Duis ac tellus et risus vulputate vehicula. Donec lobortis risus a elit.',
+          portraitUrl: null,
+          imageUrl: null,
+          accent: '#7b8f4f',
+          stats: { PREP: 1, FLAV: 1, HEAT: 1, GEAR: 1, PLAT: 1 }
+        }
+      ];
+
+      let activeIndex = 0;
+
+      function stars(n) {
+        const on = '<span class="star-on">★</span>'.repeat(n);
+        const off = '<span class="star-off">☆</span>'.repeat(5 - n);
+        return on + off;
+      }
+
+      function setAccent(color) {
+        root.style.setProperty('--chef-accent', color || 'var(--accent)');
+      }
+
+      function renderPanel() {
+        const item = TEMPLATE_DATA[activeIndex];
+        if (!item) return;
+
+        setAccent(item.accent);
+
+        // Art area — image-free by default.
+        artEl.innerHTML = '';
+        if (item.imageUrl) {
+          const img = document.createElement('img');
+          img.src = item.imageUrl;
+          img.alt = '';
+          img.loading = 'lazy';
+          img.style.width = '100%';
+          img.style.height = 'auto';
+          img.style.display = 'block';
+          img.style.borderRadius = '10px';
+          artEl.appendChild(img);
+        } else {
+          const placeholder = document.createElement('div');
+          placeholder.className = 'chef-art-placeholder';
+          placeholder.textContent = 'Lorem ipsum';
+          artEl.appendChild(placeholder);
+        }
+
+        // Info area
+        let html = '';
+        html += '<div class="chef-name">' + item.name + '</div>';
+        html += '<div class="chef-title-label">' + item.title + '</div>';
+        html += '<div class="chef-bio">' + item.bio + '</div>';
+
+        html += '<div class="chef-stats">';
+        const stats = item.stats || {};
+        for (const [label, val] of Object.entries(stats)) {
+          html += '<div class="stat-row">';
+          html += '<span class="stat-label">' + label + '</span>';
+          html += '<span class="stat-stars" aria-label="' + val + ' out of 5">' + stars(val) + '</span>';
+          html += '</div>';
+        }
+        html += '</div>';
+
+        infoEl.innerHTML = html;
+      }
+
+      function renderRoster() {
+        rosterEl.innerHTML = '';
+
+        TEMPLATE_DATA.forEach((item, idx) => {
+          const btn = document.createElement('button');
+          btn.className = 'portrait' + (idx === activeIndex ? ' active' : '');
+          btn.type = 'button';
+          btn.setAttribute('aria-label', 'Select item ' + (idx + 1));
+
+          // Portrait — image-free by default.
+          if (item.portraitUrl) {
+            const img = document.createElement('img');
+            img.src = item.portraitUrl;
+            img.alt = '';
+            img.loading = 'lazy';
+            img.style.width = '100%';
+            img.style.height = '100%';
+            img.style.objectFit = 'cover';
+            img.style.borderRadius = '6px';
+            btn.appendChild(img);
+          } else {
+            btn.textContent = 'Lorem ' + (idx + 1);
+          }
+
+          btn.addEventListener('click', () => {
+            activeIndex = idx;
+            renderRoster();
+            renderPanel();
+          });
+
+          rosterEl.appendChild(btn);
+        });
+      }
+
+      renderRoster();
+      renderPanel();
+
+      // Optional: expose a hook for reuse in other pages without editing this file.
+      // window.chooseYourChefTemplate = { root, data: TEMPLATE_DATA };
+    })();
+  </script>
+</body>
+</html>
