@@ -1087,15 +1087,15 @@
 
         <h3>Building a "Choose Your Chef" character select screen</h3>
         <p>
-          I have enough knowledge and experience with AI to call myself proficient with the medium (as demonstrated by the content of this guide). Normally I wouldn’t use AI for something like this—I genuinely enjoy doing this sort of work myself—but I wanted to run an experiment: involve AI as much as possible at each stage of creating the guide and see what it actually saved. I also gave myself a slightly arbitrary constraint: <strong>three weeks</strong> to plan, design, build, and test the whole thing. Similar guides have taken me more than six weeks, so I was aiming for roughly a 50% reduction in timeline. My early research suggested that goal was optimistic at best… but I do love a challenge.
+          I've spent the last few years learning everything I can about how AI works because I always felt that the more I understand a tool, the better I can use it. That said, I still wouldn’t normally use AI for creating a guide like this one—I genuinely enjoy doing this sort of work myself—but I wanted to run an experiment: involve AI as much as possible at each stage of the project and see what it actually saved me. I also gave myself a slightly arbitrary constraint: <strong>three weeks</strong> to plan, design, build, and test the whole thing. Similar guides have taken me more than six weeks, so I was aiming for roughly a 50% reduction in timeline. My early research suggested that goal was optimistic at best… but I do love a challenge.
         </p>
         <p>
-          A full behind-the-scenes would be longer than the guide itself, so this section focuses on <strong>one</strong> piece: a <strong>"Choose Your Chef"</strong> interactive—built like a fighting-game character select screen where you pick a model and see a sprite, a bio, and a standardized stat panel.
+          A full behind-the-scenes would be longer than the guide itself, so this section focuses on <strong>one</strong> piece: a <strong>"Choose Your Chef"</strong> interactive—built like a fighting-game character select screen where you pick a model and see a sprite, a bio, and character stats.
         </p>
 
         <h3>Phase 1: Define requirements before writing code</h3>
         <p>
-          I used AI early in the process for what I've found it it's most effective at: <strong>organizing, planning, and reviewing</strong>.
+          I used AI early in the process for what I've found it it's most effective at in a new workflow: <strong>organizing, planning, and reviewing</strong>.
         </p>
         <p>
           Here's my initial prompt:
@@ -1127,11 +1127,11 @@
           After I had the plan, I implemented the component myself.
         </p>
         <p>
-          Not because AI can't produce code, but because experience has shown me that I can get a fully working prototype faster if I do it myself. Due to the time constraint and not having fully tested prompts for this particular type of component, doing it myself offered two advantages:
+          Not because AI can't generate code, but because experience has shown me that I can get a fully working prototype faster if I do it myself. Due to the time constraint and not having fully tested prompts for this particular type of component, doing it myself offered two advantages:
         </p>
         <ul>
-          <li><strong>I can iterate faster</strong> when I understand every line, so I don't waste time hunting for the right code to edit.</li>
-          <li><strong>Debugging is faster</strong> when the architecture matches how I think and I can instinctively know what's gone wrong and understand how to fix it.</li>
+          <li><strong>I can iterate faster</strong> when I understand every line, so I don't waste time hunting for the right code to modify.</li>
+          <li><strong>Debugging is faster</strong> when the architecture matches how I think and I can quickly understand what's gone wrong and how to fix it.</li>
         </ul>
         <p>
           My loop looked like this:
@@ -1155,12 +1155,12 @@
           </div>
         </div>
 
-        <h3>Phase 3: Artwork (AI for drafts, me for production-quality)</h3>
+        <h3>Phase 3: Artwork (AI for drafts, me for production-quality deliverables)</h3>
         <p>
           Once the wireframe was stable and tested, I moved to visuals.
         </p>
         <p>
-          Normally I'd hand-draw everything. But since this is literally a guide about AI, I let AI generate initial concept art—then I did the part AI still struggles with: <strong>making it actually production-ready.</strong>
+          Normally I'd hand-draw everything. But since this is literally a guide about AI, I let AI generate initial concept art—then I did the part AI still struggles with: <strong>making it production-ready.</strong>
         </p>
         <p>
           It took a few tries but I found a prompt that got the results I was looking for and I used that as a template for each sprite (illustration).
@@ -1182,7 +1182,7 @@
           Strong, clean silhouette.
         </div>
         <p>
-          Refining prompt (first pass is always a draft until a prompt workflow has been established):
+          Refining prompt (first pass is almost always a draft even in an established workflow):
         </p>
         <div class="code" style="white-space:normal;" data-label="Refining prompt">
           subtle forward lean, knees slightly bent, grounded stance<br>
@@ -1196,11 +1196,11 @@
         <div class="roster" style="grid-template-columns: repeat(3, 1fr);">
           <figure class="diagram" style="margin:0;">
             <img src="../images/character_select/ChatGPT_v1.png" alt="ChatGPT chef v1: initial AI-generated illustration—stiff pose, static, clean but lifeless" loading="lazy">
-            <figcaption><strong>v1—Initial prompt.</strong> A nice start but too stiff, no energy, and also not pixel-art. There were a few more attempts to achieve the pixel-art style before I gave up.</figcaption>
+            <figcaption><strong>v1—Initial prompt.</strong> A nice start but too stiff, no energy, and also <em>not</em> pixel-art. There were a few more attempts to achieve the pixel-art style before I gave up.</figcaption>
           </figure>
           <figure class="diagram" style="margin:0;">
             <img src="../images/character_select/ChatGPT_v2.png" alt="ChatGPT chef v2: refined prompt—more dynamic stance, dramatic lighting, closer to fighting-game energy" loading="lazy">
-            <figcaption><strong>v2—Refined prompt.</strong> More dynamic and closer to the fighting-game energy I was looking for. It still wasn't pixel-art but I already knew this process would need lots of manual cleanup. </figcaption>
+            <figcaption><strong>v2—Refined prompt.</strong> More dynamic and closer to the fighting-game energy I was looking for. It still wasn't pixel-art but I already knew this process would need lots of manual cleanup.</figcaption>
           </figure>
           <figure class="diagram" style="margin:0;">
             <img src="../images/character_select/ChatGPT.png" alt="ChatGPT chef final: hand-cleaned pixel art sprite with floating utensils, clean silhouette, and intentional highlights" loading="lazy">
@@ -1218,8 +1218,7 @@
               <li>
                 <strong>Downscale intentionally</strong>
                 <ul>
-                  <li>Resize to target resolution</li>
-                  <li><strong>Nearest Neighbor only</strong> (no smoothing)</li>
+                  <li>Nearest Neighbor interpolation (no smoothing)</li>
                 </ul>
               </li>
               <li>
@@ -1230,6 +1229,9 @@
                   <li>Remove stray pixels and accidental anti-aliasing</li>
                   <li>Add intentional highlights + shadows</li>
                 </ul>
+              </li>
+              <li>
+                <strong>Resize to target resolution</strong>
               </li>
             </ol>
           </div>
@@ -1258,14 +1260,14 @@
           <div>
             <h3>Phase 4: Bios (AI drafts, human rewrite)</h3>
             <p>
-              For the character bios, I prompted AI to generate silly, exaggerated writeups for each model, including:
+              For the character bios, I prompted AI to generate funny, exaggerated writeups for each model, including:
             </p>
             <ul>
               <li><strong>Best at:</strong> what this model tends to excel at</li>
               <li><strong>Watch for:</strong> the model's common failures</li>
             </ul>
             <p>
-              The first drafts gave me baselines to work with and I checked each against different models and a quick google search to see if anything was wildly inaccurate, but nothing went in unedited. Some needed a light polish while others needed to be completely rewritten.
+              The first drafts gave me baselines to work with and I checked each against different models and a quick internet search to see if anything was wildly inaccurate, but nothing went in unedited. Some needed a light polish while others needed to be completely rewritten. In the end, around 75% of the written content was revised from the final AI output.
             </p>    
           </div>
           <div>
