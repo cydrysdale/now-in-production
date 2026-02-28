@@ -730,7 +730,7 @@
           </p>
         </details>
 
-        <h3>Hallucination: the chef that never says “I don’t know”</h3>
+        <h3>Hallucination: the chef that won't say “I don’t know”</h3>
         <p>
           This is the big one—the behavior that makes people distrust AI entirely, or worse, trust it when they shouldn’t.
         </p>
@@ -1317,7 +1317,7 @@
         <ul>
           <li>Surfacing missing requirements early</li>
           <li>Generating first drafts (art and copy)</li>
-          <li>Acting as an extra review pass when I wanted an extra set on eyes</li>
+          <li>Acting as a review pass when I wanted an extra set of eyes</li>
         </ul>
         <p>
           The key is that the workflow still has a human checkpoint at every stage:
@@ -1345,51 +1345,6 @@
   <a id="toTop" href="#top" title="Back to top">&#8593;</a>
 
   <script>
-    // Station Ticket Builder (Handoff Card)
-    (() => {
-      const root = document.getElementById('handoffBuilder');
-      if (!root) return;
-
-      const what = document.getElementById('hbWhat');
-      const facts = document.getElementById('hbFacts');
-      const assumptions = document.getElementById('hbAssumptions');
-      const missing = document.getElementById('hbMissing');
-      const next = document.getElementById('hbNext');
-      const btn = document.getElementById('hbGenerate');
-      const out = document.getElementById('hbOut');
-
-      if (!what || !facts || !assumptions || !missing || !next || !btn || !out) return;
-
-      const lines = (v) => (v || '')
-        .split('\n')
-        .map(s => s.trim())
-        .filter(Boolean)
-        .map(s => `* ${s}`)
-        .join('\n');
-
-      function build() {
-        const card =
-`**HANDOFF CARD**
-
-**What this is:** ${what.value.trim() || '…'}
-
-**Known-good facts (confirmed):**
-${lines(facts.value) || '* …'}
-
-**Assumptions (quarantined):**
-${lines(assumptions.value) || '* …'}
-
-**MISSING INFO / NEEDS TOOL CHECK:**
-${lines(missing.value) || '* …'}
-
-**Next station goal:** ${next.value.trim() || '…'}
-`;
-        out.textContent = card;
-      }
-
-      btn.addEventListener('click', build);
-    })();
-
     // Predict-like-a-phone game
     (() => {
       const game = document.getElementById('predictGame');
