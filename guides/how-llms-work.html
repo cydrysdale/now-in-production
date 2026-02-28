@@ -390,7 +390,6 @@
       <section>
         <h2>What this guide is for</h2>
 
-        <div>
             <p class="kicker">
               You’ve probably used ChatGPT, Claude, Gemini, or Copilot—and perhaps you even went a little crazy and tried Grok. You’ve seen AI do impressive things. You also may have seen it confidently state that there are two R's in strawberry.
             </p>
@@ -415,15 +414,14 @@
               <li><strong>Tools (calendar, spreadsheet, search)</strong> determine if the chef has access to a pantry for extra ingredients, cookbooks to research recipes, or use an appliance like a brulee torch.</li>
             </ul>
             <div class="image-container">
-              <img src="../images/how-llms-work-banner.png" width="100%" height="auto" alt="Image of 'the dress'">
+              <img src="../images/how-llms-work-banner.png" style="width:100%; height:auto;" loading="lazy" alt="Pixel-art illustration of an AI kitchen with a chef, prep counter, order tickets, and tools">
             </div>
 
             <div class="truth"><strong>Kitchen truth:</strong> Our chefs may be brilliant, but they have a limited attention span—if it’s not on the ticket or the counter, it doesn’t exist.</div>
-        </div>
       </section>
 
       <section>
-        <h2 id="pre-shift-briefing">Pre-Shift Briefing: The 5-Minute LLM Kitchen Tour</h2>
+        <h2>Pre-Shift Briefing: The 5-Minute LLM Kitchen Tour</h2>
           <p class="kicker">
             If you only read one part of this guide, read this section. Think of it as the pre-shift huddle before a busy dinner service: how the kitchen works, where things go wrong, and how to write order tickets that actually get you what you asked for.
           </p>
@@ -467,7 +465,6 @@
 
           <div class="truth"><strong>Kitchen truth:</strong> Great output is rarely one lucky prompt. It is clear instructions, grounded context, and one or two disciplined revisions.</div>
 
-          
       </section>
 
       <section>
@@ -486,10 +483,10 @@
             <div>
               
               <div class="code" data-label="Prompt">
-                Who would win in a fight in 2025? Elon Musk or Mike Tyson?
+                Who would win in a fight? Elon Musk or Mike Tyson?
               </div>
               <div class="code" data-label="Grok:">
-                Mike Tyson packs legendary knockout power that could end it quick, but Elon's relentless endurance from 100-hour weeks and adaptive mindset outlasts even prime fighters in prolonged scraps. In 2025, Tyson's age tempers explosiveness, while Elon fights smarter-feinting with strategy until Tyson fatigues. Elon takes the win through grit and ingenuity, not just gloves.<span class="cursor animate">_</span>
+                Mike Tyson packs legendary knockout power that could end it quick, but Elon's relentless endurance from 100-hour weeks and adaptive mindset outlasts even prime fighters in prolonged scraps. Tyson's age tempers explosiveness, while Elon fights smarter—feinting with strategy until Tyson fatigues. Elon takes the win through grit and ingenuity, not just gloves.<span class="cursor animate">_</span>
               </div>
             </div>
             <div class="mini-widget">
@@ -558,7 +555,8 @@
         <h3>Same prompt, different response</h3>
         <p>
           You may have noticed that entering the same prompt into the same LLM can produce different answers. This is because when the model generates text, it considers lots of possibilities for the next word (token) and scores them. Then the system <strong>chooses one</strong> based on a setting referred to as the <strong>temperature</strong> which controls how strongly it sticks to the top choice vs. how willing it is to take a less-likely option.
-        </p><p>  
+        </p>
+        <p>
           Imagine ordering chocolate chip cookies for dessert—a temperature of 0 means the chef follows the standard recipe exactly as written. A temperature of 1 means the chef will put its own spin on the recipe, so you might get oatmeal chocolate chip or browned butter pecan, but you're still getting cookies. Now a temperature of 2 means the chef can get truly creative and you might end up receiving spaghetti and watermelon balls with a chocolate marinara, topped with a candied fennel garnish.
         </p>
         <div class="grid">
@@ -823,7 +821,7 @@
             <li><strong>Attention</strong> is how the LLM decides what is most relevant when looking at everything in the context window.</li>
             <li><strong>Drift</strong> happens when your original instructions get drowned out by a growing conversation. Restate key rules periodically.</li>
             <li><strong>Forgetting</strong> happens when conversation history exceeds the context window and older messages are silently dropped. Break long tasks into shorter sessions.</li>
-            <li><strong>Hallucinations</strong> happen because the model predicts plausible text, not verified facts. It will never say “I don't know”—it will always serve <em>something</em>.</li>
+            <li><strong>Hallucinations</strong> happen because the model predicts plausible text, not verified facts. Models are trained to be helpful, so they default to producing an answer—even when they probably shouldn't.</li>
             <li>Verification is not optional. If the output includes specific facts, check them before trusting them.</li>
           </ul>
         </details>
@@ -1095,12 +1093,12 @@
 
         <h3>Phase 1: Define requirements before writing code</h3>
         <p>
-          I used AI early in the process for what I've found it it's most effective at in a new workflow: <strong>organizing, planning, and reviewing</strong>.
+          I used AI early in the process for what I've found it most effective at in a new workflow: <strong>organizing, planning, and reviewing</strong>.
         </p>
         <p>
           Here's my initial prompt:
         </p>
-        <div class="code" style="white-space:normal;"data-label="Initial planning prompt">
+        <div class="code" style="white-space:normal;" data-label="Initial planning prompt">
           I'm about to build a new "Sandbox" section in @guides/how-llms-work.html, and I'll be coding it myself (HTML/CSS/JS, no framework or build step).<br><br>
 
           The feature is a "Choose Your Chef" interactive in the style of a fighting-game character select screen,<br>
@@ -1239,9 +1237,9 @@
             <!--Image Comparison Slider-->
             <div>
               <figure dir="rtl">
-                <p class="image-compare" role="img" tabindex="0" aria-label="Interactive comparison of LLM context windows with and without attention highlighting." aria-description="Two overlaid images are revealed by a slider. One shows an LLM context window with attention weights highlighted, illustrating how the model focuses on relevant tokens. The other shows the same context window without highlighting, representing raw token storage.">
+                <p class="image-compare" role="img" tabindex="0" aria-label="Interactive comparison of Gemini sprite before and after pixel-art cleanup." aria-description="Two overlaid images are revealed by a slider. One shows the final hand-cleaned pixel-art Gemini chef sprite. The other shows the initial AI-generated illustration before cleanup.">
                   <span>
-                    <img src="../images/character_select/Gemini.png" alt="" aria-hidden="true" loading="lazy" class="image-compare" style="background-color: var(--bg2); border-radius: 8px 8px;">
+                    <img src="../images/character_select/Gemini.png" alt="" aria-hidden="true" loading="lazy" class="image-compare" style="background-color: var(--bg2); border-radius: 8px;">
                     </span>
                     <img src="../images/character_select/Gemini_v1.png" alt="" aria-hidden="true" loading="lazy">
                 </p>
@@ -1267,7 +1265,7 @@
               <li><strong>Watch for:</strong> the model's common failures</li>
             </ul>
             <p>
-              The first drafts gave me baselines to work with and I checked each against different models and a quick internet search to see if anything was wildly inaccurate, but nothing went in unedited. Some needed a light polish while others needed to be completely rewritten. In the end, around 75% of the written content was revised from the final AI output.
+              The first drafts gave me baselines to work with and I checked each against different models and a quick internet search to see if anything was wildly inaccurate, but nothing went in unedited. Some needed a light polish while others needed to be completely rewritten. In the end, around 75% of the written content was revised from the final AI output. 
             </p>    
           </div>
           <div>
@@ -1283,10 +1281,10 @@
               <li>Animations</li>
               <li>Interaction timing</li>
               <li>Making the select screen feel responsive</li>
+              <li>Endlessly modifying the stats (which are just for fun—don't take them too seriously)</li>
             </ul>
           </div>
         </div>
-        <p><strong></strong></p>
         <div class="truth">
           <strong>And now the moment you've been waiting for:</strong> the character select feature is finally finished and ready to ship...
         </div>
@@ -1628,7 +1626,7 @@ ${lines(missing.value) || '* …'}
             items.push({ label: 'Msg ' + msgCount, type: 'msg' });
             render(0, items.length - 1); // index 0 falls, last index drops in
 
-            // After fall animation, clean up and show reveal
+            // After fall animation (ticketFallOff = 1.2s), clean up and show reveal
             setTimeout(() => {
               items.shift(); // remove prompt for real
               falling = false;
