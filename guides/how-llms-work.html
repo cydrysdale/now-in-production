@@ -349,6 +349,100 @@
       text-transform: uppercase;
       user-select: none;
     }
+
+    /* Sprite progression carousel */
+    .sprite-carousel {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .roster-carousel {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      flex: 1;
+      min-width: 0;
+      mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+      -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+    }
+    .roster-carousel::-webkit-scrollbar { display: none; }
+    .roster-carousel > .diagram {
+      flex: 0 0 60%;
+      scroll-snap-align: center;
+      margin: 0;
+    }
+    .roster-carousel > .diagram img {
+      width: 85%;
+      margin: 0 auto;
+    }
+    /* Pad first/last so they can center */
+    .roster-carousel::before,
+    .roster-carousel::after {
+      content: '';
+      flex: 0 0 20%;
+    }
+
+    .carousel-arrow {
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1.5px solid var(--borderDark);
+      background: var(--card);
+      color: var(--text);
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.2s, background 0.2s;
+      z-index: 1;
+    }
+    .carousel-arrow:hover {
+      border-color: var(--accent);
+      background: var(--card2);
+    }
+    .carousel-arrow:disabled {
+      opacity: 0.3;
+      cursor: default;
+    }
+
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 0 2px;
+    }
+    .carousel-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 1.5px solid var(--muted);
+      background: transparent;
+      padding: 0;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .carousel-dot.active {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    @media (max-width: 700px) {
+      .carousel-arrow { display: none; }
+      .roster-carousel > .diagram { flex: 0 0 85%; }
+      .roster-carousel::before,
+      .roster-carousel::after { flex: 0 0 7.5%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .roster-carousel { scroll-behavior: auto; }
+    }
   </style>
 </head>
 
@@ -1191,19 +1285,30 @@
           Then I cleaned everything up in Photoshop and converted it into actual pixel-art sprites. Here's the progression for the ChatGPT chef—from the initial AI generation, through the refined prompt, to the final pixel-art sprite:
         </p>
 
-        <div class="roster" style="grid-template-columns: repeat(3, 1fr);">
-          <figure class="diagram" style="margin:0;">
-            <img src="../images/character_select/ChatGPT_v1.png" alt="ChatGPT chef v1: initial AI-generated illustration—stiff pose, static, clean but lifeless" loading="lazy">
-            <figcaption><strong>v1—Initial prompt.</strong> A nice start but too stiff, no energy, and also <em>not</em> pixel-art. There were a few more attempts to achieve the pixel-art style before I gave up.</figcaption>
-          </figure>
-          <figure class="diagram" style="margin:0;">
-            <img src="../images/character_select/ChatGPT_v2.png" alt="ChatGPT chef v2: refined prompt—more dynamic stance, dramatic lighting, closer to fighting-game energy" loading="lazy">
-            <figcaption><strong>v2—Refined prompt.</strong> More dynamic and closer to the fighting-game energy I was looking for. It still wasn't pixel-art but I already knew this process would need lots of manual cleanup.</figcaption>
-          </figure>
-          <figure class="diagram" style="margin:0;">
-            <img src="../images/character_select/ChatGPT.png" alt="ChatGPT chef final: hand-cleaned pixel art sprite with floating utensils, clean silhouette, and intentional highlights" loading="lazy">
-            <figcaption><strong>Final—Pixel-art sprite.</strong> Downscaled and hand-cleaned in Photoshop. Stray pixels removed, silhouette tightened, highlights and floating utensils added manually.</figcaption>
-          </figure>
+        <div id="spriteProgression">
+          <div class="sprite-carousel">
+            <button class="carousel-arrow" id="spritePrev" type="button" aria-label="Previous slide">&#8249;</button>
+            <div class="roster-carousel">
+              <figure class="diagram" style="margin:0;">
+                <img src="../images/character_select/ChatGPT_v1.png" alt="ChatGPT chef v1: initial AI-generated illustration—stiff pose, static, clean but lifeless" loading="lazy">
+                <figcaption><strong>v1—Initial prompt.</strong> A nice start but too stiff, no energy, and also <em>not</em> pixel-art. There were a few more attempts to achieve the pixel-art style before I gave up.</figcaption>
+              </figure>
+              <figure class="diagram" style="margin:0;">
+                <img src="../images/character_select/ChatGPT_v2.png" alt="ChatGPT chef v2: refined prompt—more dynamic stance, dramatic lighting, closer to fighting-game energy" loading="lazy">
+                <figcaption><strong>v2—Refined prompt.</strong> More dynamic and closer to the fighting-game energy I was looking for. It still wasn't pixel-art but I already knew this process would need lots of manual cleanup.</figcaption>
+              </figure>
+              <figure class="diagram" style="margin:0;">
+                <img src="../images/character_select/ChatGPT.png" alt="ChatGPT chef final: hand-cleaned pixel art sprite with floating utensils, clean silhouette, and intentional highlights" loading="lazy">
+                <figcaption><strong>Final—Pixel-art sprite.</strong> Downscaled and hand-cleaned in Photoshop. Stray pixels removed, silhouette tightened, highlights and floating utensils added manually.</figcaption>
+              </figure>
+            </div>
+            <button class="carousel-arrow" id="spriteNext" type="button" aria-label="Next slide">&#8250;</button>
+          </div>
+          <nav class="carousel-dots" aria-label="Sprite progression slides">
+            <button class="carousel-dot active" type="button" aria-label="Slide 1: initial prompt"></button>
+            <button class="carousel-dot" type="button" aria-label="Slide 2: refined prompt"></button>
+            <button class="carousel-dot" type="button" aria-label="Slide 3: final sprite"></button>
+          </nav>
         </div>
         <div class="grid callout">
           <div>
@@ -1345,6 +1450,56 @@
   <a id="toTop" href="#top" title="Back to top">&#8593;</a>
 
   <script>
+    // Sprite progression carousel
+    (() => {
+      const track = document.querySelector('#spriteProgression .roster-carousel');
+      if (!track) return;
+      const dots = [...document.querySelectorAll('#spriteProgression .carousel-dot')];
+      const slides = [...track.querySelectorAll('.diagram')];
+      const prev = document.getElementById('spritePrev');
+      const next = document.getElementById('spriteNext');
+      if (!dots.length || !slides.length) return;
+
+      let ticking = false;
+
+      function getIndex() {
+        // Each slide is centered; measure from the track's visual center
+        const center = track.scrollLeft + track.offsetWidth / 2;
+        let closest = 0, minDist = Infinity;
+        slides.forEach((s, i) => {
+          const mid = s.offsetLeft + s.offsetWidth / 2;
+          const d = Math.abs(center - mid);
+          if (d < minDist) { minDist = d; closest = i; }
+        });
+        return closest;
+      }
+
+      function update() {
+        const idx = getIndex();
+        dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+        if (prev) prev.disabled = idx === 0;
+        if (next) next.disabled = idx === slides.length - 1;
+        ticking = false;
+      }
+
+      function scrollTo(i) {
+        const slide = slides[i];
+        if (!slide) return;
+        const target = slide.offsetLeft - (track.offsetWidth - slide.offsetWidth) / 2;
+        track.scrollTo({ left: target, behavior: 'smooth' });
+      }
+
+      track.addEventListener('scroll', () => {
+        if (!ticking) { ticking = true; requestAnimationFrame(update); }
+      }, { passive: true });
+
+      dots.forEach((dot, i) => dot.addEventListener('click', () => scrollTo(i)));
+      if (prev) prev.addEventListener('click', () => { const i = getIndex(); if (i > 0) scrollTo(i - 1); });
+      if (next) next.addEventListener('click', () => { const i = getIndex(); if (i < slides.length - 1) scrollTo(i + 1); });
+
+      update();
+    })();
+
     // Predict-like-a-phone game
     (() => {
       const game = document.getElementById('predictGame');
