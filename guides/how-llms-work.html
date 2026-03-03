@@ -569,13 +569,8 @@
           <div class="grid">
             <div>
               <p>
-                So, you decide to try it out by asking for something simple, it answers confidently:
+                So, you decide to try it out by asking for something simple, <strong>it answers confidently:</strong>
               </p>
-            </div>
-          </div>
-          <div class="grid">
-            <div>
-              
               <div class="code" data-label="Prompt">
                 Who would win in a fight? Elon Musk or Mike Tyson?
               </div>
@@ -583,7 +578,7 @@
                 Mike Tyson packs legendary knockout power that could end it quick, but Elon's relentless endurance from 100-hour weeks and adaptive mindset outlasts even prime fighters in prolonged scraps. Tyson's age tempers explosiveness, while Elon fights smarter—feinting with strategy until Tyson fatigues. Elon takes the win through grit and ingenuity, not just gloves.<span class="cursor animate">_</span>
               </div>
             </div>
-            <div class="mini-widget">
+            <div class="mini-widget callout">
               <p id="tokenParagraph">
                 This isn't necessarily because that AI model is faulty or inferior to another model that gave you a better answer. It could be a result of a bad prompt or improper utilization of that particular model. Which is why it's important to understand how LLMs work and how they generate text.
               <br><br>
@@ -1179,7 +1174,8 @@
 
         <h3>Building a "Choose Your Chef" character select screen</h3>
         <p>
-          I've spent the last few years learning everything I can about how AI works because I always felt that the more I understand a tool, the better I can use it. That said, I still wouldn’t normally use AI for creating a guide like this one—I genuinely enjoy doing this sort of work myself—but I wanted to run an experiment: involve AI as much as possible at each stage of the project and see what it actually saved me. I also gave myself a slightly arbitrary constraint: <strong>three weeks</strong> to plan, design, build, and test the whole thing. Similar guides have taken me more than six weeks, so I was aiming for roughly a 50% reduction in timeline. My early research suggested that goal was optimistic at best… but I do love a challenge.
+          I've spent the last few years learning everything I can about how AI works because I always felt that the more I understand a tool, the better I can use it. That said, I
+          wouldn’t normally use AI for creating a guide like this—I genuinely enjoy doing this sort of work myself—but I wanted to run an experiment: involve AI as much as possible at each stage of the project and see what it actually saved me. I also gave myself a slightly arbitrary constraint: <strong>three weeks</strong> to plan, design, build, and test the whole thing. Similar guides have taken me more than six weeks, so I was aiming for roughly a 50% reduction in timeline. My early research suggested that goal was optimistic at best… but I do love a challenge.
         </p>
         <p>
           A full behind-the-scenes would be longer than the guide itself, so this section focuses on <strong>one</strong> piece: a <strong>"Choose Your Chef"</strong> interactive—built like a fighting-game character select screen where you pick a model and see a sprite, a bio, and character stats.
@@ -1430,26 +1426,28 @@
         <p>
           AI was most effective in the planning and drafting stages. It saved a lot of time by helping me organize my thoughts, build checklists, and generate placeholder text and images. I say “placeholder” intentionally—very little of what it produced went straight into the final version without heavy editing, and roughly 70% of the AI-generated content was rewritten or replaced entirely. Overall, AI nearly doubled my speed during early planning, but I didn’t see any measurable increase during creative execution (writing copy and producing graphics). Much of that is due to AI-induced detours that actually slowed me down while I tightened the prompt. But with a more dialed-in process, the “creative execution” gain could be worthwhile depending on how concerned I am about quality and accuracy.
         </p>
-        <div class="grid">
-          <div>
-            <h3>The iron triangle</h3>
-            <p>
-              The way I think about this is the classic “fast, cheap, good” tradeoff. AI tends to live on the "fast and cheap" end: it can quickly generate options and help explore directions. Human work—especially <strong>experienced</strong> human work—sits at the “good” corner: polish, accuracy, consistency of voice, and thousands of tiny decisions that make something feel intentional and ready to ship.
-            </p>
-          </div>
-          <div>
-            <h3 style="text-align: center; margin-bottom: 5px;">AI work</h3>
-            <div class="image-container">
-              <img src="../images/fast-cheap-good.png" style="width:60%; height:auto;" loading="lazy" alt="Pixel-art illustration of an AI kitchen with a chef, prep counter, order tickets, and tools">
+        <div class="sandbox-card">
+          <div class="grid">
+            <div>
+              <h3>The iron triangle</h3>
+              <p>
+                The way I think about this is the classic “fast, cheap, good” tradeoff. AI tends to live on the "fast and cheap" end: it can quickly generate options and help explore directions. Human work—especially <strong>experienced</strong> human work—sits at the “good” corner: polish, accuracy, consistency of voice, and thousands of tiny decisions that make something feel intentional and ready to ship.
+              </p>
             </div>
-            <h3 style="text-align: center; margin-top: 0;">Human work</h3>
+            <div>
+              <h3 style="text-align: center; margin-bottom: 5px;">AI work</h3>
+              <div class="image-container">
+                <img src="../images/fast-cheap-good.png" style="width:60%; height:auto;" loading="lazy" alt="Pixel-art illustration of an AI kitchen with a chef, prep counter, order tickets, and tools">
+              </div>
+              <h3 style="text-align: center; margin-top: 0;">Human work</h3>
+            </div>
           </div>
+          <p>
+            That’s why AI helped most early on. In the planning phase, speed matters more than perfection, and rough drafts are supposed to be rough. As a project moves toward release, the requirements shift: correctness, clarity, consistency, and production-level craft start to dominate. The more you care about quality (and the more the work needs to stand up to scrutiny), the more human intervention you need—whether that’s rewriting copy, cleaning up visuals, or validating claims. AI can still contribute late in the process, but it works best as an accelerator and a second set of eyes.
+          </p>
         </div>
-        <p>
-          That’s why AI helped most early on. In the planning phase, speed matters more than perfection, and rough drafts are supposed to be rough. As a project moves toward release, the requirements shift: correctness, clarity, consistency, and production-level craft start to dominate. The more you care about quality (and the more the work needs to stand up to scrutiny), the more human intervention you need—whether that’s rewriting copy, cleaning up visuals, or validating claims. AI can still contribute late in the process, but it works best as an accelerator and a second set of eyes.
-        </p>
-        <p>
-          Even with the slowdowns, I only went over my ambitious, three week goal by a couple days. This workflow worked well for me because I’m experienced with each part of this type of project (planning, coding, writing, and design) and already comfortable with AI prompting. Even so, a significant portion of the work still required a human touch.
+        <p><br>
+          <strong>Even with the slowdowns,</strong> I only went over my ambitious, three week goal by a couple days. This workflow worked well for me because I’m experienced with each part of this type of project (planning, coding, writing, and design) and already comfortable with AI prompting. Even so, a significant portion of the work still required a human touch.
         </p>
         <div class="truth">
           <strong>Final takeaways:</strong> AI can accelerate parts of a project, but it doesn’t shorten every phase equally. It’s most effective when it’s part of an established process—paired with prompts that are pressure-tested, refined, and can be reused reliably.
