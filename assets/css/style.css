@@ -274,7 +274,7 @@
     padding: 28px 24px; 
     background: linear-gradient(90deg, var(--card2), var(--card));
     border-bottom: 1px solid var(--borderLight);
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(24px);
     position: relative;   /* establish a positioned element */
     z-index: 10;
   }
@@ -337,7 +337,7 @@
     border-radius: 16px;
     padding: 20px; 
     margin: 18px 0; 
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(24px);
     width: 100%;
   }
   section a:link {
