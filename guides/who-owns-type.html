@@ -14,18 +14,18 @@
   <link rel="icon" type="image/png" sizes="16x16" href="../images/favicon-16x16.png">
   <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
   <link rel="manifest" href="../site.webmanifest">
-  <meta name="description" content="How law and business shape the letters we use. A practical guide to typefaces, font software, licensing, and why choosing the correct font version matters." />
-  <meta name="keywords" content="typography, typeface licensing, font law, Roboto, Roboto Serif, variable fonts, OpenType, WOFF, EULA, Monotype, Google Fonts" />
-  <meta name="guide:category" content="Typography" />
-  <meta name="guide:updated" content="2025-09-15" />
-  <link rel="canonical" href="https://cydrysdale.github.io/now-in-production/guides/who-owns-type.html">
-  <meta name="robots" content="index,follow">
-  <meta name="author" content="Chris Yasuda Drydsale">
+  <meta name="description" content="The story of who owned the letters — from clay seals to open source. A visual, interactive guide to typography's ownership history, craft, and the rules that still shape the fonts on your screen." />
+	  <meta name="keywords" content="typography, typeface licensing, font law, Roboto, Roboto Serif, variable fonts, OpenType, WOFF, EULA, Monotype, Google Fonts" />
+	  <meta name="guide:category" content="Typography" />
+		  <meta name="guide:updated" content="2026-03-06" />
+	  <link rel="canonical" href="https://cydrysdale.github.io/now-in-production/guides/who-owns-type.html">
+	  <meta name="robots" content="index,follow">
+	  <meta name="author" content="Chris Yasuda Drysdale">
   <meta name="format-detection" content="telephone=no"/>
   <!-- Open Graph for Facebook, LinkedIn, etc. -->
   <meta property="og:type" content="article">
   <meta property="og:title" content="Typography Inc.: Who Owns the Alphabet">
-  <meta property="og:description" content="How law and business shape the letters we use. A practical guide to typefaces, font software, licensing, and why choosing the correct font version matters." />
+  <meta property="og:description" content="The story of who owned the letters — from clay seals to open source. A visual, interactive guide to typography's ownership history, craft, and the rules that still shape the fonts on your screen." />
   <meta property="og:image" content="https://cydrysdale.github.io/now-in-production/images/fontopoly.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -37,18 +37,22 @@
   <link rel="stylesheet" href="../assets/css/style.css">
   <script src="../assets/js/core.js" defer></script>
   <script src="../assets/js/widgets.js" defer></script>
-  <style>
-    :root {
-      /* NOTE: url(...) is resolved relative to `assets/css/style.css` (not this HTML file). */
-      --bg-light: url('../../images/ownsType.png');
-      --field: #fdfdfd;
-    }
-    :root[data-theme="dark"]{ 
-      --bg-dark: url('../../images/ownsTypeDark.png');
-    }
-    .callout { 
-      background: var(--bg); 
-      border:2px solid var(--shadow2); 
+  <script src="../assets/js/who-owns-type-game.js" defer></script>
+	  <style>
+	    :root {
+	      /* NOTE: url(...) is resolved relative to `assets/css/style.css` (not this HTML file). */
+	      --bg-light: url('../../images/ownsType.png');
+	      --bgImage: url('../../images/ownsType.png');
+	      --field: #fdfdfd;
+	    }
+	    :root[data-theme="dark"]{
+	      --bg-dark: url('../../images/ownsTypeDark.png');
+	      --bgImage: url('../../images/ownsTypeDark.png');
+	      --field: var(--card);
+	    }
+	    .callout { 
+	      background: var(--bg); 
+	      border:2px solid var(--shadow2); 
       border-top:50px solid #629c67; 
       padding:0px 14px 12px; 
       border-radius:8px; 
@@ -70,33 +74,6 @@
       border-top:50px solid indianred; 
     }
 
-    .scenario {
-      margin-block: 1.25rem 2rem;
-      display: grid;
-      gap: .75rem;
-    }
-    .scenario__note { font-size: .95rem; margin: 0; }
-    .scenario__form fieldset {
-      border: 1px dashed rgba(0,0,0,.15);
-      border-radius: 10px;
-      padding: .75rem .9rem;
-      display: grid; gap: .5rem;
-    }
-    .scenario__form label { display: flex; gap: .5rem; align-items: center; }
-    .scenario__result {
-      margin-top: .6rem;
-      display: inline-block;
-      background: var(--field);
-      border: 1px solid rgba(0,0,0,.08);
-      border-radius: 10px;
-      padding: .5rem .75rem;
-      box-shadow: 0 6px 20px rgba(0,0,0,.06);
-      font-weight: 600;
-      color: #78766f;
-    }
-    .scenario__result.is-ok { color: #166534; }       /* green-ish */
-    .scenario__result.is-warn { color: #d77109; }     /* amber-ish */
-    .scenario__result.is-risk { color: #991b1b; }     /* red-ish */
     .sr-only { position: absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,1,1); white-space:nowrap; border:0; }
 
     /* Numbered steps with nice counters */
@@ -113,7 +90,7 @@
       counter-increment: step;
       background: var(--field);
       max-width: 254px;
-      color: #352f36;
+      color: var(--black);
       border: 1px solid rgba(0,0,0,.08);
       border-radius: 10px;
       padding: 1rem 1.25rem 1rem 2.5rem;
@@ -168,8 +145,8 @@
       min-height: 3.2rem; 
       line-height: 1.6;
       font-family: var(--demo-font, system-ui, sans-serif);
-      background: #fff;
-      color: #352f36;
+      background: var(--field);
+      color: var(--black);
     }
     .tool-contrast .row { display: grid; gap: .5rem; grid-template-columns: repeat(3, minmax(0,1fr)); }
     .tool-contrast .cc-sample {
@@ -177,30 +154,91 @@
     }
     .tool-contrast .cc-out { display: inline-block; margin-top: .4rem; font-weight: 700; }
     @media (max-width: 800px){ .brand-tools { grid-template-columns: 1fr; } }
-    .card.wb { border: 1px solid rgba(0,0,0,.08); border-radius: 12px; padding: .75rem .9rem; background: #fff; box-shadow: 0 8px 28px rgba(0,0,0,.06); }
-    .card.wb .small { font-size: .9rem; color:#555; margin:.25rem 0 .5rem; }
-    .wb__grid { display:grid; gap:.5rem; grid-template-columns: repeat(2,minmax(0,1fr)); margin:.25rem 0 .5rem; }
-    .card.wb input[type="number"]{ padding:.45rem .6rem; border:1px solid #ddd; border-radius:8px; }
-    .wb__out { display:inline-block; margin-top:.5rem; font-weight:700; }
-    @media (max-width:640px){ .wb__grid{ grid-template-columns:1fr; } }
-
-        .card.sci{ border:1px solid rgba(0,0,0,.08); border-radius:12px; padding:.75rem .9rem; background:#fff; box-shadow:0 8px 28px rgba(0,0,0,.06); }
-    .card.sci .small{ font-size:.9rem; color:#555; }
-    .card.sci textarea{ width:100%; margin:.4rem 0; padding:.6rem .7rem; border:1px solid #ddd; border-radius:8px; }
-    .card.sci .sci-out{ display:block; font-weight:700; margin-top:.3rem; }
-
-        .card.rr{ border:1px solid rgba(0,0,0,.08); border-radius:12px; padding:.75rem .9rem; background:#fff; box-shadow:0 8px 28px rgba(0,0,0,.06); }
-    .rr__controls{ display:grid; gap:.6rem; grid-template-columns: repeat(3,minmax(0,1fr)); }
-    .card.rr input[type="range"]{ width:100%; }
-    .rr__sample{ margin:.6rem 0; padding:.6rem .7rem; border:1px dashed rgba(0,0,0,.15); border-radius:8px; }
-    .rr__meter{ position:relative; height:8px; background:#f0f2f4; border-radius:999px; overflow:hidden; }
-    .rr__bar{ position:absolute; inset:0 0 0 auto; width:0; background:linear-gradient(90deg,#22c55e,#f59e0b,#ef4444); }
-    .rr__out{ display:block; margin-top:.4rem; font-weight:700; }
-    @media (max-width:800px){ .rr__controls{ grid-template-columns:1fr; } }
     .glossary { display:grid; grid-template-columns: 12ch 1fr; column-gap:1rem; row-gap:.35rem; }
     .glossary dt{ font-weight:700; }
     .glossary dd{ margin:0; }
     @media (max-width:640px){ .glossary{ grid-template-columns:1fr; } }
+
+    /* Game: Case File */
+    .case-file__section { margin-bottom: .25rem; }
+    .case-file__chips { display:flex; flex-wrap:wrap; gap:.4rem; }
+    .brief-chip {
+      display:inline-block; padding:4px 10px; border-radius:999px;
+      font-size:12px; font-weight:600;
+      background:var(--card2); border:1px solid var(--borderDark); color:var(--muted);
+    }
+    .brief-chip.is-met { background:rgba(22,101,52,.12); border-color:#166534; color:#166534; }
+    :root[data-theme="dark"] .brief-chip.is-met { background:rgba(121,217,155,.15); border-color:#79d99b; color:#79d99b; }
+    .brief-chip--info { background:var(--callout); border-style:dashed; font-weight:400; }
+    .case-file__counts { display:flex; flex-wrap:wrap; gap:.5rem; }
+    .case-count {
+      display:inline-block; padding:4px 8px; border-radius:8px;
+      font-size:13px; background:var(--card2); border:1px solid var(--borderLight);
+    }
+
+    /* Game: Deeds */
+    .deed-earned { color:#166534; font-size:.85rem; font-weight:600; }
+    :root[data-theme="dark"] .deed-earned { color:#79d99b; }
+    .deed-card__takeaways { margin:.25rem 0; padding-left:1.25rem; }
+    .deed-card__takeaways li { margin-bottom:.25rem; }
+
+    /* Game: Change Orders */
+    .change-order { margin:.75rem 0; }
+    .change-order__card {
+      padding:.75rem; border-radius:10px;
+      border:1px solid var(--borderDark);
+    }
+    .change-order__card.is-helpful { background:rgba(22,101,52,.06); border-color:rgba(22,101,52,.3); }
+    .change-order__card.is-complication { background:rgba(153,27,27,.06); border-color:rgba(153,27,27,.3); }
+    :root[data-theme="dark"] .change-order__card.is-helpful { background:rgba(121,217,155,.08); border-color:rgba(121,217,155,.3); }
+    :root[data-theme="dark"] .change-order__card.is-complication { background:rgba(255,100,100,.08); border-color:rgba(255,100,100,.25); }
+
+    /* Game: Pass Scenarios */
+    .pass-scenario {
+      margin-bottom:.75rem; padding:.75rem;
+      border:1px dashed rgba(0,0,0,.15); border-radius:10px;
+      background:var(--field, var(--card));
+    }
+    .pass-scenario__text { margin:0 0 .5rem; }
+    .pass-scenario__options { border:none; padding:0; display:flex; gap:.75rem; flex-wrap:wrap; }
+    .pass-scenario__options label { display:inline-flex; gap:.25rem; align-items:center; }
+    .pass-result { margin-top:.4rem; min-height:1.2rem; }
+
+    /* Game: Receipts */
+    .receipt-check { display:flex; gap:.5rem; align-items:center; cursor:pointer; }
+
+    /* Game: Portfolio */
+    .portfolio-cheatsheet {
+      margin-top:1rem; padding:.75rem; border:2px solid var(--accent);
+      border-radius:10px; background:var(--callout);
+    }
+    .invoice-clear {
+      padding:1rem; border:2px solid #166534; border-radius:10px;
+      background:rgba(22,101,52,.08);
+    }
+    :root[data-theme="dark"] .invoice-clear { background:rgba(121,217,155,.08); border-color:#79d99b; }
+    .invoice-missing {
+      padding:1rem; border:2px solid #991b1b; border-radius:10px;
+      background:rgba(153,27,27,.06);
+    }
+    :root[data-theme="dark"] .invoice-missing { background:rgba(255,100,100,.06); border-color:#ff6464; }
+    .invoice-cell { padding:6px 8px; border-bottom:1px solid rgba(0,0,0,.1); }
+    .invoice-cost { text-align:right; padding:6px 8px; border-bottom:1px solid rgba(0,0,0,.1); font-weight:700; color:#991b1b; }
+    :root[data-theme="dark"] .invoice-cost { color:#ff6464; }
+
+    /* Game: Stamp Toast */
+    .stamp-toast {
+      position:fixed; bottom:20px; left:50%; transform:translateX(-50%) translateY(20px);
+      background:var(--chest-bg); color:#352f36; padding:12px 20px; border-radius:12px;
+      font-weight:600; font-size:.9rem; box-shadow:0 8px 28px rgba(0,0,0,.2);
+      opacity:0; transition:opacity .3s, transform .3s; z-index:9999; pointer-events:none;
+      text-align:center; max-width:90vw;
+    }
+    .stamp-toast.is-visible { opacity:1; transform:translateX(-50%) translateY(0); }
+    @media (max-width:640px) {
+      .pass-scenario__options { flex-direction:column; gap:.4rem; }
+      .case-file__counts { flex-direction:column; gap:.35rem; }
+    }
   </style>
   
 </head>
@@ -212,7 +250,7 @@
       <img src="../images/apple-touch-icon.png" width="60px" style="display:inline-block; margin-right:10px;" alt="site logo"/>
       <div id="top" class="title-block">
         <h1>Typography Inc.: Who Owns the Alphabet</h1>
-        <div class="sub">How fonts, law, and business shape the letters you use</div>
+        <div class="sub">The story of who owned the letters — from clay seals to open source</div>
       </div>
       <div class="header-actions">
         <div class="theme-toggle" style="scale: 75%;">
@@ -240,169 +278,367 @@
 
     <main id="content">
 
-      <section id="why-typography-matters" class="guide-section">
-        <h2>Why Typography Still Matters (in a world of copy-and-paste)</h2>
-      
-        <p>When type went digital, fonts began moving as easily as any other file—copied, shared, and passed around without much thought. But beneath the surface, typography is still bound by contracts, intellectual property law, and business models that were written back when type was cast in metal.</p>
-      
-        <p>That mismatch is why people casually collect fonts, why companies receive compliance letters, and why independent foundries and large aggregators often clash over pricing and control. Formal lawsuits are rare, but enforcement through audits, cease-and-desist letters, and settlements is common.</p>
+      <!-- —            SECTION 1 — GO: The Letters Before Us
+           — -->
+      <section id="the-letters-before-us" class="guide-section">
+        <p class="muted small" aria-hidden="true"><strong>Square:</strong> GO</p>
+        <h2>The Letters Before Us</h2>
 
-        <div class="">
+	        <p>Every letter on your screen passed through someone's hands. A scribe pressing a reed into wet clay. A punchcutter carving steel by candlelight. A foundry casting lead into trays. A software engineer plotting Bézier curves. A licensing agreement deciding who gets to use the result.</p>
+	
+	        <p>Typography has always been owned—by craftspeople, by companies, by technology, by law. The story of <em>who</em> owned it, and <em>how</em> that ownership shaped the letters we read, is one of the most quietly dramatic threads in design history. This guide follows that thread.</p>
+
+        <div class="grid" style="padding: 5px;">
+	          <div class="callout">
+	            <h3 style="margin-top: 0;">How the board works</h3>
+	            <p>We're using a Monopoly board as our map—not because typography is a game, but because ownership <em>is</em> the game. Each section is a square on the board:</p>
+	            <ul>
+	              <li><strong>Properties</strong> = eras when different people controlled letterforms (punchcutters, foundries, tech companies, open-source communities).</li>
+	              <li><strong>The Bank</strong> = the shifting power centers that decided who had access to type.</li>
+	              <li><strong>Rent &amp; Utilities</strong> = how access was gated at each stage (apprenticeships — machine licenses — per-seat software — subscriptions — free).</li>
+              <li><strong>Chance / Community Chest</strong> = the surprising turns that reshaped the rules.</li>
+            </ul>
+          </div>
+	          <div class="callout purple">
+	            <h3 style="margin-top: 0;">What you'll walk away knowing</h3>
+	            <ul>
+	              <li>How type was made and controlled in each major era—and why those eras still echo in today's tools and rules.</li>
+	              <li>The craft behind letterforms: anatomy, classification, what makes one cut different from another.</li>
+	              <li>How the type industry works today—from solo designers to global aggregators to open-source libraries.</li>
+	              <li>The practical licensing landscape: what the rules are, where they came from, and how to navigate them without surprises.</li>
+	            </ul>
+	          </div>
+	        </div>
+
+	        <!-- Game: Case File (opt-in) -->
+	        <div id="caseFile"></div>
+
+	        <!-- Game: Change Order + Deed -->
+	        <div data-change-order="the-letters-before-us"></div>
+	        <div data-deed="the-letters-before-us"></div>
+
+        <div class="grid">
           <div>
-            <h4>Why it matters for creatives</h4>
+	            <h4>Why the ownership story matters for creatives</h4>
+	            <ul>
+	              <li><strong>Source shapes the letterform:</strong> Different foundries’ cuts of the “same” typeface have different metrics, features, and history.</li>
+	              <li><strong>History explains the rules:</strong> Licensing terms that seem arbitrary make sense once you know how type went from metal to software.</li>
+	              <li><strong>Craft and commerce are inseparable:</strong> Understanding how type is made helps you choose it well—and respect the people who make it.</li>
+	            </ul>
+	          </div>
+          <div>
+		            <details class="tip" aria-label="Font History: Early font sharing and licensing">
+		              <summary><strong>The Floppy Disk Era</strong></summary>
+			              <div>
+			                <p>Back in the late '80s and early '90s, font file trading was a lot like swapping baseball cards or mixtapes. Designers would bring boxes of floppy disks to conferences and exchange typefaces—sometimes entire libraries—for the price of a coffee. It was such a low-tech and human way to exchange digital assets, but it was the primary way most agencies received new fonts to work with.</p>
+		                <div>
+		                <img src="../images/fonts-floppy.png" style="float: right; max-width:280px; margin: 0 0 8px 12px;" alt="floppy disks" />
+		                <p>One&nbsp;famous story goes that a single floppy labeled "Swiss Army Fonts" made its way through dozens of agencies in New York, passed along so many times that no one could remember where it came from. The label was photocopied and taped until it was barely legible, but the fonts inside kept on circulating.</p>
+		                <p>Typography may look serious on the page, but behind the scenes it once had a bootleg, DIY culture that feels closer to a garage band than a law office.</p></div>
+	              </div>
+	            </details>
+          </div>
+        </div>
+
+	        <p class="muted small"><em>Collect $200 for passing GO.</em> First property: how letters began as physical objects—and why owning type once meant owning actual metal.</p>
+      </section>
+
+      <!-- —            SECTION 2 — Property 1: Letters as Objects
+           — -->
+      <section id="letters-as-objects" class="guide-section">
+        <p class="muted small" aria-hidden="true"><strong>Square:</strong> Property 1</p>
+        <h2>Letters as Objects <small>(clay — metal — early foundries)</small></h2>
+
+        <p>Before type was software, it was <em>stuff</em>. Heavy, physical, expensive stuff. And whoever controlled the stuff controlled the words.</p>
+
+	        <h3>Marks in clay</h3>
+	        <p>The ownership story begins around 3100&nbsp;BCE in Mesopotamia, where scribes pressed reed styluses into wet clay to create <strong>cuneiform</strong> — wedge-shaped marks that recorded trade, law, and literature. These weren't fonts, but they were the first repeatable writing systems, and the scribes who knew them held power: literacy itself was a controlled technology.</p>
+	
+	        <p>In China, <strong>woodblock printing</strong> (Tang dynasty, ~7th&nbsp;century&nbsp;CE) carved entire pages into wood for reuse. Then around the 11th century, Bi Sheng invented <strong>movable type</strong> from fired clay—individual characters that could be rearranged. The idea traveled slowly westward.</p>
+
+	        <h3>Gutenberg's revolution</h3>
+	        <p>When Johannes Gutenberg developed metal movable type in 15th-century Europe, he didn't just invent a printing method—he created a <em>manufacturing system</em>. Each letter required a steel <strong>punch</strong> hand-cut by a craftsman, struck into a copper <strong>matrix</strong>, which was then used to cast hundreds of identical lead <strong>sorts</strong>. The process was capital-intensive, skilled, and slow.</p>
+	
+	        <p>This is where ownership gets concrete. A "font" was literally a complete set of metal sorts in one size and style, stored in a wooden case. Buying type meant buying <em>metal</em>. Printers owned their type the way carpenters own their tools—it was inventory, investment, and competitive advantage. Copying meant re-cutting punches from scratch, a task that required years of training and its own workshop.</p>
+
+	        <h3>Scarcity as protection</h3>
+	        <p>For centuries, the sheer difficulty of making type was its own protection. You couldn't copy a competitor's letterforms without the skill to cut steel, the equipment to strike matrices, and the foundry to cast sorts. Piracy existed: enterprising printers would electrotype borrowed sorts to create knock-off matrices, but it was slow, expensive, and produced inferior results.</p>
+	
+	        <p>The first formal recognition that letterforms could be <em>designed property</em> came in 1842, when type founder George Bruce received <strong>U.S. Design Patent D1</strong>, the very first design patent ever issued, for a typeface. It protected appearance rather than function, foreshadowing a distinction that would matter enormously two centuries later.</p>
+	
+	        <div class="mini-widget" aria-labelledby="timelineTitle">
+	          <h3 id="timelineTitle">Typography timeline: from metal to memes</h3>
+	          <p class="muted">Mission: drag the slider from ancient marks to desktop publishing. As you move, watch what changes hands—materials, machines, and finally the rules.</p>
+	          <input type="range" class="slider slider--utilities" id="era" min="0" max="8" step="1" value="0" aria-describedby="eraDesc">
+	          <div id="eraDesc" class="card-box"></div>
+	        </div>
+
+		        <details class="tip" aria-label="Community Chest: Type History and Fun Facts">
+		          <summary><strong>Type History and Fun Facts</strong></summary>
+			          <div class="mini-widget" data-widget="rule-card" aria-labelledby="ruleCardTitle">
+			            <h3 id="ruleCardTitle">Draw a card.</h3>
+		            <p class="muted small" style="margin-top: 0;">Story beat: ask “Who had the power here?” and “What changed the rules?”</p>
+		            <button class="btn" type="button" style="width: fit-content;">Draw</button>
+		            <div class="card-box" role="status" aria-live="polite"></div>
+		          </div>
+		        </details>
+	
+        <!-- Game: Change Order + Deed -->
+        <div data-change-order="letters-as-objects"></div>
+        <div data-deed="letters-as-objects"></div>
+
+	        <p class="muted small"><em>Property acquired.</em> Next: the foundry age—when machines scaled production and companies became the new gatekeepers of type.</p>
+	      </section>
+      
+      <!-- —            SECTION 3 — Property 2: The Foundry Age
+           — -->
+      <section id="the-foundry-age" class="guide-section">
+        <p class="muted small" aria-hidden="true"><strong>Square:</strong> Property 2</p>
+        <h2>The Foundry Age <small>(industrial scale — phototype)</small></h2>
+
+	        <p>By the late 19th century, type had outgrown the individual punchcutter's bench. Companies like <strong>American Type Founders (ATF)</strong>, <strong>Linotype</strong>, and <strong>Monotype</strong> industrialized letter-making with hot-metal systems that could cast type at production speed. Ownership shifted from craftspeople to corporations—and access became a business relationship.</p>
+
+        <h3>Machines as gatekeepers</h3>
+	        <p>Linotype machines cast entire lines of type from a keyboard, revolutionizing newspaper production. Monotype systems cast individual characters from punched paper tape, offering more flexibility for book work. Both required proprietary matrices (the molds), which meant you didn't just buy type—you bought into an <em>ecosystem</em>. Your foundry relationship determined what letterforms you could access.</p>
+
+	        <p>This era also produced the first great <strong>house styles</strong>. Foundries weren't just manufacturers—they were design cultures. ATF's catalog featured showpiece display faces with ornamental swagger. Linotype's stable leaned toward the sturdy, readable workhorses that newspapers demanded. Monotype UK cultivated elegant book faces under the direction of Stanley Morison, who commissioned <strong>Times New Roman</strong> in 1931. Each house had a voice, and choosing a foundry meant choosing an aesthetic.</p>
+
+        <h3>Phototype loosens the bond</h3>
+	        <p>In the mid-20th century, phototypesetting replaced metal with glass, film, and light. Letters could be scaled and composited without recasting, shifting work from foundry benches to darkrooms. The physical bond between type and machine loosened. Reproduction became faster, cheaper, and more portable, foreshadowing the digital revolution to come.</p>
+
+	        <h3>Classification takes shape</h3>
+	        <p>As the number of available typefaces grew from hundreds to thousands, the need to organize them became urgent. Classification systems like <strong>Vox-ATypI</strong> (adopted in 1962) gave designers a shared vocabulary for shopping catalogs, comparing “voices,” and making fast decisions. Understanding these categories isn't just academic—it's the foundation for recognizing what you're looking at and choosing type with intention.</p>
+
+        <div class="grid" style="padding: 5px;">
+          <div class="callout">
+            <h3 style="margin-top: 0;">The major classifications</h3>
             <ul>
-              <li><strong>Source matters:</strong> Different foundries’ cuts of the “same” font can have different metrics, features, and licensing.</li>
-              <li><strong>Licenses define the rules:</strong> Desktop, web, app embedding, and broadcast each have different terms.</li>
-              <li><strong>Scale changes scope &amp; cost:</strong> Seats/installs, domains, and traffic tiers drive pricing and obligations.</li>
-              <li><strong>Records protect you:</strong> Keep receipts, EULAs, and an install/page-view inventory to avoid surprises.</li> 
+              <li><strong>Serif</strong> — Letters with finishing strokes (feet) at the ends of stems. Subcategories include old-style (Garamond), transitional (Baskerville), and modern/didone (Bodoni).</li>
+              <li><strong>Sans-serif</strong> — Letters without serifs. Includes grotesque (Akzidenz), neo-grotesque (Helvetica), humanist (Gill Sans), and geometric (Futura).</li>
+              <li><strong>Slab serif</strong> — Heavy, block-like serifs with low stroke contrast. Think Rockwell, Clarendon, or Roboto Slab.</li>
+              <li><strong>Display / Decorative</strong> — Designed for headlines and large sizes, prioritizing impact over extended readability.</li>
+              <li><strong>Monospace</strong> — Every character occupies the same horizontal width. Essential for code, tabular data, and terminal interfaces.</li>
             </ul>
           </div>
           <div>
-            <!-- Chance Card: default is simple expand; add 'chance--flip' for 3D flip -->
-            <details class="chance" aria-label="Font History: Early font sharing and licensing">
-              <summary class="chance-summary">
-                &#127922;&ensp;Chance Card: Font History
-              </summary>           
-              <div class="chance-content">
-                <p>Back in the late ’80s and early ’90s, font file trading was a lot like swapping baseball cards or mixtapes. Designers would bring boxes of floppy disks to conferences and exchange typefaces—sometimes entire libraries—for the price of a coffee. It was such a low tech and human way to exchange digital assets, but it was the primary way most agencies recieved new fonts to work with.</p>
-                <div>
-                <img src="../images/fonts-floppy.png" style="float: right; max-width:280px; margin: 0 0 8px 12px;" alt="floppy disks" />
-                <p>One&nbsp;famous story goes that a single floppy labeled “Swiss Army Fonts” made its way through dozens of agencies in New York, passed along so many times that no one could remember where it came from. The label was photocopied and taped until it was barely legible, but the fonts inside kept on circulating.</p>   
-                <p>Typography may look serious on the page, but behind the scenes it once had a bootleg, DIY culture that feels closer to a garage band than a law office.</p></div>
-              </div>
-                
-            </details>
+            <!-- Type Classification Quiz -->
+	            <div class="mini-widget" id="classQuiz" aria-labelledby="classQuizTitle">
+	              <h3 id="classQuizTitle">Type Classification Quiz</h3>
+	              <p class="muted"><strong>Mission:</strong> name the category, then read the “tell.” This isn't trivia—it's pattern recognition you'll use when you're choosing (or inheriting) type.</p>
+	              <div id="classQuizSample" style="font-size: 2rem; line-height: 1.3; padding: .75rem; border: 1px dashed var(--borderDark); border-radius: 10px; min-height: 4rem; margin: .5rem 0; background: var(--field); color: var(--black);">
+	                Loading...
+	              </div>
+              <fieldset style="border: 1px dashed rgba(0,0,0,.15); border-radius: 10px; padding: .75rem .9rem; display: grid; gap: .5rem;">
+                <legend class="sr-only">Choose a classification</legend>
+                <label><input type="radio" name="classQ" value="serif"> Serif</label>
+                <label><input type="radio" name="classQ" value="sans-serif"> Sans-serif</label>
+                <label><input type="radio" name="classQ" value="slab"> Slab serif</label>
+                <label><input type="radio" name="classQ" value="display"> Display / Decorative</label>
+                <label><input type="radio" name="classQ" value="monospace"> Monospace</label>
+              </fieldset>
+              <div id="classQuizResult" role="status" aria-live="polite" style="margin-top: .5rem; font-weight: 600; min-height: 1.5rem;"></div>
+              <button class="btn" type="button" id="classQuizNext" style="margin-top: .5rem; width: fit-content;">Next question</button>
+            </div>
           </div>
         </div>
-      </section>
 
-      <section id="history-law" class="guide-section">
-        <h2>History &amp; Law: from cuneiform to software (and a legal framework that lagged)</h2>
-      
-        <p>Typography’s story doesn’t begin with the printing press. Long before movable type, early civilizations were already encoding language into repeatable marks:</p>
-        <ul>
-          <li><strong>Cuneiform seals</strong> in Mesopotamia (~3100&nbsp;BCE) pressed symbols into clay.</li>
-          <li><strong>Woodblock printing</strong> in China (Tang dynasty, ~7th&nbsp;century&nbsp;CE) carved full pages for reuse.</li>
-          <li><strong>Movable type</strong> emerged in China (~11th&nbsp;century), then revolutionized Europe with Gutenberg’s metal movable type in the 15th century.</li>
-        </ul>
-        <div class="mini-widget" aria-labelledby="timelineTitle">
-          
-            <h3 id="timelineTitle">Typography timeline: from metal to memes</h3>
-            <input type="range" class="slider slider--utilities" id="era" min="0" max="7" step="1" value="0" aria-describedby="eraDesc">         
-            <div id="eraDesc" class="card-box"></div>
-        </div>     
-        <div>
-          <h3>The Legal Lag</h3>
-          <p>Here’s where the law stumbled. In most jurisdictions:</p>
-          <ul>
-            <li><strong>Typeface design ≠ copyright (in many jurisdictions):</strong> letterforms are treated as functional shapes.</li>
-            <li><strong>Font files = software:</strong> the digital code that draws letterforms <em>is</em> protected, so licenses target file use.</li>
-            <li><strong>Paradox:</strong> someone can legally redraw a famous design under a new name, but copying its <em>font file</em> is infringement.</li>
-          </ul>
-          <p>This created paradoxes: one company could redraw Helvetica and release it under a new name without breaking the law (see <strong>Arial</strong>), but copying Helvetica’s font file was infringement.</p>
-          <p>This gap between design and code explains why licensing can feel technical (limits on CPU installs, users, page views) and why lookalikes sometimes exist legally under different names. It also set expectations (after Apple’s bundles) that fonts “come with the machine,” even though each font carries specific terms.</p>
-        </div>
+        <details class="tip" aria-label="House Rules: Designer Tip">
+	          <summary><strong>House Rules: Designer Tip</strong></summary>
+	          <div>
+	            <p>Typeface names can map to many fonts. For example, "Garamond" might refer to different cuts by different foundries with different metrics. When matching layouts, confirm the <em>foundry</em> and the <em>font file</em> version—not just the style name.</p>
+	          </div>
+	        </details>
+	
+        <!-- Game: Change Order + Deed -->
+        <div data-change-order="the-foundry-age"></div>
+        <div data-deed="the-foundry-age"></div>
 
-        <!-- Community Chest callout (expand/collapse) -->
-        <details class="chest" aria-label="Community Chest: Legal Curiosities and Fun Facts">
-          <summary class="chest-summary chest-title">
-            &#127922;&ensp;Community Chest: Legal Curiosities and Fun Facts
-          </summary>
-          <div class="mini-widget chest-content" data-widget="rule-card" aria-labelledby="ruleCardTitle">
-            <h3 id="ruleCardTitle">Draw a fun fact, case file, or historical fact.</h3>
-            <button class="btn" type="button" style="width: fit-content;">Draw</button>
-            <div class="card-box" role="status" aria-live="polite"></div>       
+	        <p class="muted small"><em>Property developed.</em> Next: the digital revolution—when type became software, ownership got complicated, and Steve Jobs changed the vocabulary forever.</p>
+	      </section>
+
+      <!-- —            SECTION 4 — Property 3: Letters as Software
+           — -->
+      <section id="letters-as-software" class="guide-section">
+        <p class="muted small" aria-hidden="true"><strong>Square:</strong> Property 3</p>
+        <h2>Letters as Software <small>(the digital revolution)</small></h2>
+
+	        <p>In the 1980s, type underwent its most radical transformation. Influenced by a calligraphy class at Reed College, <strong>Steve Jobs</strong> pushed the original Macintosh to ship with multiple digital fonts—named after cities like Chicago, Geneva, Monaco, and New York. For the first time, ordinary people could choose typefaces on a personal computer. Fonts became part of the product's personality—and the user's.</p>
+
+	        <h3>Typeface vs. Font</h3>
+	        <p>
+	          <strong>Typeface</strong> = the design (the shapes and system behind the letters).<br>
+	          <strong>Font</strong> = the software file that renders a typeface (and historically, a specific size/weight).<br>
+	          <small class="muted">*For designers: yes, Helvetica 12pt is technically a different font than Helvetica 10pt. When type was cast in metal, a different tray meant a different font.</small>
+	        </p>
+        <p>
+          Why do we use the words interchangeably? We have <strong>Steve Jobs</strong> to thank. When Apple bundled typefaces with the Mac, every menu said <em>Font</em>. Whether because "font" sounded friendlier or because Jobs simply liked the word, the Mac normalized "font" as shorthand for both the software and the design.
+        </p>
+
+	        <h3>Desktop publishing and the ownership rupture</h3>
+	        <p>With a Mac, a LaserWriter printer, and Aldus PageMaker, anyone could produce professional typography at home. Fonts weren't the guarded property of print shops anymore—they were files on a floppy disk. And files are easy to copy.</p>
+	
+	        <p>This created a fundamental tension that still defines the industry: <strong>type feels free, but it isn't.</strong> The law struggled to keep up. In most jurisdictions, the <em>design</em> of letterforms isn't copyrightable (they're treated as functional shapes), but the <em>font file</em>—the software that draws those shapes—is protected as code. Someone can legally redraw Helvetica and release it under a new name (see <strong>Arial</strong>), but copying the .otf file is infringement.</p>
+
+	        <h3>Anatomy of a letter</h3>
+	        <p>To understand what makes one typeface different from another—and why a foundry's specific cut matters—you need to see what designers actually design. Every letterform is built from a vocabulary of structural parts.</p>
+	        <p class="muted">Bridge to ownership: when you license a font, you're not licensing a name—you're licensing a particular set of shapes, metrics, and engineering decisions.</p>
+
+        <!-- Type Anatomy Explorer -->
+	        <div class="mini-widget" id="anatomyExplorer" aria-labelledby="anatomyTitle">
+	          <h3 id="anatomyTitle">Type Anatomy Explorer</h3>
+	          <p class="muted"><strong>Mission:</strong> click three labels, then imagine you're comparing two “Garamonds.” Which parts would change the voice? Which changes might break a layout?</p>
+	          <div style="position: relative; max-width: 620px; margin: 0 auto;">
+            <svg id="anatomySvg" viewBox="0 0 620 320" style="width:100%; height:auto; display:block;" aria-label="Anatomy of the letter R and p showing labeled typographic parts">
+              <defs>
+                <marker id="arrowUp" viewBox="0 0 10 10" refX="5" refY="10" markerWidth="6" markerHeight="6" orient="auto">
+                  <path d="M0,10 L5,0 L10,10" fill="var(--accent)"/>
+                </marker>
+                <marker id="arrowDown" viewBox="0 0 10 10" refX="5" refY="0" markerWidth="6" markerHeight="6" orient="auto">
+                  <path d="M0,0 L5,10 L10,0" fill="var(--accent)"/>
+                </marker>
+              </defs>
+              <!-- Baseline grid -->
+              <line x1="65" y1="240" x2="580" y2="240" stroke="var(--borderDark)" stroke-width="1" stroke-dasharray="6,4"/>
+              <line x1="65" y1="100" x2="580" y2="100" stroke="var(--borderDark)" stroke-width="0.5" stroke-dasharray="4,4"/>
+              <line x1="65" y1="160" x2="580" y2="160" stroke="var(--borderDark)" stroke-width="0.5" stroke-dasharray="4,4"/>
+              <line x1="65" y1="290" x2="580" y2="290" stroke="var(--borderDark)" stroke-width="0.5" stroke-dasharray="4,4"/>
+              <!-- Grid labels -->
+              <text x="60" y="98" text-anchor="end" font-size="10" fill="var(--muted)">Ascender</text>
+              <text x="60" y="158" text-anchor="end" font-size="10" fill="var(--muted)">Cap height</text>
+              <text x="60" y="238" text-anchor="end" font-size="10" fill="var(--muted)">Baseline</text>
+              <text x="60" y="288" text-anchor="end" font-size="10" fill="var(--muted)">Descender</text>
+              <!-- Letter "R" -->
+              <text x="120" y="238" font-size="180" font-family="'Source Serif 4', Georgia, serif" font-weight="400" fill="var(--black)" style="user-select:none;">R</text>
+              <!-- Letter "p" -->
+              <text x="310" y="238" font-size="180" font-family="'Source Serif 4', Georgia, serif" font-weight="400" fill="var(--black)" style="user-select:none;">p</text>
+              <!-- Clickable anatomy labels -->
+              <g class="anatomy-label" data-part="stem" style="cursor:pointer;">
+                <line x1="130" y1="118" x2="130" y2="240" stroke="var(--accent)" stroke-width="2.5" opacity="0.3"/>
+                <rect x="98" y="175" width="44" height="18" rx="4" fill="var(--accent)" opacity="0.85"/>
+                <text x="120" y="188" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">Stem</text>
+              </g>
+              <g class="anatomy-label" data-part="bowl" style="cursor:pointer;">
+                <ellipse cx="368" cy="198" rx="28" ry="38" stroke="var(--chance-bg)" stroke-width="2.5" fill="none" opacity="0.4"/>
+                <rect x="375" y="170" width="42" height="18" rx="4" fill="var(--chance-bg)" opacity="0.85"/>
+                <text x="395" y="183" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">Bowl</text>
+              </g>
+              <g class="anatomy-label" data-part="counter" style="cursor:pointer;">
+                <rect x="155" y="144" width="52" height="18" rx="4" fill="var(--chest-bg)" opacity="0.85"/>
+                <text x="181" y="157" text-anchor="middle" font-size="11" font-weight="600" fill="#352f36">Counter</text>
+              </g>
+              <g class="anatomy-label" data-part="leg" style="cursor:pointer;">
+                <line x1="200" y1="185" x2="230" y2="240" stroke="#b22222" stroke-width="2.5" opacity="0.4"/>
+                <rect x="210" y="200" width="32" height="18" rx="4" fill="#b22222" opacity="0.85"/>
+                <text x="226" y="213" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">Leg</text>
+              </g>
+              <g class="anatomy-label" data-part="serif" style="cursor:pointer;">
+                <rect x="128" y="237" width="41" height="6" stroke="mediumorchid" stroke-width="2" fill="none" opacity="0.5" rx="2"/>
+                <rect x="122" y="248" width="40" height="18" rx="4" fill="mediumorchid" opacity="0.85"/>
+                <text x="142" y="261" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">Serif</text>
+              </g>
+              <g class="anatomy-label" data-part="x-height" style="cursor:pointer;">
+                <line x1="430" y1="160" x2="430" y2="240" stroke="var(--accent)" stroke-width="1.5" opacity="0.4" marker-start="url(#arrowUp)" marker-end="url(#arrowDown)"/>
+                <rect x="435" y="192" width="64" height="18" rx="4" fill="var(--accent)" opacity="0.85"/>
+                <text x="468" y="205" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">x-height</text>
+              </g>
+              <g class="anatomy-label" data-part="descender" style="cursor:pointer;">
+                <line x1="345" y1="240" x2="345" y2="280" stroke="lightskyblue" stroke-width="2.5" opacity="0.4"/>
+                <rect x="348" y="260" width="72" height="18" rx="4" fill="lightskyblue" opacity="0.85"/>
+                <text x="384" y="273" text-anchor="middle" font-size="11" font-weight="600" fill="#352f36">Descender</text>
+              </g>
+              <g class="anatomy-label" data-part="aperture" style="cursor:pointer;">
+                <path d="M 160 230, 160 190 Q 178 178, 190 230" stroke="var(--chance-bg)" stroke-width="2.5" fill="none" opacity="0.5"/>
+                <rect x="140" y="210" width="60" height="18" rx="4" fill="var(--chance-bg)" opacity="0.85"/>
+                <text x="170" y="223" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">Aperture</text>
+              </g>
+            </svg>
+          </div>
+          <div id="anatomyDesc" role="status" aria-live="polite" style="margin-top: .5rem; padding: .5rem .75rem; border-radius: 10px; background: var(--callout); border: 1px solid var(--borderLight); min-height: 2.5rem; font-size: .95rem;">
+            <em>Click a label above to learn about that part of the letterform.</em>
+          </div>
+	        </div>
+	
+	        <p class="muted small">Story beat: craft becomes code. The parts above become outlines, tables, and metrics in a file—exactly the things licenses and audits care about.</p>
+	
+	        <h3>What's inside a font file?</h3>
+		        <details class="tip" aria-label="Under the Hood: Font File Internals">
+		          <summary><strong>Under the Hood</strong></summary>
+		          <div>
+			            <ul>
+		              <li><strong>Glyph outlines:</strong> Vector curves (quadratic or cubic Béziers) that define each character shape.</li>
+		              <li><strong>Encoding:</strong> Mapping between Unicode code points and glyphs.</li>
+		              <li><strong>Metrics:</strong> Advance widths, side bearings, ascender/descender, line gap—how text flows and wraps.</li>
+	              <li><strong>Kerning:</strong> Fine spacing tweaks for pairs or classes (e.g., <em>To</em>, <em>AV</em>).</li>
+	              <li><strong>OpenType tables:</strong> <code>GSUB</code> (substitutions: ligatures, small caps), <code>GPOS</code> (positioning: kerning, marks), <code>GDEF</code> (glyph classes), and more.</li>
+	              <li><strong>Hinting:</strong> Instructions to improve rasterization at small sizes (critical on low-DPI screens).</li>
+              <li><strong>Variable axes (if variable):</strong> Continuous ranges like weight (<code>wght</code>), width (<code>wdth</code>), optical size (<code>opsz</code>).</li>
+            </ul>
+            <h4>Desktop vs. Web formats</h4>
+            <ul>
+              <li><strong>Desktop:</strong> TTF/OTF — install on machines, use in apps.</li>
+              <li><strong>Web:</strong> WOFF/WOFF2 — compressed for browsers, often subsetted for performance. Key CSS: <code>@font-face</code>, <code>font-display</code>, <code>unicode-range</code>, <code>preload</code>.</li>
+            </ul>
+            <h4>How shaping works (simplified)</h4>
+            <ol>
+              <li><strong>Text shaping:</strong> A shaping engine turns characters into the right glyphs, applies substitutions/positioning, and resolves language-specific rules.</li>
+              <li><strong>Rasterization:</strong> Outlines become pixels via anti-aliasing and hinting.</li>
+              <li><strong>Compositing:</strong> The result is painted to screen or sent to print.</li>
+            </ol>
           </div>
         </details>
-      </section>
-      
-      <section id="how-typefaces-work" class="guide-section">
-        <h2>How Typefaces Work Today <small>(the file behind the letterforms)</small></h2>
-      
-        <h3>Typeface vs. Font</h3>
-        <p>
-          <strong>Typeface</strong> = the design (the shapes and system behind the letters).<br>
-          <strong>Font</strong> = the specific size*/weight of a typeface and also the software that renders those shapes in apps and browsers.<br>
-          <small class="muted">*For any designers reading this: yes, Helvetica 12pt is a different font than Helvetica 10pt. In ancient times when type was still cast in metal, if it was stored in a different tray it was a different font.</small>
-        </p>
-        <p>
-          Why do people use the words interchangeably? We have <strong>Steve Jobs</strong> to thank for that. When Apple began bundling typefaces with the Mac, all the menus were labeled <em>Font</em>, so everyday users learned
-          “font” as the thing you choose to change the design of the text. Whether because “font” sounded friendlier—or because Jobs simply liked the word—the Mac helped
-          normalize “font” as shorthand for both the software and the design.
-        </p>
-      
-        <details class="tip" aria-label="Utilities: Designer Tip">
-          <summary><strong>Utilities: Designer Tip</strong></summary>
-          <div>
-            <p>Typeface names can map to many fonts. For example, “Garamond” might refer to different cuts with different metrics. When matching layouts, confirm the <em>foundry</em> and the <em>font file</em> version—not just the style name.</p>
-          </div>
-        </details>
-      
-        <h3>What’s inside a font file?</h3>
-        <ul>
-          <li><strong>Glyph outlines:</strong> Vector curves (quadratic or cubic Béziers) that define each glyph.</li>
-          <li><strong>Encoding:</strong> Mapping between Unicode code points and glyphs (so text becomes the right shapes).</li>
-          <li><strong>Metrics:</strong> Advance widths, side bearings, ascender/descender, line gap—how text flows and wraps.</li>
-          <li><strong>Kerning:</strong> Fine spacing tweaks for pairs or classes (e.g., <em>To</em>, <em>AV</em>).</li>
-          <li><strong>OpenType tables:</strong> <code>GSUB</code> (substitutions: ligatures, small caps), <code>GPOS</code> (positioning: kerning, marks), <code>GDEF</code> (glyph classes), and more.</li>
-          <li><strong>Hinting:</strong> Instructions to improve rasterization at small sizes (more visible on low-DPI screens).</li>
-          <li><strong>Variable axes (if variable):</strong> Continuous ranges like weight (<code>wght</code>), width (<code>wdth</code>), optical size (<code>opsz</code>), etc.</li>
-        </ul>
-        
-        <details class="chance" aria-label="Utilities: Variable Axes Tip">
-          <summary class="chance-summary">&#127922;&ensp;Chance Card: Variable Axes</summary>
-          <div class="chance-content"> <h3>Weight vs. Width vs. Optical Size</h3>
-            <dl class="axis-defs">
-              <dt>Weight (<code>wght</code>)</dt>
+
+		        <details class="tip" aria-label="Chance Card: Variable Axes">
+		          <summary><strong>Variable Axes</strong></summary>
+		          <div>
+		            <h3>Weight vs. Width vs. Optical Size</h3>
+	            <dl class="axis-defs">
+	              <dt>Weight (<code>wght</code>)</dt>
               <dd>
-                Thickness of strokes (light → black). Affects darkness and contrast.
+                Thickness of strokes (light — black). Affects darkness and contrast.
                 <em>Use for hierarchy, contrast on dark backgrounds, and readability at small sizes.</em><br>
                 <small>Typical range: 100–900.</small>
               </dd>
-        
-              <dt>Width (<code>wdth</code>)</dt>
-              <dd>
-                Horizontal proportion (condensed ↔ expanded). Changes character set width and letterfit—not the stroke thickness.
-                <em>Use to fit copy without cranking tracking, or to meet tight UI constraints.</em><br>
-                <small>Typical range: 75–125 (percent).</small>
-              </dd>
-        
+
+	              <dt>Width (<code>wdth</code>)</dt>
+	              <dd>
+	                Horizontal proportion (condensed — expanded). Changes character set width and letterfit—not the stroke thickness.
+	                <em>Use to fit copy without cranking tracking, or to meet tight UI constraints.</em><br>
+	                <small>Typical range: 75–125 (percent).</small>
+	              </dd>
+
               <dt>Optical Size (<code>opsz</code>)</dt>
               <dd>
-                Design tuned to the size you’re setting. Text sizes get sturdier details, looser spacing, bigger x-height; display sizes get finer details and tighter spacing.
+                Design tuned to the size you're setting. Text sizes get sturdier details, looser spacing, bigger x-height; display sizes get finer details and tighter spacing.
                 <em>Use text cuts for small sizes; display cuts for big headlines.</em><br>
                 <small>Typical range: 8–72 (points), font-dependent.</small>
               </dd>
             </dl>
-        
+
             <ul class="axis-rules">
               <li>
-                <strong>Don’t fake bolding.</strong><br>
-                <em class="why">Why:</em> browser-synthesized bold/italic and horizontal scaling distort counters, break kerning/hinting, and can shift line breaks.<br>
+                <strong>Don't fake bolding.</strong><br>
+                <em class="why">Why:</em> browser-synthesized bold/italic distort counters, break kerning/hinting, and shift line breaks.<br>
                 <em class="try">Try:</em> use real weights/italics or variable axes; disable synthetics:
                 <code>font-synthesis: none;</code>
               </li>
-            
               <li>
                 <strong>Width before tracking.</strong><br>
-                <em class="why">Why:</em> tracking adds equal space between letters and erodes rhythm; the <code>wdth</code> axis preserves letterfit and kerning classes.<br>
+                <em class="why">Why:</em> tracking adds equal space and erodes rhythm; the <code>wdth</code> axis preserves letterfit and kerning classes.<br>
                 <em class="try">Try:</em> nudge <code>"wdth"</code> (e.g., 95–98) first; keep <code>letter-spacing</code> subtle (±0.5–1.5%).
               </li>
-            
               <li>
                 <strong>Let size drive <code>opsz</code>.</strong><br>
-                <em class="why">Why:</em> optical size tunes contrast, spacing, and details for legibility at different sizes.<br>
+                <em class="why">Why:</em> optical size tunes contrast, spacing, and details for legibility at each size.<br>
                 <em class="try">Try:</em> <code>font-optical-sizing: auto;</code> for body text; override with
                 <code>font-variation-settings: "opsz" 12</code> for tiny UI or <code>36</code> for display.
               </li>
-            
               <li>
                 <strong>Compensate when inverting.</strong><br>
-                <em class="why">Why:</em> white-on-black (and very dark UIs) makes strokes appear thinner due to glow/halation.<br>
-                <em class="try">Try:</em> +1 weight step (or +50 on <code>"wght"</code>) and a touch more letterspacing (≈0.01–0.02em).
+                <em class="why">Why:</em> white-on-black makes strokes appear thinner due to glow/halation.<br>
+                <em class="try">Try:</em> +1 weight step (or +50 on <code>"wght"</code>) and a touch more letterspacing (0.01–0.02em).
               </li>
             </ul>
-        
+
             <div class="code" data-label="The Code:">
               <div class="code-type animate"><strong>CSS quick starts</strong><br></div>
               <div class="code-type animate">  &nbsp;&nbsp;.text {<br></div>
@@ -412,48 +648,31 @@
               <div class="code-type animate">  &nbsp;&nbsp;&nbsp;&nbsp;/* font-optical-sizing: none; */<br></div>
               <div class="code-type animate">  &nbsp;&nbsp;&nbsp;&nbsp;/* font-variation-settings: "opsz" 14; */<br></div>
                 <br>
-              <div class="code-type animate">  &nbsp;&nbsp;&nbsp;&nbsp;/* Weight & width (variable fonts) */<br></div>
+              <div class="code-type animate">  &nbsp;&nbsp;&nbsp;&nbsp;/* Weight &amp; width (variable fonts) */<br></div>
               <div class="code-type animate">  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-variation-settings: "wght" 500, "wdth" 95;<br></div>
               <div class="code-type animate">  &nbsp;&nbsp;&nbsp;&nbsp;/* High-level props also work when supported: */<br></div>
               <div class="code-type animate">  &nbsp;&nbsp;&nbsp;&nbsp;/* font-weight: 500;<br></div>
               <div class="code-type animate">  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-stretch: 95%; */&nbsp;&nbsp;&nbsp;&nbsp;/* maps to wdth axis */</div>
               <div class="code-type animate">  &nbsp;&nbsp;&nbsp;}<span class="cursor animate">_</span></div></div>
               <p>Note: If you set <code>font-optical-sizing: auto</code>, the browser drives <code>opsz</code> from <code>font-size</code>. To force a specific <code>opsz</code>, set <code>font-optical-sizing: none</code> and declare it in <code>font-variation-settings</code>.</p>
-            
           </div>
         </details>
-        
-      
-        <h3>How shaping &amp; rendering works (simplified)</h3>
-        <ol>
-          <li><strong>Text shaping:</strong> Your OS/app uses a shaping engine to turn characters into the right sequence of glyphs, apply substitutions/positioning (ligatures, contextual forms, script rules), and resolve language specifics.</li>
-          <li><strong>Rasterization:</strong> The outlines are turned into pixels with anti-aliasing and hinting.</li>
-          <li><strong>Compositing:</strong> The result is painted to screen or printed.</li>
-        </ol>
-      
-        <h3>Desktop vs. Web formats</h3>
-        <ul>
-          <li><strong>Desktop:</strong> TTF/OTF (install on machines; use in apps).</li>
-          <li><strong>Web:</strong> WOFF/WOFF2 (compressed for browsers; often subsetted for performance). Useful CSS: <code>@font-face</code>, <code>font-display</code>, <code>unicode-range</code>, and <code>preload</code>.</li>
-        </ul>
-      
-        <!-- ===========================
-             OpenType Feature Lab (optional)
-             =========================== -->
-        <section class="feature-lab" aria-labelledby="feature-lab-heading" >
-          <h3 id="feature-lab-heading">OpenType Feature Lab <small>(try toggles; edit the sample)</small></h3>
-          <p class="feature-lab__note">Results depend on the font you load. For best results, use a family with rich OpenType support or a variable font (e.g., Inter, Source Serif, Spectral).</p>
+
+        <!-- OpenType Feature Lab (existing, kept intact) -->
+	        <section class="feature-lab" aria-labelledby="feature-lab-heading">
+	          <h3 id="feature-lab-heading">OpenType Feature Lab <small>(try toggles; edit the sample)</small></h3>
+	          <p class="feature-lab__note"><strong>Mission:</strong> pick a font, toggle ligatures/small caps/figures, and type a few tests (fi fl ffi; 012345; AV). Notice which behaviors are design choices—and which are “features” in the file.</p>
 
           <div class="feature-lab__fontpicker" role="group" aria-label="Choose demo font">
             <label>Font
               <select class="feature-lab__font">
-                <optgroup label="Sans Serif"> 
+                <optgroup label="Sans Serif">
                   <option value="roboto" selected>Roboto</option>
                   <option value="roboto-flex">Roboto Flex</option>
                   <option value="inter">Inter</option>
                   <option value="recursive">Recursive</option>
                 </optgroup>
-                <optgroup label="Serif"> 
+                <optgroup label="Serif">
                   <option value="roboto-slab">Roboto Slab</option>
                   <option value="roboto-serif">Roboto Serif</option>
                   <option value="source-serif">Source Serif 4</option>
@@ -463,7 +682,7 @@
               </select>
             </label>
           </div>
-      
+
           <div class="feature-lab__controls" role="group" aria-label="OpenType feature toggles">
             <label><input type="checkbox" data-feature="kern" checked> Kerning</label>
             <label><input type="checkbox" data-feature="liga" checked> Standard ligatures</label>
@@ -474,27 +693,28 @@
             <label><input type="checkbox" data-feature="zero"> Slashed zero</label>
             <label><input type="checkbox" data-feature="ss01"> Stylistic set 1</label>
           </div>
-      
+
           <div class="feature-lab__axes" role="group" aria-label="Variable font axes">
             <label>Weight <input type="range" min="300" max="900" value="400" step="1" data-axis="wght"></label>
             <label>Width <input type="range" min="75" max="125" value="100" step="1" data-axis="wdth"></label>
             <label>Optical Size <input type="range" min="8" max="72" value="14" step="1" data-axis="opsz"></label>
             <label>Slant <input type="range" min="-15" max="0" value="0" step="1" data-axis="slnt"></label>
           </div>
-      
-          <div class="feature-lab__card roboto-serif-demo" >
-            <p class="feature-lab__sample" contenteditable="true">
-              Office 0123456789 — affine office; efficient. <br>
-              Find five fine ligatures: fi fl ffi ffl. <br>
-              Try typing here to test features → 100% vs 1000% and zeros: 0 O Ø
-            </p>
-          </div>
-        </section>
-        <!-- Brand Tools -->
-        <div class="brand-tools" aria-labelledby="brand-tools-heading">
-          <h3 id="brand-tools-heading">Typography Tools</h3>
-          <div class="grid">
-          <!-- A) Fallback Stack Tester -->
+
+	          <div class="feature-lab__card roboto-serif-demo">
+	            <p class="feature-lab__sample" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Editable OpenType sample text" spellcheck="false">
+	              Office 0123456789 — affine office; efficient. <br>
+	              Find five fine ligatures: fi fl ffi ffl. <br>
+	              Try typing here to test features — 100% vs 1000% and zeros: 0 O
+	            </p>
+	          </div>
+	        </section>
+	
+	        <!-- Typography Tools (existing, kept intact) -->
+	        <p class="muted">Bridge to practice: in the software era, type isn't just taste. It's also systems work—fallbacks, rendering, and readability. These two quick tools mirror real production checks.</p>
+	        <div class="brand-tools" aria-labelledby="brand-tools-heading">
+	          <h3 id="brand-tools-heading">Typography Tools</h3>
+	          <div class="grid">
             <div class="card tool-stack" role="group" aria-label="Fallback Stack Tester">
               <h4>Fallback Stack Tester</h4>
               <p class="small">Simulate how copy looks at different points in your stack.</p>
@@ -509,13 +729,12 @@
                   <option value="3">Generic</option>
                 </select>
               </label>
-              <div class="stack-sample" contenteditable="true">
-                The quick brown fox jumps over 123,456 lazy dogs — AA/AAA contrast and tabular figures matter in UI.
-              </div>
-              <output class="stack-out small" aria-live="polite"></output>
-            </div>
+	              <div class="stack-sample" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Editable fallback stack sample text" spellcheck="false">
+	                The quick brown fox jumps over 123,456 lazy dogs — AA/AAA contrast and tabular figures matter in UI.
+	              </div>
+	              <output class="stack-out small" aria-live="polite"></output>
+	            </div>
 
-          <!-- B) Contrast Checker (WCAG quick check) -->
             <div class="card tool-contrast" role="group" aria-label="Contrast Checker">
               <h4>Contrast Checker</h4>
               <p class="small">Check WCAG contrast for text vs. background.</p>
@@ -530,298 +749,350 @@
               <label>Size
                 <select class="cc-size">
                   <option value="normal" selected>Normal text</option>
-                  <option value="large">Large (≥18.66px regular or ≥14px bold)</option>
+                  <option value="large">Large (&gt;=18.66px regular or &gt;=14px bold)</option>
                 </select>
               </label>
-              
               <div class="cc-sample">Sample: 0123456789 ABC abc — $1,234.56</div>
                 <output class="cc-out" aria-live="polite">Ratio: —</output>
             </div>
           </div>
         </div>
-      </section>
 
-      <section id="copying-digital-age" class="guide-section">
-        <h2>Copying in the Digital Age: “How do people get away with it?”</h2>
+        <!-- Game: Change Order + Deed -->
+        <div data-change-order="letters-as-software"></div>
+        <div data-deed="letters-as-software"></div>
 
-        <p><strong>Short answer:</strong> because the law distinguishes the <em>design</em> from the <em>software</em>, and because practical friction is low.</p>
-        <h3>Legal backdrop</h3>
+	        <p class="muted small"><em>Property secured.</em> Next: The Bank—who controls type today, and how to choose and pair typefaces with intention.</p>
+	      </section>
+
+      <!-- —            SECTION 5 — The Bank: Who Controls Type Today
+           — -->
+      <section id="who-controls-type" class="guide-section">
+        <p class="muted small" aria-hidden="true"><strong>Square:</strong> The Bank</p>
+        <h2>Who Controls Type Today</h2>
+
+	        <p>The story of ownership didn't end when type went digital—it fractured. Today, type lives in a complex ecosystem that spans solo designers working from home studios to multinational corporations managing libraries of thousands of families. Understanding who the players are helps you make better choices about where your type comes from.</p>
+
+        <h3>The spectrum</h3>
         <div class="grid" style="padding: 5px;">
           <div class="callout">
-            <h3>Why copying feels easy</h3>
-            <ul>
-              <li><strong>Tiny files:</strong> font files are small and easy to pass around.</li>
-              <li><strong>No gatekeeper:</strong> your OS/app will happily load duplicates from different foundries or even unlicensed or pirated fonts. Most fonts don't "phone home."</li>
-              <li><strong>Rules live in the EULA:</strong> limits are contractual, not technical; so over-installing or embedding beyond your rights is surprisingly easy to do by mistake.</li>
-            </ul>
-          </div>
-          <div class="callout purple">
-            <h3>United States</h3>
-            <ul>
-              <li><strong>Typeface shapes:</strong> not protected by U.S. copyright (e.g., <em>Eltra Corp. v. Ringer</em>, 1978; USCO guidance).</li>
-              <li><strong>Font files:</strong> protected as software; copying digital outlines/code can infringe (e.g., <em>Adobe v. Southern Software</em>, 1998).</li>
-              <li><strong>Result:</strong> redrawing a public-domain or unprotected design can be lawful; duplicating someone’s font file is not.</li>
-            </ul>
+            <h3 style="margin-top: 0;">Independent foundries</h3>
+            <p>Small studios where designers draw, test, and ship typefaces directly. Foundries like Klim (New Zealand), Grilli Type (Switzerland), DJR (USA), and OH no Type Co. bring distinctive voices and deep craft. They typically sell direct licenses and set their own terms. Buying from an indie foundry means your money goes directly to the person who drew the letters.</p>
           </div>
           <div class="callout orange">
-            <h3>Europe</h3>
-            <ul>
-              <li><strong>Design protection:</strong> typefaces can qualify as designs under EU law (Registered Community Designs up to 25 years; Unregistered up to 3 years).</li>
-              <li><strong>Practice:</strong> protection targets the design; software and licensing terms still govern font files and use.</li>
-            </ul>
+            <h3 style="margin-top: 0;">Aggregators</h3>
+            <p>Companies that collect many libraries under one roof. <strong>Monotype</strong> is the largest: over the last decade, it absorbed FontShop, URW, Hoefler&amp;Co., and was taken private by HGGC in 2019. It consolidated e-commerce onto MyFonts and expanded into font management and compliance services. Aggregators offer convenience and enterprise solutions, but their scale can create tension with smaller foundries over pricing and control.</p>
           </div>
-          <div class="callout lightblue">
-            <h3>United Kingdom</h3>
-            <ul>
-              <li><strong>CDPA provisions:</strong> UK law includes specific protection for typefaces and design right (time-limited).</li>
-              <li><strong>Practice:</strong> copying “feels” trivial, so over-installing or over-embedding often happens unintentionally.</li>
-            </ul>
-          </div>
-        </div>
-        <p><strong>Enforcement reality:</strong> public lawsuits are uncommon; contact, audits, and settlements are far more typical. Good records and clear internal policy prevent expensive surprises.</p>
+	          <div class="callout purple">
+	            <h3 style="margin-top: 0;">Platform providers</h3>
+	            <p><strong>Google Fonts</strong> hosts 1,600+ families under the SIL Open Font License—free to use, embed, and redistribute. <strong>Adobe Fonts</strong> bundles broad access with Creative Cloud subscriptions. Both lowered the barrier to quality type, but neither replaced the need for licensing awareness: Adobe Fonts has its own usage terms, and even OFL fonts have rules (reserved names, attribution).</p>
+	          </div>
+	          <div class="callout lightblue">
+	            <h3 style="margin-top: 0;">The open-source movement</h3>
+	            <p>The SIL Open Font License (OFL) reset expectations. Teams can prototype fast, ship globally, and localize without heavy procurement. But “open” doesn't mean ungoverned: keep attribution, respect reserved font names, document modifications, and version your builds.</p>
+	          </div>
+	        </div>
 
-        <!-- House Rules tip (uses your existing <details> pattern) -->
+	        <h3>Choosing and pairing type</h3>
+	        <p>Understanding where type comes from is the first step. The next is choosing it well. Good type pairing isn't about matching—it's about <strong>contrast with harmony</strong>. Pair typefaces that differ in structure (a geometric sans with a humanist serif, for example) but share proportion and rhythm. The sandbox below turns that idea into a quick experiment.</p>
+
+        <!-- Pairing Sandbox -->
+	        <div class="mini-widget" id="pairingSandbox" aria-labelledby="pairingTitle">
+	          <h3 id="pairingTitle">Type Pairing Sandbox</h3>
+	          <p class="muted"><strong>Mission:</strong> build a pairing that feels intentional. Try (1) a high-contrast combo (serif + sans), (2) a “too similar” combo, then spot why one reads as a choice and the other as an accident.</p>
+	          <div class="grid">
+            <div>
+              <label>Heading font
+                <select id="pairHeading">
+                  <optgroup label="Sans Serif">
+                    <option value="'Inter', system-ui, sans-serif" selected>Inter</option>
+                    <option value="'Roboto', sans-serif">Roboto</option>
+                    <option value="'Roboto Flex', system-ui, sans-serif">Roboto Flex</option>
+                    <option value="Recursive, system-ui, sans-serif">Recursive</option>
+                  </optgroup>
+                  <optgroup label="Serif">
+                    <option value="'Fraunces', Georgia, serif">Fraunces</option>
+                    <option value="'Roboto Serif', Georgia, serif">Roboto Serif</option>
+                    <option value="'Source Serif 4', Georgia, serif">Source Serif 4</option>
+                    <option value="Spectral, Georgia, serif">Spectral</option>
+                  </optgroup>
+                  <optgroup label="Slab">
+                    <option value="'Roboto Slab', Georgia, serif">Roboto Slab</option>
+                  </optgroup>
+                </select>
+              </label>
+              <label>Heading weight
+                <input type="range" class="slider slider--chance" id="pairHeadingWght" min="300" max="900" value="700" step="100">
+              </label>
+            </div>
+            <div>
+              <label>Body font
+                <select id="pairBody">
+                  <optgroup label="Serif">
+                    <option value="'Source Serif 4', Georgia, serif" selected>Source Serif 4</option>
+                    <option value="'Roboto Serif', Georgia, serif">Roboto Serif</option>
+                    <option value="Spectral, Georgia, serif">Spectral</option>
+                    <option value="'Fraunces', Georgia, serif">Fraunces</option>
+                  </optgroup>
+                  <optgroup label="Sans Serif">
+                    <option value="'Inter', system-ui, sans-serif">Inter</option>
+                    <option value="'Roboto', sans-serif">Roboto</option>
+                    <option value="'Roboto Flex', system-ui, sans-serif">Roboto Flex</option>
+                    <option value="Recursive, system-ui, sans-serif">Recursive</option>
+                  </optgroup>
+                  <optgroup label="Slab">
+                    <option value="'Roboto Slab', Georgia, serif">Roboto Slab</option>
+                  </optgroup>
+                </select>
+              </label>
+              <label>Body weight
+                <input type="range" class="slider slider--utilities" id="pairBodyWght" min="300" max="700" value="400" step="100">
+              </label>
+            </div>
+          </div>
+          <div id="pairingPreview" style="margin-top: 1rem; padding: 1.25rem; border: 1px solid var(--borderLight); border-radius: 12px; background: var(--field); color: var(--black);">
+            <p id="pairingH" style="font-size: 1.75rem; line-height: 1.2; margin: 0 0 .5rem;">The quick brown fox jumps over the lazy dog</p>
+            <p id="pairingB" style="font-size: 1rem; line-height: 1.6; margin: 0;">Typography is the craft of endowing human language with a durable visual form. It involves selecting typefaces, point sizes, line lengths, line-spacing, and letter-spacing, and adjusting the space between pairs of letters. Good typography makes the act of reading effortless.</p>
+          </div>
+	          <p class="muted small" style="margin-top: .5rem;"><strong>Tip:</strong> Contrast in structure (serif + sans), harmony in proportion. Avoid pairing two fonts that are too similar—if they're close but not identical, it looks like a mistake.</p>
+	        </div>
+
+	        <h3>Supporting independent type designers</h3>
+	        <p>When you license from an independent foundry, you fund the people who draw the letters. When you choose open-source fonts, you benefit from a community that shares freely. Both models work—what matters is choosing intentionally. Budget for type the way you budget for imagery or music: plan a core set, add project-specific licenses when needed, and keep a line item for growth.</p>
+
+		        <details class="tip" aria-label="Community Chest: OFL Quick Guide">
+		          <summary><strong>OFL Quick Guide</strong></summary>
+			          <div>
+			            <ul>
+		              <li>Keep the OFL text with the font when you redistribute.</li>
+		              <li>Respect <em>Reserved Font Names</em>; rename derivatives and note changes.</li>
+		              <li>Log where/when you ship a font (web/app/server) just like any dependency.</li>
+		            </ul>
+		            <p class="small">Treat fonts like any other dependency: bundle licenses in your repo, track versions, and document where you ship them.</p>
+		          </div>
+		        </details>
+	
+        <!-- Game: Paper Trail Receipt -->
+        <div id="paperTrail"></div>
+
+        <!-- Game: Change Order + Deed -->
+        <div data-change-order="who-controls-type"></div>
+        <div data-deed="who-controls-type"></div>
+
+	        <p class="muted small"><em>Bank visited.</em> Next: the rules of the game today—licensing, jurisdiction, and what to do if a letter arrives.</p>
+	      </section>
+
+      <!-- —            SECTION 6 — Rent & Utilities: The Rules of the Game
+           — -->
+      <section id="rules-of-the-game" class="guide-section">
+        <p class="muted small" aria-hidden="true"><strong>Square:</strong> Rent &amp; Utilities</p>
+        <h2>The Rules of the Game <small>(licensing &amp; practical guardrails)</small></h2>
+
+	        <p>Every era of type ownership came with its own access rules. Today's rules are encoded in licenses—contracts that define what you can do with a font file, where, and at what scale. They're not as dramatic as the ownership shifts that came before, but they're the part of the story most likely to affect your daily work.</p>
+
+        <div class="callout" style="margin-top: 12px;">
+          <h3 style="margin-top: 0;">Deed Cheat Sheet (common rights you'll see)</h3>
+          <dl class="glossary">
+            <dt>Desktop (install)</dt>
+            <dd>Who can install the font file and on how many machines (sometimes "seats," often "installs").</dd>
+            <dt>Web (page views / domains)</dt>
+            <dd>Serving fonts via CSS; commonly tied to domains and monthly traffic tiers.</dd>
+            <dt>App / eBook (embedding)</dt>
+            <dd>Packaging the font inside something you distribute; usually a separate right from desktop/web.</dd>
+            <dt>Server / broadcast</dt>
+            <dd>Rendering on a server (images/video), broadcast packages, or other "output at scale" scenarios.</dd>
+            <dt>Vendors / agencies</dt>
+            <dd>Whether you can share the file with partners (often "they need their own license" unless explicitly covered).</dd>
+            <dt>Modifying / subsetting</dt>
+            <dd>Some EULAs allow it, some restrict it; don't assume because it's technically easy.</dd>
+          </dl>
+          <p class="small">If you're unsure which deed you have, start with the invoice/EULA and map the planned channel to a clause before you ship.</p>
+        </div>
+
+        <h3>Jurisdiction at a glance</h3>
+        <table>
+          <thead>
+            <tr><th>Region</th><th>Design protection</th><th>Software (font file)</th><th>Key detail</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>United States</strong></td>
+              <td>Not copyrightable (<em>Eltra v. Ringer</em>, 1978)</td>
+              <td>Protected as software (<em>Adobe v. Southern</em>, 1998)</td>
+              <td>Design patents possible (D1, 1842) but rarely used today</td>
+            </tr>
+            <tr>
+              <td><strong>Europe (EU)</strong></td>
+              <td>Registered Community Design (up to 25 years) or Unregistered (3 years)</td>
+              <td>Protected as software</td>
+              <td>EUIPO provides typeface-specific filing guidance</td>
+            </tr>
+            <tr>
+              <td><strong>United Kingdom</strong></td>
+              <td>CDPA ss. 54–55 (design right, time-limited)</td>
+              <td>Protected as software</td>
+              <td>Specific typeface provisions in copyright law</td>
+            </tr>
+          </tbody>
+        </table>
+
         <details class="tip" aria-label="House Rules: Quick Guardrails">
           <summary><strong>House Rules: Quick Guardrails</strong></summary>
           <div>
             <ul>
-              <li><strong>Count installs, not people:</strong> a “1–5 users” license usually means machines/instances, not headcount.</li>
+              <li><strong>Count installs, not people:</strong> a "1–5 users" license usually means machines/instances, not headcount.</li>
               <li><strong>Page views matter:</strong> web licenses often meter monthly views; spikes can push you out of scope.</li>
-              <li><strong>Embedding ≠ installing:</strong> app/eBook/broadcast use is often a separate right from desktop/web.</li>
+              <li><strong>Embedding — installing:</strong> app/eBook/broadcast use is often a separate right from desktop/web.</li>
               <li><strong>Vendors/partners:</strong> sharing a font with an agency or printer typically requires them to hold a license.</li>
-              <li><strong>Rename ≠ permission:</strong> renaming a file doesn’t change its license (or make a copy legal).</li>
+              <li><strong>Rename — permission:</strong> renaming a file doesn't change its license (or make a copy legal).</li>
             </ul>
-            <p><small>This is general information, not legal advice. Check your actual license terms.</small></p>
+            <p><small>General information, not legal advice. Check your actual license terms.</small></p>
           </div>
         </details>
 
-        <!-- Mini interactive: License Scenario Checker -->
-        <!-- <details class="chest" aria-label="Legal Backdrop">
-          <summary class="chest-summary">
-            &#127922;&ensp;Community Chest: Legal backdrop
-          </summary>
-        <div class="scenario chest-content" aria-labelledby="scenario-heading">
-          <h3 id="scenario-heading">License Scenario Checker <small>(quick, educational)</small></h3>
-          <p class="scenario__note">Pick what you plan to do; this will flag common risk levels to help you find the right clause in your license.</p>
-
-          <form class="scenario__form" autocomplete="off">
-            <fieldset>
-              <legend class="sr-only">Choose actions to evaluate</legend>
-              <label><input type="checkbox" value="extra-installs"> Install on extra teammate machines beyond the license count</label>
-              <label><input type="checkbox" value="over-pageviews"> Serve on the web above the licensed page-view tier</label>
-              <label><input type="checkbox" value="app-embed"> Embed in an app/eBook without explicit embed rights</label>
-              <label><input type="checkbox" value="share-vendor"> Send the font file to a vendor/agency not on your license</label>
-              <label><input type="checkbox" value="subset-web"> Subset/convert for web without checking conversion rights</label>
-              <label><input type="checkbox" value="printer-only"> Send to a printer for output only (no install retained)</label>
-              <label><input type="checkbox" value="redraw-lookalike"> Use a lawful redraw/lookalike (different file, different name)</label>
-            </fieldset>
-            <output class="scenario__result" aria-live="polite">Select options to see guidance.</output>
-          </form>
-        </div>
-        </details> -->
-      </section>
-
-      <section id="business-of-fonts" class="guide-section">
-        <h2>The Business of Fonts (and why enforcement feels aggressive)</h2>
-
-        <h3>Aggregators &amp; audits</h3>
-        <p>Large vendors aggregate many libraries and sell enterprise subscriptions. Alongside access, they offer compliance tools—usage tracking, reporting, and “brand &amp; license protection.” These services identify licensing gaps and "help" resolve them, often via retroactive coverage and large sums of money. Industry reports note that <em>demand letters and negotiated settlements</em> are more common than public lawsuits.</p>
-
-        <h3>Monotype as an example</h3>
-        <p><strong>Consolidation:</strong> Over the last decade, Monotype has absorbed multiple platforms and foundries (e.g., FontShop, URW, Hoefler&amp;Co., and more) and was taken private by HGGC in 2019. It has also consolidated e-commerce onto MyFonts, and expanded into font-management via acquisitions.</p>
-
-        <p><strong>Compliance as a product:</strong> Monotype markets tracking/reporting and brand/license-protection programs that review where fonts appear, surface gaps, and propose remedies. Critics argue that this can feel like “enforcement baked into the business model,” especially when audits are unsolicited or when invoices arrive with proposed settlements.</p>
-
-        <h3>Why enforcement feels aggressive</h3>
-        <ul>
-          <li><strong>Low friction to over-use:</strong> fonts are easy to copy; violations are often accidental but still actionable.</li>
-          <li><strong>Visibility on the web:</strong> self-hosted webfonts make unlicensed use discoverable by crawlers and audit tools.</li>
-          <li><strong>Contractual complexity:</strong> different rights (desktop, web, app, broadcast, vendor sharing) trip teams up in fast workflows.</li>
-        </ul>
-
-        <p><strong>Reality check:</strong> most organizations encounter <em>compliance outreach</em> rather than court filings. Keeping records and standardizing procurement prevents costly surprises.</p>
-
-        <!-- House Rules tip -->
-        <details class="tip" aria-label="House Rules: Reduce Audit Risk">
-          <summary><span class="tip-title">House Rules: Reduce Audit Risk</span></summary>
+        <details class="tip" aria-label="House Rules: Ops Starter Checklist">
+          <summary><strong>House Rules: Ops Starter Checklist</strong></summary>
           <div>
             <ul>
-              <li><strong>Centralize fonts:</strong> one vetted source; disable ad-hoc file sharing.</li>
-              <li><strong>Inventory &amp; receipts:</strong> track installs, page views, app embeds, and vendors.</li>
-              <li><strong>Prefer managed delivery:</strong> subscriptions that handle hosting/compliance reduce surprise outreach.</li>
-              <li><strong>Name a “font owner”:</strong> one person/team buys, tracks, and renews.</li>
-              <li><strong>When contacted:</strong> don’t ignore it—ask for the specific use in question, compare to your EULA, and remediate.</li>
+              <li>Central catalog + receipts/EULAs; SSO-gated access.</li>
+              <li>Per-channel runbooks (desktop, web, app, server, broadcast).</li>
+              <li>CI guardrails: no app build without embed rights; CSS lint for forbidden hosts.</li>
+              <li>Change control: deprecate fonts with replacements and a sunset date.</li>
+              <li>Name a "font owner": one person/team buys, tracks, and renews.</li>
             </ul>
-            <p><small>General information, not legal advice. Always check your license and counsel.</small></p>
           </div>
         </details>
-        
-        <h3>Routes that dial down enforcement risk</h3>
-        <ul>
-          <li><strong>Enterprise subscriptions:</strong> pay for organization-wide rights with usage tracking and clear terms.</li>
-          <li><strong>Adobe Fonts for creative apps:</strong> broad use in Creative Cloud with guardrails (separate app-embedding licenses as needed).</li>
-          <li><strong>Open-source families (OFL):</strong> many Google Fonts ship under the SIL Open Font License—permissive for web embedding and redistribution within the license.</li>
-        </ul>
 
-        <p class="fine-print"><em>Design takeaway:</em> keep a license inventory, decide who buys and tracks fonts, and standardize on a vetted set (or an enterprise plan). Most “pain” comes from <em>under-licensing</em>, not intentional piracy.</p>
-        
-      </section>
-
-      <section id="what-getting-sued-looks-like" class="guide-section">
-        <h2>What “getting sued” actually looks like</h2>
-      
-        <p><strong>Reality:</strong> public, reported cases exist, but the most common outcome is a <em>demand letter and a negotiated settlement</em> (often retroactive licensing). Industry write-ups often cite big-name examples (e.g., brand disputes and settlements around specific families), but the recurring pattern is that alleged use exceeded what the EULA allowed.</p>
-      
-        <h3>The usual sequence (simplified)</h3>
-        <ol>
-          <li><strong>Detection:</strong> crawlers or manual reviews spot a family in use (self-hosted webfont, app bundle, or shared file).</li>
-          <li><strong>Outreach:</strong> you receive a notice describing the family, properties (sites/apps), and dates.</li>
-          <li><strong>Evidence packet:</strong> URLs, screenshots, headers, file hashes, or crawler logs are provided.</li>
-          <li><strong>Internal triage:</strong> you check invoices/EULAs, installs, page-view tiers, embeds, and vendor sharing.</li>
-          <li><strong>Negotiation:</strong> options include true-up/retroactive licensing, replacing the font, or removing usage.</li>
-          <li><strong>Settlement &amp; remediation:</strong> invoice + agreement; you document changes and future compliance.</li>
-        </ol>
-      
-        <p class="fine-print"><small>General information for design teams — not legal advice. Confirm specifics with counsel and your licenses.</small></p>
-      
-        <!-- Practical tip: inherited brands -->
-        <details class="tip" aria-label="House Rules: Inherited Brand Assets Audit">
-          <summary><strong>House Rules: Inherited Brand Assets Audit</strong></summary>
-          <div>
-            <p>When you inherit a brand, verify rights you actually hold:</p>
-            <ul>
-              <li><strong>Rights by channel:</strong> desktop, web (page views), app/eBook embedding, server/broadcast, vendor sharing.</li>
-              <li><strong>Scope:</strong> user/seat counts, CPU installs, domains/apps covered, regions/term limits.</li>
-              <li><strong>Paper trail:</strong> invoices/EULAs, who purchased, where installed/served, which vendors received files.</li>
-            </ul>
-            <p><small>“We thought the agency handled it” is the #1 root cause of surprises.</small></p>
-          </div>
-        </details>
-      
-        <!-- House Rules: Audit response checklist -->
-        <details class="chance rules" aria-label="Community Chest: When an Audit Letter Arrives">
-          <summary class="chance-summary">
-            <span class="chance-title">&#127922;&ensp;Chance Card: When an Audit Letter Arrives</span>
-          </summary>
-
-          <div class="chance-content">
-            <p class="small">General information for creative teams — not legal advice. Confirm specifics with counsel and your license agreements.</p>
+        <!-- Collapsed audit-letter checklist (old Section 6, compressed) -->
+			        <details class="tip rules" aria-label="Chance Card: If a Compliance Letter Arrives">
+			          <summary><strong>If a Compliance Letter Arrives</strong></summary>
+			          <div>
+		            <p class="small">General information for creative teams — not legal advice. Confirm specifics with counsel and your license agreements.</p>
 
             <h4 style="margin: 0;">First 48 hours — checklist</h4>
             <ol class="steps">
-              <li><strong>Acknowledge, don’t admit.</strong><br> Reply that you’ve received the notice and are reviewing. Avoid confirming any violation.</li>
-              <li><strong>Ask for specifics.</strong><br> Request the exact fonts/families, versions, dates, URLs/apps, screenshots, and how they detected usage (crawler results, headers, file hashes).</li>
-              <li><strong>Freeze risky usage.</strong><br> If you suspect out-of-scope use, stop serving/embedding immediately and note the change (time, pages/apps).</li>
-              <li><strong>Gather paperwork.</strong><br> Pull invoices/EULAs, purchase emails, Adobe Fonts subscription status, and internal tickets approving font use.</li>
-              <li><strong>Inventory scope.</strong><br> Count installs, page-view tiers, app/eBook embeds, and any vendors/partners who may have received the file.</li>
-              <li><strong>Assign a point person.</strong><br> Route all replies through one owner; keep a dated log of all communications.</li>
-              <li><strong>Plan remediation.</strong><br> Decide: (a) buy/true-up, (b) replace with licensed or OFL family, and/or (c) remove and document cessation.</li>
+              <li><strong>Acknowledge, don't admit.</strong><br> Reply that you've received the notice and are reviewing.</li>
+              <li><strong>Ask for specifics.</strong><br> Request exact fonts/families, versions, dates, URLs/apps, and how they detected usage.</li>
+              <li><strong>Freeze risky usage.</strong><br> If you suspect out-of-scope use, stop serving/embedding immediately.</li>
+              <li><strong>Gather paperwork.</strong><br> Pull invoices/EULAs, purchase emails, subscription status, and internal approvals.</li>
+              <li><strong>Inventory scope.</strong><br> Count installs, page-view tiers, app embeds, and vendor/partner sharing.</li>
+              <li><strong>Assign a point person.</strong><br> Route all replies through one owner; keep a dated log.</li>
+              <li><strong>Plan remediation.</strong><br> Decide: (a) true-up, (b) replace with licensed or OFL family, (c) remove and document.</li>
             </ol>
 
-            <h4 style="margin: 0;">Ask these clarifying questions</h4>
-            <ul>
-              <li>Which <em>rights</em> are at issue (desktop, web page views, app/eBook embed, broadcast, vendor sharing)?</li>
-              <li>Which <em>time window</em> and <em>properties</em> (sites/apps/repos) are you citing?</li>
-              <li>If web: was the font observed on <code>use.typekit.net</code>/<code>fonts.adobe.com</code> (Adobe CDN) or your own domain/CDN?</li>
-              <li>Are you asserting copying of a <em>font file</em> or use of a <em>design</em> under design rights?</li>
-              <li>What evidence are you relying on (crawler capture, font hash, network trace)? Please provide artifacts.</li>
-            </ul>
-
-            <div class="grid-dodont" role="group" aria-label="Do and Don’t">
+	            <div class="grid-dodont" role="group" aria-label="Do and Don't">
               <div class="callout">
                 <h5 class="do" style="margin: 0;">Do</h5>
                 <ul>
                   <li>Respond promptly and professionally.</li>
                   <li>Centralize all communications.</li>
                   <li>Verify against your EULAs and receipts.</li>
-                  <li>Remediate quickly (license or replace) and document changes.</li>
+                  <li>Remediate quickly and document changes.</li>
                 </ul>
               </div>
               <div class="callout red">
-                <h5 class="dont" style="margin: 0;">Don’t</h5>
+                <h5 class="dont" style="margin: 0;">Don't</h5>
                 <ul>
                   <li>Admit wrongdoing before review.</li>
                   <li>Ignore deadlines or go silent.</li>
+                  <li>Rename or clone font files to "work around" terms.</li>
                   <li>Share internal files broadly (least-privilege).</li>
-                  <li>Rename or clone font files to “work around” terms.</li>
                 </ul>
               </div>
-            </div>
-          </div>
-        </details>
-        <!--<section class="mini-widget" data-widget="audit-quiz" aria-labelledby="quizTitle"
-          data-answers='{"q1":"b"}'
-          data-correct="✅ Correct: licenses rarely transfer automatically. Buy or transfer properly."
-          data-wrong="❌ Not quite. You need a valid license for your entity/use.">
-          <h3 id="quizTitle">Quick Audit Quiz</h3>
-          <form class="card">
-            <fieldset>
-              <legend>Can you use a font the agency emailed to you for new client work?</legend>
-              <label><input type="radio" name="q1" value="a"> Yes, if it installs.</label>
-              <label><input type="radio" name="q1" value="b"> Only if the license transfers or you buy your own.</label>
-              <label><input type="radio" name="q1" value="c"> Yes, if you credit the agency.</label>
-            </fieldset>
-            <button class="btn" type="submit">Check</button>
-          </form>
-          <div class="quiz-out" role="status" aria-live="polite"></div>
-        </section>-->
-      </section>
-      
+	            </div>
 
+	            <section class="mini-widget" data-widget="audit-quiz" aria-label="Boss Fight: Compliance Audit"
+	              data-answers='{"q1":"b","q2":"c","q3":"a","q4":"b"}'
+	              data-correct="✅ Cleared Audit Receipt earned. You took the right first steps: confirm specifics, freeze risky use, pull paperwork, and inventory scope."
+	              data-wrong="❌ Not quite. Re-run the scenario: your goal is to confirm specifics, freeze risky use, pull paperwork, and inventory scope before you respond substantively.">
+	              <h4 style="margin: 1.25rem 0 .5rem;">Boss Fight: Compliance Audit (game)</h4>
+	              <p class="muted small" style="margin-top: 0;">Answer all four to clear the audit and earn a receipt in your Case File.</p>
 
-      <section id="where-typography-goes-next" class="guide-section">
-        <h2>Where Typography Goes Next</h2>
-      
-        <h3>Open licensing at scale</h3>
-        <p>
-          Large public libraries and open licenses (e.g., SIL Open Font License) have reset expectations: teams can prototype fast, ship broadly, and localize without heavy procurement. That access comes with responsibilities—keep attribution and license files with the fonts, respect any reserved font names, document modifications, and verify that your distribution/embedding plan aligns with the license. Treat open fonts as <em>governed assets</em>: version them, subset thoughtfully, and standardize which builds your brand actually uses.
-        </p>
-      
-        <details class="chest" aria-label="Community Chest: OFL Quick Guide">
-          <summary class="chest-summary"><span class="chest-title">Community Chest: OFL Quick Guide</span></summary>
-          <div class="chest-content">
+	              <form style="display: grid; gap: .75rem;">
+	                <fieldset style="border: 1px dashed rgba(0,0,0,.15); border-radius: 10px; padding: .75rem .9rem;">
+	                  <legend><strong>1)</strong> A compliance email arrives. What’s your first reply?</legend>
+	                  <label><input type="radio" name="q1" value="a"> Ignore it until legal asks.</label><br>
+	                  <label><input type="radio" name="q1" value="b"> Acknowledge receipt and say you’re reviewing (no admissions).</label><br>
+	                  <label><input type="radio" name="q1" value="c"> Admit it was a mistake and ask for a discount.</label>
+	                </fieldset>
+
+	                <fieldset style="border: 1px dashed rgba(0,0,0,.15); border-radius: 10px; padding: .75rem .9rem;">
+	                  <legend><strong>2)</strong> What do you ask them for?</legend>
+	                  <label><input type="radio" name="q2" value="a"> Their font files so you can compare.</label><br>
+	                  <label><input type="radio" name="q2" value="b"> A list of everyone at your company who touched the font.</label><br>
+	                  <label><input type="radio" name="q2" value="c"> Specifics: font/family, versions, dates, URLs/apps, detection method.</label>
+	                </fieldset>
+
+	                <fieldset style="border: 1px dashed rgba(0,0,0,.15); border-radius: 10px; padding: .75rem .9rem;">
+	                  <legend><strong>3)</strong> If you suspect you’re out of scope, what do you do immediately?</legend>
+	                  <label><input type="radio" name="q3" value="a"> Freeze risky usage (stop serving/embedding) while you verify.</label><br>
+	                  <label><input type="radio" name="q3" value="b"> Rename the font file to avoid detection.</label><br>
+	                  <label><input type="radio" name="q3" value="c"> Keep shipping and “deal with it later.”</label>
+	                </fieldset>
+
+	                <fieldset style="border: 1px dashed rgba(0,0,0,.15); border-radius: 10px; padding: .75rem .9rem;">
+	                  <legend><strong>4)</strong> What paperwork do you pull?</legend>
+	                  <label><input type="radio" name="q4" value="a"> Only the font file’s name.</label><br>
+	                  <label><input type="radio" name="q4" value="b"> Invoices/EULAs, purchase emails, subscription status, approvals.</label><br>
+	                  <label><input type="radio" name="q4" value="c"> A screenshot of your design system tokens.</label>
+	                </fieldset>
+
+	                <button class="btn" type="submit" style="width: fit-content;">Submit</button>
+	              </form>
+	              <div class="quiz-out" role="status" aria-live="polite" style="margin-top: .75rem;"></div>
+	            </section>
+	          </div>
+	        </details>
+
+        <details class="tip" aria-label="House Rules: Inherited Brand Assets">
+          <summary><strong>House Rules: Inherited Brand Assets</strong></summary>
+          <div>
+            <p>When you inherit a brand, verify rights you actually hold:</p>
             <ul>
-              <li>Keep the OFL text with the font when you redistribute internally.</li>
-              <li>Respect <em>Reserved Font Names</em>; rename derivatives and note changes.</li>
-              <li>Log where/when you ship a font (web/app/server) just like any dependency.</li>
+              <li><strong>Rights by channel:</strong> desktop, web, app/eBook embedding, server/broadcast, vendor sharing.</li>
+              <li><strong>Scope:</strong> seat counts, installs, domains/apps, regions/term limits.</li>
+              <li><strong>Paper trail:</strong> invoices/EULAs, who purchased, where installed/served, which vendors received files.</li>
             </ul>
-            <p class="small">Open ≠ ungoverned—bundle licenses in your repo and track versions.</p>
+            <p><small>"We thought the agency handled it" is the #1 root cause of surprises.</small></p>
           </div>
         </details>
-      
-        <h3>Better ops</h3>
-        <p>
-          The least dramatic teams treat fonts like any licensed software: one place to get them, one owner to buy/renew, an inventory that ties families to channels (desktop/web/app/server/broadcast), and CI (Continuous Integration) checks that block shipping without the right embeds. For web, maintain approved stacks, subsetting rules, and a load profile (<code>font-display</code>, preload). For vendors, enforce “no retention” or require their own license. Measure page-view tiers and install counts the same way you track seats for other tools.
-        </p>
-      
-        <details class="tip" aria-label="Utilities: Ops Starter Checklist">
-          <summary class="tip-summary"><strong>Utilities: Ops Starter Checklist</strong></summary>
-          <div class="tip-content">
-            <ul>
-              <li>Central catalog + receipts/EULAs; SSO-gated access.</li>
-              <li>Per-channel runbooks (desktop, web, app, server, broadcast).</li>
-              <li>CI guardrails: no app build without embed rights; CSS lint for forbidden hosts.</li>
-              <li>Change control: deprecate fonts with replacements and a sunset date.</li>
-            </ul>
-          </div>
-        </details>
-      
-        <h3>Healthier economics</h3>
-        <p>
-          Budget for type the way you budget for imagery or music: plan a core set for brand/UI, add project-specific licenses when needed, and keep a “license runway” line item for growth (more seats, higher traffic, new regions). Mix open-source families with commercial ones intentionally: open fonts are great for scale and localization; paid cuts can deliver distinct voice or specialized features. When organizations fund type deliberately, independent foundries thrive and designers get better tools—everyone wins.
-        </p>
+
+        <!-- Game: Railroad Pass Scenarios -->
+        <div id="passScenarios"></div>
+
+        <!-- Game: Change Order + Deed -->
+        <div data-change-order="rules-of-the-game"></div>
+        <div data-deed="rules-of-the-game"></div>
+
+        <p class="muted small"><em>Rent paid.</em> Final square: where the ownership story goes next.</p>
       </section>
 
-      <section>
-        <h2>More coming soon</h2>
-        <div class="image-container">
-          <img src="../images/under-construction.png" alt="under construction">
-        </div>
-      </section>
+      <!-- —            SECTION 7 — Free Parking: The Future of Letters
+           — -->
+      <section id="future-of-letters" class="guide-section">
+        <p class="muted small" aria-hidden="true"><strong>Square:</strong> Free Parking</p>
+        <h2>The Future of Letters</h2>
 
+        <h3>Variable fonts: one file, infinite possibilities</h3>
+	        <p>Variable font technology—a single file containing continuous ranges of weight, width, optical size, and custom axes—represents the most significant technical shift since type went digital. Instead of loading six separate files for different weights, a single variable font covers the entire spectrum. This changes performance budgets, design systems, and the economics of licensing. It's the frontier of what type can do.</p>
+
+        <h3>Expanding the alphabet</h3>
+	        <p>For most of its history, the ownership story has centered on Latin scripts. That's changing. Projects like Google Noto aim to cover every Unicode character in every writing system—from Arabic to Ethiopic to CJK—under open licenses. As digital design becomes genuinely global, the question of "who owns the alphabet" extends to scripts and communities that have been underserved for centuries.</p>
+
+        <h3>The craft continues</h3>
+	        <p>Type design is not a solved problem. New designers bring new perspectives—drawing letterforms that reflect cultures, subcultures, moods, and movements that didn't exist when the classic families were cut. Every year, the range of available expression grows. The tools get better. The communities get more diverse. The letters keep evolving.</p>
+
+	        <p>From clay seals pressed by Mesopotamian scribes, to metal sorts locked in composing sticks, to software gated by EULAs, to open files shared freely across the world—the story of who owns the alphabet is still being written. Every time you choose a typeface, you become part of that story.</p>
+
+        <!-- Game: Change Order (bonus) -->
+        <div data-change-order="future-of-letters"></div>
+
+        <!-- Game: Portfolio Printout + Invoice -->
+        <div id="portfolio"></div>
+      </section>
 
       <footer class="sub glass">
-        <span>© 2025 – Typography Inc.: Who Owns the Alphabet by Chris Yasuda Drysdale</span>
+        <span>© 2025–2026 Typography Inc.: Who Owns the Alphabet by Chris Yasuda Drysdale</span>
       </footer>
     </main>
   </div>

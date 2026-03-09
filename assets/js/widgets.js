@@ -23,7 +23,7 @@
     { t: "History", b: "In 1842, the first U.S. design patent—D1, to type founder George Bruce—covered a typeface, protecting appearance rather than function. It mattered little when copying metal type was slow and costly, but set the pattern: the U.S. may protect the look of letters via design patents, not broad copyright—so modern protection centers on the software font file and licensing." },
     { t: "Font Fact", b: "Arial: In the 1990s, Microsoft commissioned Robin Nicholas and Patricia Saunders at Monotype to design Arial as a “metrics-compatible” twin of Helvetica. Because the shapes themselves couldn’t be copyrighted, Microsoft could sell a Helvetica lookalike bundled with Windows—skirting licensing fees while keeping document layouts identical." },
     { t: "History", b: "Since 2002, the EU’s Community design regime has protected the visual appearance of products—including typographic typefaces—either as Registered Community Designs (renewable in 5-year blocks to a 25-year maximum) or as Unregistered Community Designs lasting 3 years from first disclosure; EUIPO guidance even sets specific filing representations for typefaces. The UK provides parallel design protection and includes typeface-specific provisions in the Copyright, Designs and Patents Act 1988 (e.g., ss. 54–55)." },
-    { t: "Font Fact", b: "Comic Sans: Drawn in 1994 by Microsoft designer Vincent Connare after he saw Microsoft Bob’s speech bubbles set in Times New Roman. He sketched a friendlier UI font inspired by comic books—specifically The Dark Knight Returns and Watchmen. It missed Bob’s ship date but debuted in the Windows 95 Plus! Pack (and apps like 3D Movie Maker). Coincidentally, it's design was easier to read for those with dyslexia and inspired the creation of fonts like Dyslexie and OpenDyslexic." },
+    { t: "Font Fact", b: "Comic Sans: Drawn in 1994 by Microsoft designer Vincent Connare after he saw Microsoft Bob’s speech bubbles set in Times New Roman. He sketched a friendlier UI font inspired by comic books—specifically The Dark Knight Returns and Watchmen. It missed Bob’s ship date but debuted in the Windows 95 Plus! Pack (and apps like 3D Movie Maker). Coincidentally, its design was easier to read for those with dyslexia and inspired the creation of fonts like Dyslexie and OpenDyslexic." },
     { t: "Font Fact", b: "Impact: Drawn in 1965 by Geoffrey Lee for tight newspaper columns and bold headlines, Impact uses heavy strokes and compressed letterforms to maximize presence in minimal space. Later bundled on millions of PCs, it became the default voice of internet memes—blocky uppercase with a high-contrast outline and still legible after being deep-fried from jpeg save degradation." },
     { t: "Font Fact", b: "Papyrus: Hand-drawn by Chris Costello in 1982 to evoke an imagined ancient script, Papyrus spread widely via lettering transfer sheets and later operating-system bundles. Its ubiquity made it instantly recognizable and a pop-culture lightning rod after the logo for the movie, Avatar, and an SNL sketch which turned the font into a meme." },
     { t: "Font Fact", b: "Helvetica: Released in 1957 as Neue Haas Grotesk (Max Miedinger with Eduard Hoffmann), the family was renamed Helvetica a few years later—Latin for “Swiss”—to ease international adoption. Its neutral, orderly voice suited transit systems and global brands, making it the archetype of modernist sans-serif typography for signage, corporate identity, and UI." },
@@ -140,10 +140,10 @@
   const SUPPORT = {
     "roboto":        { axes:{wght:[300,900],                              slnt:[-15,0]}, feats:['kern','liga','calt','ss01','smcp'] },
     "roboto-flex":   { axes:{wght:[300,900], wdth:[75,125], opsz:[8,144], slnt:[-15,0]}, feats:['kern','liga','calt','tnum','zero'] },
-    "roboto-slab":   { axes:{wght:[300,900],                              slnt:[-15,0]}, feats:['kern','liga','calt','smcp','onum'] },
+    "roboto-slab":   { axes:{wght:[300,900]                                           }, feats:['kern','liga','calt','smcp','onum'] },
     "roboto-serif":  { axes:{wght:[300,900], wdth:[75,125], opsz:[8,144]              }, feats:['kern','liga','calt','smcp','onum','tnum','zero'] },
     "source-serif":  { axes:{wght:[300,900],                opsz:[8,72]               }, feats:['kern','liga','calt','smcp','onum','tnum','zero'] },
-    "spectral":      { axes:{wght:[200,900],                opsz:[8,72]               }, feats:['kern','liga','calt','smcp','onum','tnum','zero'] },
+    "spectral":      { axes:{wght:[200,900]                                           }, feats:['kern','liga','calt','smcp','onum','tnum','zero'] },
     "recursive":     { axes:{wght:[300,1000],               /* no opsz */ slnt:[-15,0]}, feats:['kern','liga','calt','ss01','zero'] },
     "fraunces":      { axes:{wght:[100,1000],               opsz:[9,144]              }, feats:['kern','liga','calt','ss01','onum','tnum'] },
     "inter":         { axes:{wght:[300,900], wdth:[75,125], opsz:[8,144], slnt:[-15,0]}, feats:['kern','liga','tnum','zero'] }
@@ -181,7 +181,6 @@
       const tag = s.dataset.axis;
       const val = s.value;
 
-      if (tag === 'opsz') manualOpsz = true; // once user moves opsz, take control
       if (tag === 'slnt') slntVal = parseFloat(val);
 
       axes.push('"' + tag + '" ' + val);
@@ -267,7 +266,10 @@
 
   // Events
   boxes.forEach(b => b.addEventListener('change', updateFeatures));
-  sliders.forEach(s => s.addEventListener('input', updateAxes));
+  sliders.forEach(s => s.addEventListener('input', () => {
+    if (s.dataset.axis === 'opsz') manualOpsz = true; // user took explicit opsz control
+    updateAxes();
+  }));
   if (fontSel) fontSel.addEventListener('change', e => applyFont(e.target.value));
 
   // Initial paint
@@ -280,26 +282,25 @@
   if (!slider || !box) return;
 
   const data = [
-    { h: "Movable type: letters as hardware",
-      b: "With Gutenberg’s system, a “font” was boxes of metal sorts cast from punches and matrices. Printers bought complete sets and stored them like tools, so ownership and inventory were literal, physical, and easy to account for." },  
+    { h: "Marks in clay: writing begins (~3100 BCE)",
+      b: "In Mesopotamia, scribes pressed reed styluses into wet clay to create cuneiform—wedge-shaped marks for trade, law, and literature. In China, woodblock printing (7th century CE) carved full pages for reuse. These weren’t fonts, but they were the first repeatable writing systems. The scribes who mastered them held power: literacy itself was a controlled technology." },
+    { h: "Movable type: letters as hardware (15th c.)",
+      b: "With Gutenberg’s system, a \u201cfont\u201d was boxes of metal sorts cast from punches and matrices. Printers bought complete sets and stored them like tools, so ownership and inventory were literal, physical, and easy to account for." },
     { h: "Foundries as capital businesses",
-      b: "Foundries financed punches, matrices, alloys, presses, and skilled labor to manufacture letters. The result was a product economy—shops bought, rented, or borrowed metal, and duplication demanded re-cutting, electrotyping, or recasting." },  
+      b: "Foundries financed punches, matrices, alloys, presses, and skilled labor to manufacture letters. The result was a product economy\u2014shops bought, rented, or borrowed metal, and duplication demanded re-cutting, electrotyping, or recasting." },
     { h: "Design patents recognize ornament (1842)",
-      b: "When U.S. design patents began in 1842, George Bruce was awarded the first one, Design Patent D1, which covered a typeface. It formally treated letterforms as protectable industrial design, even as everyday protection still came from the cost and craft of making metal type." },  
+      b: "When U.S. design patents began in 1842, George Bruce was awarded the first one, Design Patent D1, which covered a typeface. It formally treated letterforms as protectable industrial design, even as everyday protection still came from the cost and craft of making metal type." },
     { h: "Scarcity as de facto protection",
-      b: "Copying the metal type of rivals wasn’t drag-and-drop; it was slow, specialized, and expensive. That alone prevented a lot of casual imitation and functioned like a practical barrier long before modern licensing and software rights existed." },
+      b: "Copying the metal type of rivals wasn\u2019t drag-and-drop; it was slow, specialized, and expensive. That alone prevented a lot of casual imitation and functioned like a practical barrier long before modern licensing and software rights existed." },
     { h: "From scarcity to reproducibility",
-      b: "By the late 19th–early 20th centuries, ATF, Linotype, and Monotype scaled production with hot-metal systems and matrix libraries. Distribution became routine via service contracts, yet type stayed tied to molds and machines until phototype loosened the bond." },
+      b: "By the late 19th\u2013early 20th centuries, ATF, Linotype, and Monotype scaled production with hot-metal systems and matrix libraries. Distribution became routine via service contracts, yet type stayed tied to molds and machines until phototype loosened the bond." },
     { h: "Phototypesetting loosens the bond",
-      b: "In the mid-20th century, Phototype replaced metal with glass, film, and light. Letters could be scaled and composited without recasting, shifting work from foundry benches to darkrooms and making reproduction faster—even as the workflow stayed physically hands-on." },
-    { h: "Type becomes software",
-      b: "By the 1980s, type became software. Influenced by calligraphy at Reed College, Steve Jobs pushed the original Macintosh to ship with multiple digital fonts named after cities—Chicago, Geneva, Monaco, New York—and fonts quickly became part of the product’s and users' personalities (see <strong>Comic Sans</strong>)." }, 
+      b: "In the mid-20th century, phototype replaced metal with glass, film, and light. Letters could be scaled and composited without recasting, shifting work from foundry benches to darkrooms and making reproduction faster\u2014even as the workflow stayed physically hands-on." },
+    { h: "Type becomes software (1980s)",
+      b: "By the 1980s, type became software. Influenced by calligraphy at Reed College, Steve Jobs pushed the original Macintosh to ship with multiple digital fonts named after cities\u2014Chicago, Geneva, Monaco, New York\u2014and fonts quickly became part of the product\u2019s and users\u2019 personalities." },
     { h: "Desktop publishing revolution",
-      b: "As home computers became commonplace, anyone with a Mac, a LaserWriter printer, and Aldus PageMaker could design with professional typography at home or in a small office. Fonts weren’t the guarded property of print shops anymore." },
-    { h: "Bundled files change behavior",
-      b: "Once fonts lived as files, they traveled with disks and machines. Teams installed, shared, and sometimes copied them casually; what had been guarded shop assets became everyday UI choices—powerful, portable, and easy to overshare if you ignored the license." }
-  ]  
-  ;
+      b: "As home computers became commonplace, anyone with a Mac, a LaserWriter printer, and Aldus PageMaker could design with professional typography at home or in a small office. Fonts weren\u2019t the guarded property of print shops anymore\u2014they were files on a floppy disk, easy to copy and share." }
+  ];
   function render(){
     const d = data[+slider.value];
     if (!d) return;
@@ -454,4 +455,142 @@ document.querySelectorAll('.slider').forEach(sl => {
 
   form.addEventListener('change', grade);
   grade();
+})();
+
+// ---------- Type Classification Quiz ----------
+(function(){
+  const sample = document.getElementById('classQuizSample');
+  const result = document.getElementById('classQuizResult');
+  const nextBtn = document.getElementById('classQuizNext');
+  if (!sample || !result || !nextBtn) return;
+
+  const questions = [
+    { family: "'Source Serif 4', Georgia, serif", text: "Handgloves 0123", answer: "serif", explain: "Source Serif 4 has finishing strokes (serifs) at the ends of its stems \u2014 a classic serif face." },
+    { family: "'Inter', system-ui, sans-serif", text: "Handgloves 0123", answer: "sans-serif", explain: "Inter has no serifs \u2014 clean, open terminals make it a humanist sans-serif." },
+    { family: "'Roboto Slab', Georgia, serif", text: "Handgloves 0123", answer: "slab", explain: "Roboto Slab has thick, block-like serifs with low stroke contrast \u2014 a slab serif (also called Egyptian)." },
+    { family: "'Fraunces', Georgia, serif", text: "Handgloves 0123", answer: "serif", explain: "Fraunces is a soft serif with high contrast and distinctive ball terminals \u2014 firmly in the serif family." },
+    { family: "Recursive, system-ui, sans-serif", text: "Handgloves 0123", answer: "sans-serif", explain: "Recursive is a sans-serif with a single-story \u2018a\u2019 and warm, slightly quirky proportions." },
+    { family: "'Fredericka the Great', serif", text: "Handgloves", answer: "display", explain: "Fredericka the Great is a decorative display face with hand-drawn texture \u2014 designed for headlines, not body text." },
+    { family: "'VT323', monospace", text: "Handgloves 0123", answer: "monospace", explain: "VT323 is a monospace font \u2014 every character occupies the same horizontal width, like a terminal screen." },
+    { family: "Spectral, Georgia, serif", text: "Handgloves 0123", answer: "serif", explain: "Spectral has refined serifs and moderate contrast \u2014 a transitional serif designed for screen reading." }
+  ];
+
+  let current = null;
+  let answered = false;
+
+  function shuffle(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  let deck = shuffle(questions);
+  let idx = 0;
+
+  function loadQuestion() {
+    if (idx >= deck.length) { deck = shuffle(questions); idx = 0; }
+    current = deck[idx++];
+    answered = false;
+    sample.style.fontFamily = current.family;
+    sample.textContent = current.text;
+    result.textContent = '';
+    result.style.color = '';
+    // Clear radio selection
+    document.querySelectorAll('input[name="classQ"]').forEach(r => { r.checked = false; });
+  }
+
+  // Listen for radio changes
+  document.querySelectorAll('input[name="classQ"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+      if (answered || !current) return;
+      answered = true;
+      if (this.value === current.answer) {
+        result.textContent = '\u2705 Correct! ' + current.explain;
+        result.style.color = '#166534';
+      } else {
+        result.textContent = '\u274c Not quite. ' + current.explain;
+        result.style.color = '#991b1b';
+      }
+    });
+  });
+
+  nextBtn.addEventListener('click', loadQuestion);
+  loadQuestion();
+})();
+
+// ---------- Type Anatomy Explorer ----------
+(function(){
+  const svg = document.getElementById('anatomySvg');
+  const desc = document.getElementById('anatomyDesc');
+  if (!svg || !desc) return;
+
+  const parts = {
+    stem: '<strong>Stem</strong> \u2014 The main vertical stroke of a letter. It\u2019s the backbone: the thick, structural line that gives letters like R, B, and d their height and posture.',
+    bowl: '<strong>Bowl</strong> \u2014 The curved stroke that creates an enclosed or partially enclosed space. Think of the round parts of B, D, P, and R. The bowl\u2019s shape defines much of a typeface\u2019s personality.',
+    counter: '<strong>Counter</strong> \u2014 The enclosed (or partially enclosed) space within a letter. The hole inside an \u2018o\u2019 or \u2018p\u2019. Open counters aid legibility; tight counters create density.',
+    leg: '<strong>Leg</strong> \u2014 A short, downward stroke extending from the body of the letter, like the diagonal in R or K. It gives the letter its stance.',
+    serif: '<strong>Serif</strong> \u2014 The small finishing strokes at the ends of a letter\u2019s stems. Serifs guide the eye along a line of text and are the defining feature that separates serif from sans-serif typefaces.',
+    'x-height': '<strong>x-height</strong> \u2014 The height of lowercase letters (measured by the letter \u2018x\u2019, which has no ascenders or descenders). A generous x-height improves readability at small sizes.',
+    descender: '<strong>Descender</strong> \u2014 The part of a lowercase letter that drops below the baseline, as in p, g, q, and y. Descender length affects line spacing and the overall texture of a paragraph.',
+    aperture: '<strong>Aperture</strong> \u2014 The opening in a partially enclosed counter, as in c, e, or s. Wide apertures increase legibility; narrow ones create a more closed, formal feel.'
+  };
+
+  svg.querySelectorAll('.anatomy-label').forEach(g => {
+    const part = g.dataset.part || 'part';
+    g.setAttribute('tabindex', '0');
+    g.setAttribute('role', 'button');
+    g.setAttribute('aria-label', `Highlight ${part}`);
+
+    g.addEventListener('click', function() {
+      const clickedPart = this.dataset.part;
+      if (parts[clickedPart]) {
+        desc.innerHTML = parts[clickedPart];
+      }
+      // Highlight: dim others, brighten clicked
+      svg.querySelectorAll('.anatomy-label').forEach(other => {
+        other.style.opacity = other === g ? '1' : '0.35';
+      });
+    });
+
+    g.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter' && event.key !== ' ' && event.key !== 'Spacebar') return;
+      event.preventDefault();
+      g.click();
+    });
+  });
+
+  // Reset on clicking outside labels
+  svg.addEventListener('click', function(e) {
+    if (!e.target.closest('.anatomy-label')) {
+      svg.querySelectorAll('.anatomy-label').forEach(g => { g.style.opacity = '1'; });
+      desc.innerHTML = '<em>Click a label above to learn about that part of the letterform.</em>';
+    }
+  });
+})();
+
+// ---------- Pairing Sandbox ----------
+(function(){
+  const hSel = document.getElementById('pairHeading');
+  const bSel = document.getElementById('pairBody');
+  const hWght = document.getElementById('pairHeadingWght');
+  const bWght = document.getElementById('pairBodyWght');
+  const hPreview = document.getElementById('pairingH');
+  const bPreview = document.getElementById('pairingB');
+  if (!hSel || !bSel || !hPreview || !bPreview) return;
+
+  function update() {
+    hPreview.style.fontFamily = hSel.value;
+    hPreview.style.fontWeight = hWght ? hWght.value : '700';
+    bPreview.style.fontFamily = bSel.value;
+    bPreview.style.fontWeight = bWght ? bWght.value : '400';
+  }
+
+  hSel.addEventListener('change', update);
+  bSel.addEventListener('change', update);
+  if (hWght) hWght.addEventListener('input', update);
+  if (bWght) bWght.addEventListener('input', update);
+  update();
 })();

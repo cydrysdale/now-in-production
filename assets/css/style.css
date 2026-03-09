@@ -1185,7 +1185,7 @@
     border: var(--lab-border);
     border-radius: var(--lab-radius);
     box-shadow: var(--lab-shadow);
-    background: #fff;
+    background: var(--card);
     padding: calc(var(--lab-pad) + .25rem);
   }
 
@@ -1205,7 +1205,7 @@
     outline: none;
     min-height: 4.5rem;
     word-break: break-word;
-    color: #352f36;
+    color: var(--black);
   }
 
   /* Make the editable sample feel like a field without a hard border */
@@ -1244,14 +1244,37 @@
     background-image: radial-gradient(circle at 75% 20%, var(--chest-bg), var(--chance-bg) 145%);
     text-shadow: 0 0 4px #d77109;
   }
-  .mini-widget .btn:active {
-    border: 1px solid transparent;
-    background-image: radial-gradient(circle at 75% 20%, var(--chest-bg), var(--chance-bg) 145%);
-    border-radius: 10px;
-    margin: 2px 4px 2px 3px;
-    font-size: 12px;
-    text-shadow: 0 0 4px #d77109;
-  }
+	  .mini-widget .btn:active {
+	    border: 1px solid transparent;
+	    background-image: radial-gradient(circle at 75% 20%, var(--chest-bg), var(--chance-bg) 145%);
+	    border-radius: 10px;
+	    margin: 2px 4px 2px 3px;
+	    font-size: 12px;
+	    text-shadow: 0 0 4px #d77109;
+	  }
+
+	  /* Button variant: use Chance card color outside .mini-widget */
+	  .btn--chance {
+	    border: 2px solid transparent;
+	    background-image: radial-gradient(circle at 25% 20%, rgba(255,255,255,.9), var(--chance-bg) 45%);
+	    border-radius: 12px;
+	    padding: 8px 12px;
+	    cursor: pointer;
+	    text-shadow: 0 0 5px rgba(255,255,255,.9);
+	  }
+	  .btn--chance:hover {
+	    border: 2px solid transparent;
+	    background-image: radial-gradient(circle at 25% 20%, rgba(255,255,255,.55), var(--chance-bg) 55%);
+	    text-shadow: 0 0 4px #d77109;
+	  }
+	  .btn--chance:active {
+	    border: 1px solid transparent;
+	    background-image: radial-gradient(circle at 45% 20%, rgba(255,255,255,.55), var(--chance-bg) 85%);
+	    border-radius: 10px;
+	    margin: 2px 4px 2px 3px;
+	    font-size: 12px;
+	    text-shadow: 0 0 4px #d77109;
+	  }
 
   .range{
     display: grid;
