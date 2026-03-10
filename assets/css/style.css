@@ -1195,6 +1195,30 @@
   .feature-lab__axes label.is-disabled,
   .feature-lab__controls label.is-disabled { opacity: .45; }
 
+  .feature-lab__axes output{
+    min-width: 3.5ch;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    font-size: .85rem;
+    color: var(--muted);
+  }
+
+  .feature-lab__reset{
+    justify-self: start;
+    padding: .35rem .9rem;
+    border: 1px solid var(--borderDark);
+    border-radius: 6px;
+    background: var(--button);
+    color: var(--button-text);
+    font-size: .85rem;
+    cursor: pointer;
+    transition: background .15s, box-shadow .15s;
+  }
+  .feature-lab__reset:hover{
+    background: var(--accent-light);
+    box-shadow: 0 1px 4px var(--shadow);
+  }
+
   .feature-lab__sample{
     margin: 0;
     /* Set a preferred demo font with rich features; override via inline or parent:
@@ -1217,10 +1241,133 @@
 
   /* Small screens */
   @media (max-width: 480px){
-    .feature-lab__axes input[type="range"]{ width: 140px; }
+    .feature-lab__axes{ flex-direction: column; }
+    .feature-lab__axes label{ width: 100%; }
+    .feature-lab__axes input[type="range"]{ flex: 1; min-width: 0; }
   }
 
 
+
+  /* ---------------------------------------
+     Typography Tools (Fallback Stack + Contrast)
+  ----------------------------------------*/
+  .brand-tools{
+    margin-block: 1.5rem;
+  }
+  .brand-tools .card{
+    background: var(--card);
+    border: var(--lab-border);
+    border-radius: var(--lab-radius);
+    box-shadow: var(--lab-shadow);
+    padding: calc(var(--lab-pad) + .25rem);
+  }
+  .brand-tools h4{
+    margin: 0 0 .25rem;
+  }
+  .brand-tools .small{
+    font-size: .9rem;
+    color: var(--muted);
+    margin: 0 0 .75rem;
+  }
+  .brand-tools label{
+    display: block;
+    font-size: .9rem;
+    margin-bottom: .5rem;
+  }
+  .brand-tools input[type="text"],
+  .brand-tools select{
+    display: block;
+    width: 100%;
+    padding: .4rem .6rem;
+    border: 1px solid var(--borderDark);
+    border-radius: 8px;
+    font: inherit;
+    font-size: .9rem;
+    background: var(--bg2);
+    color: var(--black);
+    margin-top: .25rem;
+  }
+  .stack-sample,
+  .cc-sample{
+    border: 1px solid var(--borderLight);
+    border-radius: 8px;
+    padding: .6rem .75rem;
+    margin: .5rem 0;
+    min-height: 2.5rem;
+    line-height: 1.5;
+    font-size: 1rem;
+    color: var(--black);
+    outline: none;
+  }
+  .stack-sample:focus,
+  .cc-sample:focus{
+    box-shadow: inset 0 0 0 2px rgba(0,0,0,.08);
+  }
+  .stack-out,
+  .cc-out{
+    display: block;
+    font-size: .85rem;
+    padding: .4rem .6rem;
+    border-radius: 6px;
+    margin-top: .25rem;
+    color: var(--muted);
+  }
+
+  /* Contrast Checker: color row */
+  .cc-colors{
+    display: flex;
+    gap: .75rem;
+    align-items: end;
+    flex-wrap: wrap;
+  }
+  .cc-colors label{
+    flex: 1;
+    min-width: 120px;
+  }
+  .cc-pair{
+    display: flex;
+    gap: .35rem;
+    align-items: center;
+    margin-top: .25rem;
+  }
+  .cc-pair input[type="color"]{
+    width: 2rem;
+    height: 2rem;
+    padding: 2px;
+    border: 1px solid var(--borderDark);
+    border-radius: 6px;
+    cursor: pointer;
+    flex-shrink: 0;
+    background: none;
+  }
+  .cc-pair input[type="text"]{
+    flex: 1;
+    margin-top: 0;
+  }
+  .cc-swap{
+    padding: .4rem .6rem;
+    border: 1px solid var(--borderDark);
+    border-radius: 6px;
+    background: var(--button);
+    color: var(--button-text);
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 1;
+    transition: background .15s;
+    flex-shrink: 0;
+    margin-bottom: .5rem;
+  }
+  .cc-swap:hover{
+    background: var(--accent-light);
+  }
+
+  /* Contrast result badges */
+  .cc-out.cc-pass{ background: rgba(22,101,52,.1); color: #166534; }
+  .cc-out.cc-warn{ background: rgba(161,98,7,.1); color: #92400e; }
+  .cc-out.cc-fail{ background: rgba(153,27,27,.1); color: #991b1b; }
+  :root[data-theme="dark"] .cc-out.cc-pass{ background: rgba(121,217,155,.15); color: #79d99b; }
+  :root[data-theme="dark"] .cc-out.cc-warn{ background: rgba(251,191,36,.15); color: #fbbf24; }
+  :root[data-theme="dark"] .cc-out.cc-fail{ background: rgba(248,113,113,.15); color: #f87171; }
 
   /* tweak as needed to match site styles */
   .mini-widget { margin: 0 0 1.2rem; }

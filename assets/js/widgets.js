@@ -134,42 +134,60 @@
   const boxes   = lab.querySelectorAll('[data-feature]');
   const sliders = lab.querySelectorAll('[data-axis]');
   const fontSel = lab.querySelector('.feature-lab__font');
+  const resetBtn = lab.querySelector('.feature-lab__reset');
   if (!sample || !fontSel) return;
 
-  // Features each family actually exposes (adjust if your builds differ)
+  // Axis ranges and OpenType features each family actually exposes.
+  // Ranges must match the axes requested in the Google Fonts CSS2 URL.
   const SUPPORT = {
-    "roboto":        { axes:{wght:[300,900],                              slnt:[-15,0]}, feats:['kern','liga','calt','ss01','smcp'] },
-    "roboto-flex":   { axes:{wght:[300,900], wdth:[75,125], opsz:[8,144], slnt:[-15,0]}, feats:['kern','liga','calt','tnum','zero'] },
-    "roboto-slab":   { axes:{wght:[300,900]                                           }, feats:['kern','liga','calt','smcp','onum'] },
-    "roboto-serif":  { axes:{wght:[300,900], wdth:[75,125], opsz:[8,144]              }, feats:['kern','liga','calt','smcp','onum','tnum','zero'] },
-    "source-serif":  { axes:{wght:[300,900],                opsz:[8,72]               }, feats:['kern','liga','calt','smcp','onum','tnum','zero'] },
-    "spectral":      { axes:{wght:[200,900]                                           }, feats:['kern','liga','calt','smcp','onum','tnum','zero'] },
-    "recursive":     { axes:{wght:[300,1000],               /* no opsz */ slnt:[-15,0]}, feats:['kern','liga','calt','ss01','zero'] },
-    "fraunces":      { axes:{wght:[100,1000],               opsz:[9,144]              }, feats:['kern','liga','calt','ss01','onum','tnum'] },
-    "inter":         { axes:{wght:[300,900], wdth:[75,125], opsz:[8,144], slnt:[-15,0]}, feats:['kern','liga','tnum','zero'] }
+    "roboto":        { axes:{wght:[100,900]                                            }, feats:['kern','liga','calt','ss01','smcp'] },
+    "roboto-flex":   { axes:{wght:[100,1000], wdth:[75,125], opsz:[8,144], slnt:[-10,0]}, feats:['kern','liga','calt','tnum','zero'] },
+    "roboto-slab":   { axes:{wght:[100,900]                                            }, feats:['kern','liga','calt','smcp','onum'] },
+    "roboto-serif":  { axes:{wght:[100,900],  wdth:[75,125], opsz:[8,144]              }, feats:['kern','liga','calt','smcp','onum','tnum','zero'] },
+    "source-serif":  { axes:{wght:[200,900],                  opsz:[8,60]              }, feats:['kern','liga','calt','smcp','onum','tnum','zero'] },
+    "spectral":      { axes:{wght:[200,800]                                            }, feats:['kern','liga','calt','smcp','onum','tnum','zero'] },
+    "recursive":     { axes:{wght:[300,1000],                              slnt:[-15,0]}, feats:['kern','liga','calt','ss01','zero'] },
+    "fraunces":      { axes:{wght:[100,900],                  opsz:[9,144]             }, feats:['kern','liga','calt','ss01','onum','tnum'] },
+    "inter":         { axes:{wght:[100,900],                  opsz:[14,32]             }, feats:['kern','liga','calt','tnum','zero'] }
   };
+
+  const DEFAULTS = { wght:'400', wdth:'100', opsz:'14', slnt:'0' };
+  const DEFAULT_FONT = 'roboto-flex';
 
   // Keep a flag so opsz slider can disable auto optical sizing
   let manualOpsz = false;
 
-  function updateFeatures(){
-    const names = ['kern','liga','calt','smcp','onum','tnum','zero','ss01'];
-    const active = [];
-    let numeric = [];
+  function updateReadouts(){
+    sliders.forEach(s => {
+      const out = s.parentElement.querySelector('output');
+      if (out) out.textContent = s.value;
+    });
+  }
 
-    names.forEach(n => {
+  function updateFeatures(){
+    // Non-numeric features go through font-feature-settings
+    const featureNames = ['kern','liga','calt','smcp','ss01'];
+    // Numeric features go exclusively through font-variant-numeric
+    // to avoid conflicts when both properties target the same OT feature
+    const numericMap = { onum:'oldstyle-nums', tnum:'tabular-nums', zero:'slashed-zero' };
+
+    const active = [];
+    const numeric = [];
+
+    featureNames.forEach(n => {
       const box = lab.querySelector('[data-feature="'+n+'"]');
       if (!box || box.disabled) return;
-      const on = box.checked;
-      active.push('"' + n + '" ' + (on ? 1 : 0));
-      // high-level numeric mapping for better cross-browser behavior
-      if (n === 'onum' && on) numeric.push('oldstyle-nums');
-      if (n === 'tnum' && on) numeric.push('tabular-nums');
-      if (n === 'zero' && on) numeric.push('slashed-zero');
+      active.push('"' + n + '" ' + (box.checked ? 1 : 0));
     });
 
-    sample.style.fontFeatureSettings = active.join(', ');
-    sample.style.fontVariantNumeric  = numeric.join(' ') || 'normal';
+    Object.keys(numericMap).forEach(n => {
+      const box = lab.querySelector('[data-feature="'+n+'"]');
+      if (!box || box.disabled || !box.checked) return;
+      numeric.push(numericMap[n]);
+    });
+
+    sample.style.fontFeatureSettings = active.length ? active.join(', ') : 'normal';
+    sample.style.fontVariantNumeric  = numeric.length ? numeric.join(' ') : 'normal';
   }
 
   function updateAxes(){
@@ -229,7 +247,7 @@
       const label = box.closest('label');
       const ok = supported.has(f);
       box.disabled = !ok;
-      if (!ok) box.checked = (f === 'kern' || f === 'liga') ? box.checked : false;
+      if (!ok) box.checked = false;
       label && label.classList.toggle('is-disabled', !ok);
     });
 
@@ -245,6 +263,7 @@
       if (+s.value > +s.max) s.value = s.max;
     });
 
+    updateReadouts();
     updateFeatures();
     updateAxes();
   }
@@ -268,12 +287,27 @@
   boxes.forEach(b => b.addEventListener('change', updateFeatures));
   sliders.forEach(s => s.addEventListener('input', () => {
     if (s.dataset.axis === 'opsz') manualOpsz = true; // user took explicit opsz control
+    const out = s.parentElement.querySelector('output');
+    if (out) out.textContent = s.value;
     updateAxes();
   }));
   if (fontSel) fontSel.addEventListener('change', e => applyFont(e.target.value));
 
+  // Reset button — restore all controls to defaults
+  if (resetBtn) {
+    resetBtn.addEventListener('click', () => {
+      fontSel.value = DEFAULT_FONT;
+      sliders.forEach(s => { s.value = DEFAULTS[s.dataset.axis] || s.min; });
+      boxes.forEach(b => {
+        const f = b.dataset.feature;
+        b.checked = (f === 'kern' || f === 'liga' || f === 'calt');
+      });
+      applyFont(DEFAULT_FONT);
+    });
+  }
+
   // Initial paint
-  applyFont(fontSel ? fontSel.value : 'roboto-flex');
+  applyFont(fontSel ? fontSel.value : DEFAULT_FONT);
 })();
 
 (function(){
@@ -356,41 +390,66 @@ document.querySelectorAll('.slider').forEach(sl => {
   // --- A) Fallback Stack Tester ---
   const stackCard = document.querySelector('.tool-stack');
   if (stackCard) {
-    const input = stackCard.querySelector('.stack-input');
-    const level = stackCard.querySelector('.stack-level');
-    const sample = stackCard.querySelector('.stack-sample');
-    const out = stackCard.querySelector('.stack-out');
+    const stackSel = stackCard.querySelector('.stack-input');
+    const level   = stackCard.querySelector('.stack-level');
+    const sample  = stackCard.querySelector('.stack-sample');
+    const out     = stackCard.querySelector('.stack-out');
 
-    function parseStack(str){
-      // split on commas, respecting quotes
-      const parts = [];
-      let buf='', inQ=false, q='';
-      for (const ch of str) {
-        if ((ch==="'"||ch==='"')) { if (!inQ){ inQ=true; q=ch; } else if (q===ch){ inQ=false; } buf+=ch; continue; }
-        if (ch===',' && !inQ){ parts.push(buf.trim()); buf=''; } else { buf+=ch; }
-      }
-      if (buf.trim()) parts.push(buf.trim());
-      return parts;
+    const PRESETS = [
+      { label: 'Sans \u2014 Roboto Flex \u2192 Inter \u2192 system-ui',        stack: ["'Roboto Flex'","'Inter'","system-ui","sans-serif"] },
+      { label: 'Serif \u2014 Source Serif 4 \u2192 Spectral \u2192 Georgia',   stack: ["'Source Serif 4'","Spectral","Georgia","serif"] },
+      { label: 'Slab \u2014 Roboto Slab \u2192 Roboto Serif \u2192 Georgia',   stack: ["'Roboto Slab'","'Roboto Serif'","Georgia","serif"] },
+      { label: 'Display \u2014 Fraunces \u2192 Source Serif 4 \u2192 Georgia', stack: ["Fraunces","'Source Serif 4'","Georgia","serif"] },
+      { label: 'Mono \u2014 VT323 \u2192 Courier New',                         stack: ["VT323","'Courier New'","monospace"] },
+      { label: 'Mixed \u2014 Inter \u2192 Source Serif 4 \u2192 Georgia',      stack: ["'Inter'","'Source Serif 4'","Georgia","serif"] }
+    ];
+
+    const clean = s => s.replace(/^['"]|['"]$/g, '');
+
+    // Populate stack presets
+    PRESETS.forEach((p, i) => {
+      const opt = document.createElement('option');
+      opt.value = i;
+      opt.textContent = p.label;
+      stackSel.appendChild(opt);
+    });
+
+    function buildLevels(){
+      const stack = PRESETS[+stackSel.value].stack;
+      const prev = +level.value || 0;
+      level.innerHTML = '';
+      stack.forEach((font, i) => {
+        const opt = document.createElement('option');
+        opt.value = i;
+        opt.textContent = (i === 0 ? 'Primary' : 'Fallback ' + i) + ' \u2014 ' + clean(font);
+        level.appendChild(opt);
+      });
+      level.value = Math.min(prev, stack.length - 1);
     }
 
-    function apply(){
-      const list = parseStack(input.value);
-      const idx = Math.min(+level.value, list.length-1);
-      const reordered = list.slice(idx).concat(list.slice(0, idx)); // rotate so chosen fallback is first
-      sample.style.fontFamily = reordered.join(', ');
-      out.textContent = 'Now showing stack level ' + idx + ': ' + (list[idx] || '(generic)');
+    function showLevel(){
+      const stack = PRESETS[+stackSel.value].stack;
+      const idx = +level.value;
+      // Show only from the selected level onward for accurate fallback simulation
+      sample.style.fontFamily = stack.slice(idx).join(', ');
+      out.textContent = 'Showing level ' + idx + ': ' + clean(stack[idx]);
     }
-    input.addEventListener('input', apply);
-    level.addEventListener('change', apply);
-    apply();
+
+    stackSel.addEventListener('change', () => { buildLevels(); showLevel(); });
+    level.addEventListener('change', showLevel);
+    buildLevels();
+    showLevel();
   }
 
   // --- B) Contrast Checker (WCAG) ---
   const cc = document.querySelector('.tool-contrast');
   if (cc) {
-    const t = cc.querySelector('.cc-text');
-    const b = cc.querySelector('.cc-bg');
-    const s = cc.querySelector('.cc-size');
+    const t  = cc.querySelector('.cc-text');
+    const b  = cc.querySelector('.cc-bg');
+    const tp = cc.querySelector('.cc-text-picker');
+    const bp = cc.querySelector('.cc-bg-picker');
+    const swapBtn = cc.querySelector('.cc-swap');
+    const s  = cc.querySelector('.cc-size');
     const sample = cc.querySelector('.cc-sample');
     const out = cc.querySelector('.cc-out');
 
@@ -414,19 +473,46 @@ document.querySelectorAll('.slider').forEach(sl => {
       const big = Math.max(L1,L2), small = Math.min(L1,L2);
       return (big + 0.05) / (small + 0.05);
     }
+
+    function syncPickers(){
+      if (tp && /^#[0-9a-f]{6}$/i.test(t.value)) tp.value = t.value;
+      if (bp && /^#[0-9a-f]{6}$/i.test(b.value)) bp.value = b.value;
+    }
+
     function paint(){
       const tc = t.value, bc = b.value;
       const r = ratio(tc, bc);
       sample.style.color = tc;
       sample.style.background = bc;
-      if (!r){ out.textContent = 'Ratio: — (check your hex values)'; return; }
+      out.classList.remove('cc-pass','cc-warn','cc-fail');
+      if (!r){ out.textContent = 'Ratio: \u2014 (enter valid hex, e.g. #1b1b1b)'; return; }
       const r2 = Math.round(r*100)/100;
       const large = (s.value==='large');
-      const passAA = r >= (large?3:4.5);
-      const passAAA = r >= (large?4.5:7);
-      out.textContent = `Ratio: ${r2}  —  AA ${passAA?'✓':'✕'}  •  AAA ${passAAA?'✓':'✕'}  (${large?'Large text':'Normal text'})`;
+      const passAA  = r >= (large ? 3 : 4.5);
+      const passAAA = r >= (large ? 4.5 : 7);
+      out.textContent = `Ratio: ${r2}:1  \u2014  AA ${passAA?'\u2713':'\u2715'}  \u2022  AAA ${passAAA?'\u2713':'\u2715'}  (${large?'Large text':'Normal text'})`;
+      out.classList.add(passAAA ? 'cc-pass' : passAA ? 'cc-warn' : 'cc-fail');
     }
-    [t,b,s].forEach(el => el.addEventListener('input', paint));
+
+    // Text inputs
+    [t, b].forEach(el => el.addEventListener('input', () => { syncPickers(); paint(); }));
+    s.addEventListener('input', paint);
+
+    // Color pickers
+    if (tp) tp.addEventListener('input', () => { t.value = tp.value; paint(); });
+    if (bp) bp.addEventListener('input', () => { b.value = bp.value; paint(); });
+
+    // Swap button
+    if (swapBtn) {
+      swapBtn.addEventListener('click', () => {
+        const tmp = t.value;
+        t.value = b.value;
+        b.value = tmp;
+        syncPickers();
+        paint();
+      });
+    }
+
     paint();
   }
 })();

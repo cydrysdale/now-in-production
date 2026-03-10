@@ -33,7 +33,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&amp;family=Fredericka+the+Great&amp;family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&amp;family=Recursive:wght@300..1000&amp;family=Roboto+Flex:opsz,wght@8..144,100..1000&amp;family=Roboto+Serif:ital,opsz,wght@0,8..144,100..900;1,8..144,100..900&amp;family=Roboto+Slab:wght@100..900&amp;family=Roboto:ital,wght@0,100..900;1,100..900&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&amp;family=VT323&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&amp;family=Fredericka+the+Great&amp;family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&amp;family=Recursive:slnt,wght@-15..0,300..1000&amp;family=Roboto+Flex:opsz,slnt,wdth,wght@8..144,-10..0,75..125,100..1000&amp;family=Roboto+Serif:ital,opsz,wdth,wght@0,8..144,75..125,100..900;1,8..144,75..125,100..900&amp;family=Roboto+Slab:wght@100..900&amp;family=Roboto:ital,wght@0,100..900;1,100..900&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&amp;family=VT323&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/style.css">
   <script src="../assets/js/core.js" defer></script>
   <script src="../assets/js/widgets.js" defer></script>
@@ -486,9 +486,8 @@
         <!-- Type Anatomy Explorer -->
 	        <div class="mini-widget" id="anatomyExplorer" aria-labelledby="anatomyTitle">
 	          <h3 id="anatomyTitle">Type Anatomy Explorer</h3>
-	          <p class="muted"><strong>Mission:</strong> click three labels, then imagine you're comparing two “Garamonds.” Which parts would change the voice? Which changes might break a layout?</p>
 	          <div style="position: relative; max-width: 620px; margin: 0 auto;">
-            <svg id="anatomySvg" viewBox="0 0 620 320" style="width:100%; height:auto; display:block;" aria-label="Anatomy of the letter R and p showing labeled typographic parts">
+            <svg id="anatomySvg" viewBox="0 65 620 250" style="width:100%; height:auto; display:block;" aria-label="Anatomy of the letter R and p showing labeled typographic parts">
               <defs>
                 <marker id="arrowUp" viewBox="0 0 10 10" refX="5" refY="10" markerWidth="6" markerHeight="6" orient="auto">
                   <path d="M0,10 L5,0 L10,10" fill="var(--accent)"/>
@@ -557,8 +556,6 @@
             <em>Click a label above to learn about that part of the letterform.</em>
           </div>
 	        </div>
-	
-	        <p class="muted small">Story beat: craft becomes code. The parts above become outlines, tables, and metrics in a file—exactly the things licenses and audits care about.</p>
 	
 	        <h3>What's inside a font file?</h3>
 		        <details class="tip" aria-label="Under the Hood: Font File Internals">
@@ -667,8 +664,8 @@
             <label>Font
               <select class="feature-lab__font">
                 <optgroup label="Sans Serif">
-                  <option value="roboto" selected>Roboto</option>
-                  <option value="roboto-flex">Roboto Flex</option>
+                  <option value="roboto">Roboto</option>
+                  <option value="roboto-flex" selected>Roboto Flex</option>
                   <option value="inter">Inter</option>
                   <option value="recursive">Recursive</option>
                 </optgroup>
@@ -695,13 +692,15 @@
           </div>
 
           <div class="feature-lab__axes" role="group" aria-label="Variable font axes">
-            <label>Weight <input type="range" min="300" max="900" value="400" step="1" data-axis="wght"></label>
-            <label>Width <input type="range" min="75" max="125" value="100" step="1" data-axis="wdth"></label>
-            <label>Optical Size <input type="range" min="8" max="72" value="14" step="1" data-axis="opsz"></label>
-            <label>Slant <input type="range" min="-15" max="0" value="0" step="1" data-axis="slnt"></label>
+            <label>Weight <input type="range" min="100" max="1000" value="400" step="1" data-axis="wght"><output>400</output></label>
+            <label>Width <input type="range" min="75" max="125" value="100" step="1" data-axis="wdth"><output>100</output></label>
+            <label>Optical Size <input type="range" min="8" max="144" value="14" step="1" data-axis="opsz"><output>14</output></label>
+            <label>Slant <input type="range" min="-15" max="0" value="0" step="1" data-axis="slnt"><output>0</output></label>
           </div>
 
-	          <div class="feature-lab__card roboto-serif-demo">
+          <button type="button" class="feature-lab__reset" aria-label="Reset all controls to defaults">Reset</button>
+
+	          <div class="feature-lab__card">
 	            <p class="feature-lab__sample" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Editable OpenType sample text" spellcheck="false">
 	              Office 0123456789 — affine office; efficient. <br>
 	              Find five fine ligatures: fi fl ffi ffl. <br>
@@ -718,33 +717,35 @@
             <div class="card tool-stack" role="group" aria-label="Fallback Stack Tester">
               <h4>Fallback Stack Tester</h4>
               <p class="small">Simulate how copy looks at different points in your stack.</p>
-              <label>Font stack (CSS syntax)
-                <input type="text" class="stack-input" value="'Roboto Flex', 'Source Serif 4', Georgia, serif">
+              <label>Font stack
+                <select class="stack-input"></select>
               </label>
               <label>Show which level?
-                <select class="stack-level">
-                  <option value="0" selected>Primary</option>
-                  <option value="1">Fallback 1</option>
-                  <option value="2">Fallback 2</option>
-                  <option value="3">Generic</option>
-                </select>
+                <select class="stack-level" aria-label="Select fallback level"></select>
               </label>
 	              <div class="stack-sample" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Editable fallback stack sample text" spellcheck="false">
 	                The quick brown fox jumps over 123,456 lazy dogs — AA/AAA contrast and tabular figures matter in UI.
 	              </div>
-	              <output class="stack-out small" aria-live="polite"></output>
+	              <output class="stack-out" aria-live="polite"></output>
 	            </div>
 
             <div class="card tool-contrast" role="group" aria-label="Contrast Checker">
               <h4>Contrast Checker</h4>
               <p class="small">Check WCAG contrast for text vs. background.</p>
-              <div class="row">
+              <div class="cc-colors">
                 <label>Text color
-                  <input type="text" class="cc-text" value="#1b1b1b">
+                  <span class="cc-pair">
+                    <input type="color" class="cc-text-picker" value="#1b1b1b">
+                    <input type="text" class="cc-text" value="#1b1b1b">
+                  </span>
                 </label>
                 <label>Background
-                  <input type="text" class="cc-bg" value="#ffffff">
+                  <span class="cc-pair">
+                    <input type="color" class="cc-bg-picker" value="#ffffff">
+                    <input type="text" class="cc-bg" value="#ffffff">
+                  </span>
                 </label>
+                <button type="button" class="cc-swap" aria-label="Swap text and background colors" title="Swap colors">&#x21c4;</button>
               </div>
               <label>Size
                 <select class="cc-size">
@@ -752,8 +753,8 @@
                   <option value="large">Large (&gt;=18.66px regular or &gt;=14px bold)</option>
                 </select>
               </label>
-              <div class="cc-sample">Sample: 0123456789 ABC abc — $1,234.56</div>
-                <output class="cc-out" aria-live="polite">Ratio: —</output>
+              <div class="cc-sample" contenteditable="true" role="textbox" aria-label="Editable contrast sample text" spellcheck="false">Sample: 0123456789 ABC abc — $1,234.56</div>
+              <output class="cc-out" aria-live="polite">Ratio: —</output>
             </div>
           </div>
         </div>
