@@ -1,5 +1,5 @@
 /*
-  core.js — combined site behaviors for the RGB → CMYK guide
+  core.js—combined site behaviors for the RGB → CMYK guide
 
   Includes:
     1) Theme toggle (button or switch) with OS-preference sync

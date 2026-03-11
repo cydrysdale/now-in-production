@@ -1,6 +1,6 @@
 /*
   NOTE: Source moved to `assets/js/sandbox.js`. This header is kept with the file.
-  sandbox.js — interactive color sandbox for the RGB → CMYK guide
+  sandbox.js—interactive color sandbox for the RGB → CMYK guide
 
   What this does
   --------------
@@ -8,7 +8,7 @@
   • Converts the color along a simplified pipeline:
       HEX (sRGB) → linear sRGB → XYZ (D65) → Bradford-adapted XYZ (D50) → Lab (D50)
   • Applies *approximate* rendering-intent transforms in Lab to illustrate why different
-    intents produce different printed colors (educational only — not a true ICC CMM).
+    intents produce different printed colors (educational only—not a true ICC CMM).
   • Converts back to linear sRGB and to an *approximate* CMYK (device-independent,
     K-under-color-removal with simple GCR). This is just for demo—not press-ready.
 
@@ -36,9 +36,9 @@
     return [parseInt(m[1],16)/255, parseInt(m[2],16)/255, parseInt(m[3],16)/255];
   }
 
-  // IEC 61966-2-1 sRGB electro‑optical transfer function (EOTF) — companding removal
+  // IEC 61966-2-1 sRGB electro‑optical transfer function (EOTF)—companding removal
   function srgbToLinear(c) { return (c <= 0.04045) ? (c/12.92) : Math.pow((c+0.055)/1.055, 2.4); }
-  // sRGB inverse transfer function — companding to display space
+  // sRGB inverse transfer function—companding to display space
   function linearToSrgb(c) { return (c <= 0.0031308) ? (12.92*c) : (1.055*Math.pow(c, 1/2.4) - 0.055); }
 
   // Multiply a 3×3 matrix by a 3×1 vector (column-major math)
@@ -116,7 +116,7 @@
   }
 
   // Educational CMYK: convert linear RGB → display RGB, then to CMYK with simple GCR
-  // Note: This is device-independent & for illustration only — not using an ICC printer profile.
+  // Note: This is device-independent & for illustration only—not using an ICC printer profile.
   function rgbLinear_to_cmyk(lin) {
     const sr = Math.min(Math.max((lin[0] <= 0.0031308) ? (12.92*lin[0]) : (1.055*Math.pow(lin[0],1/2.4)-0.055),0),1);
     const sg = Math.min(Math.max((lin[1] <= 0.0031308) ? (12.92*lin[1]) : (1.055*Math.pow(lin[1],1/2.4)-0.055),0),1);
@@ -137,15 +137,15 @@
     return [r,g,b];
   }
 
-  // Intent: Perceptual (approximate) — compress gamut softly in L and chroma
+  // Intent: Perceptual (approximate)—compress gamut softly in L and chroma
   function intent_perceptual([L,a,b]) { return [L*0.96 + 0.9, a*0.96, b*0.93]; }
-  // Intent: Saturation (approximate) — favor punchy chroma, less tone accuracy
+  // Intent: Saturation (approximate)—favor punchy chroma, less tone accuracy
   function intent_saturation([L,a,b]) { return [L*0.96 + 1.1, a*1.09, b*1.08]; }
-  // Intent: Relative Colorimetric (approximate) — clip out-of-gamut, white-point scaled
+  // Intent: Relative Colorimetric (approximate)—clip out-of-gamut, white-point scaled
   function intent_relative([L,a,b]) { return [L*0.96 + 0.9, a*1.09, b*1.08]; }
-  // Intent: Absolute Colorimetric (approximate) — preserve in-gamut, absolute white point
+  // Intent: Absolute Colorimetric (approximate)—preserve in-gamut, absolute white point
   function intent_absolute([L,a,b]) { return [L*1.11 + 0.2, a*1.17, b*1.05]; }
-  // Intent: Naive — no transform, just show the baseline Lab
+  // Intent: Naive—no transform, just show the baseline Lab
   function intent_naive(Lab) { return Lab.slice(); }
 
   // HEX → Lab (D50) via: HEX→sRGB→linear→XYZ(D65)→Bradford→XYZ(D50)→Lab(D50)
@@ -207,7 +207,7 @@
     });
   }
 
-  // DOM wiring — guarded so the file is safe to include site‑wide
+  // DOM wiring—guarded so the file is safe to include site‑wide
   document.addEventListener('DOMContentLoaded', () => {
     const input = document.getElementById('hexInput');
     const btn   = document.getElementById('convertBtn');

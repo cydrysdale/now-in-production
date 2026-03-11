@@ -1,5 +1,5 @@
 /*!
- * Freelance Font Pack — optional game overlay for "Who Owns the Alphabet"
+ * Fontopoly—optional game overlay for "Who Owns the Alphabet"
  * No deps. No-ops if #caseFile is absent. localStorage for persistence.
  */
 (function () {
@@ -56,37 +56,37 @@
   /* ── change order decks ── */
   const CO_DECKS = {
     'the-letters-before-us': [
-      { type: 'helpful', text: 'A colleague shared their font subscription login — head start on research.', fx: null },
+      { type: 'helpful', text: 'A colleague shared their font subscription login—head start on research.', fx: null },
       { type: 'helpful', text: 'The client provided a clear brand brief with font preferences listed. Less guesswork.', fx: null },
       { type: 'complication', text: 'The client wants a "unique" font but has zero budget for licensing.', fx: null },
       { type: 'complication', text: 'The deadline just moved up by two weeks. No time for extended trials.', fx: null },
-      { type: 'helpful', text: 'You found a comprehensive type specimen archive — faster shortlisting.', fx: null },
+      { type: 'helpful', text: 'You found a comprehensive type specimen archive—faster shortlisting.', fx: null },
       { type: 'complication', text: 'The client\'s existing brand uses a font that\'s been discontinued. Replacement needed.', fx: null }
     ],
     'letters-as-objects': [
-      { type: 'helpful', text: 'A senior designer already has a desktop license for one of your shortlist fonts — one fewer seat to buy.', fx: null },
-      { type: 'helpful', text: 'You inherited specimen sheets from a retired designer — free reference material.', fx: null },
+      { type: 'helpful', text: 'A senior designer already has a desktop license for one of your shortlist fonts—one fewer seat to buy.', fx: null },
+      { type: 'helpful', text: 'You inherited specimen sheets from a retired designer—free reference material.', fx: null },
       { type: 'complication', text: 'The client wants "that classic Garamond feel" but three foundries cut it differently. Extra research needed.', fx: null },
       { type: 'complication', text: 'Your primary font\'s free trial just expired. Remove your Desktop pass if you had one.', fx: { revokePass: 'desktop' } },
-      { type: 'helpful', text: 'A type history blog post confirmed your era research — confidence boost on the shortlist.', fx: null },
+      { type: 'helpful', text: 'A type history blog post confirmed your era research—confidence boost on the shortlist.', fx: null },
       { type: 'complication', text: 'Your shortlist font has no italic cut. You need a companion or alternative.', fx: null },
       { type: 'complication', text: 'The client insists on a "Gutenberg-style" font. Nothing matches; manage expectations.', fx: null }
     ],
     'the-foundry-age': [
-      { type: 'helpful', text: 'The agency already licensed a web tier — you inherit web coverage.', fx: { grantPass: 'web' } },
+      { type: 'helpful', text: 'The agency already licensed a web tier—you inherit web coverage.', fx: { grantPass: 'web' } },
       { type: 'helpful', text: 'Legal agreed to review your EULA before launch. One less task.', fx: null },
       { type: 'complication', text: 'The foundry was acquired; new parent changed EULA terms. Re-verify everything.', fx: null },
       { type: 'complication', text: 'Your web pass expired when the aggregator subscription lapsed. Lose your Web pass.', fx: { revokePass: 'web' } },
-      { type: 'helpful', text: 'The foundry offers a 30-day free trial — you can test before committing.', fx: null },
+      { type: 'helpful', text: 'The foundry offers a 30-day free trial—you can test before committing.', fx: null },
       { type: 'complication', text: 'Two shortlist fonts are from the same foundry but on different license tiers. Confusing paperwork ahead.', fx: null },
       { type: 'helpful', text: 'A designer friend recommends a lesser-known foundry with better terms and similar quality.', fx: null }
     ],
     'letters-as-software': [
       { type: 'complication', text: 'Scope creep! The client now wants an app embed. "App" added to your required channels.', fx: { addChannel: 'app' } },
       { type: 'complication', text: 'Traffic projections doubled. If web is required, your tier just went from low to high.', fx: { upgradeTraffic: true } },
-      { type: 'helpful', text: 'One shortlist font is SIL OFL — no per-seat desktop cost. Free Desktop pass.', fx: { grantPass: 'desktop' } },
+      { type: 'helpful', text: 'One shortlist font is SIL OFL—no per-seat desktop cost. Free Desktop pass.', fx: { grantPass: 'desktop' } },
       { type: 'helpful', text: 'The client\'s developer already set up proper @font-face with WOFF2. Web delivery is handled.', fx: { grantPass: 'web' } },
-      { type: 'helpful', text: 'Your shortlist font ships with a pre-built WOFF2 subset — lighter web delivery, no extra tooling.', fx: null },
+      { type: 'helpful', text: 'Your shortlist font ships with a pre-built WOFF2 subset—lighter web delivery, no extra tooling.', fx: null },
       { type: 'complication', text: 'The client\'s CMS strips @font-face declarations on deploy. You need a workaround.', fx: null },
       { type: 'complication', text: 'Your shortlist font\'s variable version has a different EULA than its static weights. Double-check scope.', fx: null }
     ],
@@ -96,20 +96,20 @@
       { type: 'complication', text: 'The aggregator subscription lapsed 6 months ago. Lose your Server pass if you had one.', fx: { revokePass: 'server' } },
       { type: 'helpful', text: 'Your Google Fonts pick covers all channels under OFL. Free Server pass.', fx: { grantPass: 'server' } },
       { type: 'helpful', text: 'The client already uses a font management tool with license tracking built in. Easier audit trail.', fx: null },
-      { type: 'complication', text: 'The indie foundry you picked just got acquired. New owner, new terms — re-verify your EULA.', fx: null },
+      { type: 'complication', text: 'The indie foundry you picked just got acquired. New owner, new terms—re-verify your EULA.', fx: null },
       { type: 'helpful', text: 'Your shortlist OFL font has excellent multi-script coverage. One less worry for the global rollout.', fx: null }
     ],
     'rules-of-the-game': [
       { type: 'complication', text: 'The broadcast team needs the font for a TV campaign. "Broadcast" added to your channels.', fx: { addChannel: 'broadcast' } },
       { type: 'helpful', text: 'You discover the client holds a forgotten server-render license. Free Server pass.', fx: { grantPass: 'server' } },
-      { type: 'complication', text: 'A compliance letter arrived — they detected unlicensed web usage. Lose your Web pass.', fx: { revokePass: 'web' } },
+      { type: 'complication', text: 'A compliance letter arrived—they detected unlicensed web usage. Lose your Web pass.', fx: { revokePass: 'web' } },
       { type: 'helpful', text: 'The client\'s legal team already has a font management policy. Your job just got easier.', fx: null },
-      { type: 'helpful', text: 'Legal has a font licensing template ready — saves a week of review.', fx: null },
+      { type: 'helpful', text: 'Legal has a font licensing template ready—saves a week of review.', fx: null },
       { type: 'complication', text: 'The client operates in the EU. Registered design protection adds a wrinkle to your plan.', fx: null },
       { type: 'complication', text: 'A vendor claims they have rights to share fonts but can\'t produce any paperwork. Freeze sharing.', fx: null }
     ],
     'future-of-letters': [
-      { type: 'helpful', text: 'Your primary font is variable — one file covers all weights. Performance win and simpler licensing.', fx: null },
+      { type: 'helpful', text: 'Your primary font is variable—one file covers all weights. Performance win and simpler licensing.', fx: null },
       { type: 'complication', text: 'The client wants CJK support added. Licensing costs and file sizes just ballooned.', fx: null },
       { type: 'helpful', text: 'The open-source community just released a quality variable serif that fits your brief perfectly.', fx: { grantPass: 'desktop' } },
       { type: 'complication', text: 'The client\'s brand refresh now needs to support 12 writing systems. Massive scope change.', fx: null },
@@ -137,26 +137,26 @@
     'letters-as-objects': {
       takeaways: [
         'Before licensing, the cost of making type was its own protection.',
-        'A "font" was a physical set of metal sorts — ownership meant owning metal.',
+        'A "font" was a physical set of metal sorts—ownership meant owning metal.',
         'The first U.S. design patent (D1, 1842) was for a typeface.'
       ],
       q: 'A rival printer in 1480 wants your typeface. What stops them?',
       opts: [
         { id: 'a', text: 'Copyright law', correct: false },
-        { id: 'b', text: 'They\'d need to re-cut steel punches — years of work', correct: true },
+        { id: 'b', text: 'They\'d need to re-cut steel punches—years of work', correct: true },
         { id: 'c', text: 'Royal decree forbids copying fonts', correct: false }
       ],
       why: 'Before modern IP law, the cost and skill of cutting steel punches was the primary barrier. Copyright for typeface designs still doesn\'t exist in most places.'
     },
     'the-foundry-age': {
       takeaways: [
-        'Foundries became ecosystems — your foundry relationship defined your access.',
+        'Foundries became ecosystems—your foundry relationship defined your access.',
         'Different foundries\' cuts of the "same" typeface differ in metrics and feel.',
         'Classification systems gave designers a shared vocabulary for choosing type.'
       ],
       q: 'Client says "use Garamond." What do you confirm first?',
       opts: [
-        { id: 'a', text: 'Which foundry\'s cut — they have different metrics', correct: true },
+        { id: 'a', text: 'Which foundry\'s cut—they have different metrics', correct: true },
         { id: 'b', text: 'Whether Garamond is still under patent', correct: false },
         { id: 'c', text: 'Whether Garamond works on Macs', correct: false }
       ],
@@ -170,17 +170,17 @@
       ],
       q: 'Your dev copies a competitor\'s .otf and renames it. Legal?',
       opts: [
-        { id: 'a', text: 'Yes — the name change makes it new', correct: false },
-        { id: 'b', text: 'No — the file is protected software regardless of filename', correct: true },
+        { id: 'a', text: 'Yes—the name change makes it new', correct: false },
+        { id: 'b', text: 'No—the file is protected software regardless of filename', correct: true },
         { id: 'c', text: 'Only if the shapes are public domain', correct: false }
       ],
-      why: 'Renaming doesn\'t relicense. Font files are software — copying is infringement even when the letter shapes aren\'t copyrightable.'
+      why: 'Renaming doesn\'t relicense. Font files are software—copying is infringement even when the letter shapes aren\'t copyrightable.'
     },
     'who-controls-type': {
       takeaways: [
         'Source (indie, aggregator, OFL) affects terms, support, and future-proofing.',
-        'Even OFL fonts have rules — attribution, reserved names, modification docs.',
-        'Budget for type like imagery — plan a core set plus project-specific.'
+        'Even OFL fonts have rules—attribution, reserved names, modification docs.',
+        'Budget for type like imagery—plan a core set plus project-specific.'
       ],
       q: 'You\'re using an OFL font. What\'s still required?',
       opts: [
@@ -193,13 +193,13 @@
     'rules-of-the-game': {
       takeaways: [
         'Licenses define what you can do per channel, where, and at what scale.',
-        'Jurisdiction matters — U.S., EU, and UK protect type differently.',
+        'Jurisdiction matters—U.S., EU, and UK protect type differently.',
         'When inheriting a brand, verify the rights you actually hold.'
       ],
       q: 'Your site exceeds the font\'s 250K page-view web license. What happens?',
       opts: [
-        { id: 'a', text: 'Nothing — web fonts are free once cached', correct: false },
-        { id: 'b', text: 'You\'re out of scope — true-up to a higher tier', correct: true },
+        { id: 'a', text: 'Nothing—web fonts are free once cached', correct: false },
+        { id: 'b', text: 'You\'re out of scope—true-up to a higher tier', correct: true },
         { id: 'c', text: 'The font stops rendering automatically', correct: false }
       ],
       why: 'Web licenses are tiered by page views. Exceeding your tier means you\'re out of compliance. The font still renders, but you\'re unlicensed.'
@@ -223,11 +223,11 @@
 
   /* ── 5-rule cheat sheet ── */
   const CHEAT_SHEET = [
-    'Verify rights by channel before shipping — desktop, web, app, server, broadcast are separate.',
+    'Verify rights by channel before shipping—desktop, web, app, server, broadcast are separate.',
     'Confirm the foundry and file version, not just the typeface name.',
-    'Keep invoices/EULAs with the project — treat fonts like any dependency.',
-    'Rename doesn\'t relicense — copying a font file is infringement regardless of filename.',
-    'Budget for type like imagery — plan a core set and add project-specific licenses.'
+    'Keep invoices/EULAs with the project—treat fonts like any dependency.',
+    'Rename doesn\'t relicense—copying a font file is infringement regardless of filename.',
+    'Budget for type like imagery—plan a core set and add project-specific licenses.'
   ];
 
   /* ═══════════════════════════════════════
@@ -312,11 +312,11 @@
       root.innerHTML =
         '<details class="chance" id="caseFileDetails">' +
           '<summary class="chance-summary">' +
-            '<span class="chance-title">&#128188; Freelance Font Pack — Optional Case File Game</span>' +
+            '<span class="chance-title">&#128188; Fontopoly—Optional Case File Game</span>' +
           '</summary>' +
           '<div class="chance-content">' +
             '<p><strong>Want to play while you read?</strong> You\'re a freelance designer shipping a mini rebrand. Your job: source and use fonts compliantly across the channels the project needs.</p>' +
-            '<p>Roll a brief to get random project constraints. As you read each section, collect <strong>Community Chest</strong> (knowledge), <strong>Passes</strong> (channel rights), and <strong>Receipts</strong> (paper trail). At the end, see if your Case File has everything — or get a (very expensive) invoice for what\'s missing.</p>' +
+            '<p>Roll a brief to get random project constraints. As you read each section, collect <strong>Community Chest</strong> (knowledge), <strong>Passes</strong> (channel rights), and <strong>Receipts</strong> (paper trail). At the end, see if your Case File has everything—or get a (very expensive) invoice for what\'s missing.</p>' +
             '<p class="muted small">The guide works perfectly without the game. This is just a fun overlay.</p>' +
             '<button class="btn" type="button" id="rollBriefBtn">Roll the Brief</button>' +
           '</div>' +
@@ -602,9 +602,9 @@
     var needed = S.brief ? S.brief.channels.map(function (c) { return CH_LABEL[c]; }).join(', ') + (S.brief.vendors ? ', Vendors' : '') : '';
 
     container.innerHTML =
-      '<details class="tip" style="margin-top:.75rem;">' +
-        '<summary><strong>&#127915; Railroad Passes (game)</strong></summary>' +
-        '<div class="mini-widget" style="margin-top:.5rem;">' +
+      '<details class="game-task" style="margin-top:.75rem;">' +
+        '<summary class="game-task-summary"><span class="game-task-title">&#127915; Railroad Passes</span></summary>' +
+        '<div class="game-task-content">' +
           '<p class="muted small" style="margin-top: 0;">Name the channel, earn the pass.' + (needed ? ' <strong>Your brief requires:</strong> ' + needed : '') + '</p>' +
           '<div id="passScenariosList"></div>' +
         '</div>' +
@@ -657,11 +657,11 @@
       list.appendChild(vDiv);
     }
 
-    // Boss Fight prompt
+    // Jail: Compliance Audit prompt
     var prompt = document.createElement('p');
     prompt.className = 'muted small';
     prompt.style.marginTop = '.75rem';
-    prompt.innerHTML = '<strong>Bonus:</strong> Open the <em>"If a Compliance Letter Arrives"</em> section above and complete the Boss Fight audit quiz to earn a bonus stamp.';
+    prompt.innerHTML = '<strong>Bonus:</strong> Open the <em>"If a Compliance Letter Arrives"</em> section above and complete the Jail audit quiz to earn a bonus stamp.';
     list.appendChild(prompt);
   }
 
@@ -725,9 +725,9 @@
     if (!S.active) return;
 
     container.innerHTML =
-      '<details class="tip" style="margin-top:.75rem;">' +
-        '<summary><strong>&#128203; Paper Trail Receipt (game)</strong></summary>' +
-        '<div class="mini-widget" style="margin-top:.5rem;">' +
+      '<details class="game-task" style="margin-top:.75rem;">' +
+        '<summary class="game-task-summary"><span class="game-task-title">&#128203; Paper Trail Receipt</span></summary>' +
+        '<div class="game-task-content">' +
           '<p class="muted small" style="margin-top: 0;">Check off what you\'ve confirmed for your project fonts.</p>' +
           '<div style="display:grid; gap:.5rem; margin-top:.5rem;">' +
             '<label class="receipt-check"><input type="checkbox" id="receipt-source"' + (S.receipts.source ? ' checked' : '') + '> Confirmed where each font came from (foundry, aggregator, or OFL)</label>' +
@@ -755,16 +755,16 @@
 
     if (!S.active) {
       container.innerHTML =
-        '<details class="tip" style="margin-top:1rem;">' +
-          '<summary><strong>&#128230; Portfolio Printout</strong></summary>' +
-          '<div><p class="muted">Roll a brief in the GO section to generate your portfolio and invoice.</p></div>' +
+        '<details class="game-task" style="margin-top:1rem;">' +
+          '<summary class="game-task-summary"><span class="game-task-title">&#128230; Portfolio Printout</span></summary>' +
+          '<div class="game-task-content"><p class="muted">Roll a brief in the GO section to generate your portfolio and invoice.</p></div>' +
         '</details>';
       return;
     }
 
     container.innerHTML =
       '<details class="chance" style="margin-top:1rem;" id="portfolioDetails">' +
-        '<summary class="chance-summary"><span class="chance-title">&#128230; Ship-It Packet &amp; Invoice</span></summary>' +
+        '<summary class="chance-summary"><span class="chance-title">&#128230; Fontopoly: Final Invoice</span></summary>' +
         '<div class="chance-content">' +
           '<div id="portfolioPacket"></div>' +
           '<div id="portfolioInvoice" style="margin-top:1rem;"></div>' +
@@ -788,7 +788,7 @@
     var total = dc + pc + sc + rc;
 
     // Packet
-    var p = '<h4 style="margin:0 0 .5rem;">&#10004; Ship-It Packet</h4>';
+    var p = '<h4 style="margin:0 0 .5rem;">&#10004; Title Deed Summary</h4>';
     p += '<p><strong>' + total + '</strong> artifacts collected.</p>';
 
     if (dc) {
@@ -834,7 +834,7 @@
     if (allMet) {
       invoice.innerHTML =
         '<div class="invoice-clear">' +
-          '<h4 style="margin:0; color:#166534;">&#127881; Clean Invoice — You shipped it!</h4>' +
+          '<h4 style="margin:0; color:#166534;">&#127881; Clean Invoice—You shipped it!</h4>' +
           '<p style="margin:.5rem 0 0;">Your Case File covers every requirement in the brief. No missing items. No surprise fees.</p>' +
         '</div>';
     } else {
@@ -845,7 +845,9 @@
           '<thead><tr><th style="text-align:left; padding:6px 8px; border-bottom:2px solid #991b1b;">Missing Item</th>' +
           '<th style="text-align:right; padding:6px 8px; border-bottom:2px solid #991b1b;">Cost</th></tr></thead><tbody>';
       var ci = 0;
-      function cost() { return COSTS[ci++ % COSTS.length]; }
+      var runningTotal = 0;
+      function parseCost(s) { return parseFloat(s.replace(/[$,]/g, '')); }
+      function cost() { var c = COSTS[ci++ % COSTS.length]; runningTotal += parseCost(c); return c; }
       m.channels.forEach(function (ch) {
         ih += '<tr><td class="invoice-cell">&#127915; ' + CH_LABEL[ch] + ' pass</td><td class="invoice-cost">' + cost() + '</td></tr>';
       });
@@ -855,7 +857,47 @@
         var l = r === 'source' ? 'Font source confirmation' : r === 'eula' ? 'EULA/invoice' : 'Renewals owner';
         ih += '<tr><td class="invoice-cell">&#128203; ' + l + '</td><td class="invoice-cost">' + cost() + '</td></tr>';
       });
-      ih += '</tbody></table></div>';
+
+      // Subtotal
+      var fmtMoney = function (n) { return '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','); };
+      ih += '<tr style="border-top:2px solid #991b1b;"><td class="invoice-cell" style="font-weight:700;">Subtotal</td>' +
+        '<td class="invoice-cost" style="font-weight:700;">' + fmtMoney(runningTotal) + '</td></tr>';
+
+      // Ridiculous fees
+      var FEES = [
+        'Glyph Finder\'s Fee',
+        'Retroactive Licensing Surcharge',
+        'Emergency Kerning Adjustment',
+        'Typographic Negligence Penalty',
+        'Per-Pixel Rendering Levy',
+        'Administrative Overshoot',
+        'Ligature Reconnection Fee',
+        'Unicode Coverage Surcharge',
+        'Audit Convenience Fee',
+        'PDF Paperwork Processing Fee',
+        'Cross-Platform Compatibility Tax',
+        'Font Interpolation Recalibration',
+        'Descender Clearance Inspection',
+        'Hinting Remediation Service',
+        'Orphan Glyph Rehoming Fee'
+      ];
+      // Pick 3–5 random fees using the seeded RNG if available, otherwise shuffle
+      var feeRng = mulberry32(runningTotal);
+      var picked = shuffle(FEES, feeRng).slice(0, 3 + Math.floor(feeRng() * 3));
+      picked.forEach(function (fee) {
+        var amt = Math.floor(feeRng() * 48000 + 2000) + 0.99;
+        runningTotal += amt;
+        ih += '<tr><td class="invoice-cell" style="font-style:italic; padding-left:1.5rem;">' + fee + '</td>' +
+          '<td class="invoice-cost">' + fmtMoney(amt) + '</td></tr>';
+      });
+
+      // Grand total
+      ih += '<tr style="border-top:3px double #991b1b;"><td class="invoice-cell" style="font-weight:900; font-size:1.05em;">Total Owed</td>' +
+        '<td class="invoice-cost" style="font-weight:900; font-size:1.05em;">' + fmtMoney(runningTotal) + '</td></tr>';
+
+      ih += '</tbody></table>' +
+        '<p class="small muted" style="margin:.75rem 0 0; font-style:italic;">Payment due upon receipt. We accept remorse, retroactive compliance, and checks made out to "The Bank."</p>' +
+        '</div>';
       invoice.innerHTML = ih;
     }
   }
@@ -866,7 +908,7 @@
   function hookStamps() {
     if (!S.active) return;
 
-    // Classification quiz — 3 correct in a row
+    // Classification quiz—3 correct in a row
     var quizStreak = 0;
     var classResult = document.getElementById('classQuizResult');
     if (classResult) {
@@ -884,7 +926,7 @@
       }).observe(classResult, { childList: true, characterData: true, subtree: true });
     }
 
-    // Anatomy explorer — 3 unique parts
+    // Anatomy explorer—3 unique parts
     var anatomyClicked = new Set();
     $$('.anatomy-label').forEach(function (g) {
       g.addEventListener('click', function () {
@@ -896,7 +938,7 @@
       });
     });
 
-    // Feature lab — toggle tnum on
+    // Feature lab—toggle tnum on
     var tnum = $('[data-feature="tnum"]');
     if (tnum) {
       tnum.addEventListener('change', function () {
@@ -907,7 +949,7 @@
       });
     }
 
-    // Boss Fight: audit quiz — award a receipt-style stamp on clear
+    // Jail: audit quiz—award a receipt-style stamp on clear
     var auditOut = document.querySelector('[data-widget="audit-quiz"] .quiz-out');
     if (auditOut) {
       new MutationObserver(function () {

@@ -1,4 +1,4 @@
-/*! Mini Widgets bundle — RuleCard, AuditQuiz
+/*! Mini Widgets bundle—RuleCard, AuditQuiz
  *  Namespace: window.CDWidgets
  *  No deps. Accessible. Vanilla JS.
  */
@@ -18,8 +18,8 @@
   //   <button class="btn" type="button">Draw</button>
   // </section>
   const DEFAULT_DECK = Object.freeze([
-    { t: "Case File — Eltra v. Ringer (1978)", b: "In Eltra v. Ringer (4th Cir. 1978), the court affirmed the U.S. Copyright Office’s refusal to register a typeface design, reasoning that a typeface is an industrial design—not a separable “work of art”—under the 1909 Act’s rules, so the design of the letters isn’t copyrightable. The decision cemented the U.S. position that typeface shapes fall outside ordinary copyright protection." },
-    { t: "Case File — Adobe v. Southern (1998)", b: "In Adobe Systems v. Southern Software (N.D. Cal. 1998), the court held that while typeface designs themselves aren’t copyrightable, the font program—the creative arrangement of Bézier control-point coordinates—is protectable software; Southern Software’s “Veracity” fonts, made by extracting and slightly scaling Adobe Utopia’s coordinates, were therefore infringing. (The court granted Adobe summary judgment on copyright, but not on its design-patent claims.)" },
+    { t: "Case File—Eltra v. Ringer (1978)", b: "In Eltra v. Ringer (4th Cir. 1978), the court affirmed the U.S. Copyright Office’s refusal to register a typeface design, reasoning that a typeface is an industrial design—not a separable “work of art”—under the 1909 Act’s rules, so the design of the letters isn’t copyrightable. The decision cemented the U.S. position that typeface shapes fall outside ordinary copyright protection." },
+    { t: "Case File—Adobe v. Southern (1998)", b: "In Adobe Systems v. Southern Software (N.D. Cal. 1998), the court held that while typeface designs themselves aren’t copyrightable, the font program—the creative arrangement of Bézier control-point coordinates—is protectable software; Southern Software’s “Veracity” fonts, made by extracting and slightly scaling Adobe Utopia’s coordinates, were therefore infringing. (The court granted Adobe summary judgment on copyright, but not on its design-patent claims.)" },
     { t: "History", b: "In 1842, the first U.S. design patent—D1, to type founder George Bruce—covered a typeface, protecting appearance rather than function. It mattered little when copying metal type was slow and costly, but set the pattern: the U.S. may protect the look of letters via design patents, not broad copyright—so modern protection centers on the software font file and licensing." },
     { t: "Font Fact", b: "Arial: In the 1990s, Microsoft commissioned Robin Nicholas and Patricia Saunders at Monotype to design Arial as a “metrics-compatible” twin of Helvetica. Because the shapes themselves couldn’t be copyrighted, Microsoft could sell a Helvetica lookalike bundled with Windows—skirting licensing fees while keeping document layouts identical." },
     { t: "History", b: "Since 2002, the EU’s Community design regime has protected the visual appearance of products—including typographic typefaces—either as Registered Community Designs (renewable in 5-year blocks to a 25-year maximum) or as Unregistered Community Designs lasting 3 years from first disclosure; EUIPO guidance even sets specific filing representations for typefaces. The UK provides parallel design protection and includes typeface-specific provisions in the Copyright, Designs and Patents Act 1988 (e.g., ss. 54–55)." },
@@ -293,7 +293,7 @@
   }));
   if (fontSel) fontSel.addEventListener('change', e => applyFont(e.target.value));
 
-  // Reset button — restore all controls to defaults
+  // Reset button—restore all controls to defaults
   if (resetBtn) {
     resetBtn.addEventListener('click', () => {
       fontSel.value = DEFAULT_FONT;
@@ -529,10 +529,10 @@ document.querySelectorAll('.slider').forEach(sl => {
     const okish = new Set(['printer-only','redraw-lookalike']);
 
     let level = 'ok', msg = 'Likely OK, but confirm your license.';
-    if (vals.some(v => risk.has(v)))      { level='risk'; msg='High risk of violation — check embed/sharing clauses and get proper rights.'; }
+    if (vals.some(v => risk.has(v)))      { level='risk'; msg='High risk of violation—check embed/sharing clauses and get proper rights.'; }
     else if (vals.some(v => warn.has(v))) { level='warn'; msg='Needs review—usage may exceed your terms (installs, page views, conversions).'; }
     else if (vals.length === 0)           { level='';    msg='Select options to see guidance.'; }
-    else if (vals.every(v => okish.has(v))) { level='ok'; msg='Generally acceptable patterns — still verify license specifics.'; }
+    else if (vals.every(v => okish.has(v))) { level='ok'; msg='Generally acceptable patterns—still verify license specifics.'; }
 
     out.classList.remove('is-ok','is-warn','is-risk');
     if (level) out.classList.add('is-'+level);
