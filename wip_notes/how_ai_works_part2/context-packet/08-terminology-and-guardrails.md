@@ -24,6 +24,13 @@ These terms have specific meanings in this guide. Use them consistently and do n
 | **Tasting system** | A reusable evaluation method for judging quality over time (not just checking one output) |
 | **Pre-service meeting** | Pre-AI clarification — thinking before prompting |
 
+### Key Concepts
+
+| Term | Meaning |
+|---|---|
+| **The 80% problem** | Output that is almost right but not quite — fluent, plausible, and structurally wrong in ways that make the rework harder than starting from scratch. This is the core failure mode the guide exists to solve. It is almost always a structural problem (missing acceptance criteria, absent constraints, vague intent), not a prompting problem. |
+| **Quality vs. regression** | Two distinct evaluation questions. **Quality:** "Is this output good?" — assessed against plating standards and house rules for a single instance. **Regression:** "Is this output as good as last month's?" — assessed by comparing current output to a known baseline over time. Quality checks catch bad plates. Regression checks catch a kitchen that's slowly getting worse. The tasting system must address both. |
+
 ### Kitchen Vocabulary
 
 Use these kitchen terms consistently as metaphor anchors:
