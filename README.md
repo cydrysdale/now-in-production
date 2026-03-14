@@ -1,35 +1,33 @@
 # Now in Production
 
-Static HTML guides (GitHub Pages–friendly).
+This repo holds the files for **Now in Production**, a small website of practical guides about design, production, and AI.
 
-## Structure
+You can read it here:
 
-- `index.html` — homepage; builds guide cards by fetching each guide and reading its `<meta>` tags.
-- `guides/` — individual guide pages.
-- `assets/css/` — shared CSS.
-- `assets/js/` — shared JS (`core.js`) and optional widgets (`widgets.js`), plus page-specific helpers like `sandbox.js`.
-- `images/` — shared images/icons (referenced by pages and OpenGraph meta).
+`https://cydrysdale.github.io/now-in-production/`
 
-## Add a Guide
+The project is intentionally simple. The site is plain HTML, CSS, and JavaScript served on GitHub Pages.
 
-1. Create `guides/<your-guide>.html`.
-2. Include shared assets (note the `../`):
-   - CSS: `../assets/css/style.css`
-   - Core JS: `../assets/js/core.js`
-   - Optional widgets: `../assets/js/widgets.js` (only if the page uses rule cards, feature lab, etc.)
-3. Add required metadata so the homepage can build a card:
-   - `<title>…</title>`
-   - `<meta name="description" content="…">`
-   - `<meta name="guide:category" content="…">`
-   - `<meta name="guide:updated" content="YYYY-MM-DD">`
-   - `<meta property="og:image" content="…">`
-4. Register it in `guides/guides.json` with `status: "published"` (or `"wip"` to hide it from the homepage).
+Some of the guides currently in here:
 
-## Local Preview
+- `how-llms-work.html`
+- `rgb-to-cmyk-guide.html`
+- `who-owns-type.html`
 
-Run a simple static server from the repo root:
+If you are just visiting, the main thing to know is that this repo is the site. There is not a separate app, CMS, or build system behind it.
 
-`python3 -m http.server 8000`
+## A few notes for code assistants
 
-Then open `http://localhost:8000/`.
+The homepage is [index.html](/Users/chris.drysdale/Documents/projects/now-in-production/index.html). It reads [guides/guides.json](/Users/chris.drysdale/Documents/projects/now-in-production/guides/guides.json), fetches each published guide, and builds the guide cards from metadata inside each guide file.
 
+The guides live in [guides/](/Users/chris.drysdale/Documents/projects/now-in-production/guides). Shared styles live in [assets/css/](/Users/chris.drysdale/Documents/projects/now-in-production/assets/css). Shared scripts live in [assets/js/](/Users/chris.drysdale/Documents/projects/now-in-production/assets/js). Images and Open Graph assets live in [images/](/Users/chris.drysdale/Documents/projects/now-in-production/images).
+
+Each guide should keep its basic metadata intact, especially:
+
+- `<title>`
+- `meta name="description"`
+- `meta name="guide:category"`
+- `meta name="guide:updated"`
+- `meta property="og:image"`
+
+In [guides/guides.json](/Users/chris.drysdale/Documents/projects/now-in-production/guides/guides.json), `published` means the guide appears on the homepage and `wip` means it stays hidden.
