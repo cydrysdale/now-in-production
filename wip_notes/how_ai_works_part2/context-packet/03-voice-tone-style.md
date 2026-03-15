@@ -140,6 +140,30 @@ Avoid these patterns:
 - **Meta-commentary:** "This section will teach you about context design. Context design is important because..."
 - **Generic education tone:** "Let's explore this topic together and discover what makes it so fascinating."
 
+## Hard Tradeoffs
+
+When two valid values conflict during drafting, these rules resolve the call. They are not preferences — they are the tiebreakers.
+
+**Concept clarity beats kitchen metaphor elegance.**
+If the kitchen mapping doesn't clarify the concept, cut the metaphor or simplify it. Never preserve a metaphor at the cost of the reader understanding the concept. (This rule already exists in `03` — it is restated here to sit alongside the others.)
+
+**Running example coherence beats individual section polish.**
+If a section's exercise would work better with a different task than the competitive brief, don't switch. The cumulative artifact only works if the example is consistent. Adapt the exercise to fit the brief; don't adapt the brief to fit the exercise.
+
+**The guide's voice beats the source material's voice.**
+The Advanced Prompting source is a video transcript — conversational, informal, occasionally hyperbolic. If a framing from that source feels sharper than the guide's version, adapt it; don't lift it. The guide's voice is the standard, not the source.
+
+**Brevity of key lessons beats completeness.**
+Each key lesson is one sentence. If the insight needs two sentences, it is either two insights (split it across sections) or one insight that hasn't been sharpened yet (keep working). A key lesson that requires a follow-up clause wasn't finished.
+
+**Accessible explanation beats technical precision.**
+When explaining a concept, use the simpler formulation if it is accurate enough for the audience. Marketing professionals don't need the full technical frame — they need enough precision to apply the concept correctly. Reserve technical precision for the guardrails in `08`.
+
+**The section pattern beats variation for its own sake.**
+Every section follows: failure example → theory → interactive → exercise → key lesson. Do not vary this structure because a particular section "feels" like it should open differently. Consistency is the feature. If a section genuinely can't open with a recognizable failure, that is a structural problem to escalate, not a reason to break the pattern.
+
+---
+
 ## Adapting for Part 2
 
 Part 2 covers more abstract concepts than Part 1 (intent framing, spec writing). The voice should stay grounded by:

@@ -4,27 +4,29 @@
 
 These terms have specific meanings in this guide. Use them consistently and do not interchange them.
 
-### The Four Disciplines
+**Canonical definitions live in `02-thesis-and-framework.md`** — the four disciplines, the building blocks, and the full kitchen vocabulary table. If a definition here and a definition in `02` ever conflict, `02` is authoritative. Update both files if a definition changes.
 
-| Term | Meaning | Do Not Confuse With |
-|---|---|---|
-| **Prompt craft** | The local skill of phrasing a task clearly in a specific interaction | "Prompting" (which is the umbrella term for all four) |
-| **Context design** | The design of the information environment in which the task runs | Just "loading files" or "giving it more info" |
-| **Intent framing** | Encoding goals, values, tradeoffs, and decision boundaries | Brand voice, mission statements, or tone guidance |
-| **Spec writing** | Writing a complete, executable description of what to produce, how to judge it, and how to stage it | "A long prompt" or "detailed instructions" |
+The guardrail below is what this file owns: how to use the terms correctly, and what to avoid confusing them with.
 
-### The Building Blocks
+### The Four Disciplines — Usage Guardrails
 
-| Term | Meaning |
+| Term | Do Not Confuse With |
 |---|---|
-| **Complete order** | A self-contained task definition with enough operational detail to execute without follow-up |
-| **Plating standards** | Observer-verifiable acceptance criteria that define "done" |
-| **House rules** | Standing constraints organized as Must Do / Must Not Do / Prefer / Escalate |
-| **Station assignments** | Task decomposition into verifiable steps with explicit inputs, outputs, and handoffs |
-| **Tasting system** | A reusable evaluation method for judging quality over time (not just checking one output) |
-| **Pre-service meeting** | Pre-AI clarification — thinking before prompting |
+| **Prompt craft** | "Prompting" (which is the umbrella term for all four) |
+| **Context design** | Just "loading files" or "giving it more info" |
+| **Intent framing** | Brand voice, mission statements, or tone guidance |
+| **Spec writing** | "A long prompt" or "detailed instructions" |
 
-### Kitchen Vocabulary
+### The Building Blocks — Usage Guardrails
+
+| Term | Do Not Confuse With |
+|---|---|
+| **Plating standards** | House rules — plating standards define done; house rules prevent failure modes |
+| **House rules** | Plating standards — these are standing constraints, not quality checks |
+| **Station assignments** | A simple task list — stations have explicit inputs, outputs, and handoffs |
+| **Tasting system** | A one-time review — it is a reusable evaluation method, not a final check |
+
+### Kitchen Vocabulary — Consistency Rules
 
 Use these kitchen terms consistently as metaphor anchors:
 
@@ -102,6 +104,32 @@ The guide avoids naming specific tools in core theory. If a tool is referenced i
 The "Advanced Prompting" and "Prompt Kit" source materials include ideas from specific people (Toby Lütke / Shopify, Harrison Chase / LangChain). The guide should not attribute these ideas unless the attribution is accurate and adds value. When in doubt, present the idea on its own merits.
 
 **RECOMMENDATION:** Run a hallucination check after each section draft. Specifically: flag any sentence that makes a factual claim not present in the source materials or the guide's own framework.
+
+## Escalation Rules
+
+These are decisions the drafter should **not** make autonomously. Stop, flag the issue in `10-open-questions.md`, and continue with other sections rather than resolving it without review.
+
+### Escalate when the kitchen metaphor can't carry the concept cleanly
+
+If mapping a concept to its kitchen equivalent requires more explanation than the concept itself, do not force the mapping. Flag it. The rule in `03` is "cut it" — but if the concept still needs a metaphor to land, that is a structural question, not a drafting call.
+
+### Escalate when the running example doesn't fit a section without inventing context
+
+The competitive landscape brief should thread through every section without requiring new background detail that hasn't been established. If a section's exercise or interactive only works by adding invented context about the brief, flag it. Do not invent new facts about the running task.
+
+### Escalate when two source files conflict structurally
+
+Terminology conflicts are resolved by the source-of-truth hierarchy in `09`. But if the outline v2 and this packet disagree on a section's purpose, sequence, or key lesson — not just vocabulary — that is not a drafter's call. Flag it and note which files conflict and on what point.
+
+### Escalate when a section's key lesson duplicates another section's
+
+Each key lesson should be distinct and not restatable as a variant of another section's lesson. If drafting produces a key lesson that overlaps substantially with an existing one, flag it rather than choosing arbitrarily which section "owns" the insight.
+
+### Escalate when a claim requires verification the drafter cannot perform
+
+Any sentence that makes a factual claim not present in the source materials — a statistic, a company example, a claim about how marketing teams work — should be flagged rather than silently softened or invented. See the Hallucination-Prone Areas section for specific categories.
+
+---
 
 ## Writing Constraints
 

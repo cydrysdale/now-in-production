@@ -23,35 +23,39 @@ The packet separates five concerns:
 ### Core Context (load for every drafting session)
 
 - `01-project-brief.md` — What this guide is, who it's for, what it connects to, and what done looks like
-- `02-thesis-and-framework.md` — The core argument, the four-discipline framework, and the kitchen metaphor system
-- `03-voice-tone-style.md` — Writing voice, teaching patterns, and style rules inferred from published guides
-- `04-section-structure.md` — Section-by-section goals, content requirements, and the running example arc
+- `02-thesis-and-framework.md` — The core argument, the four-discipline framework, and the kitchen metaphor system (**canonical definitions live here**)
+- `03-voice-tone-style.md` — Writing voice, teaching patterns, style rules, and hard tradeoff decisions
+- `04a-section-goals.md` — Section purposes, key lessons, running example arc, and cumulative artifacts table
 
 ### Drafting Support (load when actively generating or reviewing)
 
-- `05-interactive-and-visual-plan.md` — Interactive modules, visual elements, and instructional design decisions
+- `04b-section-content.md` — Theory summaries, failure example openers, interactive module descriptions, and exercise specs per section
+- `05-interactive-and-visual-plan.md` — Full interactive module specifications, visual elements, and instructional design decisions
 - `06-drafting-workflow.md` — How to draft section-by-section in Claude Code CLI, including revision and review passes
 - `07-quality-bar.md` — Acceptance criteria, review checklists, and the definition of done
-- `08-terminology-and-guardrails.md` — Terms to use precisely, claims to avoid, and hallucination-prone areas
+- `08-terminology-and-guardrails.md` — Usage guardrails, terms to avoid, claims to be careful with, escalation rules, and hallucination-prone areas
 - `09-source-context.md` — Source materials, what to draw from, and what not to reteach from Part 1
 
 ### Reference
 
-- `10-open-questions.md` — Decisions still needed, assumptions made, and areas for manual refinement
+- `10-open-questions.md` — Decisions still needed, assumptions made, mid-project file changes log, and areas for manual refinement
 
 ## How to Use This Packet
 
+**Before any session — check `10` first:**
+Scan `10-open-questions.md` for recent decisions and mid-project file changes. If a stable context file was updated since your last session, it will be logged there.
+
 **Starting a new drafting session:**
-Load `01` through `04` as context. These are the stable foundation.
+Load `01`, `02`, `03`, and `04a` as context. These are the stable foundation.
 
 **Drafting a specific section:**
-Also load `05` (for interactive specs), `06` (for workflow), and `08` (for guardrails). Reference `04` for the section you're working on.
+Also load `04b` (section content specs), `05` (for interactive specs), `06` (for workflow), and `08` (for guardrails).
 
 **Running a review pass:**
 Load `03` (voice), `07` (quality bar), and `08` (guardrails). Review against these.
 
 **Checking overall coherence:**
-Load `02` (thesis) and `04` (structure). Verify that section drafts serve the framework and advance the running example.
+Load `02` (thesis) and `04a` (section goals). Verify that section drafts serve the framework and advance the running example.
 
 ## What This Packet Does Not Do
 

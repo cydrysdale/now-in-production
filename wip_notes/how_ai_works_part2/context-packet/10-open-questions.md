@@ -72,6 +72,37 @@ These are deferred to later conversations.
 | R6 | Add terminology sidebars for industry terms | `08-terminology-and-guardrails.md` | Open |
 | R7 | Start a process log for case study material | This file | **New — from decision #3** |
 
+## Mid-Project File Changes
+
+**Purpose:** When any stable context file is updated during drafting, log the change here. This is the freshness mechanism for the packet — a drafter starting a new session should scan this section before relying on the core context files.
+
+**Protocol:**
+- When you change a stable context file (`01` through `09`), add an entry below.
+- Include: date, file changed, what changed, and what it supersedes (if anything).
+- Do not delete entries — let the log accumulate.
+
+**Format:**
+
+```
+### [Date] — [Filename]
+**Changed:** [What was added, updated, or removed]
+**Supersedes:** [What was previously true, if relevant]
+```
+
+### 2026-03-15 — Multiple files (packet structure update)
+**Changed:** `04-section-structure.md` split into `04a-section-goals.md` (orientation layer, always load) and `04b-section-content.md` (content specs, load when drafting). Original file archived as `04-section-structure.md.bak`.
+**Supersedes:** Any reference to `04-section-structure.md` — use `04a` for session orientation, `04b` for active drafting.
+
+### 2026-03-15 — `08-terminology-and-guardrails.md`
+**Changed:** Replaced full definition tables for the four disciplines, building blocks, and kitchen vocabulary with usage guardrails and a cross-reference to `02`. Added Escalation Rules section.
+**Supersedes:** `08` as the location for canonical term definitions — those now live exclusively in `02-thesis-and-framework.md`.
+
+### 2026-03-15 — `03-voice-tone-style.md`
+**Changed:** Added Hard Tradeoffs section with explicit priority decisions for common drafting conflicts.
+**Supersedes:** Nothing — this is new content filling a gap.
+
+---
+
 ## What to Do Next (in a later conversation)
 
 1. Review the interactive module prioritization — which get full implementation first per part?

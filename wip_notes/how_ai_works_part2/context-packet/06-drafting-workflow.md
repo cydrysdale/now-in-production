@@ -25,8 +25,8 @@ Draft one section at a time in order. For Part 2A: Sections 0–5. For Part 2B: 
 
 For each section:
 
-1. Load core context files (`01` through `04`) plus `08` (guardrails)
-2. Reference the section's entry in `04-section-structure.md` for goals, failure example, interactive spec, exercise spec, and key lesson
+1. Load core context files (`01`, `02`, `03`, `04a`) plus `08` (guardrails) and `04b` (section content specs)
+2. Reference the section's entry in `04b-section-content.md` for theory, failure example, interactive spec, and exercise spec; use `04a-section-goals.md` for the key lesson and running example contribution
 3. Draft the section prose: failure example → theory → bridge to interactive → bridge to exercise → key lesson
 4. Write interactive module content (the scenarios, items, and reveal text) as structured data, not as implemented JS
 5. Write the practical exercise with the running example application
@@ -38,9 +38,9 @@ For each section:
 
 After all 11 section drafts exist:
 
-1. Load `03-voice-tone-style.md` and the full set of section drafts
+1. Load `03-voice-tone-style.md`, `04a-section-goals.md`, and the full set of section drafts
 2. Review each section for voice consistency against the style guide
-3. Check that the running example advances coherently across sections
+3. Check that the running example advances coherently across sections (use `04a` key lessons and running example contributions as the reference)
 4. Check that Kitchen Inspection sidebars are placed at natural transition points (target 2–3 total)
 5. Check that metaphor usage is consistent (same kitchen terms for same concepts throughout)
 6. Flag any section where the theory feels disconnected from the running example
@@ -91,17 +91,20 @@ Run the full quality checklist from `07-quality-bar.md`.
 
 ### Starting a Drafting Session
 
+**Before loading context — check `10-open-questions.md` first.** Scan the Mid-Project File Changes log for any updates to stable context files since your last session. If a file was changed, re-read it before relying on a cached version.
+
 Load these files as context at the start of any drafting session:
 
 - `01-project-brief.md` (always)
-- `02-thesis-and-framework.md` (always)
+- `02-thesis-and-framework.md` (always — canonical definitions live here)
 - `03-voice-tone-style.md` (always)
-- `04-section-structure.md` (always for section drafting; reference specific section for focused work)
+- `04a-section-goals.md` (always — section purposes, key lessons, running example arc)
 - `08-terminology-and-guardrails.md` (always)
 
 Add these when relevant:
 
-- `05-interactive-and-visual-plan.md` (when drafting interactive specs)
+- `04b-section-content.md` (when drafting a specific section — theory, failure examples, interactive and exercise specs)
+- `05-interactive-and-visual-plan.md` (when drafting interactive specs in Phase 3)
 - `06-drafting-workflow.md` (when planning work)
 - `07-quality-bar.md` (when reviewing)
 - `09-source-context.md` (when checking what to draw from or avoid)
@@ -174,7 +177,15 @@ wip_notes/how_ai_works_part2/
 ├── context-packet/          ← This packet
 │   ├── README.md
 │   ├── 01-project-brief.md
-│   ├── ...
+│   ├── 02-thesis-and-framework.md
+│   ├── 03-voice-tone-style.md
+│   ├── 04a-section-goals.md      ← Always load (orientation layer)
+│   ├── 04b-section-content.md    ← Load when drafting sections
+│   ├── 05-interactive-and-visual-plan.md
+│   ├── 06-drafting-workflow.md
+│   ├── 07-quality-bar.md
+│   ├── 08-terminology-and-guardrails.md
+│   ├── 09-source-context.md
 │   └── 10-open-questions.md
 ├── drafts/                  ← Section drafts (created during Phase 1)
 │   ├── part-2a/

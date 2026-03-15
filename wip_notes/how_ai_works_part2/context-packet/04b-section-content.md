@@ -1,31 +1,6 @@
-# Section Structure and Goals
+# Section Content Specifications
 
-## Running Example
-
-A single marketing task threads through every section: **"Produce a monthly competitive landscape brief for the leadership team."**
-
-Why this task:
-
-- It's real. Marketing teams actually do this.
-- It's recurring, which makes evaluation design natural.
-- It's multi-step: research, synthesis, judgment calls, formatting for executives.
-- It involves all four disciplines.
-- It has clear failure modes at every layer.
-
-Each section's practical application exercise applies the new concept to this task. By the end, the reader has assembled a complete, reusable specification — not eight disconnected exercises.
-
-## Recurring Element: Kitchen Inspection
-
-Between major sections, short "Kitchen Inspection" sidebars present a 2–3 sentence scenario and ask the reader to spot what's missing. These are static (no interactive component), quick to read, and train the diagnostic reflex.
-
-**Format:**
-
-> **Kitchen inspection:** [Scenario describing a plausible failure.] Was this a [concept A] problem or a [concept B] problem?
-> *Answer: [Concept]. [One sentence why.]*
-
-Place these at natural transition points. Target 2–3 across the full guide.
-
----
+> **Load this file when actively drafting or reviewing a specific section.** It contains the theory summaries, failure example openers, interactive module descriptions, and exercise specs for each section. For the orientation layer (section purposes, key lessons, running example arc), see `04a-section-goals.md`.
 
 ---
 
@@ -35,8 +10,6 @@ Place these at natural transition points. Target 2–3 across the full guide.
 
 ## Section 0: From One Cook to a Full Kitchen
 
-**Purpose:** Bridge from Part 1. Establish the conceptual shift from supervised chat to delegated work.
-
 **Theory:** Conversational prompting assumes the human is present, inspecting, correcting, and answering. Those four hidden functions (context, judgment, decomposition, quality control) must be externalized once work extends beyond tight supervision.
 
 **Failure example opener:** Marketing manager's "draft a competitive analysis" succeeds over six chat turns — but only because the human kept intervening. Remove the human and the same prompt fails.
@@ -45,15 +18,9 @@ Place these at natural transition points. Target 2–3 across the full guide.
 
 **Practical exercise:** Collapse a Chat Into a Brief — Reader lists human interventions from a multi-turn chat, sorts them by type, then compresses them into a single starting brief.
 
-**Key lesson:** If the task only works when you babysit it, you don't yet have a delegable structure.
-
-**Running example contribution:** Reader begins identifying what the competitive brief task would need beyond a single prompt.
-
 ---
 
 ## Section 1: The Four Disciplines
-
-**Purpose:** Introduce the main framework that organizes the rest of the guide.
 
 **Theory:** The four disciplines (prompt craft, context design, intent framing, spec writing) and how they stack. The bridge from disciplines to building blocks.
 
@@ -63,15 +30,9 @@ Place these at natural transition points. Target 2–3 across the full guide.
 
 **Practical exercise:** Diagnose a Recent Failure — Reader picks a real marketing task where AI produced "technically correct but wrong" output, labels what went wrong, which discipline was missing, and what artifact would have prevented it.
 
-**Key lesson:** Diagnosis gets sharper when "prompting" is broken into disciplines.
-
-**Running example contribution:** Reader identifies which discipline is most likely to break first for the competitive brief.
-
 ---
 
 ## Section 2: The Complete Order
-
-**Purpose:** First building block — defining a task so it's solvable without live backfilling.
 
 **Theory:** Most requests rely on invisible shared context. A complete order carries sufficient operational detail: actual outcome, relevant background, audience, constraints, output form, definition of success, and likely ambiguity points.
 
@@ -81,13 +42,9 @@ Place these at natural transition points. Target 2–3 across the full guide.
 
 **Practical exercise:** Write the Complete Order — Reader rewrites the running example as a complete order with explicit fields.
 
-**Key lesson:** Specificity is not verbosity. It is the removal of critical ambiguity.
-
 ---
 
 ## Section 3: Plating Standards & House Rules
-
-**Purpose:** Merge two related building blocks — acceptance criteria and constraints.
 
 **Theory:** Plating standards are observer-verifiable checks that define "done." House rules are standing constraints (Must Do / Must Not Do / Prefer / Escalate) that prevent known failure modes. You need both: a plate can meet every standard and violate a rule, or follow every rule and miss the standard.
 
@@ -97,13 +54,9 @@ Place these at natural transition points. Target 2–3 across the full guide.
 
 **Practical exercise:** Define the Plate and Post the Rules — Three plating standards and one constraint in each quadrant for the competitive brief.
 
-**Key lesson:** The quality bar must be visible before the work begins, not only after disappointment.
-
 ---
 
 ## Section 4: Station Assignments
-
-**Purpose:** Explain decomposition — why bigger tasks must be broken into verifiable pieces with explicit handoffs.
 
 **Theory:** Complex work fails when treated as one uninterrupted action. Each station should have one job, receive clear input, produce a defined output, be checkable independently, and hand off cleanly.
 
@@ -113,13 +66,9 @@ Place these at natural transition points. Target 2–3 across the full guide.
 
 **Practical exercise:** Map the Stations — Reader creates a station map for the competitive brief (station → input → output → check before handoff).
 
-**Key lesson:** A clean handoff is part of the spec, not an implementation detail.
-
 ---
 
 ## Section 5: The Tasting System
-
-**Purpose:** Move beyond "does this look okay?" to systematic, repeatable quality judgment.
 
 **Theory:** Evaluation is part of the input system, not a postscript. The tasting system introduces test cases, quality markers, known failure modes, repeatable checks, and regression awareness.
 
@@ -128,8 +77,6 @@ Place these at natural transition points. Target 2–3 across the full guide.
 **Interactive module:** "Build the Tasting Station" — Reader builds a mini evaluation system for the competitive brief: what to test, what counts as success, failure modes to watch, what would make the task no longer worth delegating.
 
 **Practical exercise:** Draft a Mini Tasting System — Three quality markers with pass/acceptable/fail thresholds, two known failure modes, one regression check.
-
-**Key lesson:** Evaluation makes quality legible. Without it, you can't tell the difference between "this is good" and "I've gotten used to this level of output."
 
 ---
 
@@ -143,8 +90,6 @@ Place these at natural transition points. Target 2–3 across the full guide.
 
 ## Section 6: Mise en Place — Context Design
 
-**Purpose:** Return to the first higher discipline (context design), now equipped with building blocks.
-
 **Theory:** Context design is curation, not accumulation. Key concepts: relevance over exhaustiveness, signal-to-noise management, stable vs. task-specific context, freshness/staleness, persistent guidance vs. temporary materials.
 
 **Failure example opener:** Marketing analyst loads 45 pages of mixed materials into one session. Output is unfocused, mixes strategic planning language with competitive analysis, references obsolete product names.
@@ -153,13 +98,9 @@ Place these at natural transition points. Target 2–3 across the full guide.
 
 **Practical exercise:** Build a Context Packet — Organize materials into stable context, task-specific context, source-of-truth materials, and summarize-don't-paste items.
 
-**Key lesson:** The best-stocked kitchen isn't the one with the most ingredients — it's the one where every ingredient is fresh, relevant, and within reach.
-
 ---
 
 ## Section 7: The House Philosophy — Intent Framing
-
-**Purpose:** Explain encoding of priorities and tradeoffs for delegated work.
 
 **Theory:** Context tells a system what is available. Intent tells it what matters. Intent framing makes priority hierarchies explicit. Critical distinction: intent framing is not brand tone or mission language — it is operational judgment.
 
@@ -169,13 +110,9 @@ Place these at natural transition points. Target 2–3 across the full guide.
 
 **Practical exercise:** Write the House Philosophy — Top priority, second priority, default optimization, non-delegable decisions.
 
-**Key lesson:** If priorities are only obvious in hindsight, they were never encoded.
-
 ---
 
 ## Section 8: The Recipe Card — Spec Writing
-
-**Purpose:** Present spec writing as the integrating discipline that pulls everything together.
 
 **Theory:** A spec is not a long prompt. It is a structured contract that integrates: the complete order, plating standards, house rules, station assignments, the tasting system, context requirements, and the house philosophy. Spec quality reflects thinking quality.
 
@@ -185,13 +122,9 @@ Place these at natural transition points. Target 2–3 across the full guide.
 
 **Practical exercise:** Write the Recipe Card — Full spec template for the competitive brief with all seven components (overview, context packet, house philosophy, station assignments, plating standards, house rules, tasting system).
 
-**Key lesson:** Spec writing is the discipline of making thinking executable.
-
 ---
 
 ## Section 9: The Pre-Service Meeting
-
-**Purpose:** The twist — after nine sections of building specification tools, the reader learns the most important step happens before any of them.
 
 **Theory:** Framing contamination — AI's fluent first response can shape how the human thinks about the problem, replacing the human's unfinished reasoning. Pre-AI clarification reduces this. The four pre-service questions map directly to spec components.
 
@@ -201,13 +134,9 @@ Place these at natural transition points. Target 2–3 across the full guide.
 
 **Practical exercise:** The Pre-Service Card — Reusable pre-flight card for the competitive brief, including "what's different this month."
 
-**Key lesson:** The two minutes you spend thinking before you type are the highest-leverage minutes in the entire workflow.
-
 ---
 
 ## Section 10: Running the Kitchen — Synthesis
-
-**Purpose:** Unify all concepts. The reader finishes with a complete framework and a complete spec.
 
 **Theory:** Reinforces the full stack. Makes the claim that these are disciplines of delegated work, not AI-specific tricks.
 
@@ -217,24 +146,4 @@ Place these at natural transition points. Target 2–3 across the full guide.
 
 **Practical exercise:** The Complete Recipe Card — Review and finalize the full spec built across the guide.
 
-**Key lesson:** Reliability comes from layered structure, not from finding the perfect wording.
-
 **Optional:** Diagnostic flowchart as a static, reusable reference graphic.
-
----
-
-## Cumulative Artifacts Produced by the Reader
-
-By the end, the reader has built:
-
-| Section | Artifact |
-|---|---|
-| 2 | One complete order |
-| 3 | Three plating standards + four-quadrant house rules |
-| 4 | One station assignment map |
-| 5 | One mini tasting system |
-| 6 | One context packet organized by type |
-| 7 | One house philosophy with priority hierarchy |
-| 8 | One assembled recipe card (full spec) |
-| 9 | One pre-service card |
-| 10 | Final review of the complete spec |
