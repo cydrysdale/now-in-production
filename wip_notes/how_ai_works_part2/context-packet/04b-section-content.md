@@ -66,13 +66,15 @@
 
 **Practical exercise:** Map the Stations — Reader creates a station map for the competitive brief (station → input → output → check before handoff).
 
+**Deep-dive sidebar (Chance/Chest card):** As AI models become more capable, the stations you design could eventually be assigned to different models — a capable one to plan the work, faster ones to execute each station. This is sometimes called a planner-worker pattern, and it's where autonomous AI workflows are heading. The station assignments you learn to design here are the same structure that pattern relies on. You don't need to think about this now, but the skill you're building transfers directly when you're ready.
+
 ---
 
 ## Section 5: The Tasting System
 
-**Theory:** Evaluation is part of the input system, not a postscript. The tasting system introduces test cases, quality markers, known failure modes, repeatable checks, and regression awareness.
+**Theory:** Evaluation is part of the input system, not a postscript. The tasting system introduces test cases, quality markers, known failure modes, repeatable checks, and the distinction between quality and regression. Quality asks "is this plate good?" Regression asks "is this plate as good as last month's?" For recurring tasks, regression is often the more dangerous failure — output that degrades slowly enough that nobody notices until it's too far gone.
 
-**Failure example opener:** AI social content calendar is great for month one. By month three, posts are formulaic. Nobody notices because each week's calendar is reviewed in isolation.
+**Failure example opener:** AI social content calendar is great for month one. By month three, posts are formulaic. Nobody notices because each week's calendar is reviewed in isolation — each plate passes the quality check, but the kitchen is regressing.
 
 **Interactive module:** "Build the Tasting Station" — Reader builds a mini evaluation system for the competitive brief: what to test, what counts as success, failure modes to watch, what would make the task no longer worth delegating.
 
@@ -116,7 +118,7 @@
 
 **Theory:** A spec is not a long prompt. It is a structured contract that integrates: the complete order, plating standards, house rules, station assignments, the tasting system, context requirements, and the house philosophy. Spec quality reflects thinking quality.
 
-**Failure example opener:** Marketing lead's detailed prompt works well when they run it. Colleague runs the same prompt on vacation — output is wrong because the colleague didn't know to load last month's brief, the CMO's verbal priority, or which claims need legal review. The prompt was personal. It was never a spec.
+**Failure example opener:** Marketing lead's detailed prompt works well when they run it. Colleague runs the same prompt on vacation — output is wrong because the colleague didn't know to load last month's brief, the CMO's verbal priority, or which claims need legal review. The prompt was personal. It was never a spec. This is the 80% problem in its purest form: output that is almost right, structurally plausible, and wrong in ways that make rework harder than starting fresh.
 
 **Interactive module:** "Stress Test the Recipe" — Reader probes a draft spec with failure questions: what is the output exactly, who is the audience, how is success measured, what should never happen, what gets escalated, what if data is missing, can someone else execute this?
 

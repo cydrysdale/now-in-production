@@ -18,6 +18,8 @@ Why this task:
 
 Each section's practical application exercise applies the new concept to this task. By the end, the reader has assembled a complete, reusable specification — not eight disconnected exercises.
 
+**Webapp chat note:** Many readers will only have access to a webapp chat interface (Claude, ChatGPT, etc.). When discussing practical application, include a brief note on how to apply the concept in a standard chat-based session. The systems and specs taught here are tool-agnostic — a reader using a chat window should still be able to use them.
+
 ## Recurring Element: Kitchen Inspection
 
 Between major sections, short "Kitchen Inspection" sidebars present a 2–3 sentence scenario and ask the reader to spot what's missing. These are static (no interactive component), quick to read, and train the diagnostic reflex.

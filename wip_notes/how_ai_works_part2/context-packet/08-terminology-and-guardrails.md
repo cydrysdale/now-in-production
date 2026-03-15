@@ -26,6 +26,13 @@ The guardrail below is what this file owns: how to use the terms correctly, and 
 | **Station assignments** | A simple task list — stations have explicit inputs, outputs, and handoffs |
 | **Tasting system** | A one-time review — it is a reusable evaluation method, not a final check |
 
+### Key Concepts
+
+| Term | Meaning |
+|---|---|
+| **The 80% problem** | Output that is almost right but not quite — fluent, plausible, and structurally wrong in ways that make the rework harder than starting from scratch. This is the core failure mode the guide exists to solve. It is almost always a structural problem (missing acceptance criteria, absent constraints, vague intent), not a prompting problem. |
+| **Quality vs. regression** | Two distinct evaluation questions. **Quality:** "Is this output good?" — assessed against plating standards and house rules for a single instance. **Regression:** "Is this output as good as last month's?" — assessed by comparing current output to a known baseline over time. Quality checks catch bad plates. Regression checks catch a kitchen that's slowly getting worse. The tasting system must address both. |
+
 ### Kitchen Vocabulary — Consistency Rules
 
 Use these kitchen terms consistently as metaphor anchors:

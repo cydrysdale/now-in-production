@@ -13,6 +13,8 @@ Part 2 assumes that foundation and moves up a level. The subject is no longer "h
 Part 1: You're the customer ordering from one cook.
 Part 2: You're the head chef running a fully staffed kitchen.
 
+Part 1 gives a strong foundation for understanding how LLMs work and how to prompt them effectively, but its techniques assume you're present and steering. This guide is about shifting your effort from correcting output after the fact to designing solid structure upfront — building systems that produce reliable, repeatable results because the setup is right, not because you caught what went wrong.
+
 The metaphor evolves: you design the menu, write the recipes, set the house rules, and train the brigade. AI is the line — capable, fast, and reliable when the systems around it are well designed. The kitchen only falls apart when the systems do.
 
 ## Primary Audience
@@ -73,6 +75,8 @@ A separate future guide will use the Part 2 guide-building process as a case stu
 
 ## Connection to Part 1
 
+Part 1's prompting techniques are effective and remain useful — but they work best when you're present, steering, and correcting in real time. Part 2 doesn't replace that foundation; it builds on it. The shift is from reactive correction to proactive design — investing effort upfront in structure so the work holds together without constant intervention.
+
 | Part 1 Concept | Part 2 Extension |
 |---|---|
 | The order ticket (prompt) | The recipe card (specification) |
@@ -80,6 +84,7 @@ A separate future guide will use the Part 2 guide-building process as a case stu
 | The expo check (verification) | The tasting system (evaluation design) |
 | One cook, one dish | A full brigade, full service |
 | You're the customer | You're the head chef |
+| Effort spent correcting output | Effort spent designing structure upfront |
 
 ## Deliverable Format
 
