@@ -1,6 +1,6 @@
 # How AI Works Part 2 — Project Status
 
-> Last updated: 2026-03-14
+> Last updated: 2026-03-15
 
 ## Current Phase
 
@@ -43,7 +43,7 @@
 | Item | Status |
 |---|---|
 | Context packet | Done |
-| Process log (`process-log.md`) | Not started |
+| Process log (`process-log.md`) | Started — pre-history and Phase 1–5 entries written |
 | Draft directory structure (`drafts/part-2a/`, `drafts/part-2b/`) | Not created |
 | Kitchen Inspection sidebars (2–3 total) | Not started |
 | Interactive module content specs | Not started |
