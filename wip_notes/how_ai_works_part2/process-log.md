@@ -132,10 +132,87 @@ Before drafting began, the context packet was reviewed against the principles in
 
 ---
 
+## Phase 6: First Drafting Session — Sections 0–2
+
+*Date: 2026-03-17.*
+
+### What happened
+
+Sections 0, 1, and 2 were drafted in sequence in a single session, following the context packet's Phase 1 workflow (one section at a time, self-check after each). All core context files were loaded at the start of the session (`01`, `02`, `03`, `04a`, `04b`, `05`, `06`, `08`).
+
+### Structural decision: catering opener for Section 0
+
+The original context packet spec called for a marketing failure example (competitive analysis chat) as the Section 0 opener. During drafting, the human flagged that competitive analysis is too niche — not all marketing professionals do it, and the opener should be universally accessible.
+
+The solution was a catering order scenario: emailing a restaurant a vague lunch order, then correcting it across six emails. This was stronger for three reasons:
+
+1. It's literally a kitchen scenario — the metaphor and the lesson are the same thing
+2. Everyone has dealt with catering or food orders regardless of marketing specialty
+3. The back-and-forth email chain mirrors the back-and-forth AI chat perfectly
+
+The competitive analysis chat was compressed to one paragraph as the bridge to the AI version, with the full six-turn marketing scenario living only in the interactive module.
+
+**Case study relevance:** This is a real-time example of the guide's own Section 7 concept — intent framing. The context packet's spec optimized for conceptual accuracy (the competitive analysis chat is the correct failure example for the running example). The human optimized for audience accessibility (not everyone does competitive analysis). The human's priority — audience fit over structural elegance — was the right call. The context packet didn't have a way to encode "the opener must be universally accessible" because that's an intent decision, not a content spec.
+
+### What the context packet caught
+
+- Section pattern (failure → theory → interactive → exercise → key lesson) was followed correctly in all three sections
+- Kitchen metaphor was used structurally throughout
+- Running example advanced coherently
+- Voice matched the published guides
+
+### What the context packet missed
+
+Three review passes (section-level feedback, then a cross-section editorial review) identified issues the context packet's rules did not prevent:
+
+**1. Vocabulary layering — disciplines and building blocks got mixed.**
+Section 0 introduced building-block terms (plating standards, house rules) formally before those concepts had a home section. Section 1's opener labeled a failure as a "constraint" problem — building-block vocabulary — when it should have stayed at the discipline level. The context packet defined both vocabulary systems but never said which terms belong to which section.
+
+**2. Internal consistency — counts, labels, and field names drifted within sections.**
+Section 2's prose said "at least six things," then listed six items, then introduced a seven-field table. The same section's interactive used eight omission labels with different names than the seven theory fields. The reader had to reconcile the systems alone.
+
+**3. Section boundaries — concepts bled across sections.**
+Section 0 dropped the judgment/intent thread, leaving Section 1 to introduce intent framing cold. Section 2's "relevant background" field risked absorbing Section 6's context-design territory. The context packet had section goals but no guidance on what each section should set up for the next one and what it should leave alone.
+
+**4. Illustrative vs. canonical framing was ambiguous.**
+Section 0's interactive introduced specific fictional competitor details (company names, connector counts, pricing changes) without clarifying whether those persisted across the guide. The percentage mechanic in Section 2 could read as empirical rather than schematic.
+
+**5. Framework accumulation without cross-mapping.**
+The editorial review identified the deepest issue: across three sections, the reader absorbs three different frameworks (five hidden jobs, four disciplines, seven complete-order fields) without enough explicit connection between them. Each section was individually clear. The cumulative experience felt like learning separate lists rather than one system getting sharper.
+
+**6. Key lessons drifted toward adjacent sections.**
+Section 1's key lesson used building-block vocabulary and pointed toward Sections 2–4 rather than capturing Section 1's own claim about diagnosis.
+
+### How the context packet was updated
+
+Six changes were made to five context packet files in response to the review findings:
+
+| File | Addition |
+|---|---|
+| `06` | Vocabulary Layering rules (which terms belong to which section) |
+| `06` | Internal Consistency Self-Check (counts, labels, key lessons) |
+| `06` | Cross-framework bridge check |
+| `04a` | Section Handoffs table (what to plant, what to leave alone) |
+| `05` | Vocabulary Alignment Rule for interactive labels |
+| `08` | Illustrative Framing guidance (numbers, fictional details, canon vs. disposable) |
+| `03` | Framework continuity teaching principle |
+| `10` | Open question: are Acme/Bolt/Cirrus canonical? |
+
+### The test
+
+The human will regenerate Sections 0–2 in the next session using the updated context packet, without referencing the original drafts. The test: does the updated packet prevent the issues the reviews caught, or do some issues require editorial judgment that rules can't encode?
+
+The honest pre-test assessment is that the updated rules will catch the mechanical issues (wrong vocabulary level, mismatched counts, label drift, boundary violations) but may not fully prevent the editorial issues (framework accumulation feel, pacing of the Section 0 pivot, making spec writing feel as distinct as the other three disciplines). Those require writing quality during execution, not just rule compliance.
+
+**Case study relevance:** This is the tasting system in action — specifically the quality vs. regression distinction from Section 5. The reviews were quality checks (is this draft good?). The context packet updates are regression prevention (will the next draft have the same problems?). The test will measure whether the packet updates actually prevent regression or just document what went wrong.
+
+---
+
 ## Open Threads for Future Entries
 
 *Add entries as they arise during drafting:*
 
+- **Regeneration test results:** Did the updated packet prevent the review issues? Which ones persisted? What does that say about the limits of context packet design vs. editorial judgment?
 - Which interactive modules got full implementation vs. stubbed in first pass?
 - What did the running example reveal about the guide's structure as it accumulated across sections?
 - Where did the packet help? Where did it fall short?

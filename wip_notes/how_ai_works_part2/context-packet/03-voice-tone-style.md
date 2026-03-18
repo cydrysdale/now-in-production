@@ -50,6 +50,14 @@ Every major concept gets an interactive element. These are not quizzes — they 
 
 Part 2 should have the reader build a single artifact across the guide (the competitive landscape brief spec). Each section adds a component. By the end, they have a complete, usable deliverable.
 
+### Framework continuity over framework accumulation
+
+Each section introduces a new conceptual model (the hidden jobs, the four disciplines, the complete-order fields, etc.). The reader should experience these as nested layers of one system getting sharper, not as a series of separate lists to memorize.
+
+**Rule:** Every section that introduces a new framework must include at least one explicit paragraph connecting it to the previous section's framework. Show how the new model relates to, refines, or builds on what the reader just learned — not just what it adds.
+
+The reader leaving Section 2 should understand: "The complete order is the first building block that makes the disciplines from Section 1 practical, which in turn organizes the hidden work I saw in Section 0." If the sections feel like three independent lessons, the connective tissue is missing.
+
 ## Tone Boundaries
 
 ### Do

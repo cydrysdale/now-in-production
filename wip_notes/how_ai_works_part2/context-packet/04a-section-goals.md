@@ -51,6 +51,21 @@ Place these at natural transition points. Target 2–3 across the full guide.
 
 ---
 
+## Section Handoffs
+
+Each section must plant specific concepts for the next section and leave specific territory alone. This prevents gaps (Section 1 introduces intent framing cold because Section 0 dropped the judgment thread) and boundary violations (Section 2 absorbs Section 6's context-design territory).
+
+| Section | Must Plant for Next Section | Must Leave Alone |
+|---|---|---|
+| **0** | The concept that hidden work includes *judgment and tradeoff decisions* — not just context, format, and checking. Section 1 needs the reader primed for intent framing. | Do not name the four disciplines or the building blocks formally. Describe the hidden jobs; don't categorize them. |
+| **1** | Clear, distinct definitions for all four disciplines — especially spec writing, which is hardest to distinguish. The reader should leave knowing spec writing is about *transferability and handoff survival*, not just detail. | Do not introduce building-block terms (plating standards, house rules) as formal categories. Use discipline-level language throughout. |
+| **2** | The distinction between *naming context on the ticket* (what the task needs) and *curating the full information environment* (Section 6's territory). One sentence is enough: "A complete order names the background that matters; it does not yet build the full context packet." | Do not absorb Section 6's context-design work. "Relevant background" is a ticket field, not an invitation to assemble all materials. |
+| **3** | The difference between *observable checks* (plating standards) and *standing constraints* (house rules). Both are needed; they cover different failure modes. | Do not absorb Section 7's intent-framing territory. House rules are constraints, not priorities. |
+| **4** | The idea that *each station needs a checkpoint before handoff* — this feeds directly into the tasting system. | Do not introduce evaluation criteria. Stations have checkpoints; Section 5 turns those into a system. |
+| **5** | The distinction between *quality* (is this plate good?) and *regression* (is this plate as good as last month's?). This distinction carries into Part 2B. | Do not introduce context curation, intent encoding, or spec assembly. Part 2A ends here; those are Part 2B concepts. |
+
+---
+
 ## Cumulative Artifacts Produced by the Reader
 
 By the end, the reader has built:

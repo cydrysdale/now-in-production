@@ -151,4 +151,13 @@ Static decision tree: "Something went wrong. Where?" with branches to each secti
 - Guide-specific JS in a dedicated file (`../assets/js/how-ai-works-part2.js` or similar)
 - Guide-specific CSS in a `<style>` block or dedicated file
 
+## Vocabulary Alignment Rule
+
+Interactive module labels, categories, and field names **must align with the vocabulary used in that section's theory block.** The interactive reinforces the theory — it should not introduce a parallel vocabulary system the reader has to reconcile on their own.
+
+- If the theory defines seven fields, the interactive must use those seven fields (not eight with different names).
+- If the theory uses discipline-level language, the interactive's categories must use discipline-level language.
+- If the interactive needs finer granularity than the theory (e.g., splitting one theory field into two interactive items), explicitly bridge between them: "This covers two parts of [theory field name]."
+- After drafting interactive content, cross-check every label against the section's theory. Any label that doesn't match a theory term needs either a bridge or a rename.
+
 **OPEN QUESTION:** How much interaction should be implemented in the first draft vs. stubbed with placeholder markup? The outline is detailed enough to draft prose around interactive specs. The JS implementation could be a second pass.

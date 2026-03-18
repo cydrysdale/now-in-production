@@ -116,6 +116,24 @@ Add these when relevant:
 - If a section feels weak, revise it before moving to the next section.
 - Save intermediate drafts to disk frequently.
 
+### Vocabulary Layering
+
+The guide introduces two vocabulary systems at different levels: the **four disciplines** (Section 1) and the **building blocks** (Sections 2–5). These overlap but are not interchangeable. During drafting, follow these rules:
+
+- **Before Section 1 introduces the disciplines:** Use descriptive language for hidden work ("the human provided context," "the human defined what done looks like"). Do not use the formal discipline names (prompt craft, context design, intent framing, spec writing) until Section 1.
+- **Before Sections 2–5 introduce the building blocks:** Do not use building-block terms (complete order, plating standards, house rules, station assignments, tasting system) as formal categories in earlier sections. Section 0 can describe these functions — it should not name them as the framework.
+- **When bridging between levels:** If a section references a concept from a different level (e.g., Section 1 mentions constraints, which are a building block from Section 3), add a short bridge sentence placing it in the current section's vocabulary. Do not assume the reader will map between levels on their own.
+- **The interactive module for any section must use the same vocabulary level as that section's theory.** If the interactive needs finer granularity, explicitly bridge between the interactive's labels and the theory's terms.
+
+### Internal Consistency Self-Check
+
+After drafting each section, verify:
+
+- **Count alignment:** If the prose says "six things" or "four disciplines," the subsequent list, table, or interactive must use the same count. If a summary and a detailed breakdown have different granularity, state this explicitly.
+- **Label alignment:** Field names, category labels, and term definitions must match across the prose, the summary table, and the interactive content within the same section. Do not introduce synonyms or alternate labels without bridging them.
+- **Key lesson alignment:** The key lesson must reflect the current section's claim as stated in `04a-section-goals.md`. If the drafted key lesson points toward a different section's territory, it has drifted — revise it to capture this section's core insight, not an adjacent one.
+- **Cross-framework bridge:** If this section introduces a new model (a set of fields, categories, or concepts), verify that the draft includes at least one explicit paragraph connecting it to the previous section's model. The reader should feel continuity — one system getting sharper — not accumulation of separate lists. See the "Framework continuity" teaching principle in `03`.
+
 ### Between Sessions
 
 - Each session should start by reading the most recent drafts to re-establish continuity.

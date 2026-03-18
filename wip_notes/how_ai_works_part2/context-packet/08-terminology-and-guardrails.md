@@ -86,6 +86,24 @@ Use these kitchen terms consistently as metaphor anchors:
 - Do not claim that the kitchen metaphor maps perfectly to every situation — it's a teaching tool, not a theory
 - Do not speculate about future AI capabilities or timelines
 
+## Illustrative Framing
+
+Examples, failure scenarios, and interactive content often require specific details (company names, numbers, competitive facts) to feel concrete. These details must be clearly framed as teaching devices, not factual claims.
+
+### Numbers and Percentages
+
+When the draft uses a number to make a conceptual point (e.g., "the prompt was ~20% of the control structure"), frame it as approximate and schematic — not measured. Prefer language like "roughly," "about," or "think of this as" over precise-sounding fractions. In interactive progress meters or visual devices, frame the mechanic as illustrative: "Treat the meter as a teaching device, not a literal audit."
+
+### Fictional Details in Examples
+
+Failure scenarios and interactive content may introduce fictional companies, products, or competitive facts to make the scenario concrete. These details should be:
+
+- **Clearly disposable** unless explicitly marked as canonical for the running example
+- **Free of faux-specific numbers** (avoid "47 connectors" or "launched four new integrations" unless the detail serves a purpose beyond color)
+- **Consistent within a section** but not assumed to carry across sections unless documented
+
+If fictional details are intended to persist as part of the running example (e.g., named competitors that recur throughout Part 2A), document that decision in `10-open-questions.md` and treat them as canonical. If not, keep them generic enough that they don't accidentally become canon.
+
 ## Hallucination-Prone Areas
 
 These are areas where AI drafting is most likely to produce confident-but-wrong content. Flag for manual review:

@@ -47,6 +47,8 @@ These are deferred to later conversations.
 
 8. **Running example split point.** The competitive landscape brief spec builds across all 11 sections. With the split, the reader finishes Part 2A with: a complete order, plating standards, house rules, station assignments, and a mini tasting system. Part 2B adds: context packet, house philosophy, assembled recipe card, pre-service card. **The split is clean.** Part 2A produces the building blocks; Part 2B assembles them into the full spec. But the exact handoff — what Part 2A's "final state" looks like — should be defined explicitly during drafting.
 
+9. **Are Acme, Bolt, and Cirrus canonical competitors?** Section 0's interactive introduces three named competitors (Acme, Bolt, Cirrus) with specific competitive details (pricing pressure, integration gaps, hiring signals). Decision needed: do these persist as the fictional competitive set throughout Part 2A's running example, or are they disposable placeholders for the Section 0 interactive only? If canonical, document them and ensure consistency across sections. If disposable, strip the faux-specific details so they don't accidentally become canon. See `08-terminology-and-guardrails.md` Illustrative Framing section.
+
 ## Assumptions (Updated)
 
 | # | Assumption | Where It Affects | Status |
@@ -100,6 +102,42 @@ These are deferred to later conversations.
 ### 2026-03-15 — `03-voice-tone-style.md`
 **Changed:** Added Hard Tradeoffs section with explicit priority decisions for common drafting conflicts.
 **Supersedes:** Nothing — this is new content filling a gap.
+
+### 2026-03-17 — Multiple files (post-review drafting rules)
+
+Patterns identified from Section 0–2 feedback reviews prompted additions to four context packet files:
+
+**`06-drafting-workflow.md`:**
+**Changed:** Added three new subsections to "Within a Session": Vocabulary Layering (rules for managing discipline-level vs. building-block-level terms across sections), Internal Consistency Self-Check (count/label/key-lesson alignment), and a note that interactive labels must match theory vocabulary.
+**Supersedes:** Nothing — these are new drafting rules filling gaps exposed during Sections 0–2 review.
+
+**`04a-section-goals.md`:**
+**Changed:** Added a Section Handoffs table specifying what each section (0–5) must plant for the next section and what territory it must leave alone.
+**Supersedes:** Nothing — the section goals existed but had no handoff guidance.
+
+**`05-interactive-and-visual-plan.md`:**
+**Changed:** Added a Vocabulary Alignment Rule section to Implementation Notes requiring interactive labels to match theory vocabulary.
+**Supersedes:** Nothing — new rule.
+
+**`08-terminology-and-guardrails.md`:**
+**Changed:** Added an Illustrative Framing section (before Hallucination-Prone Areas) with guidance on numbers/percentages, fictional details in examples, and when to mark details as canonical vs. disposable.
+**Supersedes:** Nothing — the hallucination-prone section covered statistics but not illustrative specificity in examples.
+
+**`10-open-questions.md`:**
+**Changed:** Added open question #9 about whether Acme/Bolt/Cirrus are canonical competitors for the running example.
+**Supersedes:** Nothing — new question surfaced by Section 0 feedback.
+
+### 2026-03-17 — `03-voice-tone-style.md` and `06-drafting-workflow.md` (cross-framework bridging)
+
+Pattern identified from Sections 0–2 editorial review: framework accumulation without cross-mapping. Each section introduces a new model, but the drafts don't always connect it to the previous section's model explicitly. The reader experiences three separate lists rather than one system getting sharper.
+
+**`03-voice-tone-style.md`:**
+**Changed:** Added "Framework continuity over framework accumulation" as a teaching style principle. Rule: every section introducing a new framework must include at least one paragraph connecting it to the previous section's model.
+**Supersedes:** Nothing — new principle.
+
+**`06-drafting-workflow.md`:**
+**Changed:** Added "Cross-framework bridge" to the Internal Consistency Self-Check.
+**Supersedes:** Nothing — new self-check item.
 
 ---
 
