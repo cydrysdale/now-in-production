@@ -41,7 +41,7 @@ The guide reuses a small set of interaction patterns instead of inventing a new 
 - **Mechanic:** Tagger
 - **Input:** Six-turn chat transcript (marketing task: competitive positioning summary)
 - **Interaction:** After each turn, reader selects label(s) for what the human contributed
-- **Labels:** Ticket writing, Stocking the counter, Setting plating standards, Posting house rules, Calling the station, Catching a bad plate
+- **Labels:** Writing the ticket, Stocking the counter, Describing the finished plate, Posting the kitchen's rules, Working the stations, Catching a bad plate
 - **Reveal:** Visual breakdown showing prompt = ~20% of control structure
 - **Implementation:** Multi-step walkthrough with progressive reveal. Each turn shows the chat exchange, then a tagging interface. Scoreboard accumulates across turns.
 

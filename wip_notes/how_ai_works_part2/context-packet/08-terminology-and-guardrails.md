@@ -104,6 +104,15 @@ Failure scenarios and interactive content may introduce fictional companies, pro
 
 If fictional details are intended to persist as part of the running example (e.g., named competitors that recur throughout Part 2A), document that decision in `10-open-questions.md` and treat them as canonical. If not, keep them generic enough that they don't accidentally become canon.
 
+### Vivid Detail vs. Invented Data
+
+The rules above prevent invented statistics and fictional data points from becoming accidental canon. They do not prevent vivid, concrete, sensory detail in scenarios and examples. These are different things:
+
+- **Invented data (avoid or flag):** "47 connectors," "launched four new integrations," "$2.3M pipeline impact" — specific numbers that read as factual claims
+- **Vivid scenario detail (preserve):** "turkey wraps, mixed green salad, chips, and assorted cookies," "the chocolate torte has a hazelnut crust," "three-page analysis when leadership wants a one-pager" — concrete images that make examples land
+
+Stripping vivid detail to avoid the invented-data problem produces generic scenarios that don't stick. The reader remembers "turkey wraps for a C-suite lunch." They don't remember "an inappropriate menu."
+
 ## Hallucination-Prone Areas
 
 These are areas where AI drafting is most likely to produce confident-but-wrong content. Flag for manual review:

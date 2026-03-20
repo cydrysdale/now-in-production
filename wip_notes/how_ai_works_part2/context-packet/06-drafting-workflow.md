@@ -120,10 +120,20 @@ Add these when relevant:
 
 The guide introduces two vocabulary systems at different levels: the **four disciplines** (Section 1) and the **building blocks** (Sections 2–5). These overlap but are not interchangeable. During drafting, follow these rules:
 
-- **Before Section 1 introduces the disciplines:** Use descriptive language for hidden work ("the human provided context," "the human defined what done looks like"). Do not use the formal discipline names (prompt craft, context design, intent framing, spec writing) until Section 1.
-- **Before Sections 2–5 introduce the building blocks:** Do not use building-block terms (complete order, plating standards, house rules, station assignments, tasting system) as formal categories in earlier sections. Section 0 can describe these functions — it should not name them as the framework.
+- **Before Section 1 introduces the disciplines:** Do not use the formal discipline names (prompt craft, context design, intent framing, spec writing) until Section 1. Prefer kitchen-flavored descriptions when equally clear: "she stocked the counter with competitive data," "she described what the finished plate should look like." Plain language is fine when no natural kitchen phrasing exists, but kitchen descriptions should be the first choice, not a last resort.
+- **Before Sections 2–5 introduce the building blocks:** Do not use the five building-block terms (complete order, plating standards, house rules, station assignments, tasting system) as formal category names in earlier sections. Section 0 can describe these functions — it should not name them as the framework. Prefer kitchen-flavored descriptions over generic ones when they're equally clear.
 - **When bridging between levels:** If a section references a concept from a different level (e.g., Section 1 mentions constraints, which are a building block from Section 3), add a short bridge sentence placing it in the current section's vocabulary. Do not assume the reader will map between levels on their own.
 - **The interactive module for any section must use the same vocabulary level as that section's theory.** If the interactive needs finer granularity, explicitly bridge between the interactive's labels and the theory's terms.
+
+**The prohibited terms are specific.** "Plating standards" is a formal building-block term — don't use it as a category label before Section 3. "The finished plate" is kitchen description — use it freely. "House rules" is a formal building-block term. "The kitchen's rules" or "the do-not list" is kitchen description. The prohibition targets formal framework names, not kitchen vocabulary in general. When a formal term can't be used yet, prefer a kitchen-flavored description over a generic one.
+
+| Formal term (hold until its section) | Kitchen-flavored description (use earlier) | Generic fallback (less preferred) |
+|---|---|---|
+| Plating standards | The finished plate / what the plate should look like | What "done" looks like |
+| House rules | The kitchen's rules / the do-not list | Constraints / rules |
+| Station assignments | Working the stations / breaking the service into stations | Breaking work into steps |
+| Tasting system | Tasting before it leaves the pass | Checking quality |
+| Complete order | A ticket the cook can actually work from | A fully specified request |
 
 ### Internal Consistency Self-Check
 

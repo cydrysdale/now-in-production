@@ -208,11 +208,126 @@ The honest pre-test assessment is that the updated rules will catch the mechanic
 
 ---
 
+## Phase 7: Regeneration Test — Section 0 and the Voice Problem
+
+*Date: 2026-03-19.*
+
+### What happened
+
+Section 0 was regenerated using the context packet updated in Phase 6 (six new drafting rules). The regeneration test produced a clear, two-part result.
+
+### What the updated packet fixed (v2)
+
+The Phase 6 rules worked for their intended purpose. The regenerated Section 0 (v2) improved on v1 in every structural dimension the reviews had flagged:
+
+- The AI failure arrived earlier — the catering opener compressed from six paragraph-per-email exchanges to one dense paragraph, with the marketing chat following immediately
+- The judgment/tradeoff thread became explicit as a sixth hidden job, planting a clean handoff for Section 1's intent framing
+- The exercise distinguished missing context from verification needs and judgment calls — three separate categories instead of collapsing everything into "context"
+- The interactive avoided faux-specific invented data (no "47 connectors")
+- Vocabulary layering was respected — no formal building-block terms used before their home sections
+
+### What the updated packet broke (v2)
+
+The structural improvements came at a cost the packet hadn't anticipated: the prose flattened. Specifically:
+
+- Kitchen verbs ("stocked the counter," "caught a bad plate") were replaced with generic English ("provided information," "caught errors")
+- The interactive labels became functional but forgettable ("Providing missing information" instead of "Stocking the counter")
+- Sentence structure became monotonous — five consecutive "She did X" paragraphs with identical cadence
+- Vivid scenario detail was stripped (the catering menu lost its specific items)
+- The theory closer lost its kitchen imagery ("the setup was incomplete" instead of "the pantry is empty, the kitchen has no rules posted")
+
+The v2 draft was structurally superior to v1 and vocally inferior to v1. It read like a well-organized training manual instead of a guide with the voice of Part 1.
+
+### Root cause analysis
+
+Three packet rules interacted to produce the flatness:
+
+**1. Vocabulary layering in `06` modeled generic replacements.** The rule correctly prohibited formal building-block terms before their sections. But its example replacement language — "the human provided context," "the human defined what done looks like" — was generic English. The drafter followed the examples literally, replacing *all* kitchen language (including non-prohibited kitchen descriptions like "stocked the counter") with generic equivalents.
+
+**2. The "concept clarity beats kitchen metaphor elegance" tradeoff in `03` was one-directional.** It resolved toward stripping metaphor but had no counterpart resolving toward preserving kitchen flavor when equally clear. The drafter read one tiebreaker and inferred a general preference for plain language.
+
+**3. "What 'Wrong' Sounds Like" in `03` only showed overwritten failure modes.** AI fluff, hedging, motivation speak — all *too much*. No example of prose that was accurate but flat. The drafter had calibration for "too much" but none for "too little."
+
+Contributing factors: the illustrative framing guidance in `08` didn't distinguish vivid scenario detail from invented data points, and the interactive labels in `05` conflicted with vocabulary layering in `06` (two labels used formal building-block terms, so the drafter genericized all six).
+
+### What this reveals about context packet design
+
+**Structural rules that don't account for voice create a voice vacuum.** The Phase 6 rules were regression-prevention rules — they told the drafter what not to do (wrong vocabulary level, mismatched counts, boundary violations). They did not tell the drafter what to use *instead*. The drafter filled the vacuum with the safest, flattest option.
+
+**Prohibition rules need replacement guidance.** "Don't use formal terms before their sections" is incomplete without "prefer kitchen-flavored descriptions when equally clear." The rule's own examples are what the drafter follows. If the examples are generic, the output is generic.
+
+**Tradeoff rules need counterweights.** A one-directional tiebreaker becomes a universal preference. "Clarity beats metaphor" is correct when the metaphor obscures. But without "kitchen language that fits naturally is register, not decoration," the drafter strips metaphor even when it's the clearer option.
+
+### Follow-up review: Section 0 v3 and the packet recalibration test
+
+Section 0 v3 was reviewed against v1 and v2. The result: the second round of packet changes appears to have solved the right problem.
+
+**What improved in v3:**
+- The structural gains from v2 held: earlier AI failure, explicit judgment/tradeoff thread, cleaner Section 1 handoff, better distinction between context vs. verification vs. judgment, no faux-canonical competitor details
+- Voice quality recovered: kitchen verbs returned, interactive labels regained metaphor continuity, and the prose became more memorable without losing clarity
+- The updated packet produced a draft that was both more teachable and more in-family with Part 1
+
+**What remains imperfect:**
+- The judgment paragraph still reads slightly like a sixth item appended after five more concrete jobs, rather than a hidden layer fully integrated into the system
+- A few lines push the metaphor hard enough to risk sounding written-to-rule rather than naturally voiced
+
+**Decision logged:**
+The packet changes were not just Section 0 patches. The most important revisions (`03`, `06`, `08`) appear to address a broader drafting failure mode: when structural rules are added without replacement guidance, the model defaults to generic explanatory prose. The localized changes (`05`, `04a`) reinforced Section 0 specifically, but the main recalibration should help later sections too.
+
+**Next test:**
+Regenerate Sections 1 and 2 using the updated packet. The key question is whether the packet now improves theory-heavy sections without over-biasing them toward kitchen language where cleaner taxonomy is needed.
+
+**Case study relevance:**
+This is the clearest experiment so far with a full loop:
+review -> root cause hypothesis -> packet revision -> regeneration -> comparative review.
+The important lesson is that prompt/context systems do not just constrain errors; they also shape voice, pacing, and memorability. Fixing one class of failure can create another if the replacement behavior is underspecified.
+
+**Wrong-voice examples need both poles.** The packet showed what "too much" looks like (fluff, hedging, hype) but not what "too little" looks like (flat, generic, monotonous). The drafter optimized away from the visible failure modes and into an invisible one.
+
+**Case study relevance:** This is the house rules concept from Section 3 applied to the packet itself. The Phase 6 rules were Must Not rules (don't use formal terms too early, don't invent canon). The missing rules were Prefer rules (prefer kitchen language, prefer vivid detail, prefer varied sentence structure). A constraint set with only Must/Must Not and no Prefer quadrant produces compliant but characterless output — exactly the failure mode the guide's Section 3 is designed to teach. The packet demonstrated the problem it teaches.
+
+### Packet revisions made
+
+Seven changes across four files, addressing the three root causes and four contributing factors:
+
+| File | Change | Root cause addressed |
+|---|---|---|
+| `06` | Vocabulary layering rewritten — examples now model kitchen-flavored descriptions, explicit table of formal terms vs. kitchen alternatives vs. generic fallbacks | Generic replacement examples |
+| `03` | New counter-tradeoff: "Kitchen language that fits naturally is register, not decoration" | One-directional tiebreaker |
+| `03` | New wrong-voice example: "Flat explainer" — warns against monotonous subject-verb-abstraction patterns | No calibration for underwritten prose |
+| `03` | New "Sentence-level craft" subsection — structural variety, concrete-over-abstract, pull-quote test | No positive craft rule |
+| `05` | Section 0 interactive labels updated to kitchen-flavored descriptions that avoid formal building-block terms | Label conflict between `05` and `06` |
+| `08` | New "Vivid Detail vs. Invented Data" subsection | Vivid detail stripped alongside invented data |
+| `04a` | Section 0 handoff reinforced: hidden jobs should use kitchen-flavored language | Missing register guidance |
+
+### Section 0 v3
+
+Section 0 was redrafted with the revised packet. The v3 draft combines v2's structural gains with v1's voice quality:
+
+- Kitchen verbs are back: "stocked the counter," "described the finished plate," "posted the kitchen's rules," "worked the stations," "caught a bad plate"
+- These are kitchen-flavored descriptions that avoid the formal building-block terms — the vocabulary layering table worked as designed
+- Catering detail is vivid again (grilled salmon, chocolate torte, hazelnut crust) but compressed (one paragraph instead of six)
+- Sentence structure varies across the five theory paragraphs
+- Judgment thread and all other structural gains preserved from v2
+
+v3 is pending human review. If it passes, the revised packet is validated and Sections 1–2 can be regenerated.
+
+### The pre-test prediction, revisited
+
+Phase 6 ended with a prediction: "the updated rules will catch the mechanical issues but may not fully prevent the editorial issues." This turned out to be half right and half wrong in an unexpected way.
+
+The rules *did* catch the mechanical issues (vocabulary level, label drift, boundary violations). But they also *created* a new editorial issue — voice flattening — because they were structural rules that inadvertently penalized craft. The editorial judgment gap wasn't in the areas the prediction identified (framework accumulation feel, pacing). It was in an area the prediction didn't consider: that structural compliance and voice quality can work against each other when the rules don't account for both.
+
+The second round of packet revisions addressed this by adding voice-preservation rules alongside the structural ones. Whether this fully resolves the tension or just pushes it somewhere else is what the Section 1–2 regeneration will test.
+
+---
+
 ## Open Threads for Future Entries
 
 *Add entries as they arise during drafting:*
 
-- **Regeneration test results:** Did the updated packet prevent the review issues? Which ones persisted? What does that say about the limits of context packet design vs. editorial judgment?
+- **Regeneration test results (partially answered):** Phase 6 rules fixed structural issues and broke voice. Phase 7 rules aimed to fix voice without re-breaking structure. v3 pending review. Sections 1–2 regeneration will test whether the revised packet generalizes or whether each section surfaces its own voice/structure tension.
+- **Does the revised packet push too hard toward kitchen language?** The new rules prefer kitchen-flavored descriptions. Risk: overcorrection in the other direction — forced metaphor where plain language reads better. Watch for this in Sections 1–2.
 - Which interactive modules got full implementation vs. stubbed in first pass?
 - What did the running example reveal about the guide's structure as it accumulated across sections?
 - Where did the packet help? Where did it fall short?

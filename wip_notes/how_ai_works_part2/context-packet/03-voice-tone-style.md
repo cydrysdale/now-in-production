@@ -93,6 +93,19 @@ The reader leaving Section 2 should understand: "The complete order is the first
 - Keep paragraphs short. 2–4 sentences is the target.
 - One idea per paragraph. If a paragraph makes two points, it's two paragraphs.
 
+### Sentence-level craft
+
+Structural compliance is not the same as good writing. A draft that follows every vocabulary rule and section pattern can still be flat if every sentence is built the same way and no phrase is worth remembering.
+
+Watch for:
+
+- Three or more consecutive sentences with the same structure (she did X, she did Y, she did Z)
+- Descriptions that name the function without showing it ("she provided context" vs. "she loaded the counter with last quarter's win/loss data")
+- Theory blocks where no single line would work as a pull quote
+- Closers that explain the point rather than landing it
+
+The Part 1 voice achieves clarity *through* vivid, concrete phrasing, not by stripping it away. Compare: "the pantry is empty, the house rules are missing, and nobody defined what a good plate looks like" vs. "the setup was incomplete." Both are accurate. Only one sticks.
+
 ### Section structure
 
 Each section follows this pattern:
@@ -147,6 +160,7 @@ Avoid these patterns:
 - **Motivation speak:** "Now that you've mastered this concept, you're ready to take your AI game to the next level!"
 - **Meta-commentary:** "This section will teach you about context design. Context design is important because..."
 - **Generic education tone:** "Let's explore this topic together and discover what makes it so fascinating."
+- **Flat explainer:** "She provided information the AI didn't have. She defined what the finished product looks like. She set rules that prevent specific failures. She broke the work into steps." (Each sentence is accurate. The problem is the pattern: identical structure, no concrete image, no kitchen language, nothing the reader would recall. One plain sentence is fine — four in a row with the same subject-verb-abstraction cadence reads like a bullet-point summary, not a guide. When kitchen language drops out of the prose entirely and nothing replaces it, the voice flattens with it.)
 
 ## Hard Tradeoffs
 
@@ -154,6 +168,9 @@ When two valid values conflict during drafting, these rules resolve the call. Th
 
 **Concept clarity beats kitchen metaphor elegance.**
 If the kitchen mapping doesn't clarify the concept, cut the metaphor or simplify it. Never preserve a metaphor at the cost of the reader understanding the concept. (This rule already exists in `03` — it is restated here to sit alongside the others.)
+
+**Kitchen language that fits naturally is register, not decoration.**
+The rule above prevents forced metaphor — a kitchen mapping that obscures the concept should be cut. This rule prevents the opposite error: stripping kitchen language from descriptions where it fits naturally, producing prose that's accurate but tonally dead. If the kitchen version of a phrase is as clear as the generic version, use the kitchen version. "She stocked the counter with competitive data" is not less clear than "she provided information the AI didn't have" — it's *more* clear, because it carries a visual and connects to the guide's world. Generic phrasing is a fallback for when no natural kitchen description exists, not a default.
 
 **Running example coherence beats individual section polish.**
 If a section's exercise would work better with a different task than the competitive brief, don't switch. The cumulative artifact only works if the example is consistent. Adapt the exercise to fit the brief; don't adapt the brief to fit the exercise.

@@ -1,10 +1,10 @@
 # How AI Works Part 2 — Project Status
 
-> Last updated: 2026-03-17
+> Last updated: 2026-03-19
 
 ## Current Phase
 
-**Phase 1 drafting — review and iteration.** First drafts of Sections 0–2 complete. Section-level and editorial reviews complete. Context packet updated with six new drafting rules based on review findings. Next step: regenerate Sections 0–2 with updated packet to test whether the new rules prevent the issues reviews caught.
+**Phase 1 drafting — regeneration test in progress.** Section 0 regenerated through v3 and reviewed. The first regeneration (v2) confirmed the Phase 6 packet updates fixed structural issues but introduced a new problem: prose flattened, kitchen metaphor lost load-bearing force, interactive labels became generic. A second round of packet revisions (7 changes across 4 files) addressed the root causes. Section 0 v3 preserves the structural gains and recovers voice quality well enough to proceed. Sections 1–2 regeneration pending.
 
 ## Decisions Log
 
@@ -15,6 +15,7 @@
 | Case study is a separate future guide; document process as we go | Decided | 2026-03-14 |
 | Section 0 opener uses catering scenario, not competitive analysis | Decided | 2026-03-17 |
 | Acme/Bolt/Cirrus as canonical competitors | Open — see `10` question #9 | 2026-03-17 |
+| Context packet needs voice-preservation rules alongside structural rules | Decided | 2026-03-19 |
 | Interactive module prioritization | Deferred | — |
 | Running example Part 2A final-state artifact | Deferred | — |
 | Visual assets (banners, OG cards) | Deferred | — |
@@ -23,7 +24,7 @@
 
 | Section | Draft | Review | Packet Updated | Regeneration Test |
 |---|---|---|---|---|
-| 0 — From One Cook to a Full Kitchen | v1 done | Reviewed (section + editorial) | Yes | Pending |
+| 0 — From One Cook to a Full Kitchen | v3 done | Reviewed (section + editorial) | Yes (2 rounds) | v2 regressed on voice; v3 with revised packet approved to proceed |
 | 1 — The Four Disciplines | v1 done | Reviewed (section + editorial) | Yes | Pending |
 | 2 — The Complete Order | v1 done | Reviewed (section + editorial) | Yes | Pending |
 | 3 — Plating Standards & House Rules | Not started | — | — | — |
@@ -44,7 +45,7 @@
 
 | Item | Status |
 |---|---|
-| Context packet | Done — updated 2026-03-17 with 6 new drafting rules |
+| Context packet | Updated 2026-03-19 — 7 voice-preservation changes across `03`, `04a`, `05`, `06`, `08` |
 | Process log (`process-log.md`) | Updated — Phase 6 entry covers this session |
 | Draft directory structure (`drafts/part-2a/`, `drafts/part-2b/`) | Created |
 | Kitchen Inspection sidebars (2–3 total) | Not started |
@@ -62,7 +63,8 @@ None currently.
 
 ## Next Actions
 
-1. Regenerate Sections 0–2 with updated context packet (test whether new rules prevent review issues)
-2. Compare regenerated drafts against v1 drafts and review feedback
-3. Decide on Acme/Bolt/Cirrus canon question (`10` #9)
-4. Continue Phase 1: draft Sections 3–5
+1. Regenerate Sections 1–2 with updated context packet
+2. Compare all regenerated drafts against v1 drafts and review feedback
+3. Decide whether the packet changes generalize cleanly beyond Section 0
+4. Decide on Acme/Bolt/Cirrus canon question (`10` #9)
+5. Continue Phase 1: draft Sections 3–5
