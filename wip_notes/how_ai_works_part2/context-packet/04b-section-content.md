@@ -92,13 +92,15 @@
 
 ## Section 6: Mise en Place — Context Design
 
-**Theory:** Context design is curation, not accumulation. Key concepts: relevance over exhaustiveness, signal-to-noise management, stable vs. task-specific context, freshness/staleness, persistent guidance vs. temporary materials.
+**Theory:** Context design is curation, not accumulation. Key concepts: relevance over exhaustiveness, signal-to-noise management, stable vs. task-specific context, freshness/staleness, persistent guidance vs. temporary materials. Briefly introduce MCP here as infrastructure context: a standard way some AI systems connect to outside tools and data sources. Keep the explanation reader-facing, not protocol-heavy.
 
 **Failure example opener:** Marketing analyst loads 45 pages of mixed materials into one session. Output is unfocused, mixes strategic planning language with competitive analysis, references obsolete product names.
 
 **Interactive module:** "Stock the Kitchen" — Limited context budget (visualized as shelf space). Reader selects from possible materials, sees what was essential, what was noise, what should have been summarized, and what was missing.
 
 **Practical exercise:** Build a Context Packet — Organize materials into stable context, task-specific context, source-of-truth materials, and summarize-don't-paste items.
+
+**Optional deep-dive sidebar (Chance/Chest card):** "What MCP Actually Changes" — Plain-English explanation of MCP as a standard connection layer between an AI system and outside tools or data sources. Explain why it matters without implementation detail: it can make fresh materials easier to reach, but it does not make the model wiser, remove the need for curation, or eliminate verification. Frame it as infrastructure for stocking the kitchen, not as the main lesson of the section.
 
 ---
 
@@ -117,6 +119,8 @@
 ## Section 8: The Recipe Card — Spec Writing
 
 **Theory:** A spec is not a long prompt. It is a structured contract that integrates: the complete order, plating standards, house rules, station assignments, the tasting system, context requirements, and the house philosophy. Spec quality reflects thinking quality.
+
+**Note for Part 2B drafting:** If Section 6 introduced MCP lightly, Section 8 or Section 10 may refer back to it only as one example of workflow infrastructure. The guide should not require MCP-specific implementation knowledge to understand spec writing.
 
 **Failure example opener:** Marketing lead's detailed prompt works well when they run it. Colleague runs the same prompt on vacation — output is wrong because the colleague didn't know to load last month's brief, the CMO's verbal priority, or which claims need legal review. The prompt was personal. It was never a spec. This is the 80% problem in its purest form: output that is almost right, structurally plausible, and wrong in ways that make rework harder than starting fresh.
 

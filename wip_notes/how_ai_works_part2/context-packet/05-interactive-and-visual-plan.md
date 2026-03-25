@@ -92,6 +92,7 @@ The guide reuses a small set of interaction patterns instead of inventing a new 
 - **Interaction:** Reader selects what to load within a limited context budget (visualized as shelf space)
 - **Reveal:** Essential vs. noise vs. should-have-been-summarized vs. missing
 - **Implementation:** Visual shelf/pantry metaphor. Items have different sizes. Budget bar shows remaining space. Color-coded feedback on submit.
+- **Companion explainer:** Section 6 can include a short callout plus an optional collapsible deep-dive introducing MCP in plain English. The callout should stay high-level. The collapsible can explain why connected tools/data matter for context design without drifting into protocol or vendor specifics.
 
 ### Section 7: The Priority Ladder
 
@@ -150,6 +151,16 @@ Static decision tree: "Something went wrong. Where?" with branches to each secti
 - Use existing CSS patterns from Part 1 where applicable (`.sandbox-card`, `.code`, `.truth`)
 - Guide-specific JS in a dedicated file (`../assets/js/how-ai-works-part2.js` or similar)
 - Guide-specific CSS in a `<style>` block or dedicated file
+
+## MCP Teaching Rule
+
+If MCP appears in the guide, teach it as workflow infrastructure, not as a prerequisite concept.
+
+- First mention belongs in Section 6, alongside context design.
+- The main prose should define it briefly in plain English: a standard way some AI systems connect to outside tools and data sources.
+- Any extra detail should live in an optional collapsible or sidebar, not in the core theory flow.
+- Emphasize consequences for the reader: easier access to fresh materials, but no reduction in the need for curation, prioritization, or verification.
+- Avoid protocol mechanics, transport details, or vendor-specific implementation unless the guide later needs a concrete example.
 
 ## Vocabulary Alignment Rule
 

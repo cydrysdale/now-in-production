@@ -322,12 +322,264 @@ The second round of packet revisions addressed this by adding voice-preservation
 
 ---
 
+## Phase 8: Sections 1–2 Regeneration + Sections 3–5 First Drafts
+
+*Date: 2026-03-23.*
+
+### What happened
+
+Sections 1 and 2 were regenerated with the updated context packet (v2 drafts). Sections 3, 4, and 5 were drafted fresh. Each new section (3–5) was sent to an editorial-review agent after drafting and revised before moving to the next section. All six Part 2A sections now have drafts.
+
+### The regeneration test: packet changes generalize
+
+The Phase 7 packet revisions — voice-preservation rules, kitchen-flavored replacement guidance, the "flat explainer" wrong-voice example — worked well for Sections 1 and 2. The voice/structure tension from Section 0 v2 did not recur. Kitchen language was natural throughout without the flattening that prompted the Phase 7 revisions.
+
+Sections 1 v2 addressed all four review issues from the original feedback:
+- Third opener failure recast from "constraint" (building-block vocabulary) to spec writing (discipline-level)
+- Spec writing sharpened around handoff/transferability
+- Scenario 6 in the interactive strengthened to rule out prompt craft
+- Key lesson rewritten to reflect diagnosis, not building-block preview
+- New cross-framework bridge: explicit mapping table from Section 0's six hidden jobs to the four disciplines
+
+Section 2 v2 addressed all four review issues:
+- Count mismatch fixed (seven items consistently in prose, table, and interactive)
+- Interactive aligned to theory vocabulary (seven gaps matching seven fields, not eight with different labels)
+- Section 6 boundary explicitly stated: "A complete order points at the pantry. It doesn't stock it."
+- Percentage meter framed as illustrative
+
+**Answering the Phase 7 open thread:** The revised packet does not push too hard toward kitchen language. Section 1's theory block in particular uses discipline-level language naturally — the kitchen metaphor supports the taxonomy without overwhelming it. The balance feels right for theory-heavy sections.
+
+### Editorial review as a drafting tool
+
+Sections 3–5 were each drafted, reviewed by an editorial-review agent, and revised before moving on. This was a workflow experiment — using agentic review as a mandatory gate between sections rather than batching all reviews after drafting.
+
+**What the reviews caught consistently:**
+
+1. **Interactive module design was the weakest element across all three sections.** Section 3's interactive was solid (genuine sorting ambiguity). Section 4's interactive reused the same scenario as the failure example, pre-solving the discovery. Section 5's interactive duplicated the exercise's template-completion work. Both were redesigned after review.
+
+2. **Section boundary discipline.** Section 3's Prefer/Escalate rules initially encroached on Section 7's intent-framing territory — the language about "pre-resolved judgment calls" was too close to the canonical definition of intent framing. The fix was precise: Prefer rules are *specific, scoped defaults for named tradeoffs*; intent framing is the *standing priority hierarchy that generates them*.
+
+3. **Missing handoffs.** Section 3 originally lacked a forward handoff to Section 4. Section 4's handoff to Section 5 initially introduced "tasting" vocabulary cold. Both were revised to describe the *problem* the next section solves rather than jumping to the next section's vocabulary.
+
+**What the reviews didn't catch (or didn't need to):**
+
+- Voice quality was consistently on target. No flat-explainer patterns, no monotonous sentence structure, no corporate-speak drift. The Phase 7 packet changes appear to have calibrated the voice balance well.
+- Cross-framework bridges were present in all three sections without prompting. The drafting workflow's self-check rule is working.
+- Kitchen language was natural and load-bearing throughout. No forced metaphor flagged in any review.
+
+### The interactive design pattern
+
+The recurring interactive weakness is the most interesting finding for the case study. Across three sections:
+
+- **Section 3:** Interactive works well — genuine sorting ambiguity between plating standards and house rule quadrants.
+- **Section 4:** Interactive pre-solved by the failure example (both used the campaign retrospective). Fixed by giving the interactive a different scenario (product launch content package).
+- **Section 5:** Interactive duplicated the exercise (both built a tasting system for the competitive brief). Fixed by redesigning the interactive as an experiential discovery — showing three months of regressing briefs side by side and asking the reader to spot the regression.
+
+The pattern: **interactives fail when they confirm what the reader already knows instead of producing a surprise the prose couldn't deliver.** Section 3's sorter works because the ambiguous items genuinely make the reader think. Sections 4 and 5 initially failed because they asked the reader to do what the prose had already done or what the exercise would do.
+
+**Case study relevance:** This maps to the guide's own Section 5 concept — quality vs. regression. The prose quality held steady across sections (quality checks passing). But the interactive design quality regressed from Section 3 to Section 5 (same pattern repeated, each time slightly less effective). The editorial review caught it, but only because it was checking each section fresh. If the reviews had been batched after all three were drafted, the pattern might have been harder to see — exactly the regression problem Section 5 is about.
+
+### Decision: Acme/Bolt/Cirrus are canonical
+
+The named competitors from Section 0's interactive — Acme, Bolt, and Cirrus — are now canonical for the running example. Competitive details (pricing pressure, integration gaps, hiring signals) should be consistent across sections. This was an open question since 2026-03-17; resolved by user decision.
+
+### Decision: Section 5 tasting system components
+
+The draft's five-component model (quality markers, thresholds, known failure modes, regression checks, walk-away line) differs from the 04b spec (test cases, quality markers, known failure modes, repeatable checks, quality/regression distinction). The draft's version is stronger — "walk-away line" in particular is a concept the spec didn't anticipate but that earned its place during drafting. The editorial review flagged the mismatch but recommended ratifying the draft's components. Ratified.
+
+---
+
+## Phase 9: Workflow Infrastructure Decisions — MCP Placement + Specialized Review Agents
+
+*Date: 2026-03-23.*
+
+### What happened
+
+Three workflow-level decisions were made after the Part 2A drafting push:
+
+1. **MCP should be acknowledged in the guide, but lightly.** The decision was not to make MCP a core concept in Part 2A or turn Part 2B into a protocol explainer. Instead, Section 6 (Mise en Place) will carry the first mention: brief explanation in the main prose, optional deeper collapsible/sidebar, and later references in Part 2B only when connected tools or data sources become operationally relevant.
+
+2. **The review workflow was decomposed into specialized agents.** The project already had an `editorial-review` agent, but repeated review needs made it clear that "review" was not one job. Additional agents were specified for cross-section continuity, voice/metaphor guardrails, interactive alignment, running-example consistency, section-boundary review, final reader clarity, and HTML assembly QA.
+
+3. **The review workflow was tiered by model and given an orchestrator.** The narrower, more rule-bound agents (interactive alignment, running-example consistency, section-boundary review, HTML assembly QA) were moved to Sonnet to reduce token cost. The more judgment-heavy agents (editorial review, voice/metaphor review, and the new review orchestrator) stayed on Opus. A `review-orchestrator` agent was then added to route tasks to the right specialist and avoid unnecessary passes.
+
+### Why this matters
+
+Both decisions reinforce the guide's own thesis.
+
+The MCP decision reflects the guide's teaching priorities: infrastructure should appear when it helps the reader understand the workflow, not when it would only add acronym load. Section 6 is the right home because MCP belongs under context infrastructure — one way the kitchen reaches outside itself for ingredients — but the real lesson remains curation, freshness, relevance, and verification.
+
+The agent decision is even more directly case-study material. The project kept surfacing distinct review functions that were easy to blur together if everything was called "editorial review":
+
+- Is the section conceptually sound?
+- Does it connect cleanly to the previous and next section?
+- Does it still sound like the guide?
+- Does the interactive reinforce the theory?
+- Is the running example staying coherent?
+- Is the section stealing territory from a later section?
+- Will a smart non-expert actually follow this?
+- Did the HTML assembly break anything?
+
+These are not one quality check. They are different stations in the review line.
+
+The model-tiering and orchestrator decisions made the same point in a second dimension: once the review jobs were separated, they no longer needed the same model budget. Some tasks were narrow enough for a cheaper model without losing useful signal; others still required heavier judgment. The orchestrator then became a context-engineering layer for the review process itself — deciding which reviewer to invoke, when to escalate, and when to stop.
+
+### The pattern
+
+This is the same pattern the guide argues for elsewhere: reliability improves when you stop treating a cluster of jobs as one vague activity and instead separate them into distinct, checkable functions.
+
+In the guide, that principle appears as:
+- prompting vs. context vs. intent vs. spec writing
+- complete orders vs. house rules vs. station assignments vs. tasting systems
+
+In the production workflow, it appeared as:
+- developmental review
+- continuity review
+- voice/metaphor review
+- interactive alignment review
+- running-example continuity review
+- section-boundary review
+- final reader clarity review
+- assembly QA
+
+And then one layer above that:
+- orchestration
+- model assignment by task type
+- selective escalation instead of defaulting everything to the most capable model
+
+**Case study relevance:** The drafting process itself became evidence for the guide's framework. "Review" behaved like "prompting" in Section 1 — a single label covering multiple distinct jobs. The solution was the same in both cases: split the work into clearer disciplines so diagnosis and improvement get sharper. Then apply the same logic again at the model layer: give each job the amount of intelligence and context budget it actually needs, rather than defaulting every task to the most expensive path.
+
+---
+
+## Phase 10: Part 2A Readiness Review — Good Enough to Start 2B, Not Final
+
+*Date: 2026-03-23.*
+
+### What happened
+
+The full Part 2A draft set (Sections 0–5) was reviewed as a package with one practical question: should drafting move into Part 2B, or does Part 2A still need another refinement cycle first?
+
+The answer was: **start Part 2B now.** The sequence is strong enough, the building blocks accumulate coherently, and Section 5 lands the bridge into Part 2B effectively. But the review also surfaced three follow-up items that should run in parallel with Section 6 rather than being deferred indefinitely:
+
+1. **Define the Part 2A final-state artifact explicitly.** The draft set proves the split works, but the guide still doesn't name the handoff object clearly enough. Section 5 says the reader has the "raw materials" for Part 2B; the next drafting pass should state more explicitly what the reader now has in hand.
+
+2. **Fix a small taxonomy wobble in Section 1.** The hidden-work crosswalk table includes "Writing the ticket" under the "six kitchen jobs" even though Section 0 framed those six jobs as work happening *alongside* the prompt. This is a small trust issue in the taxonomy section, not a structural blocker, but it should be cleaned up before assembly.
+
+3. **Place the Kitchen Inspection sidebars.** These are still absent from Part 2A. The readiness review treated them as polish rather than gating structure, but the quality bar still expects them before the guide is assembled.
+
+### Why this matters
+
+This was a useful production decision because it drew a cleaner line between **"ready to proceed"** and **"fully finished."**
+
+Without that distinction, the workflow would default to one of two bad habits:
+- polishing Part 2A indefinitely because it is not yet perfect
+- treating Part 2A as final because it is good enough to unlock the next phase
+
+The better move was to separate the tasks:
+- **Unlock condition:** Part 2A is coherent enough to support Section 6
+- **Polish list:** artifact definition, Section 1 crosswalk cleanup, Kitchen Inspection placement
+
+That is the same production pattern showing up again: break one vague question ("is this ready?") into smaller judgments with different thresholds.
+
+### The pattern
+
+This review also sharpened the meaning of "usable intermediate artifact" for the split between parts.
+
+Part 2A already gives the reader:
+- a complete order
+- plating standards
+- house rules
+- a station map
+- a mini tasting system
+
+What it still lacks is one sentence that names that bundle as a coherent handoff object. The missing piece is not content. It is explicit framing.
+
+**Case study relevance:** This is another example of the guide's own argument about invisible work. The missing item wasn't a missing concept or a missing exercise. It was a missing *naming move* — a small editorial act that turns a pile of correct components into a legible system. The work was there; the structure just wasn't fully surfaced yet.
+
+---
+
+## Phase 11: Part 2B Sections 6–8 — Drafting with the Review Orchestrator
+
+*Date: 2026-03-23.*
+
+### What happened
+
+Sections 6, 7, and 8 were drafted, reviewed, and revised in a single session. The workflow used the review-orchestrator agent for each section — the orchestrator managed a combined draft + review cycle, spawning specialized review agents (editorial, section-boundary, interactive-alignment, and running-example-consistency for Section 8) after each draft.
+
+### Section 6: Mise en Place — Context Design
+
+**Bridge recap:** Four paragraphs plus a bulleted list re-establishing the four-discipline framework, the five building blocks, and the running example's current state. Names the Part 2A bundle "kitchen setup" — resolving the open item from Phase 10.
+
+**New vocabulary:** Four types of context material (stable, task-specific, source-of-truth, summarize-don't-paste), presented in a table with kitchen equivalents. A second scheme (persistent vs. temporary) is explicitly bridged to the four types.
+
+**MCP handling:** A collapsible `<details class="chest">` sidebar. Zero mentions in main prose, interactive, or exercise. Explains MCP as "a standard way some AI systems connect to outside tools and data sources" using a USB-port analogy. Emphasizes that connected tools change logistics, not the need for curation.
+
+**Reviews found five issues (all fixed):**
+1. Bridge paragraph was a ~150-word wall of text — broken into a bulleted list
+2. Four consecutive bold-term definition paragraphs had monotonous structure — converted to a table
+3. Four-type and persistent/temporary schemes needed explicit bridging — added mapping sentences
+4. Curation landing sentence was generic — replaced with kitchen-flavored phrasing
+5. Interactive Category column mixed classification with evaluation — split into two columns
+
+### Section 7: The House Philosophy — Intent Framing
+
+**Core conceptual move:** Philosophy generates rules. The chain from philosophy ("brevity over depth") to plating standard ("one page maximum") to house rule ("prefer recent data when space is limited") connects Section 7 backward to Section 3 without relitigating it.
+
+**Four philosophy components:** Top priority, second priority, default optimization, non-delegable decisions.
+
+**Reviews found two issues (both fixed):**
+1. Failure example claimed "plating standards are met" despite the brief being eight pages — contradicts the one-page plating standard from Section 3. Revised to focus on data quality being impeccable while the length is the symptom of a priority failure.
+2. Self-check inaccurately claimed a kitchen term appeared in the prose — removed.
+
+**Section-boundary review:** Clean. Section 3 (house rules) and Section 8 (spec writing) territories untouched.
+
+### Section 8: The Recipe Card — Spec Writing
+
+**Core distinction:** Prompt vs. spec. A prompt works when the author runs it. A spec works when anyone runs it. The "vacation test" — colleague runs the same prompt on vacation, output is wrong because the colleague didn't know the CMO's verbal priority, which claims need legal review, or what last month's brief looked like.
+
+**Culminating exercise:** Full recipe card template with seven components (overview, context packet, house philosophy, station assignments, plating standards, house rules, tasting system). References back to specific artifacts the reader built in each prior section.
+
+**Four reviews run (the most of any section):** Editorial, section-boundary, interactive-alignment, and running-example-consistency. The fourth was added because Section 8 is where all running example artifacts converge.
+
+**Reviews found three issues (all fixed):**
+1. Complete-order field migration needed bridging — Section 2's seven-field order maps to the recipe card differently (two fields moved to dedicated components). Added explicit bridging sentence.
+2. Failure example had four items with similar lead-in structures — revised for syntactic variety
+3. 80% problem paragraph opened with an anticlimactic rhetorical question after the section's strongest line — tightened
+
+### The review-orchestrator workflow
+
+This was the first session using the review-orchestrator for a combined draft + review cycle. The orchestrator chose three reviews per section (four for Section 8), ran them sequentially, synthesized findings, and revised the draft before returning results.
+
+**What worked well:**
+- The orchestrator consistently chose the right specialist agents for each section's risk profile
+- Section-boundary reviews were particularly valuable — caught the Section 7 failure example contradicting Section 3's plating standards
+- Running-example-consistency review on Section 8 caught a field-migration issue that would have been invisible in a prose-only review
+
+**What to watch:**
+- The orchestrator was asked to draft, but its system prompt is review-focused. It handled both roles, but the drafting quality should be compared against earlier sessions where drafting and review were separate steps.
+- Each orchestrator invocation was expensive (~80K–105K tokens, 27–45 tool uses, 8–12 minutes). Three invocations for three sections is substantial.
+
+### Decision: "Kitchen setup" as Part 2A final-state artifact
+
+Section 6's bridge names the Part 2A bundle — complete order, plating standards, house rules, station assignments, mini tasting system — as the "kitchen setup." This resolves the open item from Phase 10. The naming is natural within the metaphor system but should be validated in a cross-section continuity review to confirm it lands for a reader coming through the full sequence.
+
+### The pattern: convergence sections need more review
+
+Section 8 got four reviews instead of three because it's the convergence section — every prior artifact must be referenced accurately. This is the same principle that drove the Phase 9 decision to separate review functions: the more artifacts a section touches, the more distinct review surfaces it has. A single editorial review wouldn't have caught the complete-order field migration issue.
+
+**Case study relevance:** This reinforces the tasting system concept from Section 5. Quality checks (is this section well-written?) are necessary but not sufficient when the section integrates multiple prior outputs. You also need consistency checks (do the references match what was actually built?). The review-orchestrator's decision to add a fourth review for Section 8 is itself an example of evaluation design adapting to the task.
+
+---
+
 ## Open Threads for Future Entries
 
 *Add entries as they arise during drafting:*
 
-- **Regeneration test results (partially answered):** Phase 6 rules fixed structural issues and broke voice. Phase 7 rules aimed to fix voice without re-breaking structure. v3 pending review. Sections 1–2 regeneration will test whether the revised packet generalizes or whether each section surfaces its own voice/structure tension.
-- **Does the revised packet push too hard toward kitchen language?** The new rules prefer kitchen-flavored descriptions. Risk: overcorrection in the other direction — forced metaphor where plain language reads better. Watch for this in Sections 1–2.
+- **Regeneration test results — ANSWERED:** The revised packet generalizes well. Voice/structure tension from Section 0 v2 did not recur in Sections 1–2 v2 or in the fresh Sections 3–5 drafts. The packet's voice-preservation rules are working.
+- **Does the revised packet push too hard toward kitchen language? — ANSWERED:** No. Section 1's theory-heavy content uses discipline-level language naturally. The balance is right.
+- **Interactive module design is the weakest link across sections.** The editorial-review agent flagged issues in 2 of 3 Part 2A sections. Root cause: interactives that confirm rather than discover. Part 2B sections 6–8 passed interactive-alignment reviews cleanly — watch whether this holds for Sections 9–10.
+- **Does "kitchen setup" land naturally as the Part 2A artifact name?** Needs cross-section continuity validation across the full Part 2A + Section 6 sequence.
+- **Review-orchestrator as drafter:** First use of a review-focused agent for combined draft + review. Quality seems comparable to the separated workflow, but a voice/coherence pass across Sections 6–8 alongside the Part 2A drafts would confirm.
 - Which interactive modules got full implementation vs. stubbed in first pass?
 - What did the running example reveal about the guide's structure as it accumulated across sections?
 - Where did the packet help? Where did it fall short?

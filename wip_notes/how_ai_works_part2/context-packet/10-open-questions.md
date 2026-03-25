@@ -27,27 +27,44 @@ The case study is not embedded in Part 2A or 2B. It will be its own future guide
 
 **Implication:** Add a lightweight process log during drafting. Not a formal document — just a running note file where interesting decisions and workflow observations get captured. Something like `wip_notes/how_ai_works_part2/process-log.md`.
 
+### 4. MCP should be introduced lightly in Part 2B — DECIDED
+
+MCP is relevant enough to modern AI workflow infrastructure that the guide should acknowledge it, but it should not become a protocol explainer. The right placement is **Section 6 (Mise en Place)**: brief mention in the main flow, optional deeper explanation in a collapsible/sidebar, then later references in Part 2B only when context infrastructure becomes operationally relevant.
+
+**Implications:**
+- Section 6 should define MCP in plain English as a standard way some AI systems connect to outside tools and data sources
+- The core lesson stays tool-agnostic: context quality depends on curation, freshness, relevance, and signal-to-noise management
+- Any deeper explanation should focus on reader-facing consequences, not protocol mechanics
+- Later Part 2B sections may refer back to MCP as one example of workflow infrastructure, but the guide should not depend on implementation-specific knowledge
+
 ## Open Questions (Remaining)
 
 These are deferred to later conversations.
 
 ### Interactive Design
 
-4. **Interactive complexity vs. implementation cost?** 11 modules total (6 in 2A, 5 in 2B). Some require significant JS, others are simpler progressive reveals. **Recommendation still standing:** Prioritize the strongest for full implementation, stub the rest. Deferred to implementation phase.
+5. **Interactive complexity vs. implementation cost?** 11 modules total (6 in 2A, 5 in 2B). Some require significant JS, others are simpler progressive reveals. **Recommendation still standing:** Prioritize the strongest for full implementation, stub the rest. Deferred to implementation phase.
 
-5. **Should interactives persist state across parts?** The cumulative artifact could be tracked in localStorage so Part 2B picks up where 2A left off. **Recommendation still standing:** Nice to have, not necessary for first version.
+6. **Should interactives persist state across parts?** The cumulative artifact could be tracked in localStorage so Part 2B picks up where 2A left off. **Recommendation still standing:** Nice to have, not necessary for first version.
 
 ### Visual Design
 
-6. **Pixel art banners?** Each part may need its own banner image. Part 2A could show the kitchen getting organized; Part 2B could show it in full service. Deferred.
+7. **Pixel art banners?** Each part may need its own banner image. Part 2A could show the kitchen getting organized; Part 2B could show it in full service. Deferred.
 
-7. **OG card images?** Two needed now (one per part). Deferred to HTML assembly phase.
+8. **OG card images?** Two needed now (one per part). Deferred to HTML assembly phase.
 
 ### Content
 
-8. **Running example split point.** The competitive landscape brief spec builds across all 11 sections. With the split, the reader finishes Part 2A with: a complete order, plating standards, house rules, station assignments, and a mini tasting system. Part 2B adds: context packet, house philosophy, assembled recipe card, pre-service card. **The split is clean.** Part 2A produces the building blocks; Part 2B assembles them into the full spec. But the exact handoff — what Part 2A's "final state" looks like — should be defined explicitly during drafting.
+9. **Running example split point.** The competitive landscape brief spec builds across all 11 sections. With the split, the reader finishes Part 2A with: a complete order, plating standards, house rules, station assignments, and a mini tasting system. Part 2B adds: context packet, house philosophy, assembled recipe card, pre-service card. **The split is clean.** Part 2A produces the building blocks; Part 2B assembles them into the full spec. A readiness review confirmed this is **not a blocker for beginning Part 2B**, but the exact handoff — what Part 2A's "final state" looks like — should be defined explicitly before or during Section 6 drafting.
 
-9. **Are Acme, Bolt, and Cirrus canonical competitors?** Section 0's interactive introduces three named competitors (Acme, Bolt, Cirrus) with specific competitive details (pricing pressure, integration gaps, hiring signals). Decision needed: do these persist as the fictional competitive set throughout Part 2A's running example, or are they disposable placeholders for the Section 0 interactive only? If canonical, document them and ensure consistency across sections. If disposable, strip the faux-specific details so they don't accidentally become canon. See `08-terminology-and-guardrails.md` Illustrative Framing section.
+### 10. Acme, Bolt, and Cirrus are canonical competitors — DECIDED
+
+Acme, Bolt, and Cirrus are the fictional competitive set for the running example throughout the guide. They persist across sections and parts. Competitive details introduced in Section 0's interactive (pricing pressure, integration gaps, hiring signals) are canonical and should be consistent wherever these competitors are referenced.
+
+**Implications:**
+- Ensure any future section that references competitors by name uses Acme, Bolt, and Cirrus consistently
+- Competitive details should stay illustrative but internally consistent — don't contradict details established in earlier sections
+- See `08-terminology-and-guardrails.md` Illustrative Framing section for guidance on vivid detail vs. invented data
 
 ## Assumptions (Updated)
 
@@ -139,11 +156,23 @@ Pattern identified from Sections 0–2 editorial review: framework accumulation 
 **Changed:** Added "Cross-framework bridge" to the Internal Consistency Self-Check.
 **Supersedes:** Nothing — new self-check item.
 
+### 2026-03-23 — `04a-section-goals.md`, `04b-section-content.md`, and `05-interactive-and-visual-plan.md`
+**Changed:** Documented MCP placement and scope. Section 6 now owns the first mention: brief explanation in main prose, optional deeper collapsible/sidebar, and explicit guardrails to keep MCP framed as workflow infrastructure rather than a protocol deep-dive.
+**Supersedes:** Earlier implicit assumption that MCP would either be omitted or handled ad hoc later.
+
+### 2026-03-23 — `10-open-questions.md`
+**Changed:** Updated open question #9 after a Part 2A readiness review: the Part 2A-to-2B handoff artifact remains undefined, but this is no longer treated as a blocker to beginning Section 6. It is now an explicit parallel refinement to resolve before or during Section 6 drafting.
+**Supersedes:** The stronger implicit assumption that the handoff artifact had to be fully defined before Part 2B drafting could begin at all.
+
+### 2026-03-23 — `10-open-questions.md`
+**Changed:** Resolved open question #10 — Acme, Bolt, and Cirrus are canonical competitors for the running example throughout the guide. Competitive details from Section 0 interactive are canonical and must be consistent across sections.
+**Supersedes:** Open status of question #10.
+
 ---
 
 ## What to Do Next (in a later conversation)
 
-1. Review the interactive module prioritization — which get full implementation first per part?
-2. Review the running example choice and define the Part 2A "final state" artifact
-3. Start `process-log.md` for case study material capture
-4. Begin Phase 1 drafting (Sections 0–5 for Part 2A)
+1. Voice and coherence review across all Part 2A sections (Phase 2)
+2. Review the interactive module prioritization — which get full implementation first per part?
+3. Define the Part 2A "final state" running example artifact
+4. Begin Part 2B drafting: Section 6 (with bridge recap)
