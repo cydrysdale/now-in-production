@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paint Color Tile Solver</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#f5f5f7;--surface:#fff;--surface-alt:#f0f0f3;--border:#d1d1d6;
+    --text:#1d1d1f;--text-secondary:#6e6e73;--accent:#0071e3;--accent-hover:#0060c0;
+    --danger:#ff3b30;--success:#34c759;--tag-bg:#e8e8ed;--tag-text:#1d1d1f;
+    --highlight:#fff3cd;--near:#ffefef;--radius:10px;--shadow:0 1px 3px rgba(0,0,0,.08);
+  }
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;min-height:100vh}
+  .container{max-width:1100px;margin:0 auto;padding:1.5rem}
+  h1{font-size:1.75rem;font-weight:700;margin-bottom:.25rem}
+  .subtitle{color:var(--text-secondary);margin-bottom:1.5rem;font-size:.95rem}
+
+  /* --- Input Area --- */
+  .input-section{background:var(--surface);border-radius:var(--radius);padding:1.25rem;box-shadow:var(--shadow);margin-bottom:1rem}
+  .input-section label{font-weight:600;display:block;margin-bottom:.4rem;font-size:.9rem}
+  #letterInput{width:100%;font-size:1.5rem;padding:.6rem .75rem;border:2px solid var(--border);border-radius:8px;font-family:inherit;letter-spacing:.15em;text-transform:uppercase;transition:border-color .2s}
+  #letterInput:focus{outline:none;border-color:var(--accent)}
+
+  /* Tile editor */
+  .tile-area{display:flex;flex-wrap:wrap;gap:6px;min-height:44px;margin-top:.75rem;padding:.5rem;border:1px dashed var(--border);border-radius:8px;align-items:center}
+  .tile{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;background:linear-gradient(135deg,#fdf6e3,#f5e6c8);border:1.5px solid #d4b896;border-radius:6px;font-weight:700;font-size:1.1rem;cursor:pointer;user-select:none;transition:transform .15s,box-shadow .15s;box-shadow:0 2px 4px rgba(0,0,0,.1);text-transform:uppercase;position:relative}
+  .tile:hover{transform:translateY(-2px) scale(1.08);box-shadow:0 4px 8px rgba(0,0,0,.15)}
+  .tile:active{transform:scale(.95)}
+  .tile.used{background:linear-gradient(135deg,#d4edda,#b8e0c4);border-color:#82c99a}
+  .tile-hint{color:var(--text-secondary);font-size:.8rem;font-style:italic}
+
+  /* Buttons row */
+  .btn-row{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.75rem}
+  .btn{padding:.45rem .9rem;border:none;border-radius:6px;font-size:.82rem;font-weight:600;cursor:pointer;transition:background .2s,transform .1s}
+  .btn:active{transform:scale(.97)}
+  .btn-primary{background:var(--accent);color:#fff}.btn-primary:hover{background:var(--accent-hover)}
+  .btn-secondary{background:var(--tag-bg);color:var(--tag-text)}.btn-secondary:hover{background:#d8d8dd}
+  .btn-danger{background:var(--danger);color:#fff}.btn-danger:hover{background:#e0342a}
+  .btn-success{background:var(--success);color:#fff}.btn-success:hover{background:#2db84e}
+
+  /* Toggles & filters */
+  .toggles{background:var(--surface);border-radius:var(--radius);padding:1rem 1.25rem;box-shadow:var(--shadow);margin-bottom:1rem;display:flex;flex-wrap:wrap;gap:.75rem 1.5rem}
+  .toggle-item{display:flex;align-items:center;gap:.4rem;font-size:.85rem}
+  .toggle-item input[type="checkbox"]{accent-color:var(--accent);width:16px;height:16px}
+
+  .filters{background:var(--surface);border-radius:var(--radius);padding:1rem 1.25rem;box-shadow:var(--shadow);margin-bottom:1rem}
+  .filters legend{font-weight:600;font-size:.9rem;margin-bottom:.5rem;display:block}
+  .filter-row{display:flex;flex-wrap:wrap;gap:.4rem .75rem;align-items:center;margin-bottom:.4rem}
+  .filter-row:last-child{margin-bottom:0}
+  .filter-label{font-size:.78rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.04em;min-width:80px}
+  .chip{display:inline-flex;align-items:center;gap:.25rem;padding:.2rem .6rem;background:var(--surface-alt);border:1px solid var(--border);border-radius:999px;font-size:.78rem;cursor:pointer;user-select:none;transition:background .15s,border-color .15s,color .15s}
+  .chip:hover{border-color:var(--accent)}
+  .chip.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .chip .count{opacity:.65;font-size:.72rem}
+  .chip.active .count{opacity:.85}
+
+  /* Stats */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.75rem;margin-bottom:1rem}
+  .stat-card{background:var(--surface);border-radius:var(--radius);padding:.9rem 1rem;box-shadow:var(--shadow);text-align:center}
+  .stat-value{font-size:1.6rem;font-weight:700;color:var(--accent)}
+  .stat-label{font-size:.75rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.04em;margin-top:.15rem}
+  .stat-detail{font-size:.78rem;color:var(--text-secondary);margin-top:.2rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .stat-best{display:flex;align-items:center;gap:.4rem;justify-content:center;font-size:1.05rem;font-weight:700;color:var(--accent)}
+  .stat-swatch{width:18px;height:18px;border-radius:4px;border:1px solid var(--border);flex:0 0 auto}
+
+  /* Filter & sort bar */
+  .toolbar{background:var(--surface);border-radius:var(--radius);padding:.75rem 1rem;box-shadow:var(--shadow);margin-bottom:1rem;display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+  #titleFilter{flex:1;min-width:160px;padding:.4rem .65rem;border:1.5px solid var(--border);border-radius:6px;font-size:.85rem}
+  #titleFilter:focus{outline:none;border-color:var(--accent)}
+
+  /* Results table */
+  .table-wrap{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);overflow-x:auto;margin-bottom:1.5rem}
+  table{width:100%;border-collapse:collapse;font-size:.88rem}
+  th{background:var(--surface-alt);position:sticky;top:0;padding:.65rem .75rem;text-align:left;font-size:.78rem;text-transform:uppercase;letter-spacing:.03em;color:var(--text-secondary);cursor:pointer;user-select:none;white-space:nowrap;border-bottom:2px solid var(--border)}
+  th:hover{color:var(--text)}
+  th .sort-arrow{margin-left:4px;font-size:.7rem}
+  td{padding:.6rem .75rem;border-bottom:1px solid var(--border);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:var(--surface-alt)}
+  tr.near td{background:var(--near)}
+  tr.near:hover td{background:#fde0e0}
+  .swatch{display:inline-block;width:22px;height:22px;border-radius:5px;border:1px solid var(--border);vertical-align:middle;margin-right:.55rem;flex:0 0 auto}
+  .color-cell{display:flex;align-items:center}
+  .color-meta{font-size:.74rem;color:var(--text-secondary);margin-top:.1rem;display:flex;flex-wrap:wrap;gap:.25rem;align-items:center}
+  .brand-tag{display:inline-block;padding:1px 6px;background:var(--tag-bg);border-radius:3px;font-size:.7rem;font-weight:600}
+  .collection-tag{display:inline-block;padding:1px 6px;background:var(--surface-alt);border:1px solid var(--border);border-radius:3px;font-size:.7rem}
+  .code-pill{font-family:"SF Mono",Monaco,Consolas,monospace;font-size:.72rem;color:var(--text-secondary)}
+  .letters-used{font-family:"SF Mono",Monaco,Consolas,monospace;letter-spacing:.08em;text-transform:uppercase;font-size:.82rem}
+  .remaining{font-family:"SF Mono",Monaco,Consolas,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--text-secondary);font-size:.82rem}
+  .needs-tag{display:inline-block;padding:1px 7px;background:#ffd6d6;color:#a01010;border-radius:4px;font-size:.74rem;font-weight:700;letter-spacing:.05em;font-family:"SF Mono",Monaco,Consolas,monospace}
+  .exact-tag{display:inline-block;padding:1px 7px;background:#d4edda;color:#1e6b32;border-radius:4px;font-size:.74rem;font-weight:600}
+  .rule-tag{display:inline-block;padding:1px 7px;background:var(--highlight);border-radius:4px;font-size:.72rem;margin:1px 2px;white-space:nowrap}
+  .no-results{text-align:center;padding:2.5rem 1rem;color:var(--text-secondary)}
+
+  .source-line{font-size:.78rem;color:var(--text-secondary);margin-top:.5rem}
+
+  /* Click-to-play dialog */
+  tr.clickable{cursor:pointer}
+  dialog#playDialog{border:none;border-radius:var(--radius);padding:0;max-width:440px;width:92%;box-shadow:0 8px 32px rgba(0,0,0,.18);background:var(--surface);color:var(--text)}
+  dialog#playDialog::backdrop{background:rgba(0,0,0,.35)}
+  .dlg-body{padding:1.25rem 1.4rem 1.1rem}
+  .dlg-title{display:flex;align-items:center;gap:.6rem;margin-bottom:.5rem;font-size:1.1rem;font-weight:700}
+  .dlg-title .swatch{width:28px;height:28px;margin:0}
+  .dlg-meta{font-size:.82rem;color:var(--text-secondary);margin-bottom:.75rem;display:flex;flex-wrap:wrap;gap:.3rem}
+  .dlg-row{font-size:.88rem;margin-bottom:.45rem}
+  .dlg-row strong{font-weight:600}
+  .dlg-letters{font-family:"SF Mono",Monaco,Consolas,monospace;letter-spacing:.08em;text-transform:uppercase}
+  .dlg-warn{background:var(--near);border-left:3px solid var(--danger);padding:.55rem .7rem;border-radius:6px;font-size:.85rem;margin:.5rem 0 0}
+  .dlg-actions{display:flex;gap:.5rem;justify-content:flex-end;padding:.85rem 1.4rem;background:var(--surface-alt);border-top:1px solid var(--border);border-radius:0 0 var(--radius) var(--radius)}
+
+  /* Responsive */
+  @media(max-width:640px){
+    .container{padding:1rem}
+    h1{font-size:1.35rem}
+    #letterInput{font-size:1.2rem}
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .toggles{flex-direction:column;gap:.5rem}
+    .toolbar{flex-direction:column}
+    #titleFilter{min-width:100%}
+    .tile{width:32px;height:32px;font-size:.95rem}
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>A Totally Fair Bananagrams Assistant: Paint Edition</h1>
+  <p class="subtitle">Enter your tiles so the assistant can perform a totally fair evaluation of paint color names <em>you</em> found.</p>
+
+  <!-- Letter Input -->
+  <div class="input-section">
+    <label for="letterInput">Available Letters</label>
+    <input type="text" id="letterInput" placeholder="Type letters here…" autocomplete="off" spellcheck="false" aria-label="Available letter tiles">
+    <div class="tile-area" id="tileArea">
+      <span class="tile-hint">Click a tile to remove it</span>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" id="btnReset">Reset Demo</button>
+      <button class="btn btn-secondary" id="btnRandom">+ Random Tile</button>
+      <button class="btn btn-danger" id="btnClear">Clear All</button>
+      <button class="btn btn-success" id="btnExport">Export CSV</button>
+      <button class="btn btn-primary" id="btnShare">Copy Share Link</button>
+    </div>
+    <div class="source-line" id="sourceLine"></div>
+  </div>
+
+  <!-- Toggles -->
+  <fieldset class="toggles">
+    <legend style="font-weight:600;font-size:.9rem;margin-bottom:.3rem">Options</legend>
+    <label class="toggle-item"><input type="checkbox" id="togMultiWord" checked> Multi-word names</label>
+    <label class="toggle-item"><input type="checkbox" id="togNear" checked> Show near-matches (missing 1 letter)</label>
+    <label class="toggle-item"><input type="checkbox" id="togLongest"> Longest matches only</label>
+  </fieldset>
+
+  <!-- Brand & Collection filters -->
+  <fieldset class="filters">
+    <legend>Filter Catalog</legend>
+    <div class="filter-row">
+      <span class="filter-label">Brand</span>
+      <span id="brandChips"></span>
+    </div>
+    <div class="filter-row">
+      <span class="filter-label">Collection</span>
+      <span id="collectionChips"></span>
+    </div>
+  </fieldset>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat-card"><div class="stat-value" id="statLetters">0</div><div class="stat-label">Letters</div></div>
+    <div class="stat-card"><div class="stat-value" id="statMatches">0</div><div class="stat-label">Exact Matches</div></div>
+    <div class="stat-card"><div class="stat-value" id="statNear">0</div><div class="stat-label">Near (–1)</div></div>
+    <div class="stat-card"><div class="stat-value" id="statLongest">0</div><div class="stat-label">Longest</div></div>
+    <div class="stat-card">
+      <div class="stat-best" id="statBest">—</div>
+      <div class="stat-label">Best Color</div>
+      <div class="stat-detail" id="statBestDetail"></div>
+    </div>
+  </div>
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <input type="text" id="titleFilter" placeholder="Filter results by name…" aria-label="Filter results">
+    <button class="btn btn-secondary" data-sort="length">Sort: Longest</button>
+    <button class="btn btn-secondary" data-sort="alpha">Sort: A–Z</button>
+  </div>
+
+  <!-- Results Table -->
+  <div class="table-wrap">
+    <table id="resultsTable">
+      <thead>
+        <tr>
+          <th data-col="title">Color <span class="sort-arrow"></span></th>
+          <th data-col="length">Length <span class="sort-arrow"></span></th>
+          <th data-col="status">Status <span class="sort-arrow"></span></th>
+          <th data-col="used">Letters Used <span class="sort-arrow"></span></th>
+          <th data-col="remaining">Remaining <span class="sort-arrow"></span></th>
+        </tr>
+      </thead>
+      <tbody id="resultsBody"></tbody>
+    </table>
+    <div class="no-results" id="noResults" style="display:none">No matching colors found. Try adding more letters!</div>
+  </div>
+
+  <dialog id="playDialog" aria-labelledby="dlgTitle">
+    <form method="dialog">
+      <div class="dlg-body">
+        <div class="dlg-title" id="dlgTitle">
+          <span class="swatch" id="dlgSwatch"></span>
+          <span id="dlgName"></span>
+        </div>
+        <div class="dlg-meta" id="dlgMeta"></div>
+        <div class="dlg-row"><strong>Length:</strong> <span id="dlgLength"></span></div>
+        <div class="dlg-row"><strong>Letters used:</strong> <span class="dlg-letters" id="dlgUsed"></span></div>
+        <div class="dlg-row" id="dlgRemainingRow"><strong>Remaining after play:</strong> <span class="dlg-letters" id="dlgRemaining"></span></div>
+        <div class="dlg-warn" id="dlgWarn" style="display:none"></div>
+      </div>
+      <div class="dlg-actions">
+        <button class="btn btn-secondary" value="cancel" type="submit">Cancel</button>
+        <button class="btn btn-primary" id="dlgConfirm" value="confirm" type="submit">Yes, play it</button>
+      </div>
+    </form>
+  </dialog>
+</div>
+
+<script src="colors.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const colors = BUILTIN_COLORS;
+
+const DEMO_LETTERS = "IHIIEEDIJAVMONEYGREE";
+const LETTERS_STORAGE_KEY = "paint_color_bananagrams_letters_v1";
+
+function loadStoredLetters() {
+  try { return localStorage.getItem(LETTERS_STORAGE_KEY); }
+  catch { return null; }
+}
+function saveStoredLetters(value) {
+  try { localStorage.setItem(LETTERS_STORAGE_KEY, value); }
+  catch { /* private mode / quota — ignore */ }
+}
+
+/* ====================================================================
+   UTILITY FUNCTIONS
+   ==================================================================== */
+
+const LETTERS_ONLY_CACHE = new Map();
+const FREQ_MAP_CACHE = new Map();
+const CACHE_LIMIT = 100000;
+
+function lettersOnly(str) {
+  const cached = LETTERS_ONLY_CACHE.get(str);
+  if (cached !== undefined) return cached;
+  const result = str.replace(/[^a-zA-Z]/g, "").toLowerCase();
+  if (LETTERS_ONLY_CACHE.size > CACHE_LIMIT) LETTERS_ONLY_CACHE.clear();
+  LETTERS_ONLY_CACHE.set(str, result);
+  return result;
+}
+
+function freqMap(str) {
+  const letters = lettersOnly(str);
+  const cached = FREQ_MAP_CACHE.get(letters);
+  if (cached !== undefined) return cached;
+  const map = {};
+  for (const ch of letters) map[ch] = (map[ch] || 0) + 1;
+  if (FREQ_MAP_CACHE.size > CACHE_LIMIT) FREQ_MAP_CACHE.clear();
+  FREQ_MAP_CACHE.set(letters, map);
+  return map;
+}
+
+/**
+ * Compare a candidate name against the pool. Returns:
+ *   { exact: true, missing: [] }                 → can be spelled exactly
+ *   { exact: false, missing: ["e"] }             → off by one letter
+ *   null                                          → off by more than `maxMissing`
+ */
+function evaluateMatch(poolFreq, titleFreq, maxMissing) {
+  const missing = [];
+  for (const [ch, count] of Object.entries(titleFreq)) {
+    const have = poolFreq[ch] || 0;
+    if (have < count) {
+      const short = count - have;
+      for (let i = 0; i < short; i++) missing.push(ch);
+      if (missing.length > maxMissing) return null;
+    }
+  }
+  return { exact: missing.length === 0, missing };
+}
+
+function remainingLetters(poolFreq, titleFreq) {
+  const result = { ...poolFreq };
+  for (const [ch, count] of Object.entries(titleFreq)) {
+    result[ch] = (result[ch] || 0) - count;
+    if (result[ch] <= 0) delete result[ch];
+  }
+  return Object.entries(result)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([ch, n]) => ch.repeat(n))
+    .join("")
+    .toUpperCase();
+}
+
+function freqToString(freq) {
+  return Object.entries(freq)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([ch, n]) => ch.repeat(n))
+    .join("")
+    .toUpperCase();
+}
+
+/* ====================================================================
+   MATCHING ENGINE
+   ==================================================================== */
+
+function findMatches(letters, options, filters) {
+  const pool = freqMap(letters);
+  const poolSize = lettersOnly(letters).length;
+  const maxMissing = options.nearMatches ? 1 : 0;
+  const results = [];
+
+  for (const color of colors) {
+    if (!options.multiWord && color.name.includes(" ")) continue;
+    if (filters.brands && !filters.brands.has(color.brand)) continue;
+    if (filters.collections && !color.collections.some(c => filters.collections.has(c))) continue;
+
+    const titleLetters = lettersOnly(color.name);
+    if (titleLetters.length === 0) continue;
+    if (titleLetters.length > poolSize + maxMissing) continue;
+
+    const tFreq = freqMap(titleLetters);
+    const verdict = evaluateMatch(pool, tFreq, maxMissing);
+    if (!verdict) continue;
+
+    const rules = [];
+    if (/[^a-zA-Z\s]/.test(color.name)) rules.push("Punctuation ignored");
+
+    results.push({
+      name: color.name,
+      code: color.code,
+      brand: color.brand,
+      hex: color.hex,
+      collections: color.collections,
+      length: titleLetters.length,
+      usedLetters: freqToString(tFreq),
+      remaining: verdict.exact ? remainingLetters(pool, tFreq) : "",
+      exact: verdict.exact,
+      missing: verdict.missing.map(ch => ch.toUpperCase()),
+      rules,
+    });
+  }
+  return results;
+}
+
+/* ====================================================================
+   STATE
+   ==================================================================== */
+
+let currentSort = { col: "length", dir: "desc" };
+let currentFilter = "";
+let lastResults = []; // most recent rendered results, indexed by row data-idx
+
+const ALL_BRANDS = [...new Set(colors.map(c => c.brand))].sort();
+const ALL_COLLECTIONS = [...new Set(colors.flatMap(c => c.collections))]
+  .sort((a, b) => a.localeCompare(b));
+const COLLECTION_COUNTS = {};
+for (const c of colors) for (const col of c.collections) COLLECTION_COUNTS[col] = (COLLECTION_COUNTS[col] || 0) + 1;
+const BRAND_COUNTS = {};
+for (const c of colors) BRAND_COUNTS[c.brand] = (BRAND_COUNTS[c.brand] || 0) + 1;
+
+/** Selected = empty Set means "all". */
+const selectedBrands = new Set();
+const selectedCollections = new Set();
+
+function getOptions() {
+  return {
+    multiWord: $("togMultiWord").checked,
+    nearMatches: $("togNear").checked,
+    longestOnly: $("togLongest").checked,
+  };
+}
+
+function getFilters() {
+  return {
+    brands: selectedBrands.size ? selectedBrands : null,
+    collections: selectedCollections.size ? selectedCollections : null,
+  };
+}
+
+/** Main update */
+function update() {
+  const letters = $("letterInput").value;
+  const options = getOptions();
+  const filters = getFilters();
+
+  let results = findMatches(letters, options, filters);
+
+  if (options.longestOnly && results.length > 0) {
+    const exact = results.filter(r => r.exact);
+    const pool = exact.length ? exact : results;
+    const maxLen = Math.max(...pool.map(r => r.length));
+    results = results.filter(r => r.length === maxLen);
+  }
+
+  if (currentFilter) {
+    const q = currentFilter.toLowerCase();
+    results = results.filter(r => r.name.toLowerCase().includes(q));
+  }
+
+  sortResults(results);
+
+  lastResults = results;
+  renderTiles(letters);
+  renderStats(letters, results);
+  renderTable(results);
+  updateURL();
+  saveStoredLetters(letters);
+}
+
+function sortResults(results) {
+  const { col, dir } = currentSort;
+  const mult = dir === "asc" ? 1 : -1;
+  // Always show exact matches before near-matches; sort within each group.
+  results.sort((a, b) => {
+    if (a.exact !== b.exact) return a.exact ? -1 : 1;
+    let av, bv;
+    switch (col) {
+      case "title":     av = a.name.toLowerCase(); bv = b.name.toLowerCase(); return mult * av.localeCompare(bv);
+      case "length":    return mult * (a.length - b.length);
+      case "status":    return mult * (a.exact === b.exact ? 0 : a.exact ? -1 : 1);
+      case "used":      return mult * a.usedLetters.localeCompare(b.usedLetters);
+      case "remaining": return mult * (a.remaining || "").localeCompare(b.remaining || "");
+      default:          return 0;
+    }
+  });
+}
+
+/* ====================================================================
+   RENDERING
+   ==================================================================== */
+
+function renderTiles(letters) {
+  const area = $("tileArea");
+  area.innerHTML = "";
+  const upper = letters.toUpperCase();
+  if (upper.length === 0) {
+    area.innerHTML = '<span class="tile-hint">Click a tile to remove it</span>';
+    return;
+  }
+  for (let i = 0; i < upper.length; i++) {
+    const ch = upper[i];
+    if (!/[A-Z]/.test(ch)) continue;
+    const tile = document.createElement("span");
+    tile.className = "tile";
+    tile.textContent = ch;
+    tile.title = "Click to remove";
+    tile.setAttribute("role", "button");
+    tile.setAttribute("aria-label", `Remove letter ${ch}`);
+    tile.addEventListener("click", () => {
+      const val = $("letterInput").value;
+      $("letterInput").value = val.slice(0, i) + val.slice(i + 1);
+      update();
+    });
+    area.appendChild(tile);
+  }
+}
+
+function renderStats(letters, results) {
+  const pool = lettersOnly(letters);
+  const exact = results.filter(r => r.exact);
+  const near = results.filter(r => !r.exact);
+
+  $("statLetters").textContent = pool.length;
+  $("statMatches").textContent = exact.length;
+  $("statNear").textContent = near.length;
+
+  const ranking = exact.length ? exact : results;
+  if (ranking.length > 0) {
+    const maxLen = Math.max(...ranking.map(r => r.length));
+    $("statLongest").textContent = maxLen;
+    const best = ranking.filter(r => r.length === maxLen);
+    const top = best[0];
+    $("statBest").innerHTML =
+      `<span class="stat-swatch" style="background:${escAttr(top.hex)}"></span>` +
+      `<span>${escHTML(top.name)}</span>`;
+    const suffix = top.exact ? "" : ` (needs +${top.missing.join("")})`;
+    $("statBestDetail").textContent = best.length > 1
+      ? `+${best.length - 1} more at ${maxLen} letters${suffix}`
+      : `${maxLen} letters${suffix}`;
+  } else {
+    $("statLongest").textContent = "0";
+    $("statBest").textContent = "—";
+    $("statBestDetail").textContent = "";
+  }
+}
+
+function renderTable(results) {
+  const tbody = $("resultsBody");
+  const noResults = $("noResults");
+
+  if (results.length === 0) {
+    tbody.innerHTML = "";
+    noResults.style.display = "block";
+    return;
+  }
+  noResults.style.display = "none";
+
+  tbody.innerHTML = results.map((r, i) => {
+    const collections = r.collections.map(c => `<span class="collection-tag">${escHTML(c)}</span>`).join(" ");
+    const code = r.code ? `<span class="code-pill">${escHTML(r.code)}</span>` : "";
+    const status = r.exact
+      ? `<span class="exact-tag">Exact</span>`
+      : `<span class="needs-tag">+${r.missing.join("")}</span>`;
+    const rules = r.rules.map(rule => `<span class="rule-tag">${escHTML(rule)}</span>`).join(" ");
+    return `
+      <tr class="clickable ${r.exact ? "" : "near"}" data-idx="${i}" tabindex="0" role="button" aria-label="Play ${escAttr(r.name)}">
+        <td>
+          <div class="color-cell">
+            <span class="swatch" style="background:${escAttr(r.hex)}"></span>
+            <div>
+              <strong>${escHTML(r.name)}</strong>
+              <div class="color-meta">
+                <span class="brand-tag">${escHTML(r.brand)}</span>
+                ${code}
+                ${collections}
+                ${rules}
+              </div>
+            </div>
+          </div>
+        </td>
+        <td>${r.length}</td>
+        <td>${status}</td>
+        <td class="letters-used">${escHTML(r.usedLetters)}</td>
+        <td class="remaining">${r.exact ? (escHTML(r.remaining) || "—") : "—"}</td>
+      </tr>
+    `;
+  }).join("");
+}
+
+function escHTML(s) {
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+function escAttr(s) { return escHTML(s); }
+
+/* ====================================================================
+   FILTER CHIPS
+   ==================================================================== */
+
+function renderChips() {
+  const brandHost = $("brandChips");
+  brandHost.innerHTML = "";
+  for (const b of ALL_BRANDS) {
+    const chip = document.createElement("span");
+    chip.className = "chip" + (selectedBrands.has(b) ? " active" : "");
+    chip.innerHTML = `${escHTML(b)} <span class="count">${BRAND_COUNTS[b]}</span>`;
+    chip.addEventListener("click", () => {
+      if (selectedBrands.has(b)) selectedBrands.delete(b);
+      else selectedBrands.add(b);
+      renderChips();
+      update();
+    });
+    brandHost.appendChild(chip);
+  }
+
+  const collHost = $("collectionChips");
+  collHost.innerHTML = "";
+  // "All" pseudo-chip resets collections
+  const allChip = document.createElement("span");
+  allChip.className = "chip" + (selectedCollections.size === 0 ? " active" : "");
+  allChip.textContent = `All (${ALL_COLLECTIONS.length})`;
+  allChip.addEventListener("click", () => {
+    selectedCollections.clear();
+    renderChips();
+    update();
+  });
+  collHost.appendChild(allChip);
+
+  for (const c of ALL_COLLECTIONS) {
+    const chip = document.createElement("span");
+    chip.className = "chip" + (selectedCollections.has(c) ? " active" : "");
+    chip.innerHTML = `${escHTML(c)} <span class="count">${COLLECTION_COUNTS[c]}</span>`;
+    chip.addEventListener("click", () => {
+      if (selectedCollections.has(c)) selectedCollections.delete(c);
+      else selectedCollections.add(c);
+      renderChips();
+      update();
+    });
+    collHost.appendChild(chip);
+  }
+}
+
+/* ====================================================================
+   PLAY DIALOG
+   ==================================================================== */
+
+const playDialog = $("playDialog");
+let pendingPlay = null; // { result, consumeFreq }
+
+/**
+ * Remove letters listed in `freq` from the user's tile string, preserving the
+ * order and casing of remaining tiles plus any non-letter characters.
+ */
+function consumeLetters(tileString, freq) {
+  const remaining = { ...freq };
+  let out = "";
+  for (const ch of tileString) {
+    const lc = ch.toLowerCase();
+    if (/[a-z]/.test(lc) && remaining[lc] > 0) {
+      remaining[lc]--;
+      continue;
+    }
+    out += ch;
+  }
+  return out;
+}
+
+function openPlayDialog(result) {
+  if (!result) return;
+
+  // For an exact match: consume every letter in the title.
+  // For a near-match: consume only the letters the user actually has
+  // (titleFreq minus the missing letters).
+  const titleFreq = freqMap(result.name);
+  const consume = { ...titleFreq };
+  if (!result.exact) {
+    for (const ch of result.missing) {
+      const lc = ch.toLowerCase();
+      if (consume[lc]) consume[lc]--;
+      if (consume[lc] === 0) delete consume[lc];
+    }
+  }
+  pendingPlay = { result, consume };
+
+  // Populate dialog
+  $("dlgSwatch").style.background = result.hex;
+  $("dlgName").textContent = result.name;
+
+  const meta = [
+    `<span class="brand-tag">${escHTML(result.brand)}</span>`,
+    result.code ? `<span class="code-pill">${escHTML(result.code)}</span>` : "",
+    ...result.collections.map(c => `<span class="collection-tag">${escHTML(c)}</span>`),
+  ].filter(Boolean).join(" ");
+  $("dlgMeta").innerHTML = meta;
+
+  $("dlgLength").textContent = `${result.length} letters`;
+  $("dlgUsed").textContent = freqToString(consume) || "—";
+
+  // Show what the pool will look like AFTER play
+  const projected = consumeLetters($("letterInput").value, consume);
+  const projectedFreq = freqMap(projected);
+  $("dlgRemaining").textContent = freqToString(projectedFreq) || "—";
+
+  const warn = $("dlgWarn");
+  if (result.exact) {
+    warn.style.display = "none";
+    warn.textContent = "";
+    $("dlgConfirm").textContent = "Yes, play it";
+  } else {
+    warn.style.display = "block";
+    warn.innerHTML =
+      `Near-match — you're <strong>missing ${result.missing.map(escHTML).join(", ")}</strong>. ` +
+      `Confirming will spend the letters you do have; you'll still need to draw the missing tile.`;
+    $("dlgConfirm").textContent = "Spend my letters anyway";
+  }
+
+  playDialog.returnValue = "";
+  if (typeof playDialog.showModal === "function") playDialog.showModal();
+  else playDialog.setAttribute("open", ""); // very old browsers
+}
+
+playDialog.addEventListener("close", () => {
+  if (playDialog.returnValue === "confirm" && pendingPlay) {
+    const { consume } = pendingPlay;
+    $("letterInput").value = consumeLetters($("letterInput").value, consume);
+    update();
+  }
+  pendingPlay = null;
+});
+
+// Row click → open dialog (event delegation on tbody)
+$("resultsBody").addEventListener("click", e => {
+  const tr = e.target.closest("tr.clickable");
+  if (!tr) return;
+  const idx = parseInt(tr.dataset.idx, 10);
+  openPlayDialog(lastResults[idx]);
+});
+$("resultsBody").addEventListener("keydown", e => {
+  if (e.key !== "Enter" && e.key !== " ") return;
+  const tr = e.target.closest("tr.clickable");
+  if (!tr) return;
+  e.preventDefault();
+  const idx = parseInt(tr.dataset.idx, 10);
+  openPlayDialog(lastResults[idx]);
+});
+
+/* ====================================================================
+   SORT HANDLERS
+   ==================================================================== */
+
+document.querySelectorAll("th[data-col]").forEach(th => {
+  th.addEventListener("click", () => {
+    const col = th.dataset.col;
+    if (currentSort.col === col) {
+      currentSort.dir = currentSort.dir === "asc" ? "desc" : "asc";
+    } else {
+      currentSort.col = col;
+      currentSort.dir = col === "title" ? "asc" : "desc";
+    }
+    updateSortArrows();
+    update();
+  });
+});
+
+document.querySelectorAll("[data-sort]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    if (btn.dataset.sort === "length") currentSort = { col: "length", dir: "desc" };
+    else if (btn.dataset.sort === "alpha") currentSort = { col: "title", dir: "asc" };
+    updateSortArrows();
+    update();
+  });
+});
+
+function updateSortArrows() {
+  document.querySelectorAll("th[data-col]").forEach(th => {
+    const arrow = th.querySelector(".sort-arrow");
+    arrow.textContent = th.dataset.col === currentSort.col
+      ? (currentSort.dir === "asc" ? "▲" : "▼")
+      : "";
+  });
+}
+
+let updateTimer = null;
+function scheduleUpdate() { clearTimeout(updateTimer); updateTimer = setTimeout(update, 60); }
+
+/* ====================================================================
+   EVENT LISTENERS
+   ==================================================================== */
+
+$("letterInput").addEventListener("input", scheduleUpdate);
+$("titleFilter").addEventListener("input", e => { currentFilter = e.target.value; scheduleUpdate(); });
+
+["togMultiWord", "togNear", "togLongest"].forEach(id => {
+  $(id).addEventListener("change", update);
+});
+
+$("btnClear").addEventListener("click", () => { $("letterInput").value = ""; update(); });
+$("btnReset").addEventListener("click", () => { $("letterInput").value = DEMO_LETTERS; update(); });
+$("btnRandom").addEventListener("click", () => {
+  const weighted = "EEEEEEEETTTTTTTAAAAAAARRRRRRIIIIIIOOOOOONNNNNSSSSSSLLLLLCCCUUUDDDPPPMMHHHGBFYWKVXZJQ";
+  const ch = weighted[Math.floor(Math.random() * weighted.length)];
+  $("letterInput").value += ch;
+  update();
+});
+
+$("btnExport").addEventListener("click", () => {
+  const letters = $("letterInput").value;
+  const options = getOptions();
+  const filters = getFilters();
+  let results = findMatches(letters, options, filters);
+  if (options.longestOnly && results.length > 0) {
+    const exact = results.filter(r => r.exact);
+    const pool = exact.length ? exact : results;
+    const maxLen = Math.max(...pool.map(r => r.length));
+    results = results.filter(r => r.length === maxLen);
+  }
+  if (currentFilter) {
+    const q = currentFilter.toLowerCase();
+    results = results.filter(r => r.name.toLowerCase().includes(q));
+  }
+  sortResults(results);
+
+  const rows = [["Color", "Code", "Brand", "Collections", "Hex", "Length", "Status", "Letters Used", "Remaining"]];
+  for (const r of results) {
+    rows.push([
+      r.name, r.code, r.brand, r.collections.join("; "), r.hex,
+      r.length, r.exact ? "Exact" : `Needs +${r.missing.join("")}`,
+      r.usedLetters, r.remaining,
+    ]);
+  }
+  const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(",")).join("\n");
+  const blob = new Blob([csv], { type: "text/csv" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = "paint-color-results.csv"; a.click();
+  URL.revokeObjectURL(url);
+});
+
+$("btnShare").addEventListener("click", () => {
+  const params = new URLSearchParams();
+  params.set("l", $("letterInput").value);
+  params.set("mw", $("togMultiWord").checked ? "1" : "0");
+  params.set("nm", $("togNear").checked ? "1" : "0");
+  params.set("lo", $("togLongest").checked ? "1" : "0");
+  if (selectedBrands.size) params.set("br", [...selectedBrands].join("|"));
+  if (selectedCollections.size) params.set("co", [...selectedCollections].join("|"));
+  const shareURL = location.origin + location.pathname + "?" + params.toString();
+  navigator.clipboard.writeText(shareURL).then(() => {
+    const btn = $("btnShare");
+    const orig = btn.textContent;
+    btn.textContent = "Copied!";
+    setTimeout(() => btn.textContent = orig, 1500);
+  }).catch(() => prompt("Copy this URL:", shareURL));
+});
+
+function updateURL() {
+  const params = new URLSearchParams();
+  const letters = $("letterInput").value;
+  if (letters) params.set("l", letters);
+  if (!$("togMultiWord").checked) params.set("mw", "0");
+  if (!$("togNear").checked) params.set("nm", "0");
+  if ($("togLongest").checked) params.set("lo", "1");
+  if (selectedBrands.size) params.set("br", [...selectedBrands].join("|"));
+  if (selectedCollections.size) params.set("co", [...selectedCollections].join("|"));
+  const qs = params.toString();
+  history.replaceState(null, "", qs ? location.pathname + "?" + qs : location.pathname);
+}
+
+/* ====================================================================
+   INIT
+   ==================================================================== */
+
+function init() {
+  const params = new URLSearchParams(location.search);
+  const stored = loadStoredLetters();
+  $("letterInput").value = params.has("l")
+    ? params.get("l")
+    : (stored !== null ? stored : DEMO_LETTERS);
+  if (params.has("mw")) $("togMultiWord").checked = params.get("mw") === "1";
+  if (params.has("nm")) $("togNear").checked = params.get("nm") === "1";
+  if (params.has("lo")) $("togLongest").checked = params.get("lo") === "1";
+  if (params.has("br")) for (const b of params.get("br").split("|")) if (b) selectedBrands.add(b);
+  if (params.has("co")) for (const c of params.get("co").split("|")) if (c) selectedCollections.add(c);
+
+  const total = colors.length;
+  const brands = ALL_BRANDS.length;
+  const collsCount = ALL_COLLECTIONS.length;
+  $("sourceLine").textContent =
+    `Catalog: ${total.toLocaleString()} unique color names · ${brands} brand${brands === 1 ? "" : "s"} · ${collsCount} fan decks.`;
+
+  renderChips();
+  updateSortArrows();
+  update();
+}
+
+init();
+</script>
+</body>
+</html>
