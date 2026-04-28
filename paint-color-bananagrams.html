@@ -1,228 +1,434 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Paint Color Tile Solver</title>
-<style>
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-  :root{
-    --bg:#f5f5f7;--surface:#fff;--surface-alt:#f0f0f3;--border:#d1d1d6;
-    --text:#1d1d1f;--text-secondary:#6e6e73;--accent:#0071e3;--accent-hover:#0060c0;
-    --danger:#ff3b30;--success:#34c759;--tag-bg:#e8e8ed;--tag-text:#1d1d1f;
-    --highlight:#fff3cd;--near:#ffefef;--radius:10px;--shadow:0 1px 3px rgba(0,0,0,.08);
-  }
-  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;min-height:100vh}
-  .container{max-width:1100px;margin:0 auto;padding:1.5rem}
-  h1{font-size:1.75rem;font-weight:700;margin-bottom:.25rem}
-  .subtitle{color:var(--text-secondary);margin-bottom:1.5rem;font-size:.95rem}
+  <script>
+    try {
+      const t = localStorage.getItem('theme');
+      if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+    } catch {}
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Totally Fair Bananagrams Assistant: Paint Edition</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+  <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="description" content="A Bananagrams helper that scores paint color names against the tiles you have.">
+  <meta name="author" content="Chris Yasuda Drysdale">
+  <meta name="format-detection" content="telephone=no"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="assets/js/core.js" defer></script>
+  <style>
+    :root {
+      --bg-light: url('../../images/now-in-prod.png');
+    }
+    :root[data-theme="dark"]{
+      --bg-dark: url('../../images/now-in-prod.png');
+    }
 
-  /* --- Input Area --- */
-  .input-section{background:var(--surface);border-radius:var(--radius);padding:1.25rem;box-shadow:var(--shadow);margin-bottom:1rem}
-  .input-section label{font-weight:600;display:block;margin-bottom:.4rem;font-size:.9rem}
-  #letterInput{width:100%;font-size:1.5rem;padding:.6rem .75rem;border:2px solid var(--border);border-radius:8px;font-family:inherit;letter-spacing:.15em;text-transform:uppercase;transition:border-color .2s}
-  #letterInput:focus{outline:none;border-color:var(--accent)}
+    /* --- Page-specific bananagrams styles, layered on top of style.css --- */
 
-  /* Tile editor */
-  .tile-area{display:flex;flex-wrap:wrap;gap:6px;min-height:44px;margin-top:.75rem;padding:.5rem;border:1px dashed var(--border);border-radius:8px;align-items:center}
-  .tile{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;background:linear-gradient(135deg,#fdf6e3,#f5e6c8);border:1.5px solid #d4b896;border-radius:6px;font-weight:700;font-size:1.1rem;cursor:pointer;user-select:none;transition:transform .15s,box-shadow .15s;box-shadow:0 2px 4px rgba(0,0,0,.1);text-transform:uppercase;position:relative}
-  .tile:hover{transform:translateY(-2px) scale(1.08);box-shadow:0 4px 8px rgba(0,0,0,.15)}
-  .tile:active{transform:scale(.95)}
-  .tile.used{background:linear-gradient(135deg,#d4edda,#b8e0c4);border-color:#82c99a}
-  .tile-hint{color:var(--text-secondary);font-size:.8rem;font-style:italic}
+    /* No sidebar nav on this page — collapse the .page grid to a single column
+       and let main fill the available width. */
+    .page { grid-template-columns: 1fr; max-width: 1100px; }
+    .page main { width: 100%; max-width: none; }
 
-  /* Buttons row */
-  .btn-row{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.75rem}
-  .btn{padding:.45rem .9rem;border:none;border-radius:6px;font-size:.82rem;font-weight:600;cursor:pointer;transition:background .2s,transform .1s}
-  .btn:active{transform:scale(.97)}
-  .btn-primary{background:var(--accent);color:#fff}.btn-primary:hover{background:var(--accent-hover)}
-  .btn-secondary{background:var(--tag-bg);color:var(--tag-text)}.btn-secondary:hover{background:#d8d8dd}
-  .btn-danger{background:var(--danger);color:#fff}.btn-danger:hover{background:#e0342a}
-  .btn-success{background:var(--success);color:#fff}.btn-success:hover{background:#2db84e}
+    .subtitle { color: var(--muted); margin: 0 0 1rem; font-size: .95rem; }
 
-  /* Toggles & filters */
-  .toggles{background:var(--surface);border-radius:var(--radius);padding:1rem 1.25rem;box-shadow:var(--shadow);margin-bottom:1rem;display:flex;flex-wrap:wrap;gap:.75rem 1.5rem}
-  .toggle-item{display:flex;align-items:center;gap:.4rem;font-size:.85rem}
-  .toggle-item input[type="checkbox"]{accent-color:var(--accent);width:16px;height:16px}
+    .field-label { font-weight: 600; display: block; margin-bottom: .4rem; font-size: .9rem; }
+    #letterInput {
+      width: 100%; font: inherit; font-size: 1.4rem;
+      padding: .55rem .75rem;
+      border: 1px solid var(--borderDark);
+      border-radius: 10px;
+      background: var(--bg2);
+      color: var(--black);
+      letter-spacing: .15em; text-transform: uppercase;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    #letterInput:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-light); }
 
-  .filters{background:var(--surface);border-radius:var(--radius);padding:1rem 1.25rem;box-shadow:var(--shadow);margin-bottom:1rem}
-  .filters legend{font-weight:600;font-size:.9rem;margin-bottom:.5rem;display:block}
-  .filter-row{display:flex;flex-wrap:wrap;gap:.4rem .75rem;align-items:center;margin-bottom:.4rem}
-  .filter-row:last-child{margin-bottom:0}
-  .filter-label{font-size:.78rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.04em;min-width:80px}
-  .chip{display:inline-flex;align-items:center;gap:.25rem;padding:.2rem .6rem;background:var(--surface-alt);border:1px solid var(--border);border-radius:999px;font-size:.78rem;cursor:pointer;user-select:none;transition:background .15s,border-color .15s,color .15s}
-  .chip:hover{border-color:var(--accent)}
-  .chip.active{background:var(--accent);color:#fff;border-color:var(--accent)}
-  .chip .count{opacity:.65;font-size:.72rem}
-  .chip.active .count{opacity:.85}
+    /* Tile editor */
+    .tile-area {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      min-height: 52px; margin-top: .75rem; padding: .55rem;
+      border: 1px dashed var(--borderDark); border-radius: 10px;
+      background: var(--card2); align-items: center;
+    }
+    .tile {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 38px; height: 38px;
+      background: linear-gradient(135deg, #fdf6e3, #f5e6c8);
+      border: 1.5px solid #d4b896; border-radius: 6px;
+      color: #352f36;
+      font-family: "Fredericka the Great", serif; font-weight: 400; font-size: 1.35rem;
+      cursor: pointer; user-select: none;
+      transition: transform .15s, box-shadow .15s;
+      box-shadow: 0 2px 4px rgba(0,0,0,.15);
+      text-transform: uppercase;
+    }
+    .tile:hover { transform: translateY(-2px) scale(1.08); box-shadow: 0 4px 8px rgba(0,0,0,.2); }
+    .tile:active { transform: scale(.95); }
+    .tile-hint { color: var(--muted); font-size: .85rem; font-style: italic; }
 
-  /* Stats */
-  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.75rem;margin-bottom:1rem}
-  .stat-card{background:var(--surface);border-radius:var(--radius);padding:.9rem 1rem;box-shadow:var(--shadow);text-align:center}
-  .stat-value{font-size:1.6rem;font-weight:700;color:var(--accent)}
-  .stat-label{font-size:.75rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.04em;margin-top:.15rem}
-  .stat-detail{font-size:.78rem;color:var(--text-secondary);margin-top:.2rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .stat-best{display:flex;align-items:center;gap:.4rem;justify-content:center;font-size:1.05rem;font-weight:700;color:var(--accent)}
-  .stat-swatch{width:18px;height:18px;border-radius:4px;border:1px solid var(--border);flex:0 0 auto}
+    /* Buttons */
+    .btn-row { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .85rem; }
+    .nip-btn {
+      border: 1px solid var(--borderDark);
+      background: var(--button); color: var(--button-text);
+      border-radius: 10px;
+      padding: .45rem .9rem;
+      font: inherit; font-size: .85rem; font-weight: 600;
+      cursor: pointer;
+      transition: background .15s, box-shadow .15s, color .15s, border-color .15s;
+    }
+    .nip-btn:hover { background: var(--accent-light); border-color: var(--accent); }
+    .nip-btn:active { transform: translateY(1px); }
+    .nip-btn--primary {
+      border: 2px solid transparent;
+      background-image: radial-gradient(circle at 75% 20%, #629c6799, #629c67 145%);
+      color: #f8f5ef; text-shadow: 0 0 4px rgba(0,0,0,.25);
+    }
+    .nip-btn--primary:hover {
+      background-image: radial-gradient(circle at 75% 20%, #629c67, #355437 145%);
+      color: #f8f5ef;
+    }
+    .nip-btn--danger {
+      background: var(--alert-bg); color: var(--alert-text); border-color: transparent;
+    }
+    .nip-btn--danger:hover { filter: brightness(1.1); background: var(--alert-bg); }
 
-  /* Filter & sort bar */
-  .toolbar{background:var(--surface);border-radius:var(--radius);padding:.75rem 1rem;box-shadow:var(--shadow);margin-bottom:1rem;display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
-  #titleFilter{flex:1;min-width:160px;padding:.4rem .65rem;border:1.5px solid var(--border);border-radius:6px;font-size:.85rem}
-  #titleFilter:focus{outline:none;border-color:var(--accent)}
+    /* Toggles & filter blocks */
+    .toggles, .filters {
+      background: var(--card); border: 1px solid var(--borderLight); border-radius: 14px;
+      padding: 1rem 1.15rem; margin: 0 0 1rem;
+      backdrop-filter: blur(8px);
+    }
+    .toggles { display: flex; flex-wrap: wrap; gap: .65rem 1.5rem; align-items: center; }
+    .toggles legend, .filters legend {
+      font-weight: 700; font-size: .8rem; text-transform: uppercase; letter-spacing: .04em;
+      color: var(--muted); padding: 0 .35rem; margin-bottom: .2rem;
+    }
+    .toggle-item { display: flex; align-items: center; gap: .4rem; font-size: .9rem; }
+    .toggle-item input[type="checkbox"] { accent-color: var(--accent); width: 16px; height: 16px; }
 
-  /* Results table */
-  .table-wrap{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);overflow-x:auto;margin-bottom:1.5rem}
-  table{width:100%;border-collapse:collapse;font-size:.88rem}
-  th{background:var(--surface-alt);position:sticky;top:0;padding:.65rem .75rem;text-align:left;font-size:.78rem;text-transform:uppercase;letter-spacing:.03em;color:var(--text-secondary);cursor:pointer;user-select:none;white-space:nowrap;border-bottom:2px solid var(--border)}
-  th:hover{color:var(--text)}
-  th .sort-arrow{margin-left:4px;font-size:.7rem}
-  td{padding:.6rem .75rem;border-bottom:1px solid var(--border);vertical-align:top}
-  tr:last-child td{border-bottom:none}
-  tr:hover td{background:var(--surface-alt)}
-  tr.near td{background:var(--near)}
-  tr.near:hover td{background:#fde0e0}
-  .swatch{display:inline-block;width:22px;height:22px;border-radius:5px;border:1px solid var(--border);vertical-align:middle;margin-right:.55rem;flex:0 0 auto}
-  .color-cell{display:flex;align-items:center}
-  .color-meta{font-size:.74rem;color:var(--text-secondary);margin-top:.1rem;display:flex;flex-wrap:wrap;gap:.25rem;align-items:center}
-  .brand-tag{display:inline-block;padding:1px 6px;background:var(--tag-bg);border-radius:3px;font-size:.7rem;font-weight:600}
-  .collection-tag{display:inline-block;padding:1px 6px;background:var(--surface-alt);border:1px solid var(--border);border-radius:3px;font-size:.7rem}
-  .code-pill{font-family:"SF Mono",Monaco,Consolas,monospace;font-size:.72rem;color:var(--text-secondary)}
-  .letters-used{font-family:"SF Mono",Monaco,Consolas,monospace;letter-spacing:.08em;text-transform:uppercase;font-size:.82rem}
-  .remaining{font-family:"SF Mono",Monaco,Consolas,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--text-secondary);font-size:.82rem}
-  .needs-tag{display:inline-block;padding:1px 7px;background:#ffd6d6;color:#a01010;border-radius:4px;font-size:.74rem;font-weight:700;letter-spacing:.05em;font-family:"SF Mono",Monaco,Consolas,monospace}
-  .exact-tag{display:inline-block;padding:1px 7px;background:#d4edda;color:#1e6b32;border-radius:4px;font-size:.74rem;font-weight:600}
-  .rule-tag{display:inline-block;padding:1px 7px;background:var(--highlight);border-radius:4px;font-size:.72rem;margin:1px 2px;white-space:nowrap}
-  .no-results{text-align:center;padding:2.5rem 1rem;color:var(--text-secondary)}
+    .filter-row { display: flex; flex-wrap: wrap; gap: .4rem .75rem; align-items: center; margin-bottom: .5rem; }
+    .filter-row:last-child { margin-bottom: 0; }
+    .filter-label {
+      font-size: .75rem; color: var(--muted);
+      text-transform: uppercase; letter-spacing: .04em; min-width: 80px;
+    }
+    .chip {
+      display: inline-flex; align-items: center; gap: .3rem;
+      padding: .2rem .65rem;
+      background: var(--card2); border: 1px solid var(--borderDark);
+      border-radius: 999px;
+      font-size: .78rem; color: var(--black);
+      cursor: pointer; user-select: none;
+      transition: background .15s, border-color .15s, color .15s;
+      margin: 2px 1px;
+    }
+    .chip:hover { border-color: var(--accent); background: var(--accent-light); }
+    .chip.active { background: var(--accent); border-color: var(--accent); color: #f8f5ef; }
+    .chip .count { opacity: .65; font-size: .72rem; }
+    .chip.active .count { opacity: .9; }
 
-  .source-line{font-size:.78rem;color:var(--text-secondary);margin-top:.5rem}
+    /* Stats */
+    .stats {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: .75rem; margin-bottom: 1rem;
+    }
+    .stat-card {
+      background: var(--card); border: 1px solid var(--borderLight);
+      border-radius: 14px; padding: .9rem 1rem;
+      text-align: center; backdrop-filter: blur(8px);
+    }
+    .stat-value { font-family: "Fredericka the Great", serif; font-size: 2rem; color: var(--accent); line-height: 1; }
+    .stat-label {
+      font-size: .72rem; color: var(--muted);
+      text-transform: uppercase; letter-spacing: .05em; margin-top: .35rem;
+    }
+    .stat-detail {
+      font-size: .78rem; color: var(--muted); margin-top: .25rem;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .stat-best {
+      display: flex; align-items: center; gap: .4rem; justify-content: center;
+      font-size: 1.05rem; font-weight: 700; color: var(--black);
+    }
+    .stat-swatch {
+      width: 18px; height: 18px; border-radius: 4px;
+      border: 1px solid var(--borderDark); flex: 0 0 auto;
+    }
 
-  /* Click-to-play dialog */
-  tr.clickable{cursor:pointer}
-  dialog#playDialog{border:none;border-radius:var(--radius);padding:0;max-width:440px;width:92%;box-shadow:0 8px 32px rgba(0,0,0,.18);background:var(--surface);color:var(--text)}
-  dialog#playDialog::backdrop{background:rgba(0,0,0,.35)}
-  .dlg-body{padding:1.25rem 1.4rem 1.1rem}
-  .dlg-title{display:flex;align-items:center;gap:.6rem;margin-bottom:.5rem;font-size:1.1rem;font-weight:700}
-  .dlg-title .swatch{width:28px;height:28px;margin:0}
-  .dlg-meta{font-size:.82rem;color:var(--text-secondary);margin-bottom:.75rem;display:flex;flex-wrap:wrap;gap:.3rem}
-  .dlg-row{font-size:.88rem;margin-bottom:.45rem}
-  .dlg-row strong{font-weight:600}
-  .dlg-letters{font-family:"SF Mono",Monaco,Consolas,monospace;letter-spacing:.08em;text-transform:uppercase}
-  .dlg-warn{background:var(--near);border-left:3px solid var(--danger);padding:.55rem .7rem;border-radius:6px;font-size:.85rem;margin:.5rem 0 0}
-  .dlg-actions{display:flex;gap:.5rem;justify-content:flex-end;padding:.85rem 1.4rem;background:var(--surface-alt);border-top:1px solid var(--border);border-radius:0 0 var(--radius) var(--radius)}
+    /* Toolbar */
+    .toolbar {
+      background: var(--card); border: 1px solid var(--borderLight);
+      border-radius: 14px; padding: .75rem 1rem; margin-bottom: 1rem;
+      display: flex; flex-wrap: wrap; gap: .5rem; align-items: center;
+      backdrop-filter: blur(8px);
+    }
+    #titleFilter {
+      flex: 1; min-width: 180px;
+      padding: .45rem .7rem;
+      border: 1px solid var(--borderDark); border-radius: 8px;
+      background: var(--bg2); color: var(--black);
+      font: inherit; font-size: .9rem;
+    }
+    #titleFilter:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-light); }
 
-  /* Responsive */
-  @media(max-width:640px){
-    .container{padding:1rem}
-    h1{font-size:1.35rem}
-    #letterInput{font-size:1.2rem}
-    .stats{grid-template-columns:repeat(2,1fr)}
-    .toggles{flex-direction:column;gap:.5rem}
-    .toolbar{flex-direction:column}
-    #titleFilter{min-width:100%}
-    .tile{width:32px;height:32px;font-size:.95rem}
-  }
-</style>
+    /* Results table — override style.css defaults for this table only */
+    .table-wrap {
+      background: var(--card); border: 1px solid var(--borderLight);
+      border-radius: 14px; overflow-x: auto; margin-bottom: 1.5rem;
+      backdrop-filter: blur(8px);
+    }
+    #resultsTable { font-size: .9rem; }
+    #resultsTable th {
+      background: var(--card2);
+      position: sticky; top: 0; z-index: 1;
+      padding: .65rem .8rem; text-align: left;
+      font-size: .72rem; text-transform: uppercase; letter-spacing: .04em;
+      color: var(--muted); cursor: pointer; user-select: none;
+      white-space: nowrap; border-bottom: 2px solid var(--borderDark);
+    }
+    #resultsTable th:hover { color: var(--black); }
+    #resultsTable th .sort-arrow { margin-left: 4px; font-size: .7rem; color: var(--accent); }
+    #resultsTable td {
+      padding: .65rem .8rem; border-bottom: 1px solid var(--borderLight);
+      vertical-align: top; font-size: .88rem;
+    }
+    #resultsTable tr:last-child td { border-bottom: none; }
+    #resultsTable tbody tr:hover td { background: var(--accent-light); }
+    #resultsTable tr.near td { background: rgba(200,84,84,.07); }
+    #resultsTable tr.near:hover td { background: rgba(200,84,84,.15); }
+
+    .swatch-inline {
+      display: inline-block; width: 22px; height: 22px;
+      border-radius: 5px; border: 1px solid var(--borderDark);
+      vertical-align: middle; margin-right: .55rem; flex: 0 0 auto;
+    }
+    .color-cell { display: flex; align-items: center; }
+    .color-meta {
+      font-size: .74rem; color: var(--muted); margin-top: .15rem;
+      display: flex; flex-wrap: wrap; gap: .3rem; align-items: center;
+    }
+    .brand-tag {
+      display: inline-block; padding: 1px 7px;
+      background: var(--card2); border: 1px solid var(--borderLight);
+      border-radius: 4px; font-size: .7rem; font-weight: 600; color: var(--black);
+    }
+    .collection-tag {
+      display: inline-block; padding: 1px 7px;
+      background: var(--bg2); border: 1px solid var(--borderLight);
+      border-radius: 4px; font-size: .7rem; color: var(--muted);
+    }
+    .code-pill {
+      font-family: 'VT323', ui-monospace, monospace;
+      font-size: .85rem; color: var(--muted);
+    }
+    .letters-used, .remaining {
+      font-family: 'VT323', ui-monospace, monospace;
+      letter-spacing: .08em; text-transform: uppercase; font-size: 1rem;
+    }
+    .remaining { color: var(--muted); }
+    .needs-tag {
+      display: inline-block; padding: 1px 8px;
+      background: rgba(200,84,84,.15); color: var(--alert-bg);
+      border-radius: 4px; font-size: .8rem; font-weight: 700;
+      letter-spacing: .05em; font-family: 'VT323', ui-monospace, monospace;
+    }
+    .exact-tag {
+      display: inline-block; padding: 1px 8px;
+      background: rgba(98,156,103,.18); color: var(--button-text);
+      border-radius: 4px; font-size: .76rem; font-weight: 600;
+    }
+    :root[data-theme="dark"] .exact-tag { background: rgba(121,217,155,.18); color: var(--accent); }
+    .rule-tag {
+      display: inline-block; padding: 1px 7px;
+      background: var(--chest-bg); color: #352f36;
+      border-radius: 4px; font-size: .72rem; margin: 1px 2px; white-space: nowrap;
+    }
+    .no-results { text-align: center; padding: 2.5rem 1rem; color: var(--muted); }
+
+    .source-line { font-size: .78rem; color: var(--muted); margin-top: .65rem; }
+
+    /* Click-to-play dialog */
+    tr.clickable { cursor: pointer; }
+    dialog#playDialog {
+      border: 1px solid var(--borderLight); border-radius: 14px;
+      padding: 0; max-width: 460px; width: 92%;
+      box-shadow: 0 12px 40px rgba(0,0,0,.25);
+      background: var(--card); color: var(--black);
+      backdrop-filter: blur(12px);
+    }
+    dialog#playDialog::backdrop { background: rgba(0,0,0,.45); backdrop-filter: blur(2px); }
+    .dlg-body { padding: 1.25rem 1.4rem 1.1rem; }
+    .dlg-title {
+      display: flex; align-items: center; gap: .65rem;
+      margin-bottom: .5rem;
+      font-family: "Fredericka the Great", serif; font-size: 1.35rem;
+    }
+    .dlg-title .swatch-inline { width: 28px; height: 28px; margin: 0; }
+    .dlg-meta {
+      font-size: .82rem; color: var(--muted); margin-bottom: .75rem;
+      display: flex; flex-wrap: wrap; gap: .3rem;
+    }
+    .dlg-row { font-size: .9rem; margin-bottom: .45rem; }
+    .dlg-row strong { font-weight: 600; }
+    .dlg-letters { font-family: 'VT323', ui-monospace, monospace; letter-spacing: .08em; text-transform: uppercase; font-size: 1.05rem; }
+    .dlg-warn {
+      background: rgba(200,84,84,.1); border-left: 3px solid var(--alert-bg);
+      padding: .6rem .75rem; border-radius: 8px; font-size: .88rem; margin: .5rem 0 0;
+    }
+    .dlg-actions {
+      display: flex; gap: .5rem; justify-content: flex-end;
+      padding: .85rem 1.4rem;
+      background: var(--card2); border-top: 1px solid var(--borderLight);
+      border-radius: 0 0 14px 14px;
+    }
+
+    @media (max-width: 640px) {
+      #letterInput { font-size: 1.2rem; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .toolbar { flex-direction: column; align-items: stretch; }
+      #titleFilter { min-width: 100%; }
+      .tile { width: 32px; height: 32px; font-size: 1.1rem; }
+    }
+  </style>
 </head>
 <body>
-<div class="container">
-  <h1>A Totally Fair Bananagrams Assistant: Paint Edition</h1>
-  <p class="subtitle">Enter your tiles so the assistant can perform a totally fair evaluation of paint color names <em>you</em> found.</p>
-
-  <!-- Letter Input -->
-  <div class="input-section">
-    <label for="letterInput">Available Letters</label>
-    <input type="text" id="letterInput" placeholder="Type letters here…" autocomplete="off" spellcheck="false" aria-label="Available letter tiles">
-    <div class="tile-area" id="tileArea">
-      <span class="tile-hint">Click a tile to remove it</span>
+<a class="skip-link" href="#content">Skip to content</a>
+<header>
+  <div class="header-inner">
+    <img src="images/Pixel-Chris.png" width="60px" style="display: inline-block; margin-right: 10px;" alt="site logo"/>
+    <div id="top" class="title-block">
+      <h1>A Totally Fair Bananagrams Assistant</h1>
+      <div class="sub">Paint Edition — score the paint color names <em>you</em> found</div>
     </div>
-    <div class="btn-row">
-      <button class="btn btn-secondary" id="btnReset">Reset Demo</button>
-      <button class="btn btn-secondary" id="btnRandom">+ Random Tile</button>
-      <button class="btn btn-danger" id="btnClear">Clear All</button>
-      <button class="btn btn-success" id="btnExport">Export CSV</button>
-      <button class="btn btn-primary" id="btnShare">Copy Share Link</button>
-    </div>
-    <div class="source-line" id="sourceLine"></div>
-  </div>
-
-  <!-- Toggles -->
-  <fieldset class="toggles">
-    <legend style="font-weight:600;font-size:.9rem;margin-bottom:.3rem">Options</legend>
-    <label class="toggle-item"><input type="checkbox" id="togMultiWord" checked> Multi-word names</label>
-    <label class="toggle-item"><input type="checkbox" id="togNear" checked> Show near-matches (missing 1 letter)</label>
-    <label class="toggle-item"><input type="checkbox" id="togLongest"> Longest matches only</label>
-  </fieldset>
-
-  <!-- Brand & Collection filters -->
-  <fieldset class="filters">
-    <legend>Filter Catalog</legend>
-    <div class="filter-row">
-      <span class="filter-label">Brand</span>
-      <span id="brandChips"></span>
-    </div>
-    <div class="filter-row">
-      <span class="filter-label">Collection</span>
-      <span id="collectionChips"></span>
-    </div>
-  </fieldset>
-
-  <!-- Stats -->
-  <div class="stats">
-    <div class="stat-card"><div class="stat-value" id="statLetters">0</div><div class="stat-label">Letters</div></div>
-    <div class="stat-card"><div class="stat-value" id="statMatches">0</div><div class="stat-label">Exact Matches</div></div>
-    <div class="stat-card"><div class="stat-value" id="statNear">0</div><div class="stat-label">Near (–1)</div></div>
-    <div class="stat-card"><div class="stat-value" id="statLongest">0</div><div class="stat-label">Longest</div></div>
-    <div class="stat-card">
-      <div class="stat-best" id="statBest">—</div>
-      <div class="stat-label">Best Color</div>
-      <div class="stat-detail" id="statBestDetail"></div>
+    <div class="header-actions">
+      <div class="theme-toggle" style="scale: 75%;">
+        <input id="themeSwitch" type="checkbox" role="switch" aria-checked="false" aria-label="Toggle dark mode">
+        <label for="themeSwitch">
+          <span class="track" aria-hidden="true"></span>
+          <span class="thumb" aria-hidden="true">
+            <span class="icon sun">&#9788;</span>
+            <span class="icon moon">&#9789;</span>
+          </span>
+        </label>
+      </div>
     </div>
   </div>
+</header>
 
-  <!-- Toolbar -->
-  <div class="toolbar">
-    <input type="text" id="titleFilter" placeholder="Filter results by name…" aria-label="Filter results">
-    <button class="btn btn-secondary" data-sort="length">Sort: Longest</button>
-    <button class="btn btn-secondary" data-sort="alpha">Sort: A–Z</button>
-  </div>
+<div class="page">
+  <main id="content">
+    <section>
+      <h2>Your Tiles</h2>
+      <p class="subtitle">Enter your tiles so the assistant can perform a totally fair evaluation of paint color names <em>you</em> found.</p>
 
-  <!-- Results Table -->
-  <div class="table-wrap">
-    <table id="resultsTable">
-      <thead>
-        <tr>
-          <th data-col="title">Color <span class="sort-arrow"></span></th>
-          <th data-col="length">Length <span class="sort-arrow"></span></th>
-          <th data-col="status">Status <span class="sort-arrow"></span></th>
-          <th data-col="used">Letters Used <span class="sort-arrow"></span></th>
-          <th data-col="remaining">Remaining <span class="sort-arrow"></span></th>
-        </tr>
-      </thead>
-      <tbody id="resultsBody"></tbody>
-    </table>
-    <div class="no-results" id="noResults" style="display:none">No matching colors found. Try adding more letters!</div>
-  </div>
+      <label class="field-label" for="letterInput">Available Letters</label>
+      <input type="text" id="letterInput" placeholder="Type letters here…" autocomplete="off" spellcheck="false" aria-label="Available letter tiles">
+      <div class="tile-area" id="tileArea">
+        <span class="tile-hint">Click a tile to remove it</span>
+      </div>
+      <div class="btn-row">
+        <button class="nip-btn" id="btnReset">Reset Demo</button>
+        <button class="nip-btn" id="btnRandom">+ Random Tile</button>
+        <button class="nip-btn nip-btn--danger" id="btnClear">Clear All</button>
+        <button class="nip-btn" id="btnExport">Export CSV</button>
+        <button class="nip-btn nip-btn--primary" id="btnShare">Copy Share Link</button>
+      </div>
+      <div class="source-line" id="sourceLine"></div>
+    </section>
 
-  <dialog id="playDialog" aria-labelledby="dlgTitle">
-    <form method="dialog">
-      <div class="dlg-body">
-        <div class="dlg-title" id="dlgTitle">
-          <span class="swatch" id="dlgSwatch"></span>
-          <span id="dlgName"></span>
+    <section>
+      <fieldset class="toggles">
+        <legend>Options</legend>
+        <label class="toggle-item"><input type="checkbox" id="togMultiWord" checked> Multi-word names</label>
+        <label class="toggle-item"><input type="checkbox" id="togNear" checked> Show near-matches (missing 1 letter)</label>
+        <label class="toggle-item"><input type="checkbox" id="togLongest"> Longest matches only</label>
+      </fieldset>
+
+      <fieldset class="filters">
+        <legend>Filter Catalog</legend>
+        <div class="filter-row">
+          <span class="filter-label">Brand</span>
+          <span id="brandChips"></span>
         </div>
-        <div class="dlg-meta" id="dlgMeta"></div>
-        <div class="dlg-row"><strong>Length:</strong> <span id="dlgLength"></span></div>
-        <div class="dlg-row"><strong>Letters used:</strong> <span class="dlg-letters" id="dlgUsed"></span></div>
-        <div class="dlg-row" id="dlgRemainingRow"><strong>Remaining after play:</strong> <span class="dlg-letters" id="dlgRemaining"></span></div>
-        <div class="dlg-warn" id="dlgWarn" style="display:none"></div>
+        <div class="filter-row">
+          <span class="filter-label">Collection</span>
+          <span id="collectionChips"></span>
+        </div>
+      </fieldset>
+
+      <div class="stats">
+        <div class="stat-card"><div class="stat-value" id="statLetters">0</div><div class="stat-label">Letters</div></div>
+        <div class="stat-card"><div class="stat-value" id="statMatches">0</div><div class="stat-label">Exact Matches</div></div>
+        <div class="stat-card"><div class="stat-value" id="statNear">0</div><div class="stat-label">Near (–1)</div></div>
+        <div class="stat-card"><div class="stat-value" id="statLongest">0</div><div class="stat-label">Longest</div></div>
+        <div class="stat-card">
+          <div class="stat-best" id="statBest">—</div>
+          <div class="stat-label">Best Color</div>
+          <div class="stat-detail" id="statBestDetail"></div>
+        </div>
       </div>
-      <div class="dlg-actions">
-        <button class="btn btn-secondary" value="cancel" type="submit">Cancel</button>
-        <button class="btn btn-primary" id="dlgConfirm" value="confirm" type="submit">Yes, play it</button>
+
+      <div class="toolbar">
+        <input type="text" id="titleFilter" placeholder="Filter results by name…" aria-label="Filter results">
+        <button class="nip-btn" data-sort="length">Sort: Longest</button>
+        <button class="nip-btn" data-sort="alpha">Sort: A–Z</button>
       </div>
-    </form>
-  </dialog>
+
+      <div class="table-wrap">
+        <table id="resultsTable">
+          <thead>
+            <tr>
+              <th data-col="title">Color <span class="sort-arrow"></span></th>
+              <th data-col="length">Length <span class="sort-arrow"></span></th>
+              <th data-col="status">Status <span class="sort-arrow"></span></th>
+              <th data-col="used">Letters Used <span class="sort-arrow"></span></th>
+              <th data-col="remaining">Remaining <span class="sort-arrow"></span></th>
+            </tr>
+          </thead>
+          <tbody id="resultsBody"></tbody>
+        </table>
+        <div class="no-results" id="noResults" style="display:none">No matching colors found. Try adding more letters!</div>
+      </div>
+    </section>
+
+    <footer class="sub glass">
+      <span>© 2025 — A totally fair Bananagrams assistant by Chris Yasuda Drysdale</span>
+    </footer>
+
+    <dialog id="playDialog" aria-labelledby="dlgTitle">
+      <form method="dialog">
+        <div class="dlg-body">
+          <div class="dlg-title" id="dlgTitle">
+            <span class="swatch-inline" id="dlgSwatch"></span>
+            <span id="dlgName"></span>
+          </div>
+          <div class="dlg-meta" id="dlgMeta"></div>
+          <div class="dlg-row"><strong>Length:</strong> <span id="dlgLength"></span></div>
+          <div class="dlg-row"><strong>Letters used:</strong> <span class="dlg-letters" id="dlgUsed"></span></div>
+          <div class="dlg-row" id="dlgRemainingRow"><strong>Remaining after play:</strong> <span class="dlg-letters" id="dlgRemaining"></span></div>
+          <div class="dlg-warn" id="dlgWarn" style="display:none"></div>
+        </div>
+        <div class="dlg-actions">
+          <button class="nip-btn" value="cancel" type="submit">Cancel</button>
+          <button class="nip-btn nip-btn--primary" id="dlgConfirm" value="confirm" type="submit">Yes, play it</button>
+        </div>
+      </form>
+    </dialog>
+  </main>
 </div>
+<a id="toTop" href="#top" title="Back to top">&#8593;</a>
 
 <script src="colors.js"></script>
 <script>
@@ -516,7 +722,7 @@ function renderTable(results) {
       <tr class="clickable ${r.exact ? "" : "near"}" data-idx="${i}" tabindex="0" role="button" aria-label="Play ${escAttr(r.name)}">
         <td>
           <div class="color-cell">
-            <span class="swatch" style="background:${escAttr(r.hex)}"></span>
+            <span class="swatch-inline" style="background:${escAttr(r.hex)}"></span>
             <div>
               <strong>${escHTML(r.name)}</strong>
               <div class="color-meta">
