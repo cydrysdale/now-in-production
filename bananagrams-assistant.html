@@ -9,13 +9,13 @@
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>A Totally Fair Bananagrams Assistant: Paint Edition</title>
+  <title>A Totally Fair Bananagrams Assistant</title>
   <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
   <link rel="icon" href="images/favicon.ico" type="image/x-icon">
   <link rel="manifest" href="site.webmanifest">
-  <meta name="description" content="A Bananagrams helper that scores paint color names against the tiles you have.">
+  <meta name="description" content="A totally fair evaluation of the solutions you definitely would have found anyway.">
   <meta name="author" content="Chris Yasuda Drysdale">
   <meta name="format-detection" content="telephone=no"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -34,12 +34,40 @@
 
     /* --- Page-specific bananagrams styles, layered on top of style.css --- */
 
-    /* No sidebar nav on this page — collapse the .page grid to a single column
-       and let main fill the available width. */
     .page { grid-template-columns: 1fr; max-width: 1100px; }
     .page main { width: 100%; max-width: none; }
 
     .subtitle { color: var(--muted); margin: 0 0 1rem; font-size: .95rem; }
+
+    /* Catalog tabs */
+    .catalog-tabs {
+      display: flex; flex-wrap: wrap; gap: .4rem;
+      background: var(--card); border: 1px solid var(--borderLight);
+      border-radius: 14px; padding: .5rem; margin: 0 0 1.25rem;
+      backdrop-filter: blur(8px);
+    }
+    .catalog-tab {
+      flex: 1 1 0; min-width: 140px;
+      display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+      padding: .65rem 1rem;
+      background: transparent; color: var(--black);
+      border: 1px solid transparent; border-radius: 10px;
+      font: inherit; font-size: .95rem; font-weight: 600;
+      cursor: pointer;
+      transition: background .15s, border-color .15s, color .15s, box-shadow .15s;
+    }
+    .catalog-tab:hover { background: var(--accent-light); border-color: var(--accent); }
+    .catalog-tab[aria-selected="true"] {
+      background-image: radial-gradient(circle at 75% 20%, #629c6799, #629c67 145%);
+      color: #f8f5ef; text-shadow: 0 0 4px rgba(0,0,0,.25);
+      border-color: transparent;
+    }
+    .catalog-tab .tab-icon { font-size: 1.15rem; line-height: 1; }
+    .catalog-tab .tab-count {
+      font-size: .72rem; font-weight: 500; opacity: .7;
+      font-family: 'VT323', ui-monospace, monospace;
+    }
+    .catalog-tab[aria-selected="true"] .tab-count { opacity: .9; }
 
     .field-label { font-weight: 600; display: block; margin-bottom: .4rem; font-size: .9rem; }
     #letterInput {
@@ -183,7 +211,7 @@
     }
     #titleFilter:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-light); }
 
-    /* Results table — override style.css defaults for this table only */
+    /* Results table */
     .table-wrap {
       background: var(--card); border: 1px solid var(--borderLight);
       border-radius: 14px; overflow-x: auto; margin-bottom: 1.5rem;
@@ -214,8 +242,8 @@
       border-radius: 5px; border: 1px solid var(--borderDark);
       vertical-align: middle; margin-right: .55rem; flex: 0 0 auto;
     }
-    .color-cell { display: flex; align-items: center; }
-    .color-meta {
+    .item-cell { display: flex; align-items: center; }
+    .item-meta {
       font-size: .74rem; color: var(--muted); margin-top: .15rem;
       display: flex; flex-wrap: wrap; gap: .3rem; align-items: center;
     }
@@ -300,6 +328,8 @@
       .toolbar { flex-direction: column; align-items: stretch; }
       #titleFilter { min-width: 100%; }
       .tile { width: 32px; height: 32px; font-size: 1.1rem; }
+      .catalog-tab { min-width: 0; padding: .55rem .65rem; font-size: .85rem; }
+      .catalog-tab .tab-count { display: none; }
     }
   </style>
 </head>
@@ -310,7 +340,7 @@
     <img src="images/Pixel-Chris.png" width="60px" style="display: inline-block; margin-right: 10px;" alt="site logo"/>
     <div id="top" class="title-block">
       <h1>A Totally Fair Bananagrams Assistant</h1>
-      <div class="sub">Paint Edition — score the paint color names <em>you</em> found</div>
+      <div class="sub">A totally fair evaluation of the solutions you <em>definitely</em> would have found anyway.</div>
     </div>
     <div class="header-actions">
       <div class="theme-toggle" style="scale: 75%;">
@@ -329,9 +359,11 @@
 
 <div class="page">
   <main id="content">
+    <div class="catalog-tabs" role="tablist" aria-label="Choose a catalog" id="catalogTabs"></div>
+
     <section>
       <h2>Your Tiles</h2>
-      <p class="subtitle">Enter your tiles so the assistant can perform a totally fair evaluation of paint color names <em>you</em> found.</p>
+      <p class="subtitle" id="tileSubtitle"></p>
 
       <label class="field-label" for="letterInput">Available Letters</label>
       <input type="text" id="letterInput" placeholder="Type letters here…" autocomplete="off" spellcheck="false" aria-label="Available letter tiles">
@@ -356,16 +388,9 @@
         <label class="toggle-item"><input type="checkbox" id="togLongest"> Longest matches only</label>
       </fieldset>
 
-      <fieldset class="filters">
-        <legend>Filter Catalog</legend>
-        <div class="filter-row">
-          <span class="filter-label">Brand</span>
-          <span id="brandChips"></span>
-        </div>
-        <div class="filter-row">
-          <span class="filter-label">Collection</span>
-          <span id="collectionChips"></span>
-        </div>
+      <fieldset class="filters" id="filtersBlock">
+        <legend id="filtersLegend">Filter Catalog</legend>
+        <div id="filterRows"></div>
       </fieldset>
 
       <div class="stats">
@@ -375,7 +400,7 @@
         <div class="stat-card"><div class="stat-value" id="statLongest">0</div><div class="stat-label">Longest</div></div>
         <div class="stat-card">
           <div class="stat-best" id="statBest">—</div>
-          <div class="stat-label">Best Color</div>
+          <div class="stat-label" id="statBestLabel">Best Match</div>
           <div class="stat-detail" id="statBestDetail"></div>
         </div>
       </div>
@@ -388,18 +413,10 @@
 
       <div class="table-wrap">
         <table id="resultsTable">
-          <thead>
-            <tr>
-              <th data-col="title">Color <span class="sort-arrow"></span></th>
-              <th data-col="length">Length <span class="sort-arrow"></span></th>
-              <th data-col="status">Status <span class="sort-arrow"></span></th>
-              <th data-col="used">Letters Used <span class="sort-arrow"></span></th>
-              <th data-col="remaining">Remaining <span class="sort-arrow"></span></th>
-            </tr>
-          </thead>
+          <thead><tr id="resultsHead"></tr></thead>
           <tbody id="resultsBody"></tbody>
         </table>
-        <div class="no-results" id="noResults" style="display:none">No matching colors found. Try adding more letters!</div>
+        <div class="no-results" id="noResults" style="display:none">No matches found. Try adding more letters!</div>
       </div>
     </section>
 
@@ -411,7 +428,7 @@
       <form method="dialog">
         <div class="dlg-body">
           <div class="dlg-title" id="dlgTitle">
-            <span class="swatch-inline" id="dlgSwatch"></span>
+            <span class="swatch-inline" id="dlgSwatch" style="display:none"></span>
             <span id="dlgName"></span>
           </div>
           <div class="dlg-meta" id="dlgMeta"></div>
@@ -431,24 +448,12 @@
 <a id="toTop" href="#top" title="Back to top">&#8593;</a>
 
 <script src="colors.js"></script>
+<script src="movies.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const colors = BUILTIN_COLORS;
-
-const DEMO_LETTERS = "IHIIEEDIJAVMONEYGREE";
-const LETTERS_STORAGE_KEY = "paint_color_bananagrams_letters_v1";
-
-function loadStoredLetters() {
-  try { return localStorage.getItem(LETTERS_STORAGE_KEY); }
-  catch { return null; }
-}
-function saveStoredLetters(value) {
-  try { localStorage.setItem(LETTERS_STORAGE_KEY, value); }
-  catch { /* private mode / quota — ignore */ }
-}
 
 /* ====================================================================
-   UTILITY FUNCTIONS
+   UTILITIES — letter math
    ==================================================================== */
 
 const LETTERS_ONLY_CACHE = new Map();
@@ -458,7 +463,7 @@ const CACHE_LIMIT = 100000;
 function lettersOnly(str) {
   const cached = LETTERS_ONLY_CACHE.get(str);
   if (cached !== undefined) return cached;
-  const result = str.replace(/[^a-zA-Z]/g, "").toLowerCase();
+  const result = String(str).replace(/[^a-zA-Z]/g, "").toLowerCase();
   if (LETTERS_ONLY_CACHE.size > CACHE_LIMIT) LETTERS_ONLY_CACHE.clear();
   LETTERS_ONLY_CACHE.set(str, result);
   return result;
@@ -475,12 +480,6 @@ function freqMap(str) {
   return map;
 }
 
-/**
- * Compare a candidate name against the pool. Returns:
- *   { exact: true, missing: [] }                 → can be spelled exactly
- *   { exact: false, missing: ["e"] }             → off by one letter
- *   null                                          → off by more than `maxMissing`
- */
 function evaluateMatch(poolFreq, titleFreq, maxMissing) {
   const missing = [];
   for (const [ch, count] of Object.entries(titleFreq)) {
@@ -515,22 +514,315 @@ function freqToString(freq) {
     .toUpperCase();
 }
 
+function escHTML(s) {
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+function escAttr(s) { return escHTML(s); }
+
+/* ====================================================================
+   CATALOGS — declarative registry
+   Each catalog defines:
+     - source data + how to read a name
+     - filter groups (chips)
+     - table columns (header + per-row render)
+     - stats "best" rendering
+     - dialog meta (and optional swatch)
+     - CSV export schema
+   ==================================================================== */
+
+const CATALOGS = {
+  colors: {
+    id: "colors",
+    label: "Paint Colors",
+    icon: "🎨",
+    items: typeof BUILTIN_COLORS !== "undefined" ? BUILTIN_COLORS : [],
+    getName: (it) => it.name,
+    getSwatch: (it) => it.hex,
+    demoLetters: "IHIIEEDIJAVMONEYGREE",
+    bestLabel: "Best Color",
+    subtitleType: "paint color",
+
+    filterGroups: [
+      {
+        id: "brand",
+        label: "Brand",
+        getValues: (it) => [it.brand],
+      },
+      {
+        id: "collection",
+        label: "Collection",
+        getValues: (it) => Array.isArray(it.collections) ? it.collections : [],
+        includeAllChip: true,
+      },
+    ],
+
+    columns: [
+      { id: "title",     label: "Color",        sortable: true },
+      { id: "length",    label: "Length",       sortable: true },
+      { id: "status",    label: "Status",       sortable: true },
+      { id: "used",      label: "Letters Used", sortable: true },
+      { id: "remaining", label: "Remaining",    sortable: true },
+    ],
+
+    renderItemCell(r) {
+      const it = r.item;
+      const collections = (it.collections || []).map(c => `<span class="collection-tag">${escHTML(c)}</span>`).join(" ");
+      const code = it.code ? `<span class="code-pill">${escHTML(it.code)}</span>` : "";
+      const rules = r.rules.map(x => `<span class="rule-tag">${escHTML(x)}</span>`).join(" ");
+      return `
+        <div class="item-cell">
+          <span class="swatch-inline" style="background:${escAttr(it.hex)}"></span>
+          <div>
+            <strong>${escHTML(it.name)}</strong>
+            <div class="item-meta">
+              <span class="brand-tag">${escHTML(it.brand)}</span>
+              ${code}
+              ${collections}
+              ${rules}
+            </div>
+          </div>
+        </div>`;
+    },
+
+    renderBest(top) {
+      const swatch = `<span class="stat-swatch" style="background:${escAttr(top.item.hex)}"></span>`;
+      return `${swatch}<span>${escHTML(top.item.name)}</span>`;
+    },
+
+    renderDialogTitle(item) {
+      return {
+        swatch: item.hex,
+        name: item.name,
+        meta: [
+          `<span class="brand-tag">${escHTML(item.brand)}</span>`,
+          item.code ? `<span class="code-pill">${escHTML(item.code)}</span>` : "",
+          ...(item.collections || []).map(c => `<span class="collection-tag">${escHTML(c)}</span>`),
+        ].filter(Boolean).join(" "),
+      };
+    },
+
+    sourceLine(items) {
+      const total = items.length;
+      const brands = new Set(items.map(c => c.brand)).size;
+      const colls = new Set(items.flatMap(c => c.collections || [])).size;
+      return `Catalog: ${total.toLocaleString()} unique color names · ${brands} brand${brands === 1 ? "" : "s"} · ${colls} fan deck${colls === 1 ? "" : "s"}.`;
+    },
+
+    csvHeaders: ["Color", "Code", "Brand", "Collections", "Hex", "Length", "Status", "Letters Used", "Remaining"],
+    csvRow(r) {
+      const it = r.item;
+      return [
+        it.name, it.code || "", it.brand, (it.collections || []).join("; "), it.hex,
+        r.length, r.exact ? "Exact" : `Needs +${r.missing.join("")}`,
+        r.usedLetters, r.remaining,
+      ];
+    },
+  },
+
+  movies: {
+    id: "movies",
+    label: "Movies",
+    icon: "🎬",
+    items: typeof BUILTIN_MOVIES !== "undefined" ? BUILTIN_MOVIES : [],
+    getName: (it) => it.title,
+    getSwatch: () => null,
+    demoLetters: "INCEPTIONAVATARTITAN",
+    bestLabel: "Best Title",
+    subtitleType: "movie",
+
+    filterGroups: [
+      {
+        id: "decade",
+        label: "Decade",
+        getValues: (it) => it.year ? [`${Math.floor(it.year / 10) * 10}s`] : ["Unknown"],
+        sortValues: (a, b) => parseInt(a, 10) - parseInt(b, 10),
+        includeAllChip: true,
+      },
+    ],
+
+    columns: [
+      { id: "title",     label: "Title",        sortable: true },
+      { id: "length",    label: "Length",       sortable: true },
+      { id: "year",      label: "Year",         sortable: true },
+      { id: "status",    label: "Status",       sortable: true },
+      { id: "used",      label: "Letters Used", sortable: true },
+      { id: "remaining", label: "Remaining",    sortable: true },
+    ],
+
+    renderItemCell(r) {
+      const it = r.item;
+      const rules = r.rules.map(x => `<span class="rule-tag">${escHTML(x)}</span>`).join(" ");
+      const decade = it.year ? `<span class="collection-tag">${Math.floor(it.year/10)*10}s</span>` : "";
+      return `
+        <div class="item-cell">
+          <div>
+            <strong>${escHTML(it.title)}</strong>
+            <div class="item-meta">
+              ${decade}
+              ${rules}
+            </div>
+          </div>
+        </div>`;
+    },
+
+    renderBest(top) {
+      const yr = top.item.year ? ` <span style="opacity:.6;font-weight:500">(${top.item.year})</span>` : "";
+      return `<span>${escHTML(top.item.title)}${yr}</span>`;
+    },
+
+    renderDialogTitle(item) {
+      return {
+        swatch: null,
+        name: item.title,
+        meta: [
+          item.year ? `<span class="brand-tag">${item.year}</span>` : "",
+          item.year ? `<span class="collection-tag">${Math.floor(item.year/10)*10}s</span>` : "",
+        ].filter(Boolean).join(" "),
+      };
+    },
+
+    sourceLine(items) {
+      const total = items.length;
+      const years = items.map(m => m.year).filter(y => typeof y === "number");
+      const min = Math.min(...years), max = Math.max(...years);
+      return `Catalog: ${total.toLocaleString()} film titles · ${min}–${max}.`;
+    },
+
+    csvHeaders: ["Title", "Year", "Length", "Status", "Letters Used", "Remaining"],
+    csvRow(r) {
+      const it = r.item;
+      return [
+        it.title, it.year || "",
+        r.length, r.exact ? "Exact" : `Needs +${r.missing.join("")}`,
+        r.usedLetters, r.remaining,
+      ];
+    },
+  },
+};
+
+const CATALOG_ORDER = ["colors", "movies"];
+
+/* ====================================================================
+   STATE
+   ==================================================================== */
+
+const STORAGE_LETTERS = "bananagrams_assistant_letters_v1";
+const STORAGE_CATALOG = "bananagrams_assistant_catalog_v1";
+const STORAGE_FILTERS = "bananagrams_assistant_filters_v1"; // per-catalog filter state
+
+let currentCatalogId = "colors";
+let currentSort = { col: "length", dir: "desc" };
+let currentFilter = "";
+let lastResults = [];
+
+/** Per-catalog filter selections: Map<catalogId, Map<groupId, Set<value>>> */
+const filterState = new Map();
+
+function getCatalog() { return CATALOGS[currentCatalogId]; }
+
+function getFilterSet(catalogId, groupId) {
+  if (!filterState.has(catalogId)) filterState.set(catalogId, new Map());
+  const groups = filterState.get(catalogId);
+  if (!groups.has(groupId)) groups.set(groupId, new Set());
+  return groups.get(groupId);
+}
+
+function loadStored(key) {
+  try { return localStorage.getItem(key); } catch { return null; }
+}
+function saveStored(key, value) {
+  try { localStorage.setItem(key, value); } catch {}
+}
+
+function loadStoredFilters() {
+  try {
+    const raw = localStorage.getItem(STORAGE_FILTERS);
+    if (!raw) return;
+    const obj = JSON.parse(raw);
+    for (const [catId, groups] of Object.entries(obj || {})) {
+      const groupMap = new Map();
+      for (const [gId, vals] of Object.entries(groups || {})) {
+        groupMap.set(gId, new Set(Array.isArray(vals) ? vals : []));
+      }
+      filterState.set(catId, groupMap);
+    }
+  } catch {}
+}
+function saveStoredFilters() {
+  const obj = {};
+  for (const [catId, groups] of filterState.entries()) {
+    obj[catId] = {};
+    for (const [gId, set] of groups.entries()) {
+      obj[catId][gId] = [...set];
+    }
+  }
+  try { localStorage.setItem(STORAGE_FILTERS, JSON.stringify(obj)); } catch {}
+}
+
+/* ====================================================================
+   FILTER VALUE INDEX (cached per-catalog)
+   ==================================================================== */
+
+const filterIndexCache = new Map(); // catId -> { values: { gId: [{value, count}] }, itemValues: { gId: WeakMap<item, string[]> } }
+
+function buildFilterIndex(catId) {
+  if (filterIndexCache.has(catId)) return filterIndexCache.get(catId);
+  const cat = CATALOGS[catId];
+  const values = {};
+  const itemValues = {};
+  for (const group of cat.filterGroups) {
+    const counts = new Map();
+    const perItem = new WeakMap();
+    for (const item of cat.items) {
+      const vals = group.getValues(item) || [];
+      perItem.set(item, vals);
+      for (const v of vals) counts.set(v, (counts.get(v) || 0) + 1);
+    }
+    let arr = [...counts.entries()].map(([value, count]) => ({ value, count }));
+    if (group.sortValues) arr.sort((a, b) => group.sortValues(a.value, b.value));
+    else arr.sort((a, b) => a.value.localeCompare(b.value));
+    values[group.id] = arr;
+    itemValues[group.id] = perItem;
+  }
+  const idx = { values, itemValues };
+  filterIndexCache.set(catId, idx);
+  return idx;
+}
+
 /* ====================================================================
    MATCHING ENGINE
    ==================================================================== */
 
-function findMatches(letters, options, filters) {
+function findMatches(letters, options) {
+  const cat = getCatalog();
   const pool = freqMap(letters);
   const poolSize = lettersOnly(letters).length;
   const maxMissing = options.nearMatches ? 1 : 0;
   const results = [];
 
-  for (const color of colors) {
-    if (!options.multiWord && color.name.includes(" ")) continue;
-    if (filters.brands && !filters.brands.has(color.brand)) continue;
-    if (filters.collections && !color.collections.some(c => filters.collections.has(c))) continue;
+  const filterIdx = buildFilterIndex(cat.id);
+  const activeFilters = [];
+  for (const group of cat.filterGroups) {
+    const sel = getFilterSet(cat.id, group.id);
+    if (sel.size > 0) {
+      activeFilters.push({ group, sel, perItem: filterIdx.itemValues[group.id] });
+    }
+  }
 
-    const titleLetters = lettersOnly(color.name);
+  for (const item of cat.items) {
+    const name = cat.getName(item);
+    if (!options.multiWord && name.includes(" ")) continue;
+
+    let skip = false;
+    for (const f of activeFilters) {
+      const vals = f.perItem.get(item) || [];
+      let any = false;
+      for (const v of vals) { if (f.sel.has(v)) { any = true; break; } }
+      if (!any) { skip = true; break; }
+    }
+    if (skip) continue;
+
+    const titleLetters = lettersOnly(name);
     if (titleLetters.length === 0) continue;
     if (titleLetters.length > poolSize + maxMissing) continue;
 
@@ -539,14 +831,11 @@ function findMatches(letters, options, filters) {
     if (!verdict) continue;
 
     const rules = [];
-    if (/[^a-zA-Z\s]/.test(color.name)) rules.push("Punctuation ignored");
+    if (/[^a-zA-Z\s]/.test(name)) rules.push("Punctuation ignored");
 
     results.push({
-      name: color.name,
-      code: color.code,
-      brand: color.brand,
-      hex: color.hex,
-      collections: color.collections,
+      item,
+      name,
       length: titleLetters.length,
       usedLetters: freqToString(tFreq),
       remaining: verdict.exact ? remainingLetters(pool, tFreq) : "",
@@ -559,80 +848,19 @@ function findMatches(letters, options, filters) {
 }
 
 /* ====================================================================
-   STATE
+   SORTING & RENDERING
    ==================================================================== */
-
-let currentSort = { col: "length", dir: "desc" };
-let currentFilter = "";
-let lastResults = []; // most recent rendered results, indexed by row data-idx
-
-const ALL_BRANDS = [...new Set(colors.map(c => c.brand))].sort();
-const ALL_COLLECTIONS = [...new Set(colors.flatMap(c => c.collections))]
-  .sort((a, b) => a.localeCompare(b));
-const COLLECTION_COUNTS = {};
-for (const c of colors) for (const col of c.collections) COLLECTION_COUNTS[col] = (COLLECTION_COUNTS[col] || 0) + 1;
-const BRAND_COUNTS = {};
-for (const c of colors) BRAND_COUNTS[c.brand] = (BRAND_COUNTS[c.brand] || 0) + 1;
-
-/** Selected = empty Set means "all". */
-const selectedBrands = new Set();
-const selectedCollections = new Set();
-
-function getOptions() {
-  return {
-    multiWord: $("togMultiWord").checked,
-    nearMatches: $("togNear").checked,
-    longestOnly: $("togLongest").checked,
-  };
-}
-
-function getFilters() {
-  return {
-    brands: selectedBrands.size ? selectedBrands : null,
-    collections: selectedCollections.size ? selectedCollections : null,
-  };
-}
-
-/** Main update */
-function update() {
-  const letters = $("letterInput").value;
-  const options = getOptions();
-  const filters = getFilters();
-
-  let results = findMatches(letters, options, filters);
-
-  if (options.longestOnly && results.length > 0) {
-    const exact = results.filter(r => r.exact);
-    const pool = exact.length ? exact : results;
-    const maxLen = Math.max(...pool.map(r => r.length));
-    results = results.filter(r => r.length === maxLen);
-  }
-
-  if (currentFilter) {
-    const q = currentFilter.toLowerCase();
-    results = results.filter(r => r.name.toLowerCase().includes(q));
-  }
-
-  sortResults(results);
-
-  lastResults = results;
-  renderTiles(letters);
-  renderStats(letters, results);
-  renderTable(results);
-  updateURL();
-  saveStoredLetters(letters);
-}
 
 function sortResults(results) {
   const { col, dir } = currentSort;
   const mult = dir === "asc" ? 1 : -1;
-  // Always show exact matches before near-matches; sort within each group.
   results.sort((a, b) => {
     if (a.exact !== b.exact) return a.exact ? -1 : 1;
     let av, bv;
     switch (col) {
       case "title":     av = a.name.toLowerCase(); bv = b.name.toLowerCase(); return mult * av.localeCompare(bv);
       case "length":    return mult * (a.length - b.length);
+      case "year":      return mult * (((a.item.year || 0) - (b.item.year || 0)));
       case "status":    return mult * (a.exact === b.exact ? 0 : a.exact ? -1 : 1);
       case "used":      return mult * a.usedLetters.localeCompare(b.usedLetters);
       case "remaining": return mult * (a.remaining || "").localeCompare(b.remaining || "");
@@ -641,9 +869,67 @@ function sortResults(results) {
   });
 }
 
-/* ====================================================================
-   RENDERING
-   ==================================================================== */
+function renderTabs() {
+  const host = $("catalogTabs");
+  host.innerHTML = "";
+  for (const id of CATALOG_ORDER) {
+    const cat = CATALOGS[id];
+    const btn = document.createElement("button");
+    btn.className = "catalog-tab";
+    btn.type = "button";
+    btn.role = "tab";
+    btn.setAttribute("aria-selected", String(id === currentCatalogId));
+    btn.dataset.catalog = id;
+    btn.innerHTML =
+      `<span class="tab-icon" aria-hidden="true">${cat.icon}</span>` +
+      `<span>${escHTML(cat.label)}</span>` +
+      `<span class="tab-count">${cat.items.length.toLocaleString()}</span>`;
+    btn.addEventListener("click", () => {
+      if (currentCatalogId === id) return;
+      currentCatalogId = id;
+      saveStored(STORAGE_CATALOG, id);
+      // Reset sort if active column doesn't exist in new catalog
+      const cols = new Set(getCatalog().columns.map(c => c.id));
+      if (!cols.has(currentSort.col)) currentSort = { col: "length", dir: "desc" };
+      renderTabs();
+      renderTableHead();
+      renderFilterChips();
+      updateSortArrows();
+      $("sourceLine").textContent = getCatalog().sourceLine(getCatalog().items);
+      $("statBestLabel").textContent = getCatalog().bestLabel;
+      $("tileSubtitle").innerHTML = subtitleForCatalog();
+      update();
+    });
+    host.appendChild(btn);
+  }
+}
+
+function subtitleForCatalog() {
+  const cat = getCatalog();
+  return `Enter your tiles so the assistant can perform a totally fair evaluation of ${escHTML(cat.subtitleType)} names <em>you</em> found.`;
+}
+
+function renderTableHead() {
+  const head = $("resultsHead");
+  head.innerHTML = "";
+  const cat = getCatalog();
+  for (const col of cat.columns) {
+    const th = document.createElement("th");
+    th.dataset.col = col.id;
+    th.innerHTML = `${escHTML(col.label)} <span class="sort-arrow"></span>`;
+    th.addEventListener("click", () => {
+      if (currentSort.col === col.id) {
+        currentSort.dir = currentSort.dir === "asc" ? "desc" : "asc";
+      } else {
+        currentSort.col = col.id;
+        currentSort.dir = col.id === "title" ? "asc" : "desc";
+      }
+      updateSortArrows();
+      update();
+    });
+    head.appendChild(th);
+  }
+}
 
 function renderTiles(letters) {
   const area = $("tileArea");
@@ -672,6 +958,7 @@ function renderTiles(letters) {
 }
 
 function renderStats(letters, results) {
+  const cat = getCatalog();
   const pool = lettersOnly(letters);
   const exact = results.filter(r => r.exact);
   const near = results.filter(r => !r.exact);
@@ -686,9 +973,7 @@ function renderStats(letters, results) {
     $("statLongest").textContent = maxLen;
     const best = ranking.filter(r => r.length === maxLen);
     const top = best[0];
-    $("statBest").innerHTML =
-      `<span class="stat-swatch" style="background:${escAttr(top.hex)}"></span>` +
-      `<span>${escHTML(top.name)}</span>`;
+    $("statBest").innerHTML = cat.renderBest(top);
     const suffix = top.exact ? "" : ` (needs +${top.missing.join("")})`;
     $("statBestDetail").textContent = best.length > 1
       ? `+${best.length - 1} more at ${maxLen} letters${suffix}`
@@ -701,6 +986,7 @@ function renderStats(letters, results) {
 }
 
 function renderTable(results) {
+  const cat = getCatalog();
   const tbody = $("resultsBody");
   const noResults = $("noResults");
 
@@ -712,86 +998,88 @@ function renderTable(results) {
   noResults.style.display = "none";
 
   tbody.innerHTML = results.map((r, i) => {
-    const collections = r.collections.map(c => `<span class="collection-tag">${escHTML(c)}</span>`).join(" ");
-    const code = r.code ? `<span class="code-pill">${escHTML(r.code)}</span>` : "";
-    const status = r.exact
-      ? `<span class="exact-tag">Exact</span>`
-      : `<span class="needs-tag">+${r.missing.join("")}</span>`;
-    const rules = r.rules.map(rule => `<span class="rule-tag">${escHTML(rule)}</span>`).join(" ");
-    return `
-      <tr class="clickable ${r.exact ? "" : "near"}" data-idx="${i}" tabindex="0" role="button" aria-label="Play ${escAttr(r.name)}">
-        <td>
-          <div class="color-cell">
-            <span class="swatch-inline" style="background:${escAttr(r.hex)}"></span>
-            <div>
-              <strong>${escHTML(r.name)}</strong>
-              <div class="color-meta">
-                <span class="brand-tag">${escHTML(r.brand)}</span>
-                ${code}
-                ${collections}
-                ${rules}
-              </div>
-            </div>
-          </div>
-        </td>
-        <td>${r.length}</td>
-        <td>${status}</td>
-        <td class="letters-used">${escHTML(r.usedLetters)}</td>
-        <td class="remaining">${r.exact ? (escHTML(r.remaining) || "—") : "—"}</td>
-      </tr>
-    `;
+    const cells = cat.columns.map(col => renderCell(col, r)).join("");
+    return `<tr class="clickable ${r.exact ? "" : "near"}" data-idx="${i}" tabindex="0" role="button" aria-label="Play ${escAttr(r.name)}">${cells}</tr>`;
   }).join("");
 }
 
-function escHTML(s) {
-  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+function renderCell(col, r) {
+  switch (col.id) {
+    case "title":
+      return `<td>${getCatalog().renderItemCell(r)}</td>`;
+    case "length":
+      return `<td>${r.length}</td>`;
+    case "year":
+      return `<td>${r.item.year ? escHTML(r.item.year) : "—"}</td>`;
+    case "status":
+      return `<td>${r.exact
+        ? `<span class="exact-tag">Exact</span>`
+        : `<span class="needs-tag">+${r.missing.join("")}</span>`}</td>`;
+    case "used":
+      return `<td class="letters-used">${escHTML(r.usedLetters)}</td>`;
+    case "remaining":
+      return `<td class="remaining">${r.exact ? (escHTML(r.remaining) || "—") : "—"}</td>`;
+    default:
+      return `<td></td>`;
+  }
 }
-function escAttr(s) { return escHTML(s); }
 
 /* ====================================================================
    FILTER CHIPS
    ==================================================================== */
 
-function renderChips() {
-  const brandHost = $("brandChips");
-  brandHost.innerHTML = "";
-  for (const b of ALL_BRANDS) {
-    const chip = document.createElement("span");
-    chip.className = "chip" + (selectedBrands.has(b) ? " active" : "");
-    chip.innerHTML = `${escHTML(b)} <span class="count">${BRAND_COUNTS[b]}</span>`;
-    chip.addEventListener("click", () => {
-      if (selectedBrands.has(b)) selectedBrands.delete(b);
-      else selectedBrands.add(b);
-      renderChips();
-      update();
-    });
-    brandHost.appendChild(chip);
+function renderFilterChips() {
+  const cat = getCatalog();
+  const idx = buildFilterIndex(cat.id);
+  const host = $("filterRows");
+  host.innerHTML = "";
+
+  if (cat.filterGroups.length === 0) {
+    $("filtersBlock").style.display = "none";
+    return;
   }
+  $("filtersBlock").style.display = "";
 
-  const collHost = $("collectionChips");
-  collHost.innerHTML = "";
-  // "All" pseudo-chip resets collections
-  const allChip = document.createElement("span");
-  allChip.className = "chip" + (selectedCollections.size === 0 ? " active" : "");
-  allChip.textContent = `All (${ALL_COLLECTIONS.length})`;
-  allChip.addEventListener("click", () => {
-    selectedCollections.clear();
-    renderChips();
-    update();
-  });
-  collHost.appendChild(allChip);
+  for (const group of cat.filterGroups) {
+    const row = document.createElement("div");
+    row.className = "filter-row";
+    const label = document.createElement("span");
+    label.className = "filter-label";
+    label.textContent = group.label;
+    row.appendChild(label);
 
-  for (const c of ALL_COLLECTIONS) {
-    const chip = document.createElement("span");
-    chip.className = "chip" + (selectedCollections.has(c) ? " active" : "");
-    chip.innerHTML = `${escHTML(c)} <span class="count">${COLLECTION_COUNTS[c]}</span>`;
-    chip.addEventListener("click", () => {
-      if (selectedCollections.has(c)) selectedCollections.delete(c);
-      else selectedCollections.add(c);
-      renderChips();
-      update();
-    });
-    collHost.appendChild(chip);
+    const chipHost = document.createElement("span");
+    const sel = getFilterSet(cat.id, group.id);
+    const values = idx.values[group.id];
+
+    if (group.includeAllChip) {
+      const all = document.createElement("span");
+      all.className = "chip" + (sel.size === 0 ? " active" : "");
+      all.textContent = `All (${values.length})`;
+      all.addEventListener("click", () => {
+        sel.clear();
+        renderFilterChips();
+        saveStoredFilters();
+        update();
+      });
+      chipHost.appendChild(all);
+    }
+
+    for (const { value, count } of values) {
+      const chip = document.createElement("span");
+      chip.className = "chip" + (sel.has(value) ? " active" : "");
+      chip.innerHTML = `${escHTML(value)} <span class="count">${count}</span>`;
+      chip.addEventListener("click", () => {
+        if (sel.has(value)) sel.delete(value);
+        else sel.add(value);
+        renderFilterChips();
+        saveStoredFilters();
+        update();
+      });
+      chipHost.appendChild(chip);
+    }
+    row.appendChild(chipHost);
+    host.appendChild(row);
   }
 }
 
@@ -800,12 +1088,8 @@ function renderChips() {
    ==================================================================== */
 
 const playDialog = $("playDialog");
-let pendingPlay = null; // { result, consumeFreq }
+let pendingPlay = null;
 
-/**
- * Remove letters listed in `freq` from the user's tile string, preserving the
- * order and casing of remaining tiles plus any non-letter characters.
- */
 function consumeLetters(tileString, freq) {
   const remaining = { ...freq };
   let out = "";
@@ -822,10 +1106,7 @@ function consumeLetters(tileString, freq) {
 
 function openPlayDialog(result) {
   if (!result) return;
-
-  // For an exact match: consume every letter in the title.
-  // For a near-match: consume only the letters the user actually has
-  // (titleFreq minus the missing letters).
+  const cat = getCatalog();
   const titleFreq = freqMap(result.name);
   const consume = { ...titleFreq };
   if (!result.exact) {
@@ -837,21 +1118,21 @@ function openPlayDialog(result) {
   }
   pendingPlay = { result, consume };
 
-  // Populate dialog
-  $("dlgSwatch").style.background = result.hex;
-  $("dlgName").textContent = result.name;
-
-  const meta = [
-    `<span class="brand-tag">${escHTML(result.brand)}</span>`,
-    result.code ? `<span class="code-pill">${escHTML(result.code)}</span>` : "",
-    ...result.collections.map(c => `<span class="collection-tag">${escHTML(c)}</span>`),
-  ].filter(Boolean).join(" ");
-  $("dlgMeta").innerHTML = meta;
+  const dlg = cat.renderDialogTitle(result.item);
+  const swatchEl = $("dlgSwatch");
+  if (dlg.swatch) {
+    swatchEl.style.display = "";
+    swatchEl.style.background = dlg.swatch;
+  } else {
+    swatchEl.style.display = "none";
+    swatchEl.style.background = "";
+  }
+  $("dlgName").textContent = dlg.name;
+  $("dlgMeta").innerHTML = dlg.meta;
 
   $("dlgLength").textContent = `${result.length} letters`;
   $("dlgUsed").textContent = freqToString(consume) || "—";
 
-  // Show what the pool will look like AFTER play
   const projected = consumeLetters($("letterInput").value, consume);
   const projectedFreq = freqMap(projected);
   $("dlgRemaining").textContent = freqToString(projectedFreq) || "—";
@@ -871,7 +1152,7 @@ function openPlayDialog(result) {
 
   playDialog.returnValue = "";
   if (typeof playDialog.showModal === "function") playDialog.showModal();
-  else playDialog.setAttribute("open", ""); // very old browsers
+  else playDialog.setAttribute("open", "");
 }
 
 playDialog.addEventListener("close", () => {
@@ -883,7 +1164,6 @@ playDialog.addEventListener("close", () => {
   pendingPlay = null;
 });
 
-// Row click → open dialog (event delegation on tbody)
 $("resultsBody").addEventListener("click", e => {
   const tr = e.target.closest("tr.clickable");
   if (!tr) return;
@@ -900,22 +1180,18 @@ $("resultsBody").addEventListener("keydown", e => {
 });
 
 /* ====================================================================
-   SORT HANDLERS
+   SORT ARROWS / TOOLBAR BUTTONS
    ==================================================================== */
 
-document.querySelectorAll("th[data-col]").forEach(th => {
-  th.addEventListener("click", () => {
-    const col = th.dataset.col;
-    if (currentSort.col === col) {
-      currentSort.dir = currentSort.dir === "asc" ? "desc" : "asc";
-    } else {
-      currentSort.col = col;
-      currentSort.dir = col === "title" ? "asc" : "desc";
-    }
-    updateSortArrows();
-    update();
+function updateSortArrows() {
+  document.querySelectorAll("th[data-col]").forEach(th => {
+    const arrow = th.querySelector(".sort-arrow");
+    if (!arrow) return;
+    arrow.textContent = th.dataset.col === currentSort.col
+      ? (currentSort.dir === "asc" ? "▲" : "▼")
+      : "";
   });
-});
+}
 
 document.querySelectorAll("[data-sort]").forEach(btn => {
   btn.addEventListener("click", () => {
@@ -926,20 +1202,50 @@ document.querySelectorAll("[data-sort]").forEach(btn => {
   });
 });
 
-function updateSortArrows() {
-  document.querySelectorAll("th[data-col]").forEach(th => {
-    const arrow = th.querySelector(".sort-arrow");
-    arrow.textContent = th.dataset.col === currentSort.col
-      ? (currentSort.dir === "asc" ? "▲" : "▼")
-      : "";
-  });
-}
-
 let updateTimer = null;
 function scheduleUpdate() { clearTimeout(updateTimer); updateTimer = setTimeout(update, 60); }
 
 /* ====================================================================
-   EVENT LISTENERS
+   MAIN UPDATE LOOP
+   ==================================================================== */
+
+function getOptions() {
+  return {
+    multiWord: $("togMultiWord").checked,
+    nearMatches: $("togNear").checked,
+    longestOnly: $("togLongest").checked,
+  };
+}
+
+function update() {
+  const letters = $("letterInput").value;
+  const options = getOptions();
+  let results = findMatches(letters, options);
+
+  if (options.longestOnly && results.length > 0) {
+    const exact = results.filter(r => r.exact);
+    const pool = exact.length ? exact : results;
+    const maxLen = Math.max(...pool.map(r => r.length));
+    results = results.filter(r => r.length === maxLen);
+  }
+
+  if (currentFilter) {
+    const q = currentFilter.toLowerCase();
+    results = results.filter(r => r.name.toLowerCase().includes(q));
+  }
+
+  sortResults(results);
+  lastResults = results;
+
+  renderTiles(letters);
+  renderStats(letters, results);
+  renderTable(results);
+  updateURL();
+  saveStored(STORAGE_LETTERS, letters);
+}
+
+/* ====================================================================
+   EVENT WIRING
    ==================================================================== */
 
 $("letterInput").addEventListener("input", scheduleUpdate);
@@ -950,7 +1256,7 @@ $("titleFilter").addEventListener("input", e => { currentFilter = e.target.value
 });
 
 $("btnClear").addEventListener("click", () => { $("letterInput").value = ""; update(); });
-$("btnReset").addEventListener("click", () => { $("letterInput").value = DEMO_LETTERS; update(); });
+$("btnReset").addEventListener("click", () => { $("letterInput").value = getCatalog().demoLetters; update(); });
 $("btnRandom").addEventListener("click", () => {
   const weighted = "EEEEEEEETTTTTTTAAAAAAARRRRRRIIIIIIOOOOOONNNNNSSSSSSLLLLLCCCUUUDDDPPPMMHHHGBFYWKVXZJQ";
   const ch = weighted[Math.floor(Math.random() * weighted.length)];
@@ -959,10 +1265,10 @@ $("btnRandom").addEventListener("click", () => {
 });
 
 $("btnExport").addEventListener("click", () => {
+  const cat = getCatalog();
   const letters = $("letterInput").value;
   const options = getOptions();
-  const filters = getFilters();
-  let results = findMatches(letters, options, filters);
+  let results = findMatches(letters, options);
   if (options.longestOnly && results.length > 0) {
     const exact = results.filter(r => r.exact);
     const pool = exact.length ? exact : results;
@@ -975,30 +1281,18 @@ $("btnExport").addEventListener("click", () => {
   }
   sortResults(results);
 
-  const rows = [["Color", "Code", "Brand", "Collections", "Hex", "Length", "Status", "Letters Used", "Remaining"]];
-  for (const r of results) {
-    rows.push([
-      r.name, r.code, r.brand, r.collections.join("; "), r.hex,
-      r.length, r.exact ? "Exact" : `Needs +${r.missing.join("")}`,
-      r.usedLetters, r.remaining,
-    ]);
-  }
-  const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(",")).join("\n");
+  const rows = [cat.csvHeaders];
+  for (const r of results) rows.push(cat.csvRow(r));
+  const csv = rows.map(row => row.map(c => `"${String(c).replace(/"/g, '""')}"`).join(",")).join("\n");
   const blob = new Blob([csv], { type: "text/csv" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
-  a.href = url; a.download = "paint-color-results.csv"; a.click();
+  a.href = url; a.download = `bananagrams-${cat.id}-results.csv`; a.click();
   URL.revokeObjectURL(url);
 });
 
 $("btnShare").addEventListener("click", () => {
-  const params = new URLSearchParams();
-  params.set("l", $("letterInput").value);
-  params.set("mw", $("togMultiWord").checked ? "1" : "0");
-  params.set("nm", $("togNear").checked ? "1" : "0");
-  params.set("lo", $("togLongest").checked ? "1" : "0");
-  if (selectedBrands.size) params.set("br", [...selectedBrands].join("|"));
-  if (selectedCollections.size) params.set("co", [...selectedCollections].join("|"));
+  const params = buildParams();
   const shareURL = location.origin + location.pathname + "?" + params.toString();
   navigator.clipboard.writeText(shareURL).then(() => {
     const btn = $("btnShare");
@@ -1008,15 +1302,34 @@ $("btnShare").addEventListener("click", () => {
   }).catch(() => prompt("Copy this URL:", shareURL));
 });
 
-function updateURL() {
+function buildParams() {
+  const cat = getCatalog();
   const params = new URLSearchParams();
+  params.set("cat", cat.id);
+  params.set("l", $("letterInput").value);
+  params.set("mw", $("togMultiWord").checked ? "1" : "0");
+  params.set("nm", $("togNear").checked ? "1" : "0");
+  params.set("lo", $("togLongest").checked ? "1" : "0");
+  for (const group of cat.filterGroups) {
+    const sel = getFilterSet(cat.id, group.id);
+    if (sel.size) params.set(`f.${group.id}`, [...sel].join("|"));
+  }
+  return params;
+}
+
+function updateURL() {
+  const cat = getCatalog();
+  const params = new URLSearchParams();
+  if (cat.id !== "colors") params.set("cat", cat.id);
   const letters = $("letterInput").value;
   if (letters) params.set("l", letters);
   if (!$("togMultiWord").checked) params.set("mw", "0");
   if (!$("togNear").checked) params.set("nm", "0");
   if ($("togLongest").checked) params.set("lo", "1");
-  if (selectedBrands.size) params.set("br", [...selectedBrands].join("|"));
-  if (selectedCollections.size) params.set("co", [...selectedCollections].join("|"));
+  for (const group of cat.filterGroups) {
+    const sel = getFilterSet(cat.id, group.id);
+    if (sel.size) params.set(`f.${group.id}`, [...sel].join("|"));
+  }
   const qs = params.toString();
   history.replaceState(null, "", qs ? location.pathname + "?" + qs : location.pathname);
 }
@@ -1026,25 +1339,47 @@ function updateURL() {
    ==================================================================== */
 
 function init() {
+  loadStoredFilters();
+
   const params = new URLSearchParams(location.search);
-  const stored = loadStoredLetters();
+
+  // Catalog
+  const urlCat = params.get("cat");
+  const storedCat = loadStored(STORAGE_CATALOG);
+  if (urlCat && CATALOGS[urlCat]) currentCatalogId = urlCat;
+  else if (storedCat && CATALOGS[storedCat]) currentCatalogId = storedCat;
+
+  // Letters: URL > stored > catalog demo
+  const stored = loadStored(STORAGE_LETTERS);
   $("letterInput").value = params.has("l")
     ? params.get("l")
-    : (stored !== null ? stored : DEMO_LETTERS);
+    : (stored !== null ? stored : getCatalog().demoLetters);
+
+  // Options
   if (params.has("mw")) $("togMultiWord").checked = params.get("mw") === "1";
   if (params.has("nm")) $("togNear").checked = params.get("nm") === "1";
   if (params.has("lo")) $("togLongest").checked = params.get("lo") === "1";
-  if (params.has("br")) for (const b of params.get("br").split("|")) if (b) selectedBrands.add(b);
-  if (params.has("co")) for (const c of params.get("co").split("|")) if (c) selectedCollections.add(c);
 
-  const total = colors.length;
-  const brands = ALL_BRANDS.length;
-  const collsCount = ALL_COLLECTIONS.length;
-  $("sourceLine").textContent =
-    `Catalog: ${total.toLocaleString()} unique color names · ${brands} brand${brands === 1 ? "" : "s"} · ${collsCount} fan decks.`;
+  // Per-group filter overrides from URL
+  const cat = getCatalog();
+  for (const group of cat.filterGroups) {
+    const key = `f.${group.id}`;
+    if (params.has(key)) {
+      const set = getFilterSet(cat.id, group.id);
+      set.clear();
+      for (const v of params.get(key).split("|")) if (v) set.add(v);
+    }
+  }
 
-  renderChips();
+  renderTabs();
+  renderTableHead();
+  renderFilterChips();
   updateSortArrows();
+
+  $("sourceLine").textContent = getCatalog().sourceLine(getCatalog().items);
+  $("statBestLabel").textContent = getCatalog().bestLabel;
+  $("tileSubtitle").innerHTML = subtitleForCatalog();
+
   update();
 }
 
