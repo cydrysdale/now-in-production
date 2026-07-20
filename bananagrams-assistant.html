@@ -449,6 +449,8 @@
 
 <script src="colors.js"></script>
 <script src="movies.js"></script>
+<script src="pokemon.js"></script>
+<script src="pokemon-extras.js"></script>
 <script>
 const $ = id => document.getElementById(id);
 
@@ -463,7 +465,9 @@ const CACHE_LIMIT = 100000;
 function lettersOnly(str) {
   const cached = LETTERS_ONLY_CACHE.get(str);
   if (cached !== undefined) return cached;
-  const result = String(str).replace(/[^a-zA-Z]/g, "").toLowerCase();
+  const result = String(str)
+    .normalize("NFD").replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-zA-Z]/g, "").toLowerCase();
   if (LETTERS_ONLY_CACHE.size > CACHE_LIMIT) LETTERS_ONLY_CACHE.clear();
   LETTERS_ONLY_CACHE.set(str, result);
   return result;
@@ -698,9 +702,122 @@ const CATALOGS = {
       ];
     },
   },
+  pokemon: {
+    id: "pokemon",
+    label: "Pokémon",
+    icon: "⚡",
+    items: [
+      ...(typeof BUILTIN_POKEMON !== "undefined"
+        ? BUILTIN_POKEMON.map(p => ({ ...p, cat: "Pokémon" }))
+        : []),
+      ...(typeof POKEMON_EXTRAS !== "undefined" ? POKEMON_EXTRAS : []),
+    ],
+    getName: (it) => it.name,
+    getSwatch: (it) => (it.types && it.types.length ? POKEMON_TYPE_COLORS[it.types[0]] : null),
+    demoLetters: "PIKACHUEEVEEMEWONIX",
+    bestLabel: "Best Catch",
+    subtitleType: "Pokémon",
+
+    filterGroups: [
+      {
+        id: "cat",
+        label: "Category",
+        getValues: (it) => [it.cat],
+        includeAllChip: true,
+      },
+      {
+        id: "gen",
+        label: "Generation",
+        getValues: (it) => it.gen ? [`Gen ${it.gen}`] : [],
+        sortValues: (a, b) => parseInt(a.slice(4), 10) - parseInt(b.slice(4), 10),
+        includeAllChip: true,
+      },
+      {
+        id: "type",
+        label: "Type",
+        getValues: (it) => it.types || [],
+        includeAllChip: true,
+      },
+    ],
+
+    columns: [
+      { id: "title",     label: "Name",         sortable: true },
+      { id: "length",    label: "Length",       sortable: true },
+      { id: "num",       label: "Dex No.",      sortable: true },
+      { id: "status",    label: "Status",       sortable: true },
+      { id: "used",      label: "Letters Used", sortable: true },
+      { id: "remaining", label: "Remaining",    sortable: true },
+    ],
+
+    renderItemCell(r) {
+      const it = r.item;
+      const color = this.getSwatch(it);
+      const swatch = color ? `<span class="swatch-inline" style="background:${escAttr(color)}"></span>` : "";
+      const meta = [];
+      if (it.num) meta.push(`<span class="code-pill">#${String(it.num).padStart(4, "0")}</span>`);
+      if (it.cat && it.cat !== "Pokémon") meta.push(`<span class="brand-tag">${escHTML(it.cat)}</span>`);
+      if (it.gen) meta.push(`<span class="collection-tag">Gen ${it.gen}</span>`);
+      if (it.num) for (const t of it.types || []) meta.push(`<span class="collection-tag">${escHTML(t)}</span>`);
+      const rules = r.rules.map(x => `<span class="rule-tag">${escHTML(x)}</span>`).join(" ");
+      return `
+        <div class="item-cell">
+          ${swatch}
+          <div>
+            <strong>${escHTML(it.name)}</strong>
+            <div class="item-meta">
+              ${meta.join(" ")}
+              ${rules}
+            </div>
+          </div>
+        </div>`;
+    },
+
+    renderBest(top) {
+      const color = this.getSwatch(top.item);
+      const swatch = color ? `<span class="stat-swatch" style="background:${escAttr(color)}"></span>` : "";
+      return `${swatch}<span>${escHTML(top.item.name)}</span>`;
+    },
+
+    renderDialogTitle(item) {
+      return {
+        swatch: this.getSwatch(item),
+        name: item.name,
+        meta: [
+          item.num ? `<span class="code-pill">#${String(item.num).padStart(4, "0")}</span>` : "",
+          item.cat ? `<span class="brand-tag">${escHTML(item.cat)}</span>` : "",
+          item.gen ? `<span class="collection-tag">Gen ${item.gen}</span>` : "",
+          ...(item.num ? (item.types || []).map(t => `<span class="collection-tag">${escHTML(t)}</span>`) : []),
+        ].filter(Boolean).join(" "),
+      };
+    },
+
+    sourceLine(items) {
+      const species = items.filter(i => i.num).length;
+      const extras = items.length - species;
+      return `Catalog: ${species.toLocaleString()} Pokémon (National Dex #0001–#1025, Gen 1–9) · ${extras.toLocaleString()} types, regions, places, trainers, moves & terms.`;
+    },
+
+    csvHeaders: ["Name", "Category", "Dex No.", "Generation", "Types", "Length", "Status", "Letters Used", "Remaining"],
+    csvRow(r) {
+      const it = r.item;
+      return [
+        it.name, it.cat || "", it.num || "", it.gen || "", (it.types || []).join("; "),
+        r.length, r.exact ? "Exact" : `Needs +${r.missing.join("")}`,
+        r.usedLetters, r.remaining,
+      ];
+    },
+  },
 };
 
-const CATALOG_ORDER = ["colors", "movies"];
+const POKEMON_TYPE_COLORS = {
+  Normal: "#A8A77A", Fire: "#EE8130", Water: "#6390F0", Electric: "#F7D02C",
+  Grass: "#7AC74C", Ice: "#96D9D6", Fighting: "#C22E28", Poison: "#A33EA1",
+  Ground: "#E2BF65", Flying: "#A98FF3", Psychic: "#F95587", Bug: "#A6B91A",
+  Rock: "#B6A136", Ghost: "#735797", Dragon: "#6F35FC", Dark: "#705746",
+  Steel: "#B7B7CE", Fairy: "#D685AD",
+};
+
+const CATALOG_ORDER = ["colors", "movies", "pokemon"];
 
 /* ====================================================================
    STATE
@@ -861,6 +978,7 @@ function sortResults(results) {
       case "title":     av = a.name.toLowerCase(); bv = b.name.toLowerCase(); return mult * av.localeCompare(bv);
       case "length":    return mult * (a.length - b.length);
       case "year":      return mult * (((a.item.year || 0) - (b.item.year || 0)));
+      case "num":       return mult * (((a.item.num || 0) - (b.item.num || 0)));
       case "status":    return mult * (a.exact === b.exact ? 0 : a.exact ? -1 : 1);
       case "used":      return mult * a.usedLetters.localeCompare(b.usedLetters);
       case "remaining": return mult * (a.remaining || "").localeCompare(b.remaining || "");
@@ -1011,6 +1129,8 @@ function renderCell(col, r) {
       return `<td>${r.length}</td>`;
     case "year":
       return `<td>${r.item.year ? escHTML(r.item.year) : "—"}</td>`;
+    case "num":
+      return `<td>${r.item.num ? `#${String(r.item.num).padStart(4, "0")}` : "—"}</td>`;
     case "status":
       return `<td>${r.exact
         ? `<span class="exact-tag">Exact</span>`
