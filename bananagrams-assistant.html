@@ -889,7 +889,7 @@ const CATALOGS = {
     sourceLine(items) {
       const teams = items.filter(i => i.full).length;
       const cats = new Set(items.map(i => i.cat)).size;
-      return `Catalog: ${items.length.toLocaleString()} football words · ${teams} NFL teams · ${cats} categories (positions, plays, penalties, stadiums, players, coaches, college, moments, events & pop culture).`;
+      return `Catalog: ${items.length.toLocaleString()} football words · ${teams} NFL teams · ${cats} categories (positions, plays, penalties, stadiums, players, coaches, college, moments, events, pop culture, injury & safety).`;
     },
 
     csvHeaders: ["Name", "Category", "Conference", "Division", "Length", "Status", "Letters Used", "Remaining"],
