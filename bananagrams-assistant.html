@@ -451,6 +451,7 @@
 <script src="movies.js"></script>
 <script src="pokemon.js"></script>
 <script src="pokemon-extras.js"></script>
+<script src="football.js"></script>
 <script>
 const $ = id => document.getElementById(id);
 
@@ -807,6 +808,100 @@ const CATALOGS = {
       ];
     },
   },
+  football: {
+    id: "football",
+    label: "Football",
+    icon: "🏈",
+    items: typeof BUILTIN_FOOTBALL !== "undefined" ? BUILTIN_FOOTBALL : [],
+    getName: (it) => it.name,
+    getSwatch: (it) => it.color || null,
+    demoLetters: "TOUCHDOWNBLITZRAVENS",
+    bestLabel: "Best Play",
+    subtitleType: "football",
+
+    filterGroups: [
+      {
+        id: "cat",
+        label: "Category",
+        getValues: (it) => [it.cat],
+        includeAllChip: true,
+      },
+      {
+        id: "conf",
+        label: "Conference",
+        getValues: (it) => it.conf ? [it.conf] : [],
+        includeAllChip: true,
+      },
+      {
+        id: "div",
+        label: "Division",
+        getValues: (it) => (it.conf && it.div) ? [`${it.conf} ${it.div}`] : [],
+        includeAllChip: true,
+      },
+    ],
+
+    columns: [
+      { id: "title",     label: "Name",         sortable: true },
+      { id: "length",    label: "Length",       sortable: true },
+      { id: "status",    label: "Status",       sortable: true },
+      { id: "used",      label: "Letters Used", sortable: true },
+      { id: "remaining", label: "Remaining",    sortable: true },
+    ],
+
+    renderItemCell(r) {
+      const it = r.item;
+      const color = this.getSwatch(it);
+      const swatch = color ? `<span class="swatch-inline" style="background:${escAttr(color)}"></span>` : "";
+      const meta = [];
+      if (it.cat) meta.push(`<span class="brand-tag">${escHTML(it.cat)}</span>`);
+      if (it.conf && it.div) meta.push(`<span class="collection-tag">${escHTML(it.conf)} ${escHTML(it.div)}</span>`);
+      const rules = r.rules.map(x => `<span class="rule-tag">${escHTML(x)}</span>`).join(" ");
+      return `
+        <div class="item-cell">
+          ${swatch}
+          <div>
+            <strong>${escHTML(it.name)}</strong>
+            <div class="item-meta">
+              ${meta.join(" ")}
+              ${rules}
+            </div>
+          </div>
+        </div>`;
+    },
+
+    renderBest(top) {
+      const color = this.getSwatch(top.item);
+      const swatch = color ? `<span class="stat-swatch" style="background:${escAttr(color)}"></span>` : "";
+      return `${swatch}<span>${escHTML(top.item.name)}</span>`;
+    },
+
+    renderDialogTitle(item) {
+      return {
+        swatch: this.getSwatch(item),
+        name: item.name,
+        meta: [
+          item.cat ? `<span class="brand-tag">${escHTML(item.cat)}</span>` : "",
+          (item.conf && item.div) ? `<span class="collection-tag">${escHTML(item.conf)} ${escHTML(item.div)}</span>` : "",
+        ].filter(Boolean).join(" "),
+      };
+    },
+
+    sourceLine(items) {
+      const teams = items.filter(i => i.full).length;
+      const cats = new Set(items.map(i => i.cat)).size;
+      return `Catalog: ${items.length.toLocaleString()} football words · ${teams} NFL teams · ${cats} categories (positions, plays, penalties, stadiums, players, coaches, college, moments, events & pop culture).`;
+    },
+
+    csvHeaders: ["Name", "Category", "Conference", "Division", "Length", "Status", "Letters Used", "Remaining"],
+    csvRow(r) {
+      const it = r.item;
+      return [
+        it.name, it.cat || "", it.conf || "", it.div || "",
+        r.length, r.exact ? "Exact" : `Needs +${r.missing.join("")}`,
+        r.usedLetters, r.remaining,
+      ];
+    },
+  },
 };
 
 const POKEMON_TYPE_COLORS = {
@@ -817,7 +912,7 @@ const POKEMON_TYPE_COLORS = {
   Steel: "#B7B7CE", Fairy: "#D685AD",
 };
 
-const CATALOG_ORDER = ["colors", "movies", "pokemon"];
+const CATALOG_ORDER = ["colors", "movies", "pokemon", "football"];
 
 /* ====================================================================
    STATE
