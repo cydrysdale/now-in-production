@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Adam Sandler",
+    "id": "adam-sandler",
+    "photo": "images/typecast/adam-sandler.jpg",
+    "imdb": "nm0001191",
+    "credit": "Bryan Berlin",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Jackie_Sandler_Adam_Sandler_Jay_Kelly-36_(3x4).jpg"
+  },
+  {
+    "name": "Aubrey Plaza",
+    "id": "aubrey-plaza",
+    "photo": "images/typecast/aubrey-plaza.jpg",
+    "imdb": "nm2201555",
+    "credit": "Original:  Xfranksun / Derivative work:  Danyele",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Aubrey_Plaza_at_the_2024_Cannes_Film_Festival_(head_shot).jpg"
+  },
+  {
+    "name": "Dwayne Johnson",
+    "id": "dwayne-johnson",
+    "photo": "images/typecast/dwayne-johnson.jpg",
+    "imdb": "nm0425005",
+    "credit": "Harald Krichel",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Dwayne_Johnson-1764_(4x5_cropped_with_moderate_headroom).jpg"
+  },
+  {
+    "name": "Jeff Goldblum",
+    "id": "jeff-goldblum",
+    "photo": "images/typecast/jeff-goldblum.jpg",
+    "imdb": "nm0000156",
+    "credit": "Gage Skidmore",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Jeff_Goldblum_by_Gage_Skidmore_3.jpg"
+  },
+  {
+    "name": "Keanu Reeves",
+    "id": "keanu-reeves",
+    "photo": "images/typecast/keanu-reeves.jpg",
+    "imdb": "nm0000206",
+    "credit": "Gabriel Hutchinson",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Keanu_Reeves_at_TIFF_2025_02_(Cropped).jpg"
+  },
+  {
+    "name": "Nicolas Cage",
+    "id": "nicolas-cage",
+    "photo": "images/typecast/nicolas-cage.jpg",
+    "imdb": "nm0000115",
+    "credit": "Georges Biard",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Nicolas_Cage_Deauville_2013.jpg"
+  },
+  {
+    "name": "Owen Wilson",
+    "id": "owen-wilson",
+    "photo": "images/typecast/owen-wilson.jpg",
+    "imdb": "nm0005562",
+    "credit": "Georges Biard",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Owen_Wilson_Cannes_2011.jpg"
+  },
+  {
+    "name": "Zendaya",
+    "id": "zendaya",
+    "photo": "images/typecast/zendaya.jpg",
+    "imdb": "nm3918035",
+    "credit": "PhilipRomano",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Zendaya-byPhilipRomano.jpg"
+  }
+]

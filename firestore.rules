@@ -1,0 +1,71 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function text(value, maximum) {
+      return value is string && value.size() > 0 && value.size() <= maximum;
+    }
+    function actorPath(id) {
+      return /databases/$(database)/documents/typecastActors/$(id);
+    }
+    function proposalPath(id) {
+      return /databases/$(database)/documents/typecastProposals/$(id);
+    }
+
+    // Public participation is intentional: names are labels, not authenticated identities.
+    // Clients can add records and cast approvals; they cannot delete or rewrite existing content.
+    match /typecastActors/{actorId} {
+      allow read: if true;
+      allow create: if request.resource.data.keys().hasOnly(['imdb', 'name', 'initialProposalId', 'acceptedId', 'version', 'createdAt'])
+        && actorId.matches('nm[0-9]{5,12}')
+        && request.resource.data.imdb == actorId
+        && text(request.resource.data.name, 80)
+        && text(request.resource.data.initialProposalId, 100)
+        && request.resource.data.acceptedId == ''
+        && request.resource.data.version == 0
+        && request.resource.data.createdAt == request.time
+        && getAfter(proposalPath(request.resource.data.initialProposalId)).data.actorId == actorId
+        && getAfter(proposalPath(request.resource.data.initialProposalId)).data.baseVersion == 0;
+      allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(['acceptedId', 'version'])
+        && request.resource.data.version == resource.data.version + 1
+        && text(request.resource.data.acceptedId, 100)
+        && getAfter(proposalPath(request.resource.data.acceptedId)).data.actorId == actorId
+        && getAfter(proposalPath(request.resource.data.acceptedId)).data.baseVersion == resource.data.version
+        && getAfter(proposalPath(request.resource.data.acceptedId)).data.approvals == 2
+        && getAfter(proposalPath(request.resource.data.acceptedId)).data.status == 'approved';
+    }
+
+    match /typecastProposals/{proposalId} {
+      allow read: if true;
+      allow create: if request.resource.data.keys().hasOnly(['actorId', 'x', 'y', 'reason', 'author', 'baseVersion', 'approvals', 'status', 'starter', 'createdAt'])
+        && request.resource.data.actorId.matches('nm[0-9]{5,12}')
+        && request.resource.data.x is int && request.resource.data.x >= 0 && request.resource.data.x <= 100
+        && request.resource.data.y is int && request.resource.data.y >= 0 && request.resource.data.y <= 100
+        && text(request.resource.data.reason, 600)
+        && text(request.resource.data.author, 40)
+        && request.resource.data.baseVersion == getAfter(actorPath(request.resource.data.actorId)).data.version
+        && request.resource.data.approvals == 0
+        && request.resource.data.status == 'pending'
+        && request.resource.data.starter == false
+        && request.resource.data.createdAt == request.time;
+      allow update: if resource.data.status == 'pending'
+        && resource.data.baseVersion == get(actorPath(resource.data.actorId)).data.version
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['approvals', 'status'])
+        && request.resource.data.approvals == resource.data.approvals + 1
+        && ((request.resource.data.approvals == 1 && request.resource.data.status == 'pending'
+            && getAfter(actorPath(resource.data.actorId)).data.version == resource.data.baseVersion)
+          || (request.resource.data.approvals == 2 && request.resource.data.status == 'approved'
+            && getAfter(actorPath(resource.data.actorId)).data.acceptedId == proposalId
+            && getAfter(actorPath(resource.data.actorId)).data.version == resource.data.baseVersion + 1));
+    }
+
+    match /typecastComments/{commentId} {
+      allow read: if true;
+      allow create: if request.resource.data.keys().hasOnly(['actorId', 'text', 'author', 'createdAt'])
+        && request.resource.data.actorId.matches('nm[0-9]{5,12}')
+        && exists(actorPath(request.resource.data.actorId))
+        && text(request.resource.data.text, 1000)
+        && text(request.resource.data.author, 40)
+        && request.resource.data.createdAt == request.time;
+    }
+  }
+}

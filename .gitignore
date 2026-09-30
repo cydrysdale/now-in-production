@@ -9,3 +9,10 @@ AGENTS.md
 
 # OS files
 .DS_Store
+
+# Local Firebase tooling and emulator output
+.firebase/
+firebase-debug*.log
+firestore-debug*.log
+ui-debug*.log
+tools/typecast/node_modules
