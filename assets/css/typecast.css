@@ -81,8 +81,8 @@ h1 em { font-weight: 400; color: var(--red); }
 .bottom-right { bottom: 14px; right: 14px; text-align: right; color: #928276; }
 .actor-point { position: absolute; width: 52px; height: 52px; padding: 0; border: 0; background: none; transform: translate(-50%, -50%); z-index: 2; }
 .actor-point:hover, .actor-point:focus-visible, .actor-point.selected { z-index: 5; }
-.avatar { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; background: #dddcca; color: #343a2d; font: 19px/1 Georgia, serif; overflow: hidden; flex-shrink: 0; }
-.avatar img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 25%; }
+.avatar { position: relative; display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; background: #dddcca; color: #343a2d; font: 19px/1 Georgia, serif; overflow: hidden; flex-shrink: 0; }
+.avatar img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 25%; }
 .actor-point .avatar { width: 48px; height: 48px; border: 3px solid var(--card); box-shadow: 0 0 0 1px #9ca48c, 0 3px 6px #272b2617; margin: auto; transition: transform .15s; }
 .actor-point:hover .avatar { transform: translateY(-3px); }
 .actor-point.selected .avatar { box-shadow: 0 0 0 2px var(--red), 0 3px 7px #272b2625; }
@@ -174,6 +174,16 @@ dialog h2 { font-size: 44px; letter-spacing: -1px; margin: 13px 0 10px; line-hei
 dialog label { font-size: 12px; font-weight: 550; display: block; margin: 15px 0 7px; }
 dialog input:not([type="range"]) { width: 100%; padding: 10px; border: 1px solid var(--line); border-radius: 3px; background: var(--card); }
 .field-note { font-size: 10px; color: var(--muted); line-height: 1.6; margin: 9px 0 16px; }
+.photo-preview { display: flex; align-items: flex-start; gap: 12px; padding: 12px; border: 1px solid var(--line); border-radius: 4px; font-size: 11px; color: var(--muted); }
+.photo-preview img { width: 64px; height: 76px; object-fit: cover; object-position: 50% 25%; border-radius: 3px; flex-shrink: 0; }
+.photo-preview > div { min-width: 0; overflow-wrap: anywhere; }
+.photo-preview p { margin: 0; }
+.photo-preview strong { color: var(--ink); }
+.photo-credit { font-size: 9px; color: var(--muted); overflow-wrap: anywhere; }
+.photo-preview .photo-credit { margin-top: 6px; }
+.photo-credit a { display: inline-block; margin-right: 8px; }
+.actor-photo-credit { padding: 0 20px 12px; margin: 0; }
+.photo-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; font-size: 10px; }
 .placement-fields { border: 1px solid var(--line); border-radius: 4px; padding: 10px 15px 15px; margin: 22px 0 16px; }
 .placement-fields legend { font-size: 11px; padding: 0 6px; }
 .placement-fields label { display: flex; justify-content: space-between; margin-top: 7px; }

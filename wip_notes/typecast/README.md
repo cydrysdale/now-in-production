@@ -1,6 +1,6 @@
 # The Typecast Index
 
-A standalone static page at [`always-playing-themselves.html`](../../always-playing-themselves.html), separate from the guide registry and homepage. GitHub Pages hosts the page and photos; Cloud Firestore stores the shared map and discussion. There is no website build step.
+A standalone static page at [`always-playing-themselves.html`](../../always-playing-themselves.html), separate from the guide registry and homepage. GitHub Pages hosts the page and starter photos; Cloud Firestore stores the shared map, new photo references, and discussion. There is no website build step.
 
 ## Connection status
 
@@ -18,7 +18,7 @@ Run `python3 -m http.server 8000` from the repository root and open `http://loca
 - Alternative positions start at zero approvals. The accepted point stays put until another proposal passes. Accepting a proposal advances the actor's version so older competing proposals cannot later overwrite it.
 - An IMDb person ID identifies each actor and prevents duplicate records for the same ID.
 - Comments and placements update in other open browsers when connected to Firestore. The selected actor's latest 100 comments are shown, while older comments remain stored.
-- The eight initial positions are labeled as starter opinions. New actors use initials until a credited photo is added to the local catalog.
+- The eight initial positions are labeled as starter opinions. New submissions automatically look for a Wikimedia Commons photo using the IMDb ID. The form previews the match and attribution before submission; **Use initials instead** skips the lookup, and unavailable photos never prevent submission.
 - The reset button is available only in local preview and cannot erase the shared database.
 
 ## Firebase owner setup
@@ -53,13 +53,15 @@ GitHub Pages is configured to publish the root of this repository's `main` branc
 
 ## Data and permissions
 
-- `typecastActors`: IMDb ID, name, initial/accepted proposal IDs, version, creation time.
+- `typecastActors`: IMDb ID, name, initial/accepted proposal IDs, version, creation time, optional `photo` object (thumbnail URL, source page, credit, license, license URL, Wikidata entity ID).
 - `typecastProposals`: actor ID, coordinates, explanation, display name, base version, approval count, status, creation time.
 - `typecastComments`: actor ID, display name, text, creation time.
 
 Public reads and contributions are intentional for this informal project. Names are unverified labels. Rules enforce field sizes, coordinate bounds, append-only comments, immutable proposals, and one-step approval increments. The second approval and accepted-position change must happen atomically; simultaneous competing approvals cannot both win. Visitors cannot delete records or access unrelated collections. The owner can manage records in the Firebase console.
 
-The Firestore adapter loads only Firebase App and Firestore from Google's version-pinned CDN. Photos remain local and include source/license attribution in `assets/js/typecast-actors.json` and the Photo credits dialog.
+The Firestore adapter loads only Firebase App and Firestore from Google's version-pinned CDN. Starter photos remain local with source/license attribution in `assets/js/typecast-actors.json`. New photo metadata is stored on the actor and shown in the actor panel and Photo credits dialog. Rules permit only bounded Wikimedia image/source URLs and supported Creative Commons license URLs, with all credit fields required; visitors cannot later replace or remove a saved photo.
+
+`assets/js/typecast-photos.js` matches IMDb IDs through Wikidata's public SPARQL endpoint, then requests a Commons thumbnail and credit metadata. Requests are debounced, cached for the current page visit, canceled when the link changes or form closes, and limited to 12 seconds. Saved actors load their stored photo directly without repeating these lookups. Only JPEG/PNG/WebP photos with complete supported CC BY, CC BY-SA, CC0, or public-domain-mark attribution are selected. Missing metadata, failed requests, and broken image links fall back to initials. An existing actor without a photo is not automatically backfilled. No API key, new account, or billing upgrade is needed.
 
 ## Validation
 
@@ -69,7 +71,7 @@ Rules tests require Java 21 or newer and the tools above:
 npm --prefix tools/typecast run test:rules
 ```
 
-Tests cover public creation, invalid content rejection, prevention of direct coordinate edits/deletions, two-approval transactions, competing votes, stale proposals, bounded comments, and denied access to unrelated collections. Expected permission-denied messages appear during negative tests.
+Tests cover public creation, invalid content rejection, prevention of direct coordinate edits/deletions, two-approval transactions, competing votes, stale proposals, bounded comments, complete and immutable photo metadata, rejection of untrusted image/credit URLs, and denied access to unrelated collections. Expected permission-denied messages appear during negative tests.
 
 Browser checks use two independent sessions against the emulator to verify shared comments, remembered names, literal HTML display, draft preservation during updates, new actors, repeat approvals, accepted moves, and layouts at 320/375/768/1440 pixels. Existing homepage cards remain separate from this experiment.
 
@@ -77,9 +79,12 @@ The live Firebase smoke check passed on September 30, 2026: two independent brow
 
 Map-click checks in isolated local preview cover second-click confirmation, coordinate conversion and endpoints, a submitted point landing at the click, cancellation, dismissal, keyboard activation, existing add/move form defaults, and touch layouts at 320/390/768 pixels. No production records are written by these checks.
 
+Photo checks use two emulator-connected browsers and controlled API responses to verify persistence, shared display, credit escaping, reloads, voting, missing photos, service errors, incomplete metadata, broken images, changing IDs mid-request, skip/retry, timeouts, and layouts at 320/390/768/1440 pixels. A separate real browser lookup matched Danny DeVito and loaded the Commons thumbnail and attribution without submitting a production record.
+
 - [Desktop preview](preview-desktop.png)
 - [Mobile preview](preview-mobile.png)
 - [Map suggestion prompt — desktop](preview-map-suggestion.png)
 - [Map suggestion prompt — mobile](preview-map-suggestion-mobile.png)
+- [Automatic photo preview](preview-photo-lookup.png)
 
-References: [Firestore setup](https://firebase.google.com/docs/firestore/quickstart), [Firebase CLI](https://firebase.google.com/docs/cli), [Spark plan](https://firebase.google.com/docs/projects/billing/firebase-pricing-plans).
+References: [Firestore setup](https://firebase.google.com/docs/firestore/quickstart), [Firebase CLI](https://firebase.google.com/docs/cli), [Spark plan](https://firebase.google.com/docs/projects/billing/firebase-pricing-plans), [Commons image metadata](https://www.mediawiki.org/wiki/API:Imageinfo), [Wikidata IMDb IDs](https://www.wikidata.org/wiki/Property:P345).

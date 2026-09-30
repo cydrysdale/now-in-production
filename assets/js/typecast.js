@@ -1,6 +1,7 @@
 /* Shared map with public participation. Names are remembered locally; no accounts. */
 import { firebaseConfig } from './typecast-config.js';
 import { createLocalStore } from './typecast-local.js';
+import { lookupActorPhoto, isActorPhoto } from './typecast-photos.js';
 
 (() => {
   'use strict';
@@ -28,6 +29,10 @@ import { createLocalStore } from './typecast-local.js';
   let watchedActor = '';
   let panelActorId = '';
   let comments = null;
+  let photoState = { imdb: '', status: 'idle', photo: null, name: '' };
+  let photoController;
+  let photoTimer;
+  const failedPhotos = new Set();
   const drafts = new Map();
   try { visitor = (localStorage.getItem(NAME_KEY) || '').trim().slice(0, 40); } catch (_) { /* Remember for this visit only. */ }
 
@@ -42,6 +47,7 @@ import { createLocalStore } from './typecast-local.js';
   function currentActor() { return state.actors.find((actor) => actor.id === selectedId); }
   function updateBusy() {
     document.querySelectorAll('#suggest-actor, #map-suggest, #suggest-move, [data-approve], #proposal-form button[type="submit"], #comment-form button[type="submit"]').forEach((button) => { button.disabled = busy || !ready; });
+    if (photoState.status === 'loading') $('proposal-form').querySelector('button[type="submit"]').disabled = true;
   }
   function showName() {
     $('visitor-name').value = visitor;
@@ -65,10 +71,19 @@ import { createLocalStore } from './typecast-local.js';
     else notify(error.message || 'That change could not be saved. Please try again.');
   }
 
+  function actorPhoto(actor) {
+    const local = catalog.find((entry) => entry.imdb === actor.imdb);
+    return local ? { ...local, url: local.photo } : isActorPhoto(actor.photo) ? actor.photo : null;
+  }
+
+  function photoCredit(photo) {
+    return `${esc(photo.credit)}<br><a href="${esc(photo.source)}" target="_blank" rel="noopener noreferrer">Original photograph ↗</a><a href="${esc(photo.licenseUrl)}" target="_blank" rel="noopener noreferrer">${esc(photo.license)}</a>`;
+  }
+
   function avatar(actor) {
-    const photo = catalog.find((entry) => entry.imdb === actor.imdb)?.photo;
+    const photo = actorPhoto(actor)?.url;
     const initials = actor.name.split(/\s+/).map((part) => part[0]).slice(0, 2).join('');
-    return `<span class="avatar" aria-hidden="true">${photo ? `<img src="${esc(photo)}" alt="" loading="lazy">` : esc(initials)}</span>`;
+    return `<span class="avatar" aria-hidden="true">${esc(initials)}${photo && !failedPhotos.has(photo) ? `<img src="${esc(photo)}" alt="" loading="lazy">` : ''}</span>`;
   }
 
   function filteredActors() {
@@ -113,11 +128,13 @@ import { createLocalStore } from './typecast-local.js';
     panelActorId = actor.id;
     const position = shownPlacement(actor);
     const proposals = pending(actor);
+    const photo = actorPhoto(actor);
     const commentHTML = (comments || []).map((comment) => `<article class="comment"><div class="comment-meta"><span class="comment-avatar" aria-hidden="true">${esc(comment.author.slice(0, 1).toUpperCase())}</span><strong>${esc(comment.author)}</strong><time datetime="${new Date(comment.time).toISOString()}">${new Date(comment.time).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</time></div><p>${esc(comment.text)}</p></article>`).join('');
     const commentStatus = comments === null ? 'Loading the conversation…' : 'No takes yet. Which performance makes the case for this placement?';
     $('actor-panel').innerHTML = `
       <div class="panel-heading"><p class="eyebrow">UNDER DISCUSSION</p><button class="text-button" id="back-to-map" type="button">Back to map ↑</button></div>
       <div class="actor-profile">${avatar(actor)}<div><p class="eyebrow">${actor.accepted ? actor.accepted.starter ? 'STARTER PLACEMENT' : 'APPROVED PLACEMENT' : 'AWAITING APPROVAL'}</p><h2>${esc(actor.name)}</h2><a href="https://www.imdb.com/name/${esc(actor.imdb)}/" target="_blank" rel="noopener noreferrer">View on IMDb ↗</a></div></div>
+      ${photo ? `<p class="photo-credit actor-photo-credit">${photoCredit(photo)}</p>` : ''}
       <div class="panel-body"><div class="position-stats"><span><strong>${position.x}</strong> / 100 personality</span><span><strong>${position.y}</strong> / 100 acting</span></div><p class="placement-reason">${esc(position.reason)}</p><p class="placement-credit">${actor.accepted ? `Placed by ${esc(position.author)}` : 'Proposed position · awaiting two approvals'}</p><button class="button secondary full-width" id="suggest-move" type="button">Suggest ${actor.accepted ? 'a move' : 'another position'} <span aria-hidden="true">↗</span></button>
       ${proposals.length ? `<section class="proposals" aria-label="Positions awaiting approval"><h3 class="small-heading">On the table (${proposals.length})</h3>${proposals.map(proposalHTML).join('')}</section>` : ''}
       <section class="comments" aria-label="Discussion"><h3>The conversation <span>${comments?.length || 0}${comments?.length === 100 ? ' latest' : ''}</span></h3>${commentHTML || `<p class="empty-comments">${commentStatus}</p>`}<form class="comment-form" id="comment-form"><label for="comment-text">${visitor ? `Comment as ${esc(visitor)}` : 'Add your take — just a name, no account.'}</label><textarea id="comment-text" rows="3" maxlength="1000" required placeholder="Bring a scene. Make an argument."></textarea><div class="comment-actions"><span>${store.shared ? 'Shared with everyone.' : 'Local preview · this browser only.'}</span><button class="button primary" type="submit">Post comment ↗</button></div></form></section></div>`;
@@ -199,6 +216,7 @@ import { createLocalStore } from './typecast-local.js';
 
   function openProposal(actorId = null, suggestedPosition = null) {
     hideMapSuggestion();
+    resetPhotoLookup();
     proposalActorId = actorId;
     $('proposal-form').reset();
     $('proposal-error').textContent = '';
@@ -227,9 +245,64 @@ import { createLocalStore } from './typecast-local.js';
   }
 
 
+  function cancelPhotoLookup() {
+    clearTimeout(photoTimer);
+    const previous = photoController;
+    photoController = null;
+    previous?.abort();
+  }
+
+  function renderPhotoPreview() {
+    const { status, photo, name } = photoState;
+    const messages = {
+      idle: 'Paste an IMDb link to find a photo automatically.',
+      loading: 'Finding a photo… You can keep filling out the form.',
+      missing: 'No matching photo is available. This actor will use initials.',
+      unavailable: 'The photo couldn’t load. Try again, or submit with initials.',
+      skipped: 'This actor will use initials.'
+    };
+    $('actor-photo-preview').innerHTML = photo
+      ? `<img src="${esc(photo.url)}" alt=""><div><strong>${name ? `Photo matched to ${esc(name)}` : 'Matching photo found'}</strong><p class="photo-credit">${photoCredit(photo)}</p></div>`
+      : `<p>${messages[status]}</p>`;
+    $('skip-photo').hidden = !['loading', 'ready'].includes(status);
+    $('retry-photo').hidden = !['missing', 'unavailable', 'skipped'].includes(status);
+    updateBusy();
+  }
+
+  function resetPhotoLookup() {
+    cancelPhotoLookup();
+    photoState = { imdb: '', status: 'idle', photo: null, name: '' };
+    renderPhotoPreview();
+  }
+
+  function queuePhotoLookup(refresh = false) {
+    cancelPhotoLookup();
+    const imdb = parseIMDb($('actor-imdb').value.trim());
+    photoState = { imdb: imdb || '', status: imdb ? 'loading' : 'idle', photo: null, name: '' };
+    renderPhotoPreview();
+    if (imdb) photoTimer = setTimeout(() => findPhoto(imdb, refresh), 400);
+  }
+
+  async function findPhoto(imdb, refresh) {
+    const controller = new AbortController();
+    photoController = controller;
+    const timeout = setTimeout(() => controller.abort(), 12000);
+    try {
+      const result = await lookupActorPhoto(imdb, { signal: controller.signal, refresh });
+      if (photoController !== controller) return;
+      photoState = { imdb, status: result ? 'ready' : 'missing', photo: result?.photo || null, name: result?.name || '' };
+    } catch (_) {
+      if (photoController !== controller) return;
+      photoState = { imdb, status: 'unavailable', photo: null, name: '' };
+    } finally {
+      clearTimeout(timeout);
+      if (photoController === controller) { photoController = null; renderPhotoPreview(); }
+    }
+  }
+
   async function submitProposal(event) {
     event.preventDefault();
-    if (busy || !ready) return;
+    if (busy || !ready || photoState.status === 'loading') return;
     const reason = $('proposal-reason').value.trim();
     const position = coordinates($('personality').value, $('ability').value);
     const fail = (message) => { $('proposal-error').textContent = message; };
@@ -246,11 +319,12 @@ import { createLocalStore } from './typecast-local.js';
       if (actor.accepted?.x === position.x && actor.accepted?.y === position.y) return fail('Choose a different position to propose a move.');
       if (pending(actor).some((p) => p.x === position.x && p.y === position.y)) return fail('That position is already proposed. You can approve it in the actor panel.');
     }
+    const photo = !actor && photoState.imdb === imdb && photoState.status === 'ready' ? photoState.photo : null;
     if (!await requireName()) return;
     busy = true;
     updateBusy();
     try {
-      const result = await store.propose({ actorId: imdb, name, ...position, reason, author: visitor, isNew: !actor });
+      const result = await store.propose({ actorId: imdb, name, ...position, reason, author: visitor, isNew: !actor, photo });
       $('proposal-dialog').close();
       filter = 'all';
       $('actor-search').value = '';
@@ -303,7 +377,11 @@ import { createLocalStore } from './typecast-local.js';
   }
 
   function renderCredits() {
-    $('credits-list').innerHTML = catalog.map((actor) => `<article class="credit"><strong>${esc(actor.name)}</strong><p>${esc(actor.credit)}</p><a href="${esc(actor.source)}" target="_blank" rel="noopener noreferrer">Original photograph ↗</a><a href="${esc(actor.licenseUrl)}" target="_blank" rel="noopener noreferrer">${esc(actor.license)}</a></article>`).join('');
+    const actors = [...catalog, ...state.actors.filter((actor) => !catalog.some((entry) => entry.imdb === actor.imdb))];
+    $('credits-list').innerHTML = actors.map((actor) => {
+      const photo = actorPhoto(actor);
+      return photo ? `<article class="credit"><strong>${esc(actor.name)}</strong><p>${photoCredit(photo)}</p></article>` : '';
+    }).join('');
   }
 
 
@@ -326,6 +404,7 @@ import { createLocalStore } from './typecast-local.js';
         ready = true;
         $('connection-copy').textContent = store.shared ? 'The shared map. Just pick a name and join in.' : 'Local preview. Contributions stay in this browser until Firebase is connected.';
         render();
+        renderCredits();
       };
       if (firebaseConfig) {
         $('connection-label').textContent = 'CONNECTING';
@@ -357,6 +436,26 @@ import { createLocalStore } from './typecast-local.js';
       });
       window.addEventListener('resize', hideMapSuggestion);
       $('proposal-form').addEventListener('submit', submitProposal);
+      $('actor-imdb').addEventListener('input', () => queuePhotoLookup());
+      $('retry-photo').addEventListener('click', () => queuePhotoLookup(true));
+      $('skip-photo').addEventListener('click', () => {
+        cancelPhotoLookup();
+        photoState = { ...photoState, status: 'skipped', photo: null, name: '' };
+        renderPhotoPreview();
+      });
+      $('proposal-dialog').addEventListener('close', resetPhotoLookup);
+      document.addEventListener('error', (event) => {
+        const img = event.target;
+        if (img.matches?.('#actor-photo-preview img')) {
+          if (photoState.photo?.url === img.src) {
+            photoState = { ...photoState, status: 'unavailable', photo: null };
+            renderPhotoPreview();
+          }
+        } else if (img.matches?.('.avatar img')) {
+          failedPhotos.add(img.getAttribute('src'));
+          document.querySelectorAll('.avatar img').forEach((entry) => { if (entry.src === img.src) entry.remove(); });
+        }
+      }, true);
       ['personality', 'ability'].forEach((id) => $(id).addEventListener('input', syncOutputs));
       $('actor-search').addEventListener('input', renderMap);
       document.querySelectorAll('[data-filter]').forEach((button) => button.addEventListener('click', () => { filter = button.dataset.filter; updateFilters(); renderMap(); }));

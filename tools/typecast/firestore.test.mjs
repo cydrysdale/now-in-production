@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import assert from 'node:assert/strict';
 import { initializeTestEnvironment, assertFails, assertSucceeds } from '@firebase/rules-unit-testing';
-import { doc, getDoc, setDoc, updateDoc, deleteDoc, writeBatch, runTransaction, serverTimestamp } from 'firebase/firestore';
+import { doc, getDoc, setDoc, updateDoc, deleteDoc, deleteField, writeBatch, runTransaction, serverTimestamp } from 'firebase/firestore';
 
 const projectId = 'demo-typecast';
 const environment = await initializeTestEnvironment({ projectId, firestore: { host: '127.0.0.1', port: 8080, rules: await readFile(new URL('../../firestore.rules', import.meta.url), 'utf8') } });
@@ -46,6 +46,22 @@ try {
   assert.equal((await getDoc(actor)).data().version, 1);
   await assertFails(updateDoc(proposalRef('first'), { approvals: 3 }));
   console.log('PASS: public proposals, field validation, content immutability, and atomic two-approval acceptance.');
+
+  const photo = { url: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ab/Actor.jpg/330px-Actor.jpg', source: 'https://commons.wikimedia.org/wiki/File:Actor.jpg', credit: 'A photographer', license: 'CC BY-SA 3.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0/', entityId: 'Q123' };
+  async function actorWithPhoto(id, image) {
+    const batch = writeBatch(db);
+    batch.set(doc(db, 'typecastActors', id), { imdb: id, name: 'Photo Actor', initialProposalId: id, acceptedId: '', version: 0, createdAt: serverTimestamp(), photo: image });
+    batch.set(proposalRef(id), { ...proposal(id), actorId: id });
+    return batch.commit();
+  }
+  await assertSucceeds(actorWithPhoto('nm88888000', photo));
+  await assertFails(updateDoc(doc(db, 'typecastActors', 'nm88888000'), { photo: { ...photo, credit: 'Someone else' } }));
+  await assertFails(updateDoc(doc(db, 'typecastActors', 'nm88888000'), { photo: deleteField() }));
+  const invalidPhotos = [null, {}, { ...photo, url: 'https://evil.example/image.jpg' }, { ...photo, url: 'https://upload.wikimedia.org.evil.example/wikipedia/commons/image.jpg' }, { ...photo, url: 'http://upload.wikimedia.org/wikipedia/commons/image.jpg' }, { ...photo, url: photo.url + 'a'.repeat(2048) }, { ...photo, credit: '' }, { ...photo, credit: 'a'.repeat(501) }, { ...photo, licenseUrl: 'javascript:alert(1)' }, { ...photo, source: 'https://evil.example/credits' }, { ...photo, entityId: 'Not an entity' }, { ...photo, extra: true }];
+  for (const [index, image] of invalidPhotos.entries()) await assertFails(actorWithPhoto(`nm88888${String(index + 1).padStart(3, '0')}`, image));
+  const { licenseUrl, ...missingLicense } = photo;
+  await assertFails(actorWithPhoto('nm88888999', missingLicense));
+  console.log('PASS: optional photos require bounded Commons URLs and complete credits; photos cannot be replaced or removed by visitors.');
 
   await assertSucceeds(setDoc(proposalRef('move-a'), { ...proposal('move-a', 1), x: 25 }));
   await assertSucceeds(setDoc(proposalRef('move-b'), { ...proposal('move-b', 1), x: 90 }));

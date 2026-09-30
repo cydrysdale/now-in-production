@@ -10,12 +10,22 @@ service cloud.firestore {
     function proposalPath(id) {
       return /databases/$(database)/documents/typecastProposals/$(id);
     }
+    function actorPhoto(photo) {
+      return photo is map
+        && photo.keys().hasOnly(['url', 'source', 'credit', 'license', 'licenseUrl', 'entityId'])
+        && text(photo.url, 2048) && photo.url.matches('https://(upload|thumb)[.]wikimedia[.]org/wikipedia/commons/.+')
+        && text(photo.source, 1200) && photo.source.matches('https://commons[.]wikimedia[.]org/wiki/File:.+')
+        && text(photo.credit, 500) && text(photo.license, 80)
+        && text(photo.licenseUrl, 160) && photo.licenseUrl.matches('https://creativecommons[.]org/(licenses/by(-sa)?/(1[.]0|2[.]0|2[.]5|3[.]0|4[.]0)|publicdomain/(zero|mark)/1[.]0)/')
+        && photo.entityId is string && photo.entityId.matches('Q[0-9]{1,20}');
+    }
 
     // Public participation is intentional: names are labels, not authenticated identities.
     // Clients can add records and cast approvals; they cannot delete or rewrite existing content.
     match /typecastActors/{actorId} {
       allow read: if true;
-      allow create: if request.resource.data.keys().hasOnly(['imdb', 'name', 'initialProposalId', 'acceptedId', 'version', 'createdAt'])
+      allow create: if request.resource.data.keys().hasOnly(['imdb', 'name', 'initialProposalId', 'acceptedId', 'version', 'createdAt', 'photo'])
+        && (!('photo' in request.resource.data) || actorPhoto(request.resource.data.photo))
         && actorId.matches('nm[0-9]{5,12}')
         && request.resource.data.imdb == actorId
         && text(request.resource.data.name, 80)

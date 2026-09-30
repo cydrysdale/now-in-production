@@ -39,7 +39,7 @@ export function createLocalStore(catalog, onChange, onError) {
       if (input.isNew && actor) throw new Error('This actor is already on the map. Select their point to suggest a move.');
       if (!actor) {
         if (!input.isNew) throw new Error('This actor is no longer on the map. Reload and try again.');
-        actor = { id: input.actorId, imdb: input.actorId, name: input.name, initialProposalId: id, acceptedId: '', version: 0, createdAt: Date.now() };
+        actor = { id: input.actorId, imdb: input.actorId, name: input.name, initialProposalId: id, acceptedId: '', version: 0, createdAt: Date.now(), ...(input.photo ? { photo: input.photo } : {}) };
         data.actors.push(actor);
       }
       data.proposals.push({ id, actorId: actor.id, x: input.x, y: input.y, reason: input.reason, author: input.author, baseVersion: actor.version, approvals: 0, status: 'pending', starter: false, createdAt: Date.now() });

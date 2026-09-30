@@ -43,7 +43,7 @@ export function createFirestoreStore(config, onChange, onError) {
         if (input.isNew && existing.exists()) throw new Error('This actor is already on the map. Select their point to suggest a move.');
         if (!input.isNew && !existing.exists()) throw new Error('This actor is no longer on the map. Reload and try again.');
         const version = existing.exists() ? existing.data().version : 0;
-        if (!existing.exists()) transaction.set(actorRef, { imdb: input.actorId, name: input.name, initialProposalId: proposalRef.id, acceptedId: '', version: 0, createdAt: serverTimestamp() });
+        if (!existing.exists()) transaction.set(actorRef, { imdb: input.actorId, name: input.name, initialProposalId: proposalRef.id, acceptedId: '', version: 0, createdAt: serverTimestamp(), ...(input.photo ? { photo: input.photo } : {}) });
         transaction.set(proposalRef, { actorId: input.actorId, x: input.x, y: input.y, reason: input.reason, author: input.author, baseVersion: version, approvals: 0, status: 'pending', starter: false, createdAt: serverTimestamp() });
       });
       return { actorId: input.actorId, saved: true };
