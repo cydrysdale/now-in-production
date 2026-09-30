@@ -4,7 +4,7 @@ A standalone static page at [`always-playing-themselves.html`](../../always-play
 
 ## Connection status
 
-The page is connected to live Firebase project [`typecast-index-cydrysdale`](https://console.firebase.google.com/project/typecast-index-cydrysdale/overview), owned by the owner's personal Google account. Its default Firestore Standard database is in `us-west1`, with rules, the comments index, and eight starter actors deployed. Billing was verified disabled with no billing account linked on September 30, 2026. Website files are ready for GitHub Pages but have not been pushed by this setup.
+The page is connected to live Firebase project [`typecast-index-cydrysdale`](https://console.firebase.google.com/project/typecast-index-cydrysdale/overview), owned by the owner's personal Google account. Its default Firestore Standard database is in `us-west1`, with rules, the comments index, and eight starter actors deployed. Billing was verified disabled with no billing account linked on September 30, 2026. The website is published on [GitHub Pages](https://cydrysdale.github.io/now-in-production/always-playing-themselves.html).
 
 `assets/js/typecast-config.js` contains only the public Web app configuration. Setting its export to `null` switches the page to an explicitly labeled **local preview**. Preview contributions are never automatically uploaded.
 
@@ -13,6 +13,7 @@ The page is connected to live Firebase project [`typecast-index-cydrysdale`](htt
 Run `python3 -m http.server 8000` from the repository root and open `http://localhost:8000/always-playing-themselves.html`. With the checked-in configuration, this local page uses the real shared database.
 
 - Enter a display name on the first contribution. Only that name is remembered in browser storage; there is no visitor account, password, email, or sign-in screen.
+- Click or tap empty map space to reveal a nearby **Suggest an actor** button. Confirming opens the form with sliders set to the clicked position. Click elsewhere or press Escape to dismiss the prompt. Actor photos and labels still open their discussion.
 - Two approvals accept a placement. Votes are deliberately not checked for unique people. The same browser can approve twice, including its own proposal.
 - Alternative positions start at zero approvals. The accepted point stays put until another proposal passes. Accepting a proposal advances the actor's version so older competing proposals cannot later overwrite it.
 - An IMDb person ID identifies each actor and prevents duplicate records for the same ID.
@@ -74,7 +75,11 @@ Browser checks use two independent sessions against the emulator to verify share
 
 The live Firebase smoke check passed on September 30, 2026: two independent browsers loaded all eight actors and the indexed comments query, a public comment appeared in the other browser, and the display name survived a reload. The temporary verification comment was removed using the owner account. Desktop and mobile previews below use the live database; neither layout reported page errors or horizontal overflow.
 
+Map-click checks in isolated local preview cover second-click confirmation, coordinate conversion and endpoints, a submitted point landing at the click, cancellation, dismissal, keyboard activation, existing add/move form defaults, and touch layouts at 320/390/768 pixels. No production records are written by these checks.
+
 - [Desktop preview](preview-desktop.png)
 - [Mobile preview](preview-mobile.png)
+- [Map suggestion prompt — desktop](preview-map-suggestion.png)
+- [Map suggestion prompt — mobile](preview-map-suggestion-mobile.png)
 
 References: [Firestore setup](https://firebase.google.com/docs/firestore/quickstart), [Firebase CLI](https://firebase.google.com/docs/cli), [Spark plan](https://firebase.google.com/docs/projects/billing/firebase-pricing-plans).

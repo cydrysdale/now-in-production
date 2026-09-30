@@ -90,6 +90,9 @@ h1 em { font-weight: 400; color: var(--red); }
 .point-name { position: absolute; top: 51px; left: 50%; transform: translateX(-50%); display: block; white-space: nowrap; font-size: 10px; font-weight: 550; background: #fbfaf5f0; border: 1px solid #e0e0d5; border-radius: 3px; padding: 2px 6px; }
 .actor-point.selected .point-name { color: white; background: var(--red); border-color: var(--red); }
 .empty-map { position: absolute; top: 38%; width: 80%; margin-left: 10%; padding: 15px; text-align: center; background: var(--card); border: 1px solid var(--line); z-index: 6; }
+.map-suggest { position: absolute; z-index: 8; max-width: calc(100% - 16px); min-height: 44px; padding: 10px 12px; border: 1px solid var(--ink); border-radius: 4px; background: var(--ink); color: var(--paper); box-shadow: 0 4px 14px #272b2633; font-size: 11px; font-weight: 600; line-height: 1.4; text-align: left; }
+.map-suggest span { margin-left: 8px; }
+.map-suggest:hover { background: var(--red); border-color: var(--red); }
 .personality-axis { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 0 -1px 23px; }
 .anchor { display: flex; align-items: center; gap: 9px; }
 .anchor img { object-fit: cover; object-position: 50% 20%; border-radius: 50%; filter: grayscale(1); border: 1px solid #d1d3c4; }
@@ -98,6 +101,8 @@ h1 em { font-weight: 400; color: var(--red); }
 .right-anchor { text-align: right; }
 .axis-caption { display: flex; justify-content: space-between; gap: 10px; font-size: 7px; letter-spacing: .7px; color: var(--muted); }
 .chart-footer { border-top: 1px solid var(--line); padding: 14px 0; font-size: 9px; color: var(--muted); display: flex; justify-content: space-between; gap: 10px; }
+.chart-footer > span:first-child { flex-shrink: 0; }
+#map-hint { text-align: right; }
 .legend-dot { display: inline-block; width: 6px; height: 6px; background: var(--olive); border: 1px solid var(--olive); border-radius: 50%; margin-right: 5px; }
 .pending-dot { margin-left: 12px; background: transparent; border: 1px dashed var(--red); }
 .map-footnote { font-size: 10px; color: var(--muted); padding: 12px 0; margin: 0; }

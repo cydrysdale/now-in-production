@@ -8,6 +8,8 @@ import { createLocalStore } from './typecast-local.js';
   const $ = (id) => document.getElementById(id);
   const esc = (value) => String(value).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
   const NAME_KEY = 'typecast-display-name';
+  const PLOT_INSET = 10;
+  const PLOT_SCALE = (100 - PLOT_INSET * 2) / 100;
   const coordinates = (x, y) => ({ x: Math.max(0, Math.min(100, Math.round(Number(x) || 0))), y: Math.max(0, Math.min(100, Math.round(Number(y) || 0))) });
   let catalog = [];
   let state = { actors: [] };
@@ -18,6 +20,7 @@ import { createLocalStore } from './typecast-local.js';
   let filter = 'all';
   let view = 'map';
   let proposalActorId = null;
+  let mapSuggestion = null;
   let toastTimer;
   let ready = false;
   let busy = false;
@@ -38,7 +41,7 @@ import { createLocalStore } from './typecast-local.js';
   function shownPlacement(actor) { return actor.accepted || pending(actor)[0]; }
   function currentActor() { return state.actors.find((actor) => actor.id === selectedId); }
   function updateBusy() {
-    document.querySelectorAll('#suggest-actor, #suggest-move, [data-approve], #proposal-form button[type="submit"], #comment-form button[type="submit"]').forEach((button) => { button.disabled = busy || !ready; });
+    document.querySelectorAll('#suggest-actor, #map-suggest, #suggest-move, [data-approve], #proposal-form button[type="submit"], #comment-form button[type="submit"]').forEach((button) => { button.disabled = busy || !ready; });
   }
   function showName() {
     $('visitor-name').value = visitor;
@@ -80,8 +83,8 @@ import { createLocalStore } from './typecast-local.js';
     $('actor-points').innerHTML = actors.map((actor) => {
       const position = shownPlacement(actor);
       // A visual inset keeps end-point portraits and labels inside the chart at 0 and 100.
-      const left = 10 + position.x * .8;
-      const top = 90 - position.y * .8;
+      const left = PLOT_INSET + position.x * PLOT_SCALE;
+      const top = 100 - PLOT_INSET - position.y * PLOT_SCALE;
       return `<button class="actor-point${actor.id === selectedId ? ' selected' : ''}${!actor.accepted ? ' pending' : ''}" type="button" data-actor="${esc(actor.id)}" style="left:${left}%;top:${top}%" aria-label="${esc(actor.name)}, personality ${position.x} out of 100, acting ${position.y} out of 100${!actor.accepted ? ', proposed' : ''}" aria-pressed="${actor.id === selectedId}">${avatar(actor)}<span class="point-name">${esc(actor.name)}</span></button>`;
     }).join('');
     $('map-empty').hidden = actors.length > 0;
@@ -91,6 +94,7 @@ import { createLocalStore } from './typecast-local.js';
     }).join('') : '<p class="muted">No actors match. Try another name or filter.</p>';
     $('chart-view').hidden = view !== 'map';
     $('actor-list').hidden = view !== 'list';
+    if (view !== 'map') hideMapSuggestion();
   }
 
 
@@ -149,6 +153,7 @@ import { createLocalStore } from './typecast-local.js';
 
   function selectActor(id, moveFocus = false) {
     if (!state.actors.some((actor) => actor.id === id)) return;
+    hideMapSuggestion();
     selectedId = id;
     history.replaceState(null, '', `#actor=${encodeURIComponent(id)}`);
     render();
@@ -163,7 +168,37 @@ import { createLocalStore } from './typecast-local.js';
     $('ability-output').textContent = `${$('ability').value} / 100`;
   }
 
-  function openProposal(actorId = null) {
+  function hideMapSuggestion() {
+    if (document.activeElement === $('map-suggest')) $('actor-plot').focus({ preventScroll: true });
+    $('map-suggest').hidden = true;
+    mapSuggestion = null;
+  }
+
+  function suggestAtMapClick(event) {
+    if (!ready || busy || event.target.closest('button') || event.detail > 1) return;
+    const plot = $('actor-plot');
+    const bounds = plot.getBoundingClientRect();
+    const x = event.clientX - bounds.left - plot.clientLeft;
+    const y = event.clientY - bounds.top - plot.clientTop;
+    // Invert the same inset used to draw the actors, including the upward acting axis.
+    mapSuggestion = coordinates(
+      (x / plot.clientWidth * 100 - PLOT_INSET) / PLOT_SCALE,
+      (100 - PLOT_INSET - y / plot.clientHeight * 100) / PLOT_SCALE
+    );
+    const button = $('map-suggest');
+    button.hidden = false;
+    const gap = 12;
+    const padding = 8;
+    // Flip at the edges and leave a gap so the prompt never appears under the click.
+    const left = x + gap + button.offsetWidth <= plot.clientWidth - padding ? x + gap : x - gap - button.offsetWidth;
+    const top = y + gap + button.offsetHeight <= plot.clientHeight - padding ? y + gap : y - gap - button.offsetHeight;
+    button.style.left = `${Math.max(padding, Math.min(left, plot.clientWidth - button.offsetWidth - padding))}px`;
+    button.style.top = `${Math.max(padding, Math.min(top, plot.clientHeight - button.offsetHeight - padding))}px`;
+    button.focus({ preventScroll: true });
+  }
+
+  function openProposal(actorId = null, suggestedPosition = null) {
+    hideMapSuggestion();
     proposalActorId = actorId;
     $('proposal-form').reset();
     $('proposal-error').textContent = '';
@@ -173,8 +208,8 @@ import { createLocalStore } from './typecast-local.js';
     $('actor-imdb').required = !actor;
     $('proposal-title').textContent = actor ? `Move ${actor.name}` : 'Who’s missing?';
     $('proposal-description').textContent = actor ? 'Suggest a new position. Every alternative starts with zero votes.' : 'Place an actor, then tell us why they belong there.';
-    if (actor) {
-      const position = shownPlacement(actor);
+    const position = actor ? shownPlacement(actor) : suggestedPosition;
+    if (position) {
       $('personality').value = position.x;
       $('ability').value = position.y;
     }
@@ -304,6 +339,23 @@ import { createLocalStore } from './typecast-local.js';
       updateNameButton();
       renderCredits();
       $('suggest-actor').addEventListener('click', () => openProposal());
+      $('actor-plot').addEventListener('click', suggestAtMapClick);
+      $('map-suggest').addEventListener('click', () => {
+        if (mapSuggestion && ready && !busy) openProposal(null, mapSuggestion);
+      });
+      document.addEventListener('pointerdown', (event) => {
+        if (!$('actor-plot').contains(event.target) || event.target.closest('[data-actor]')) hideMapSuggestion();
+      });
+      document.addEventListener('focusin', (event) => {
+        if (event.target !== $('map-suggest') && event.target !== $('actor-plot')) hideMapSuggestion();
+      });
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && !$('map-suggest').hidden) {
+          event.preventDefault();
+          hideMapSuggestion();
+        }
+      });
+      window.addEventListener('resize', hideMapSuggestion);
       $('proposal-form').addEventListener('submit', submitProposal);
       ['personality', 'ability'].forEach((id) => $(id).addEventListener('input', syncOutputs));
       $('actor-search').addEventListener('input', renderMap);

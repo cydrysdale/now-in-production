@@ -42,16 +42,17 @@
             <div class="chart-meta"><span>THE PERSONALITY / PERFORMANCE MATRIX</span><div class="view-switch" role="group" aria-label="View"><button id="map-view" aria-pressed="true" type="button">Map</button><button id="list-view" aria-pressed="false" type="button">List</button></div></div>
             <div id="chart-view">
               <div class="vertical-label top-label">GOOD ACTOR <span aria-hidden="true">↑</span></div>
-              <div class="plot" id="actor-plot" role="group" aria-label="Actor positions. Horizontal: low-key to over-the-top. Vertical: bad to good actor.">
+              <div class="plot" id="actor-plot" role="group" tabindex="-1" aria-label="Actor positions. Horizontal: low-key to over-the-top. Vertical: bad to good actor." aria-describedby="map-hint">
                 <span class="quadrant top-left" aria-hidden="true">QUIETLY<br>COMPELLING</span><span class="quadrant top-right" aria-hidden="true">BIG ENERGY.<br>BIG TALENT.</span><span class="quadrant bottom-left" aria-hidden="true">GIVING US<br>VERY LITTLE</span><span class="quadrant bottom-right" aria-hidden="true">DOING<br>THE MOST</span>
                 <div class="axis horizontal-axis" aria-hidden="true"></div><div class="axis vertical-axis" aria-hidden="true"></div>
                 <div id="actor-points"></div><p id="map-empty" class="empty-map" hidden>No actors match. Try another name or filter.</p>
+                <button id="map-suggest" class="map-suggest" type="button" aria-haspopup="dialog" aria-controls="proposal-dialog" hidden>Suggest an actor <span aria-hidden="true">＋</span></button>
               </div>
               <div class="vertical-label bottom-label"><span aria-hidden="true">↓</span> BAD ACTOR</div>
               <div class="personality-axis"><div class="anchor"><img src="images/typecast/zendaya.jpg" width="36" height="36" alt=""><div><strong>Zendaya</strong><span>LOW-KEY</span></div></div><span class="axis-caption"><span aria-hidden="true">←</span> ON-SCREEN PERSONALITY <span aria-hidden="true">→</span></span><div class="anchor right-anchor"><div><strong>Nicolas Cage</strong><span>OVER-THE-TOP</span></div><img src="images/typecast/nicolas-cage.jpg" width="36" height="36" alt=""></div></div>
             </div>
             <div id="actor-list" class="actor-list" hidden></div>
-            <div class="chart-footer"><span><i class="legend-dot" aria-hidden="true"></i> Placed <i class="legend-dot pending-dot" aria-hidden="true"></i> Proposed</span><span>Select a face. Make your case.</span></div>
+            <div class="chart-footer"><span><i class="legend-dot" aria-hidden="true"></i> Placed <i class="legend-dot pending-dot" aria-hidden="true"></i> Proposed</span><span id="map-hint">Select a face, or click empty space to suggest an actor.</span></div>
           </div>
           <p class="map-footnote">Starter positions are opinions to get the debate going. Axis portraits indicate personality only.</p>
         </div>
