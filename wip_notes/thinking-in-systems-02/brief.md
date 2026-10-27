@@ -149,3 +149,7 @@ After the readiness review and approved paragraphing passes for both essays, the
 The release includes the second essay, its five figures and problem-framing worksheet, social images, source and editorial records, shared supporting CSS/JS and browser checks, plus the approved paragraphing revisions to both essays. Local rollback folders, presentation work, and OS metadata are excluded.
 
 Release checks passed with both lessons published: `maintain.py check`, the complete published-lesson browser smoke run, and `git diff --check`. The homepage includes lesson two, lesson one links forward to it, and its `noindex` and draft-navigation labels are removed.
+
+## Opening aside — 2026-10-27
+
+At the author's request, added their exact wording after the ten-times-faster sentence: “Of course, this assumes the brief was good to begin with. Otherwise, we may have just become much faster at producing terrible content.” It stays within the existing paragraph and anticipates the later discussion of incomplete briefs. The author explicitly requested committing and pushing this addition. The original essay source remains preserved; the edited snapshot includes the new aside.
