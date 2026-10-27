@@ -13,7 +13,7 @@
   <meta name="description" content="What 2,400 years of philosophy can teach us about knowledge, understanding, and building trustworthy AI systems. Part 1 of Thinking in Systems.">
   <meta name="keywords" content="AI, epistemology, Gettier, Chinese Room, AI reliability, evidence, calibration, systems design">
   <meta name="guide:category" content="Thinking in Systems · 01">
-  <meta name="guide:updated" content="2026-10-26">
+  <meta name="guide:updated" content="2026-10-27">
   <meta name="guide:series" content="thinking-in-systems">
   <meta name="guide:order" content="1">
   <meta name="author" content="Chris Yasuda Drysdale">
@@ -83,8 +83,7 @@
       <article aria-labelledby="essay-title">
         <div class="essay-opening">
           <p class="opening-line">Imagine two students taking the same exam.</p>
-          <p>The first has spent months studying. They understand the subject, can explain the underlying principles, and know how to apply what they’ve learned to unfamiliar problems.</p>
-          <p>The second has memorized the answer key.</p>
+          <p>The first has spent months studying. They understand the subject, can explain the underlying principles, and know how to apply what they’ve learned to unfamiliar problems. The second has memorized the answer key.</p>
           <p>Both receive perfect scores. Did they demonstrate the same knowledge?</p>
           <p>Most of us would instinctively say no. The first student understands the material. The second merely knows which answers to provide.</p>
           <p>But let’s complicate things. Suppose the second student can also explain every answer convincingly. They can reproduce the reasoning, discuss the relevant concepts, and respond to follow-up questions. Perhaps they’ve memorized an extraordinarily comprehensive collection of explanations.</p>
@@ -103,8 +102,7 @@
           <p>At its heart, epistemology investigates a deceptively difficult question: <strong>What makes something knowledge rather than merely a belief that happens to be true?</strong></p>
           <p>Consider a simple statement: “The Earth revolves around the Sun.” You probably believe this. You’re also correct, at least in the ordinary astronomical sense. But why do you believe it?</p>
           <p>Perhaps a teacher told you. Perhaps you’ve studied astronomy and understand the observations supporting heliocentrism. Perhaps you’ve never examined the evidence personally, but trust the scientific institutions responsible for establishing it.</p>
-          <p>These are different routes to the same conclusion. Does accepting reliable testimony count as knowledge? Must you personally understand the evidence? Can you know something without understanding the mechanisms that make it true?</p>
-          <p>Philosophers have been wrestling with these distinctions since antiquity.</p>
+          <p>These are different routes to the same conclusion. Does accepting reliable testimony count as knowledge? Must you personally understand the evidence? Can you know something without understanding the mechanisms that make it true? Philosophers have been wrestling with these distinctions since antiquity.</p>
           <h3>Plato and the problem of justified belief</h3>
           <p>In the fourth century BCE, Plato explored the nature of knowledge in <a href="https://classics.mit.edu/Plato/theatu.html"><cite>Theaetetus</cite></a>. Among the possibilities examined is the idea that knowledge involves true judgment accompanied by an account or explanation. The dialogue doesn’t settle on a definitive answer, but helped establish questions that would shape centuries of inquiry.</p>
           <p>A later philosophical tradition developed an influential account known as <strong>justified true belief</strong>. Under this framework, knowledge requires three conditions:</p>
@@ -208,12 +206,10 @@
         <section class="essay-section" aria-labelledby="meaning">
           <p class="chapter-marker">02 <span>Performance versus understanding</span></p>
           <h2 id="meaning" data-toc-label="Symbols and meaning" data-toc-group="02 / Understanding">Can something manipulate information without understanding it?</h2>
-          <p>Consider this sequence of characters: <code>#1D5080</code>.</p>
-          <p>By itself, it might not mean much. If you recognize hexadecimal color notation, you can interpret it as a particular shade of blue. Within an organization’s design system, it might represent an approved brand color. And if you understand the organization’s standards, you might know when to use it, which combinations are permitted, and when exceptions apply.</p>
+          <p>Consider this sequence of characters: <code>#1D5080</code>. By itself, it might not mean much. If you recognize hexadecimal color notation, you can interpret it as a particular shade of blue. Within an organization’s design system, it might represent an approved brand color. And if you understand the organization’s standards, you might know when to use it, which combinations are permitted, and when exceptions apply.</p>
           <p>One sequence of characters. Several layers of interpretation.</p>
           <p>There’s a useful distinction here between <strong>syntax</strong> and <strong>semantics</strong>. Syntax concerns the structure and arrangement of symbols. Semantics concerns their meaning. The hexadecimal value has a defined structure; interpreting it as a color depends on a notation system, and interpreting it as a brand standard depends on organizational context.</p>
-          <p>A system can process the same characters at multiple levels without necessarily possessing every kind of understanding we associate with those interpretations.</p>
-          <p>A calculator offers a simple analogy. It can multiply two numbers and return the correct result, but we don’t ordinarily claim that it understands multiplication in the same way a mathematician does.</p>
+          <p>A system can process the same characters at multiple levels without necessarily possessing every kind of understanding we associate with those interpretations. A calculator offers a simple analogy. It can multiply two numbers and return the correct result, but we don’t ordinarily claim that it understands multiplication in the same way a mathematician does.</p>
           <p>Modern language models are substantially more sophisticated. They learn complex relationships between concepts, generate explanations, solve novel problems, and generalize beyond specific training examples. So where should we draw the line?</p>
         </section>
 
@@ -258,8 +254,7 @@
         <section class="essay-section" aria-labelledby="modern-ai">
           <h2 id="modern-ai" data-toc-label="What modern AI changes">Modern AI complicates the old arguments</h2>
           <p>You’ll sometimes hear people dismiss large language models by saying they “just predict the next token.” This describes an important part of how many language models are trained and generate text. It doesn’t settle what capabilities can emerge from that process.</p>
-          <p>A training objective describes what a system is optimized to do. It doesn’t automatically establish the limits of what the resulting system can learn.</p>
-          <p>Language models develop internal representations that encode relationships between words, concepts, structures, and patterns in their training data. These can support capabilities considerably more sophisticated than simple memorization: translating, solving mathematical problems, writing software, recognizing analogies, and applying familiar concepts in unfamiliar contexts.</p>
+          <p>A training objective describes what a system is optimized to do. It doesn’t automatically establish the limits of what the resulting system can learn. Language models develop internal representations that encode relationships between words, concepts, structures, and patterns in their training data. These can support capabilities considerably more sophisticated than simple memorization: translating, solving mathematical problems, writing software, recognizing analogies, and applying familiar concepts in unfamiliar contexts.</p>
           <p>At the same time, demonstrating these capabilities doesn’t establish that a model understands language in precisely the way humans do. We should resist two tempting conclusions:</p>
           <ul class="argument-pair"><li>“AI predicts tokens, therefore it cannot reason.”</li><li>“AI can reason, therefore it must understand exactly as humans do.”</li></ul>
           <p>Neither follows automatically. There are empirical questions about what models can represent, how they generalize, and where their reasoning fails. There are also philosophical questions about whether those capabilities amount to genuine understanding. These questions overlap, but aren’t interchangeable.</p>
@@ -340,8 +335,7 @@
         <section class="essay-section" aria-labelledby="false-confidence">
           <h2 id="false-confidence" data-toc-label="When citations mislead">When explanations and citations create false confidence</h2>
           <p>Imagine two assistants answering the same question. The first says, “The approved presentation font is Helvetica.” The second says, “The approved presentation font is Helvetica, according to the 2026 Brand Standards Guide.”</p>
-          <p>The second response appears more trustworthy. It offers a source and sounds verifiable. But suppose that document doesn’t actually contain the instruction.</p>
-          <p>Both answers might be correct or incorrect as factual claims. The second introduces an additional problem: it presents unsupported evidence as justification. The citation may actively encourage misplaced confidence.</p>
+          <p>The second response appears more trustworthy. It offers a source and sounds verifiable. But suppose that document doesn’t actually contain the instruction. Both answers might be correct or incorrect as factual claims. The second introduces an additional problem: it presents unsupported evidence as justification. The citation may actively encourage misplaced confidence.</p>
           <p>A similar issue arises when language models explain their own reasoning. An explanation can sound logical without faithfully representing the factors responsible for the output. Research such as <a href="https://arxiv.org/abs/2404.03189"><cite>The Probabilities Also Matter</cite></a> investigates how to assess this faithfulness.</p>
           <p>This doesn’t make explanations useless. They’re valuable for communicating ideas, identifying assumptions, and exposing reasoning we can independently check.</p>
           <p class="key-thought">An explanation isn’t automatically an audit trail. A generated citation isn’t automatically proof. A confident answer isn’t automatically a well-supported conclusion.</p>
@@ -355,8 +349,7 @@
           <p>An assistant isn’t just a language model. Depending on its architecture, it may include system instructions, reference documents, retrieval mechanisms, tools, context-selection logic, and workflows governing how information is processed. Failures can emerge from any of these components or their interactions.</p>
           <p>Consider an assistant with three documents:</p>
           <ul><li>A company-wide brand guide from 2024.</li><li>A campaign-specific style guide from 2025.</li><li>An internal presentation template from 2026.</li></ul>
-          <p>Each contains different typography instructions. Which should it follow?</p>
-          <p>The newest document? Not necessarily. The company-wide guide? Perhaps, but a campaign-specific exception might override it. The most relevant document? Only if the system can identify the task and determine which guidance applies.</p>
+          <p>Each contains different typography instructions. Which should it follow? The newest document? Not necessarily. The company-wide guide? Perhaps, but a campaign-specific exception might override it. The most relevant document? Only if the system can identify the task and determine which guidance applies.</p>
 
           <!-- visuals-2026-10-26: precedence -->
           <figure class="precedence-figure wide-figure" aria-labelledby="precedence-title">
@@ -439,8 +432,7 @@
             <figcaption>A diagnostic map, not a universal architecture. Source precedence can affect retrieval and interpretation; failures often involve several stages.</figcaption>
           </figure>
 
-          <p>The underlying information may be unreliable. Relevant documents may exist without clear rules for precedence. Retrieval may fail to include the correct source. The model may receive the right information but misinterpret it or overlook an exception.</p>
-          <p>And sometimes the model itself is the constraint: a task requires capabilities it cannot perform reliably, even with complete, unambiguous information.</p>
+          <p>The underlying information may be unreliable. Relevant documents may exist without clear rules for precedence. Retrieval may fail to include the correct source. The model may receive the right information but misinterpret it or overlook an exception. And sometimes the model itself is the constraint: a task requires capabilities it cannot perform reliably, even with complete, unambiguous information.</p>
           <p>These explanations aren’t mutually exclusive. A poorly organized knowledge base can interact with inconsistent retrieval and a tendency to resolve ambiguity through plausible-sounding guesses. The causes may be distributed across the system.</p>
           <p>Replacing the model should be a hypothesis to test, not an automatic first response.</p>
         </section>
@@ -465,16 +457,14 @@
           <p>We’ve observed the Sun rising every morning and expect it to rise tomorrow. That expectation is extraordinarily reasonable. But Hume argued that we cannot establish the uniformity of nature through deductive reasoning alone; justifying induction by appealing to its past success risks circularity. The <a href="https://plato.stanford.edu/entries/induction-problem/">Stanford overview of the problem of induction</a> examines this argument and responses to it.</p>
           <p>Machine learning faces a related practical difficulty. Success on historical examples doesn’t guarantee success under new conditions. Statistical learning theory gives us mathematical tools for analyzing generalization under particular assumptions. It doesn’t make those assumptions disappear.</p>
           <p>An evaluation set can represent one environment while missing important situations in another. An assistant might perform beautifully on routine brand questions yet struggle with ambiguous exceptions, unusual document combinations, or newly introduced standards.</p>
-          <p>So evaluation should ask more than “How often was the system correct?” It should also ask, <strong>“How representative were the tests, and under what conditions should we expect the results to generalize?”</strong></p>
-          <p>That’s a reason to evaluate continuously, rather than treating one successful benchmark as permanent proof of reliability.</p>
+          <p>So evaluation should ask more than “How often was the system correct?” It should also ask, <strong>“How representative were the tests, and under what conditions should we expect the results to generalize?”</strong> That’s a reason to evaluate continuously, rather than treating one successful benchmark as permanent proof of reliability.</p>
         </section>
 
         <section class="essay-section" aria-labelledby="one-week">
           <h2 id="one-week" data-toc-label="When you only have a week">What if you only have a week to fix it?</h2>
           <p>In an ideal world, every organization would have perfectly maintained documentation, rigorous evaluation, and ample time to investigate every failure. In reality, leadership often wants a solution by next Friday.</p>
           <p>That makes epistemological thinking more important. Good judgment means understanding which uncertainties matter, what evidence is available, and how much risk is acceptable.</p>
-          <p>If an assistant is giving unreliable brand guidance and you have one week, you probably shouldn’t begin by rebuilding the entire knowledge architecture. A proportionate approach might be to narrow its supported use cases, identify a small collection of authoritative references, resolve the most consequential conflicts, and test the revised configuration against known failures and representative questions.</p>
-          <p>For questions that remain ambiguous or consequential, require human verification.</p>
+          <p>If an assistant is giving unreliable brand guidance and you have one week, you probably shouldn’t begin by rebuilding the entire knowledge architecture. A proportionate approach might be to narrow its supported use cases, identify a small collection of authoritative references, resolve the most consequential conflicts, and test the revised configuration against known failures and representative questions. For questions that remain ambiguous or consequential, require human verification.</p>
           <p>This produces a system with more clearly defined boundaries and better-understood limitations. Those boundaries are part of what makes it trustworthy. An assistant that reliably answers a narrower set of questions can be more useful than one that confidently attempts everything.</p>
           <p class="key-thought">The objective is to establish where reliance on the AI’s outputs is justified.</p>
         </section>
@@ -485,8 +475,7 @@
           <p>Plato’s philosophical tradition encouraged us to distinguish true belief from justified knowledge. Gettier showed that even justified true beliefs can be correct through luck. Searle challenged the assumption that successful symbol manipulation necessarily constitutes understanding. Contemporary AI research reveals sophisticated capabilities while leaving important questions about machine understanding unsettled.</p>
           <p>The common thread is that <strong>correctness, justification, reliability, and understanding are related but distinct concepts</strong>.</p>
           <p>A system can provide a correct answer without reliable evidence. It can offer a convincing explanation without faithfully describing how the answer was produced. It can perform well on familiar tasks without reliably generalizing. And it can exhibit sophisticated reasoning without settling whether it understands the world as humans do.</p>
-          <p>None of this diminishes AI’s usefulness. It gives us a more disciplined way to evaluate that usefulness.</p>
-          <p>When someone asks whether an AI system can be trusted, we can ask more productive questions:</p>
+          <p>None of this diminishes AI’s usefulness. It gives us a more disciplined way to evaluate that usefulness. When someone asks whether an AI system can be trusted, we can ask more productive questions:</p>
           <ul class="closing-questions">
             <li>What is the system claiming?</li>
             <li>What evidence supports that claim?</li>
@@ -533,11 +522,14 @@
         <!-- SERIES_NAV_START -->
         <ol class="series-issues" aria-label="Series progress">
           <li aria-current="page"><span>01</span><span class="issue-state">This essay</span></li>
-          <li><span>02</span><span class="issue-state">Forthcoming</span></li>
+          <li><a href="a-better-prompt-wont-fix-the-wrong-problem.html" aria-label="Essay 02: A Better Prompt Won&#x27;t Fix the Wrong Problem"><span>02</span><span class="issue-state">Read essay</span></a></li>
           <li><span>03</span><span class="issue-state">Forthcoming</span></li>
           <li><span>04</span><span class="issue-state">Forthcoming</span></li>
           <li><span>05</span><span class="issue-state">Forthcoming</span></li>
         </ol>
+        <nav class="series-adjacent" aria-label="More in this series">
+          <a rel="next" href="a-better-prompt-wont-fix-the-wrong-problem.html"><span>Next essay · 02</span>A Better Prompt Won&#x27;t Fix the Wrong Problem</a>
+        </nav>
         <!-- SERIES_NAV_END -->
         <a href="../index.html">Explore all guides <span aria-hidden="true">↗</span></a>
       </aside>

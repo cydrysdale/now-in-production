@@ -97,6 +97,33 @@ try {
       await page.keyboard.press('Enter');
       assert(await summary.evaluate(node => node.parentElement.open), 'Disclosure opens with keyboard');
     }
+    const worksheet = page.locator('[data-problem-worksheet]');
+    if (await worksheet.count()) {
+      const answers = [
+        'The requester wants consistent answers & supported citations.',
+        'Hold the prompt fixed and compare conflicting guidance with a resolved source set.',
+        'Observed: different fonts. Hypothesis: source conflicts. Repeat across representative questions.',
+        'The brand owner resolves precedence. Measure applicable guidance and citation support.'
+      ];
+      const fields = worksheet.locator('textarea');
+      assert.equal(await fields.count(), answers.length, 'Four framing questions');
+      for (let i = 0; i < answers.length; i++) await fields.nth(i).fill(answers[i]);
+      await page.setViewportSize({ width: 320, height: 1000 });
+      assert(await fields.evaluateAll(nodes => nodes.every(n => n.scrollHeight <= n.clientHeight + 2)), 'Answers remain visible at mobile width');
+      await page.setViewportSize({ width: 1440, height: 1000 });
+      const button = worksheet.locator('[data-download-worksheet]');
+      await button.focus();
+      const saved = page.waitForEvent('download');
+      await page.keyboard.press('Enter');
+      const download = await saved;
+      assert.equal(download.suggestedFilename(), 'problem-framing-brief.md');
+      const contents = await readFile(await download.path(), 'utf8');
+      for (const answer of answers) assert(contents.includes(answer), 'Download preserves the answer');
+      assert(contents.includes('## Next investigation'), 'Export includes a next step');
+      for (const field of await fields.all()) await field.fill('');
+      assert.equal(await worksheet.locator('.worksheet-status').innerText(), '', 'Editing clears the prior download status');
+      console.log(`Passed lesson ${lesson.number}: keyboard worksheet export preserves all four answers`);
+    }
     // Keep captures small enough to inspect; long essays can exceed browser image limits.
     if (screenshots) {
       await mkdir(screenshots, { recursive: true });
@@ -105,8 +132,9 @@ try {
         await page.evaluate(() => scrollTo(0, 0));
         await page.screenshot({ path: join(screenshots, `lesson-${lesson.number}-${theme}-cover.png`) });
         await page.locator('.series-endnote').screenshot({ path: join(screenshots, `lesson-${lesson.number}-${theme}-series.png`) });
-        const figure = page.locator('figure').first();
-        if (await figure.count()) await figure.screenshot({ path: join(screenshots, `lesson-${lesson.number}-${theme}-figure.png`) });
+        const figures = await page.locator('figure').all();
+        for (let i = 0; i < figures.length; i++) await figures[i].screenshot({ path: join(screenshots, `lesson-${lesson.number}-${theme}-figure-${i + 1}.png`) });
+        if (await worksheet.count()) await worksheet.screenshot({ path: join(screenshots, `lesson-${lesson.number}-${theme}-worksheet.png`) });
       }
     }
     await page.setViewportSize({ width: 390, height: 844 });
@@ -119,6 +147,8 @@ try {
       await page.evaluate(() => scrollTo(0, 0));
       await page.screenshot({ path: join(screenshots, `lesson-${lesson.number}-mobile-cover.png`) });
       await page.locator('.series-endnote').screenshot({ path: join(screenshots, `lesson-${lesson.number}-mobile-series.png`) });
+      const figures = await page.locator('figure').all();
+      for (let i = 0; i < figures.length; i++) await figures[i].screenshot({ path: join(screenshots, `lesson-${lesson.number}-mobile-figure-${i + 1}.png`) });
     }
     await page.emulateMedia({ media: 'print' });
     assert(await page.locator('article').isVisible(), 'Article survives printing');
@@ -137,6 +167,14 @@ try {
     if (await summary.count()) {
       await summary.click();
       assert(await summary.evaluate(node => node.parentElement.open), 'Native disclosure works without JS');
+    }
+    if (await staticPage.locator('[data-problem-worksheet]').count()) {
+      assert(!await staticPage.locator('[data-download-worksheet]').isVisible(), 'JS-only export stays hidden without JS');
+      const href = await staticPage.getByRole('link', { name: 'Download a blank worksheet' }).getAttribute('href');
+      const response = await staticPage.request.get(new URL(href, staticPage.url()).href);
+      assert(response.ok(), 'Blank worksheet is available without JS');
+      const text = await response.text();
+      for (const n of [1, 2, 3, 4]) assert(text.includes(`## ${n}.`), 'Blank worksheet has every question');
     }
   }
   await noJS.close();

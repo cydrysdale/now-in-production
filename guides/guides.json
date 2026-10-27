@@ -16,5 +16,11 @@
     "status": "published",
     "series": "thinking-in-systems",
     "number": 1
+  },
+  {
+    "url": "guides/a-better-prompt-wont-fix-the-wrong-problem.html",
+    "status": "published",
+    "series": "thinking-in-systems",
+    "number": 2
   }
 ]

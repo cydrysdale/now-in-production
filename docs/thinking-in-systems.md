@@ -50,6 +50,8 @@ Record the intended audience, central question, and practical takeaway in `brief
 
 Preserve the author’s voice. Use a light editorial pass to reduce repetition, clarify transitions, and correct claims. Keep philosophical arguments distinct from experimental findings and engineering recommendations. A fictional example should be identified as fictional; a schematic should name its assumptions and limits.
 
+Group related sentences into paragraphs that develop one thought, often two to four sentences. Keep short standalone paragraphs for deliberate questions, turns and conclusions. Review the rhythm on desktop and mobile; avoid imposing a fixed word count or separating every sentence for emphasis.
+
 Verify references against primary sources when available. Check the title, authors, date, URL, and whether the source actually supports the adjacent claim. Preserve disagreements or uncertainty where the evidence does not settle the question. Record corrections and unresolved questions in the brief. The automated checks do not perform factual or philosophical review.
 
 ## 3. Make a small visual plan

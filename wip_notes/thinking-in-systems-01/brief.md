@@ -25,3 +25,15 @@ The author approved proceeding with the guide, requested review and fixes to the
 ## Repeatable checks
 
 Run the Python publication check and optional browser smoke script described in `../../docs/thinking-in-systems.md`. They cover metadata/assets/anchors, publication navigation, theme/contents/Home, small-screen layout, native disclosures, and homepage fallbacks. They do not establish factual accuracy or replace author review.
+
+## Paragraphing pass — 2026-10-27
+
+The author requested the same paragraphing review approved for essay two. This page already used mostly developed paragraphs, so the pass is selective: join the two student descriptions, connect the symbol example to its context, and keep related explanations and consequences together. Eleven paragraph breaks were removed. Deliberate questions, the stopped-clock reveal, highlighted takeaways, and the closing thought retain their pauses.
+
+No sentence wording, punctuation, citation, figure, list or interactive content changed. A normalized comparison against the pre-pass HTML verifies this; only paragraph boundaries and the updated-date metadata differ. The original `source.md` remains unchanged. The update date and generated homepage card were synchronized, and the edited snapshot was refreshed. These are local revisions to the published guide; this pass does not deploy them.
+
+Validation: metadata/local-link checks and browser smoke checks passed for both essays, including homepage fallbacks, theme and TOC behavior, 320–1440px layouts, keyboard disclosures, and essay two's worksheet export. Prose excerpts were visually reviewed at desktop and mobile widths. Before copies and screenshots are saved locally under ignored `artifacts/guide-checks/paragraphing-review/`.
+
+## Release — 2026-10-27
+
+The author subsequently requested committing and pushing the completed guide work. This release includes the paragraphing revisions above and a generated link to the published second essay. The edited snapshot reflects the release navigation.
