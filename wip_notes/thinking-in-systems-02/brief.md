@@ -152,4 +152,4 @@ Release checks passed with both lessons published: `maintain.py check`, the comp
 
 ## Opening aside — 2026-10-27
 
-At the author's request, added their exact wording after the ten-times-faster sentence: “Of course, this assumes the brief was good to begin with. Otherwise, we may have just become much faster at producing terrible content.” It stays within the existing paragraph and anticipates the later discussion of incomplete briefs. The author explicitly requested committing and pushing this addition. The original essay source remains preserved; the edited snapshot includes the new aside.
+At the author's request, added their exact wording: “Of course, this assumes the brief was good to begin with. Otherwise, we may have just become much faster at producing terrible content.” Following their placement correction, the aside comes after “The overall project might still take five days.” It stays within the existing paragraph and anticipates the later discussion of incomplete briefs. The author explicitly requested committing and pushing this addition. The original essay source remains preserved; the edited snapshot includes the new aside.
