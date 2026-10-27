@@ -109,6 +109,9 @@ try {
       assert.equal(await fields.count(), answers.length, 'Four framing questions');
       for (let i = 0; i < answers.length; i++) await fields.nth(i).fill(answers[i]);
       await page.setViewportSize({ width: 320, height: 1000 });
+      // Viewport changes can return before the page's resize handler has run.
+      await page.waitForFunction(() => [...document.querySelectorAll('[data-problem-worksheet] textarea')]
+        .every(field => field.scrollHeight <= field.clientHeight + 2), null, { timeout: 2000 });
       assert(await fields.evaluateAll(nodes => nodes.every(n => n.scrollHeight <= n.clientHeight + 2)), 'Answers remain visible at mobile width');
       await page.setViewportSize({ width: 1440, height: 1000 });
       const button = worksheet.locator('[data-download-worksheet]');
