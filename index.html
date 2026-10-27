@@ -38,6 +38,12 @@
     :root[data-theme="dark"]{ 
       --bg-dark: url('../../images/now-in-prod.png')
     }
+    .guide-card-title {
+      font-family: "Fredericka the Great", serif;
+      font-size: 22px;
+      letter-spacing: 0.04em;
+      margin: 0 0 6px;
+    }
   </style>
 </head>
 <body data-bg-light="url('images/now-in-prod.png')" data-bg-dark="url('images/now-in-prod.png')">
@@ -75,8 +81,79 @@
     <main id="content">
       <section>
         <h2>Guides</h2>
-        <div class="">
-        <div id="guideCards"></div>
+        <!-- Published snapshots: refresh with python3 tools/guides/maintain.py sync.
+             They remain usable on file://, without JavaScript, or if the registry cannot load. -->
+        <div id="guideCards">
+          <!-- GUIDE_CARDS_START -->
+          <a href="guides/when-ai-gets-the-right-answer.html" style="text-decoration:none;" data-updated="2026-10-26">
+            <section>
+              <div class="grid" style="align-items:center; gap:16px;">
+                <div>
+                  <h3 class="guide-card-title">When AI Gets the Right Answer for the Wrong Reasons</h3>
+                  <div class="sub" style="margin-bottom:8px;">
+                    <span class="pill">Thinking in Systems · 01</span>
+                    &nbsp;•&nbsp;<span class="pill">Updated 2026-10-26</span>
+                  </div>
+                  <p style="margin:6px 0 0;">What 2,400 years of philosophy can teach us about knowledge, understanding, and building trustworthy AI systems. Part 1 of Thinking in Systems.</p>
+                </div>
+                <div class="image-container" style="max-width:280px;">
+                  <img src="images/thinking-in-systems-01.png" alt="" loading="lazy">
+                </div>
+              </div>
+            </section>
+          </a>
+          <a href="guides/how-llms-work.html" style="text-decoration:none;" data-updated="2026-03-03">
+            <section>
+              <div class="grid" style="align-items:center; gap:16px;">
+                <div>
+                  <h3 class="guide-card-title">Demystifying AI: Stepping into the LLM Kitchen</h3>
+                  <div class="sub" style="margin-bottom:8px;">
+                    <span class="pill">AI</span>
+                    &nbsp;•&nbsp;<span class="pill">Updated 2026-03-03</span>
+                  </div>
+                  <p style="margin:6px 0 0;">A practical guide to how LLMs work—using a pixel kitchen/restaurant sim metaphor to teach prompt writing, context windows, tools, QA, and agent workflows.</p>
+                </div>
+                <div class="image-container" style="max-width:280px;">
+                  <img src="images/how-llms-work-card.png" alt="" loading="lazy">
+                </div>
+              </div>
+            </section>
+          </a>
+          <a href="guides/who-owns-type.html" style="text-decoration:none;" data-updated="2025-12-02">
+            <section>
+              <div class="grid" style="align-items:center; gap:16px;">
+                <div>
+                  <h3 class="guide-card-title">Typography Inc.: Who Owns the Alphabet</h3>
+                  <div class="sub" style="margin-bottom:8px;">
+                    <span class="pill">Typography</span>
+                    &nbsp;•&nbsp;<span class="pill">Updated 2025-12-02</span>
+                  </div>
+                  <p style="margin:6px 0 0;">The story of who owns fonts—from clay seals to computer screens. A visual, interactive guide to typography&#x27;s ownership history, craft, and the rules that still shape the letters we see everyday.</p>
+                </div>
+                <div class="image-container" style="max-width:280px;">
+                  <img src="images/fontopoly.png" alt="" loading="lazy">
+                </div>
+              </div>
+            </section>
+          </a>
+          <a href="guides/rgb-to-cmyk-guide.html" style="text-decoration:none;" data-updated="2025-09-05">
+            <section>
+              <div class="grid" style="align-items:center; gap:16px;">
+                <div>
+                  <h3 class="guide-card-title">From Pixels to Paper: An RGB → CMYK Adventure</h3>
+                  <div class="sub" style="margin-bottom:8px;">
+                    <span class="pill">Color Theory</span>
+                    &nbsp;•&nbsp;<span class="pill">Updated 2025-09-05</span>
+                  </div>
+                  <p style="margin:6px 0 0;">Follow your colors from screen to print in a step-by-step guide explaining how RGB to CMYK color conversion works.</p>
+                </div>
+                <div class="image-container" style="max-width:280px;">
+                  <img src="images/rgb-to-cmyk-guide.png" alt="" loading="lazy">
+                </div>
+              </div>
+            </section>
+          </a>
+          <!-- GUIDE_CARDS_END -->
         </div>
       </section>
     </main>
@@ -87,8 +164,8 @@
       const res = await fetch('guides/guides.json', { credentials: 'same-origin' });
       if (!res.ok) throw new Error(res.statusText);
       const data = await res.json();
-      const list = Array.isArray(data) ? data : [];
-      return list
+      if (!Array.isArray(data)) throw new Error('Invalid guide registry');
+      return data
         .filter((g) => g && typeof g === 'object')
         .filter((g) => (g.status || 'published') === 'published')
         .map((g) => g.url)
@@ -109,22 +186,35 @@
       };
     }
 
+    function escapeHTML(value) {
+      return String(value).replace(/[&<>"']/g, (character) => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      })[character]);
+    }
+
     function cardHTML(url, m) {
+      // Use this checkout's assets when a guide's Open Graph image belongs to this site.
+      // Social metadata stays absolute; local previews don't depend on a prior deployment.
+      const siteRoot = new URL('.', document.querySelector('link[rel="canonical"]').href);
+      const imageUrl = m.image ? new URL(m.image, new URL(url, location.href)) : null;
+      const image = imageUrl && imageUrl.href.startsWith(siteRoot.href)
+        ? imageUrl.href.slice(siteRoot.href.length)
+        : m.image;
       return `    
-      <a href="${url}" style="text-decoration:none;">
+      <a href="${escapeHTML(url)}" style="text-decoration:none;">
           <section>
             <div class="grid" style="align-items:center; gap:16px;">
               <div>
-                <h2 style="margin:0 0 6px;">${m.title || 'Untitled Guide'}</h2>
+                <h3 class="guide-card-title">${escapeHTML(m.title || 'Untitled Guide')}</h3>
                 <div class="sub" style="margin-bottom:8px;">
-                  ${m.category ? `<span class="pill">${m.category}</span>` : ''}
-                  ${m.updated ? `&nbsp;•&nbsp;<span class="pill">Updated ${m.updated}</span>` : ''}
+                  ${m.category ? `<span class="pill">${escapeHTML(m.category)}</span>` : ''}
+                  ${m.updated ? `&nbsp;•&nbsp;<span class="pill">Updated ${escapeHTML(m.updated)}</span>` : ''}
                 </div>
-                <p style="margin:6px 0 0;">${m.description || ''}</p>
+                <p style="margin:6px 0 0;">${escapeHTML(m.description || '')}</p>
               </div>
-              ${m.image ? `
+              ${image ? `
               <div class="image-container" style="max-width:280px;">
-                <img src="${m.image}" alt="" loading="lazy">
+                <img src="${escapeHTML(image)}" alt="" loading="lazy">
               </div>` : ``}
             </div>
           </section>
@@ -140,14 +230,20 @@
 
     async function renderCards() {
       const container = document.getElementById('guideCards');
+      // Browsers block fetches from file://. The published snapshots already provide
+      // complete cards and navigation for direct-file and JavaScript-free previews.
+      if (location.protocol === 'file:') return;
+
+      const snapshots = new Map(Array.from(container.children).map((card) => [
+        card.getAttribute('href'),
+        { html: card.outerHTML, sortTime: updatedToTime(card.dataset.updated) }
+      ]));
       let guides = [];
       try {
         guides = await loadGuides();
       } catch (e) {
-        guides = [
-          'guides/rgb-to-cmyk-guide.html',
-          'guides/how-llms-work.html'
-        ];
+        // Preserve the full published list if the registry is temporarily unavailable.
+        return;
       }
 
       const cards = [];
@@ -163,14 +259,19 @@
             html: cardHTML(url, m),
           });
         } catch (e) {
+          const snapshot = snapshots.get(url);
+          if (snapshot) {
+            cards.push({ url, ...snapshot });
+            continue;
+          }
           // Fallback card if a guide can’t be fetched
           cards.push({
             url,
             sortTime: Number.NEGATIVE_INFINITY,
             html: `
-            <a href="${url}" style="text-decoration:none;">
+            <a href="${escapeHTML(url)}" style="text-decoration:none;">
               <section>
-                <h3>${url}</h3>
+                <h3>${escapeHTML(url)}</h3>
                 <p class="muted">Couldn’t read metadata; linking directly.</p>
               </section>
             </a>
@@ -179,9 +280,10 @@
         }
       }
 
-      cards
+      container.innerHTML = cards
         .sort((a, b) => (b.sortTime - a.sortTime) || a.url.localeCompare(b.url))
-        .forEach((c) => container.insertAdjacentHTML('beforeend', c.html));
+        .map((c) => c.html)
+        .join('');
     }
     renderCards();
   </script>

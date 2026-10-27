@@ -1,0 +1,19 @@
+{
+  "id": "thinking-in-systems",
+  "title": "Thinking in Systems",
+  "subtitle": "AI Theory, Philosophy & Systems Design",
+  "description": "Exploring how philosophy, cognitive science, and systems engineering can help us understand and build more reliable AI systems.",
+  "site_url": "https://cydrysdale.github.io/now-in-production/",
+  "lessons": [
+    {
+      "number": 1,
+      "title": "When AI Gets the Right Answer for the Wrong Reasons",
+      "url": "guides/when-ai-gets-the-right-answer.html",
+      "status": "published"
+    },
+    { "number": 2, "title": null, "url": null, "status": "planned" },
+    { "number": 3, "title": null, "url": null, "status": "planned" },
+    { "number": 4, "title": null, "url": null, "status": "planned" },
+    { "number": 5, "title": null, "url": null, "status": "planned" }
+  ]
+}

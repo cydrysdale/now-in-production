@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script>
+    try {
+      const theme = localStorage.getItem('theme');
+      document.documentElement.setAttribute('data-theme', theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+    } catch {}
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>When AI Gets the Right Answer for the Wrong Reasons</title>
+  <meta name="description" content="What 2,400 years of philosophy can teach us about knowledge, understanding, and building trustworthy AI systems. Part 1 of Thinking in Systems.">
+  <meta name="keywords" content="AI, epistemology, Gettier, Chinese Room, AI reliability, evidence, calibration, systems design">
+  <meta name="guide:category" content="Thinking in Systems · 01">
+  <meta name="guide:updated" content="2026-10-26">
+  <meta name="guide:series" content="thinking-in-systems">
+  <meta name="guide:order" content="1">
+  <meta name="author" content="Chris Yasuda Drysdale">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="canonical" href="https://cydrysdale.github.io/now-in-production/guides/when-ai-gets-the-right-answer.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="When AI Gets the Right Answer for the Wrong Reasons">
+  <meta property="og:description" content="Correctness, understanding, and what justifies trust. The first essay in Thinking in Systems.">
+  <meta property="og:url" content="https://cydrysdale.github.io/now-in-production/guides/when-ai-gets-the-right-answer.html">
+  <meta property="og:image" content="https://cydrysdale.github.io/now-in-production/images/thinking-in-systems-01.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Thinking in Systems, part 1: When AI Gets the Right Answer for the Wrong Reasons. Correctness, justification, understanding.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" sizes="180x180" href="../images/apple-touch-icon.png">
+  <link rel="manifest" href="../site.webmanifest">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/thinking-in-systems.css">
+  <script src="../assets/js/core.js" defer></script>
+  <script src="../assets/js/thinking-in-systems.js" defer></script>
+</head>
+<body class="thinking-guide">
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="series-header" id="top">
+    <div class="header-inner">
+      <a class="site-signature" href="../index.html">
+        <img src="../images/Pixel-Chris.png" alt="" width="36" height="36">
+        <span>Now in Production<span class="signature-caption">Guides for the curious</span></span>
+      </a>
+      <div class="header-actions">
+        <a class="all-guides" href="../index.html">All guides <span aria-hidden="true">↗</span></a>
+        <div class="theme-toggle">
+          <input id="themeSwitch" type="checkbox" role="switch" aria-checked="false" aria-label="Toggle dark mode">
+          <label for="themeSwitch"><span class="track" aria-hidden="true"></span><span class="thumb" aria-hidden="true"><span class="icon sun">☼</span><span class="icon moon">☽</span></span></label>
+        </div>
+        <div class="toc-mobile">
+          <button id="tocToggle" type="button" aria-expanded="false" aria-controls="tocList">Contents <span aria-hidden="true">≡</span></button>
+          <nav id="tocList" class="toc" aria-label="On this page"></nav>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="essay-cover">
+    <div class="cover-topline">
+      <p class="eyebrow">Thinking in Systems</p>
+      <span class="issue-label">Essay 01 <span aria-hidden="true">/</span> 05</span>
+    </div>
+    <p class="series-subtitle">AI Theory, Philosophy &amp; Systems Design</p>
+    <h1 id="essay-title">When AI Gets the<br class="cover-break"> Right Answer for<br class="cover-break"> the <em>Wrong Reasons</em></h1>
+    <p class="cover-deck">What 2,400 years of philosophy can teach us about knowledge, understanding, and building trustworthy AI systems.</p>
+    <div class="cover-bottomline">
+      <p class="byline">By Chris Yasuda Drysdale <span aria-hidden="true">·</span> <span id="reading-time">About 20 min read</span></p>
+      <a class="begin-link" href="#content">Begin reading <span aria-hidden="true">↓</span></a>
+    </div>
+  </div>
+
+  <div class="page essay-layout">
+    <aside class="toc-desktop">
+      <p class="eyebrow">In this essay</p>
+      <nav class="toc" aria-label="On this page"></nav>
+      <p class="sidebar-note">An inquiry into what makes an answer worth trusting.</p>
+    </aside>
+
+    <main id="content" tabindex="-1">
+      <article aria-labelledby="essay-title">
+        <div class="essay-opening">
+          <p class="opening-line">Imagine two students taking the same exam.</p>
+          <p>The first has spent months studying. They understand the subject, can explain the underlying principles, and know how to apply what they’ve learned to unfamiliar problems.</p>
+          <p>The second has memorized the answer key.</p>
+          <p>Both receive perfect scores. Did they demonstrate the same knowledge?</p>
+          <p>Most of us would instinctively say no. The first student understands the material. The second merely knows which answers to provide.</p>
+          <p>But let’s complicate things. Suppose the second student can also explain every answer convincingly. They can reproduce the reasoning, discuss the relevant concepts, and respond to follow-up questions. Perhaps they’ve memorized an extraordinarily comprehensive collection of explanations.</p>
+          <p>At what point would you become convinced that they actually understand the subject? And what evidence would justify that conclusion?</p>
+          <p>This is more than an academic thought experiment. It’s one of the central problems confronting anyone who works with artificial intelligence. Modern AI systems can answer difficult questions, explain complicated concepts, write functional software, and solve problems they’ve never encountered in precisely the same form. Their capabilities are impressive, and increasingly useful.</p>
+          <p>But there’s a distinction we frequently overlook:</p>
+          <p class="essay-thesis">Producing a correct answer, having good reasons to believe that answer, and understanding why the answer is correct are three different things.</p>
+          <p>Understanding that distinction changes how we evaluate AI, how we decide whether to trust it, and how we design systems around it. To understand why, we need to visit a branch of philosophy that’s been asking remarkably similar questions for thousands of years.</p>
+          <noscript><nav class="reading-route" aria-label="Essay chapters"><a href="#knowing">01 Knowledge</a><a href="#meaning">02 Understanding</a><a href="#trust">03 Trust</a></nav></noscript>
+        </div>
+
+        <section class="essay-section" aria-labelledby="knowing">
+          <p class="chapter-marker">01 <span>Being right versus knowing why</span></p>
+          <h2 id="knowing" data-toc-label="The philosophy of knowing" data-toc-group="01 / Knowledge">The philosophy of knowing things</h2>
+          <p>Epistemology is the philosophical study of knowledge. The word comes from the Greek <em>epistēmē</em>, meaning knowledge, and <em>logos</em>, commonly associated with study or reason.</p>
+          <p>At its heart, epistemology investigates a deceptively difficult question: <strong>What makes something knowledge rather than merely a belief that happens to be true?</strong></p>
+          <p>Consider a simple statement: “The Earth revolves around the Sun.” You probably believe this. You’re also correct, at least in the ordinary astronomical sense. But why do you believe it?</p>
+          <p>Perhaps a teacher told you. Perhaps you’ve studied astronomy and understand the observations supporting heliocentrism. Perhaps you’ve never examined the evidence personally, but trust the scientific institutions responsible for establishing it.</p>
+          <p>These are different routes to the same conclusion. Does accepting reliable testimony count as knowledge? Must you personally understand the evidence? Can you know something without understanding the mechanisms that make it true?</p>
+          <p>Philosophers have been wrestling with these distinctions since antiquity.</p>
+          <h3>Plato and the problem of justified belief</h3>
+          <p>In the fourth century BCE, Plato explored the nature of knowledge in <a href="https://classics.mit.edu/Plato/theatu.html"><cite>Theaetetus</cite></a>. Among the possibilities examined is the idea that knowledge involves true judgment accompanied by an account or explanation. The dialogue doesn’t settle on a definitive answer, but helped establish questions that would shape centuries of inquiry.</p>
+          <p>A later philosophical tradition developed an influential account known as <strong>justified true belief</strong>. Under this framework, knowledge requires three conditions:</p>
+          <dl class="concept-list">
+            <div><dt><span>01</span> Belief</dt><dd>You accept a proposition as true.</dd></div>
+            <div><dt><span>02</span> Truth</dt><dd>The proposition actually is true.</dd></div>
+            <div><dt><span>03</span> Justification</dt><dd>You have adequate reasons for accepting it.</dd></div>
+          </dl>
+          <p>This seems intuitive. If I believe it’s raining, it really is raining, and I can see the rain falling outside my window, then I appear to know that it’s raining.</p>
+          <p>But what happens when all three conditions are satisfied and the conclusion is still correct only because of luck?</p>
+        </section>
+
+        <section class="essay-section" aria-labelledby="stopped-clock">
+          <h2 id="stopped-clock" data-toc-label="The stopped clock problem">The stopped clock problem: Being right isn’t enough</h2>
+          <p>Imagine you’re walking through a train station. You glance at the large clock above the entrance. It reads 3:00 PM. You conclude that it’s 3:00 PM. And you’re right.</p>
+          <p>Unfortunately, the clock stopped working exactly twelve hours earlier.</p>
+          <p>You have a true belief and what ordinarily seems like a reasonable justification: you checked a public clock. Yet something feels wrong about claiming that you <em>knew</em> the time. You were correct by coincidence.</p>
+          <p>This illustrates a problem famously explored by Edmund Gettier in his 1963 paper, <a href="https://www.caphi-philo.fr/wp-content/uploads/2015/01/Gettier_1963_Is_Justified_True_Belief_Knowledge-d75.pdf"><cite>Is Justified True Belief Knowledge?</cite> (PDF)</a>. Gettier presented cases in which people held justified, true beliefs that nevertheless seemed insufficient to count as knowledge.</p>
+          <p>These cases expose a problem of <strong>epistemic luck</strong>: your conclusion can be correct even when the process that produced it doesn’t reliably connect you to the truth. The stopped clock illustrates the broader Gettier problem; it is not one of Gettier’s original cases.</p>
+
+          <!-- visuals-2026-10-26: knowledge-venn -->
+          <figure class="knowledge-figure wide-figure" aria-labelledby="knowledge-title">
+            <div class="figure-topline"><span class="eyebrow">The Gettier challenge</span><span class="figure-number">Fig. 01</span></div>
+            <h3 id="knowledge-title">Justified and true can still fall short.</h3>
+            <div class="knowledge-layout">
+              <div class="knowledge-diagram">
+                <svg class="knowledge-venn" viewBox="0 0 400 340" role="img" aria-labelledby="venn-svg-title venn-svg-desc">
+                  <title id="venn-svg-title">A schematic response to the Gettier challenge</title>
+                  <desc id="venn-svg-desc">Nested circles distinguish beliefs, true beliefs, and justified true beliefs. A smaller knowledge circle illustrates the idea that justified true belief may not be sufficient for knowledge; the boundary is unresolved. Marker 1 is a false belief. Marker 2 is a lucky true guess without justification. Marker 3 is the stopped clock: justified and true, but excluded from knowledge because the answer is right by luck. This is a schematic illustration, not an agreed definition of knowledge.</desc>
+                  <circle class="ring ring-1" cx="200" cy="170" r="160"/>
+                  <circle class="ring ring-2" cx="200" cy="205" r="125"/>
+                  <circle class="ring ring-3" cx="200" cy="238" r="92"/>
+                  <circle class="ring ring-4" cx="200" cy="266" r="64"/>
+                  <g class="venn-marker"><circle cx="80" cy="122" r="13"/></g>
+                  <g class="venn-marker"><circle cx="95" cy="215" r="13"/></g>
+                  <g class="venn-marker venn-marker-key"><circle cx="277" cy="240" r="13"/></g>
+                </svg>
+                <!-- HTML labels keep their readable size independently of the SVG scale.
+                     The SVG description supplies the same information to screen readers. -->
+                <div class="knowledge-labels" aria-hidden="true">
+                  <span class="ring-label label-beliefs">Beliefs</span>
+                  <span class="ring-label label-true-beliefs">True beliefs</span>
+                  <span class="ring-label label-justified">Justified<br>true beliefs</span>
+                  <span class="ring-label ring-label-strong label-knowledge">Knowledge</span>
+                  <span class="knowledge-marker marker-1">1</span>
+                  <span class="knowledge-marker marker-2">2</span>
+                  <span class="knowledge-marker marker-3">3</span>
+                </div>
+              </div>
+              <ol class="knowledge-legend">
+                <li><strong>Firm but false.</strong> Held with conviction, and wrong.</li>
+                <li><strong>Lucky guess.</strong> True, with no good reason behind it.</li>
+                <li><strong>Stopped clock.</strong> True, with what looks like a good reason, and still right by luck.</li>
+              </ol>
+            </div>
+            <figcaption>The traditional account equates knowledge with justified true belief. This schematic illustrates the Gettier challenge by separating them: some justified true beliefs appear to fall short of knowledge. The inner boundary represents an unresolved question, not an agreed definition.</figcaption>
+          </figure>
+          <!-- /visuals-2026-10-26: knowledge-venn -->
+
+          <h3>The AI equivalent of a stopped clock</h3>
+          <p>Imagine an AI assistant responsible for answering questions about a company’s brand standards. Someone asks, “What’s our approved primary blue?” The assistant returns the correct hexadecimal value.</p>
+          <p>Success, right? Not necessarily. Suppose the assistant retrieved that value from a brand guide published four years ago. The guide is obsolete, but the primary blue happens to be one of the few specifications that hasn’t changed.</p>
+          <p>The answer is correct. The source is outdated. And the system has given us no reason to believe it will remain reliable when asked about something that <em>has</em> changed.</p>
+
+          <figure class="evidence-study wide-figure" aria-labelledby="evidence-title">
+            <div class="figure-topline"><span class="eyebrow">An example to inspect</span><span class="example-label">Fictional brand standards</span></div>
+            <h3 id="evidence-title">Right answer. Unreliable source.</h3>
+            <p class="example-question">“What’s our approved primary blue?”</p>
+            <div class="example-answer"><span class="brand-swatch" aria-hidden="true"></span><div><span class="small-label">Assistant’s answer</span><strong><code>#1D5080</code></strong></div><span class="answer-status">Correct</span></div>
+            <p class="example-prompt">The answer matches today’s standard. What would you need to see before trusting the next answer?</p>
+            <details class="evidence-disclosure">
+              <summary>Inspect the evidence <span aria-hidden="true">↗</span></summary>
+              <div class="disclosure-body">
+                <dl class="source-facts">
+                  <div><dt>Source used</dt><dd>Brand Standards, 2022 edition</dd></div>
+                  <div><dt>Document status</dt><dd>Superseded by the 2026 edition</dd></div>
+                  <div><dt>What changed?</dt><dd>Primary blue stayed the same. Presentation typography changed.</dd></div>
+                </dl>
+                <p>The source happens to agree with the current rule. This answer doesn’t establish that the assistant is consulting the right authority.</p>
+                <details class="followup-disclosure">
+                  <summary>Now ask about the presentation font <span aria-hidden="true">↗</span></summary>
+                  <div class="followup-result">
+                    <p class="example-question">“Which font should I use for a standard company presentation?”</p>
+                    <div class="answer-comparison">
+                      <div><span class="small-label">Same assistant · old source</span><strong>Helvetica</strong><span>Required in the 2022 guide</span></div>
+                      <div><span class="small-label">Current standard · same scope</span><strong>Inter</strong><span>Required in the 2026 guide</span></div>
+                    </div>
+                    <p><strong>Same method. Different outcome.</strong> The first answer was correct by coincidence; the next answer exposes the unreliable source selection.</p>
+                  </div>
+                </details>
+              </div>
+            </details>
+            <figcaption>This example holds the use case constant. In practice, check authority and scope as well as the date: newer does not always mean applicable.</figcaption>
+          </figure>
+
+          <p>It’s tempting to evaluate AI systems exclusively by whether they produce the expected answers. But a single correct answer tells us little about the reliability of the process producing it. A method that succeeds by coincidence may fail as soon as circumstances change.</p>
+          <p>That doesn’t mean the correct answer has no value. Sometimes getting the answer right is all that matters. But if we’re building a system intended to provide authoritative guidance repeatedly, the distinction becomes critical.</p>
+          <p class="key-thought">A correct result is evidence of success on a particular task. It isn’t necessarily evidence of a reliable method.</p>
+        </section>
+
+        <section class="essay-section" aria-labelledby="meaning">
+          <p class="chapter-marker">02 <span>Performance versus understanding</span></p>
+          <h2 id="meaning" data-toc-label="Symbols and meaning" data-toc-group="02 / Understanding">Can something manipulate information without understanding it?</h2>
+          <p>Consider this sequence of characters: <code>#1D5080</code>.</p>
+          <p>By itself, it might not mean much. If you recognize hexadecimal color notation, you can interpret it as a particular shade of blue. Within an organization’s design system, it might represent an approved brand color. And if you understand the organization’s standards, you might know when to use it, which combinations are permitted, and when exceptions apply.</p>
+          <p>One sequence of characters. Several layers of interpretation.</p>
+          <p>There’s a useful distinction here between <strong>syntax</strong> and <strong>semantics</strong>. Syntax concerns the structure and arrangement of symbols. Semantics concerns their meaning. The hexadecimal value has a defined structure; interpreting it as a color depends on a notation system, and interpreting it as a brand standard depends on organizational context.</p>
+          <p>A system can process the same characters at multiple levels without necessarily possessing every kind of understanding we associate with those interpretations.</p>
+          <p>A calculator offers a simple analogy. It can multiply two numbers and return the correct result, but we don’t ordinarily claim that it understands multiplication in the same way a mathematician does.</p>
+          <p>Modern language models are substantially more sophisticated. They learn complex relationships between concepts, generate explanations, solve novel problems, and generalize beyond specific training examples. So where should we draw the line?</p>
+        </section>
+
+        <section class="essay-section" aria-labelledby="chinese-room">
+          <h2 id="chinese-room" data-toc-label="The Chinese Room">The Chinese Room: Does convincing behavior prove understanding?</h2>
+          <p>In 1980, John Searle published <a href="https://artscimedia.case.edu/wp-content/uploads/2013/07/14182625/Searle-Minds-Brains-and-Programs.pdf"><cite>Minds, Brains, and Programs</cite> (PDF)</a>, introducing what became known as the Chinese Room argument.</p>
+          <p>Imagine a person locked inside a room. They speak English but don’t understand Chinese. People outside pass written Chinese questions through a slot. Inside is an enormous collection of instructions explaining how to manipulate the incoming symbols and construct appropriate responses.</p>
+          <p>The person follows the instructions meticulously. They don’t understand the characters; they recognize patterns, consult the rules, and return the prescribed combinations of symbols. Yet the responses are so convincing that people outside believe they’re communicating with someone fluent in Chinese.</p>
+          <p><strong>Does the person inside the room understand Chinese?</strong></p>
+          <p>Searle’s answer was no. He argued that manipulating symbols according to formal rules isn’t, by itself, sufficient to produce genuine understanding. Successfully processing the <em>syntax</em> of language was different from grasping its <em>semantics</em>.</p>
+          <h3>What if the room understands, even if the person doesn’t?</h3>
+          <p>One important objection, the <strong>systems reply</strong>, challenges the assumption that we’re examining the correct entity. Perhaps the person doesn’t understand Chinese. But the person isn’t the entire system.</p>
+          <p>The complete system includes the instructions, stored information, intermediate processing, and procedures that collectively produce meaningful responses. Why assume that understanding must reside in the individual following the instructions rather than in the system as a whole? After all, we don’t ordinarily attribute a human being’s full understanding to any individual neuron.</p>
+
+          <figure class="room-figure wide-figure" aria-labelledby="room-title">
+            <div class="figure-topline"><span class="eyebrow">Two levels of explanation</span><span class="figure-number">Fig. 02</span></div>
+            <h3 id="room-title">Where would understanding reside?</h3>
+            <div class="room-flow">
+              <div class="room-outside"><span class="small-label">Input</span><strong>Questions <br>in Chinese</strong></div>
+              <span class="flow-arrow" aria-hidden="true">→</span>
+              <div class="system-boundary">
+                <span class="boundary-label">The whole system</span>
+                <div class="room-resources"><span>Instructions</span><span>Stored information</span></div>
+                <div class="room-operator"><svg viewBox="0 0 48 48" width="40" height="40" aria-hidden="true"><circle cx="24" cy="13" r="7"/><path d="M10 42v-6a14 14 0 0 1 28 0v6"/></svg><strong>The person</strong><span>Matches symbols.<br>Follows the rules.</span></div>
+                <span class="room-memory">Intermediate work &amp; procedures</span>
+              </div>
+              <span class="flow-arrow" aria-hidden="true">→</span>
+              <div class="room-outside"><span class="small-label">Output</span><strong>Convincing <br>responses</strong></div>
+            </div>
+            <div class="room-positions">
+              <p><strong>Searle’s challenge</strong>The person manipulates symbols without understanding their meaning. Searle argues that running a program is insufficient for understanding.</p>
+              <p><strong>The systems reply</strong>The person is one component. Perhaps understanding belongs to the complete organized system.</p>
+            </div>
+            <figcaption>The dispute concerns what counts as understanding and where to attribute it. This thought experiment is not a diagram of how a modern language model works.</figcaption>
+          </figure>
+
+          <p>Searle rejected this objection, but the debate remains significant. Other responses question whether understanding requires interaction with the physical world, whether appropriate computational organization might be sufficient, and whether behavioral evidence can justify attributing understanding to machines.</p>
+          <p>The Chinese Room is a philosophical argument, not an experimental demonstration that machines cannot understand language. Its lasting value lies in the question it forces us to confront: <strong>When a system behaves as though it understands something, what would justify treating that behavior as genuine understanding?</strong> The <a href="https://plato.stanford.edu/entries/chinese-room/">Stanford Encyclopedia of Philosophy’s overview</a> explores the argument and its replies in detail.</p>
+          <p>There’s no universally accepted answer. But we can investigate what AI systems are capable of doing without first settling every philosophical question about what those capabilities mean.</p>
+        </section>
+
+        <section class="essay-section" aria-labelledby="modern-ai">
+          <h2 id="modern-ai" data-toc-label="What modern AI changes">Modern AI complicates the old arguments</h2>
+          <p>You’ll sometimes hear people dismiss large language models by saying they “just predict the next token.” This describes an important part of how many language models are trained and generate text. It doesn’t settle what capabilities can emerge from that process.</p>
+          <p>A training objective describes what a system is optimized to do. It doesn’t automatically establish the limits of what the resulting system can learn.</p>
+          <p>Language models develop internal representations that encode relationships between words, concepts, structures, and patterns in their training data. These can support capabilities considerably more sophisticated than simple memorization: translating, solving mathematical problems, writing software, recognizing analogies, and applying familiar concepts in unfamiliar contexts.</p>
+          <p>At the same time, demonstrating these capabilities doesn’t establish that a model understands language in precisely the way humans do. We should resist two tempting conclusions:</p>
+          <ul class="argument-pair"><li>“AI predicts tokens, therefore it cannot reason.”</li><li>“AI can reason, therefore it must understand exactly as humans do.”</li></ul>
+          <p>Neither follows automatically. There are empirical questions about what models can represent, how they generalize, and where their reasoning fails. There are also philosophical questions about whether those capabilities amount to genuine understanding. These questions overlap, but aren’t interchangeable.</p>
+          <p>Philosophical uncertainty shouldn’t become an excuse for engineering paralysis. We don’t need to solve the nature of machine understanding before deciding whether an assistant can reliably answer questions about a design system. We do need a better way to evaluate its answers.</p>
+        </section>
+
+        <section class="essay-section" aria-labelledby="trust">
+          <p class="chapter-marker">03 <span>What justifies trust</span></p>
+          <h2 id="trust" data-toc-label="Claim, evidence, confidence" data-toc-group="03 / Trust">From philosophical knowledge to operational trust</h2>
+          <p>Let’s change the question. Instead of asking, “Does this AI genuinely know what it’s talking about?” ask:</p>
+          <p class="essay-thesis">What would justify trusting this particular answer?</p>
+          <p>That question is narrower, but much more actionable. It moves us toward the practical problem of establishing justified reliance. A useful starting framework is <strong>Claim → Evidence → Confidence</strong>.</p>
+
+          <!-- visuals-2026-10-26: cec-card -->
+          <figure class="cec-figure wide-figure" aria-labelledby="cec-title">
+            <div class="figure-topline"><span class="eyebrow">A reference card</span><span class="figure-number">Fig. 03</span></div>
+            <h3 id="cec-title">Three questions before you trust an answer.</h3>
+            <ol class="cec-steps">
+              <li class="cec-step">
+                <span class="cec-number" aria-hidden="true">01</span>
+                <strong>Claim</strong>
+                <p class="cec-ask">What exactly is being asserted, and for which use?</p>
+                <p class="cec-fail"><span class="small-label">Watch for</span>A scope wider than the source supports: “all presentations.”</p>
+              </li>
+              <li class="cec-step">
+                <span class="cec-number" aria-hidden="true">02</span>
+                <strong>Evidence</strong>
+                <p class="cec-ask">Which source supports it, and why does that source govern this case?</p>
+                <p class="cec-fail"><span class="small-label">Watch for</span>A citation that doesn’t contain the claim, or a source that has been superseded.</p>
+              </li>
+              <li class="cec-step">
+                <span class="cec-number" aria-hidden="true">03</span>
+                <strong>Confidence</strong>
+                <p class="cec-ask">How strongly should we accept it, and what would change our mind?</p>
+                <p class="cec-fail"><span class="small-label">Watch for</span>Decisive wording taken as evidence of certainty.</p>
+              </li>
+            </ol>
+            <div class="cec-inset">
+              <span class="small-label">Inside evidence: authority and applicability</span>
+              <dl class="cec-ratings">
+                <div><dt>What was this source authoritative for?</dt><dd>Brand Standards, 2022 edition: <em>authoritative for the 2022 standards.</em> Its official status alone does not establish accuracy or current applicability.</dd></div>
+                <div><dt>Does this rule apply today?</dt><dd>Its presentation typography was replaced in 2026: <em>superseded for current presentations.</em> Use the approved current rule for this task.</dd></div>
+              </dl>
+              <p>A source can accurately describe a past standard and still be the wrong authority for today’s task.</p>
+            </div>
+            <details class="figure-research">
+              <summary>Research note: Toulmin’s argument model</summary>
+              <div class="figure-research-body">
+                <p>These questions loosely adapt Stephen Toulmin’s argument model from <cite>The Uses of Argument</cite> (1958). The connections are:</p>
+                <dl class="research-terms">
+                  <div><dt>Claim</dt><dd>The assertion being evaluated.</dd></div>
+                  <div><dt>Grounds and warrant</dt><dd>The grounds are the supporting evidence; the warrant explains why that evidence supports the claim. Checking a document’s authority and scope is part of examining that connection.</dd></div>
+                  <div><dt>Qualifier and rebuttal</dt><dd>The qualifier limits the strength of the claim; the rebuttal identifies exceptions or conditions under which it would not hold.</dd></div>
+                </dl>
+                <p>The full model also includes backing for the warrant. See <a href="https://owl.purdue.edu/owl/general_writing/academic_writing/historical_perspectives_on_argumentation/toulmin_argument.html">Purdue OWL’s explanation of the Toulmin model</a>.</p>
+              </div>
+            </details>
+            <figcaption>Apply all three questions to the same claim and use case. A citation’s presence alone does not establish that its source supports the answer.</figcaption>
+          </figure>
+          <!-- /visuals-2026-10-26: cec-card -->
+
+          <h3>1. Claim: What is the system actually asserting?</h3>
+          <p>Suppose an assistant responds, “The approved font for all company presentations is Helvetica.” Before evaluating that claim, we need to understand its scope. Does “all company presentations” include internal presentations? External sales materials? Campaign-specific decks? Historical templates?</p>
+          <p>An answer can be factually correct in one context and misleading in another. Sometimes the first problem is whether the question has been defined precisely enough for a single right answer to exist.</p>
+          <h3>2. Evidence: What supports the claim?</h3>
+          <p>Now suppose the assistant cites a brand guide. That’s useful, but insufficient on its own. Does the document actually support the claim? Is it authoritative, current, and applicable to this use case? Has another document superseded it?</p>
+          <p>This is where <strong>provenance</strong> becomes important: the origin and history of information. For an AI system, it might include which document supplied a claim, which version was used, when it was published, and whether the information was transformed or interpreted along the way.</p>
+          <p>Provenance isn’t synonymous with truth. An authoritative document can be outdated. A current document can contain errors. A valid instruction can be applied in the wrong context. Provenance helps us evaluate evidence; it doesn’t eliminate the need to interpret it correctly.</p>
+          <h3>3. Confidence: How strongly should we accept the claim?</h3>
+          <p>“Helvetica is the required font for all presentations.” The sentence is clear, decisive, and authoritative. None of those qualities establishes its correctness.</p>
+          <p>In statistics, <strong>calibration</strong> concerns how closely predicted probabilities correspond to observed outcomes. If a forecasting system assigns an 80% probability to a large collection of events, approximately 80% of those events should occur if the forecasts are well calibrated.</p>
+          <p>A model saying “I’m 95% certain” hasn’t necessarily produced a statistically calibrated probability. And telling a model to express uncertainty more frequently doesn’t automatically improve its ability to distinguish correct claims from incorrect ones.</p>
+          <p><a href="https://proceedings.mlr.press/v235/band24a.html">Band and colleagues’ research on linguistic calibration</a> examines how generated language can help users make calibrated probabilistic judgments. <a href="https://aclanthology.org/2025.emnlp-main.1505/">MetaFaith</a> investigates a related but distinct question: whether a model’s expressed uncertainty faithfully reflects its intrinsic uncertainty.</p>
+          <aside class="research-note" aria-label="A distinction about confidence"><span class="eyebrow">A useful distinction</span><p>Faithfully expressing a model’s uncertainty and accurately predicting whether its claims are true are different goals. A faithful report of confidence can still be poorly calibrated to reality.</p></aside>
+          <p>For practical purposes, the lesson is straightforward: <strong>confidence should be justified by evidence, not inferred from how confidently an answer is written.</strong> A polished explanation can create the appearance of certainty, and a citation can create the appearance of justification, without supplying the grounds for either.</p>
+        </section>
+
+        <section class="essay-section" aria-labelledby="false-confidence">
+          <h2 id="false-confidence" data-toc-label="When citations mislead">When explanations and citations create false confidence</h2>
+          <p>Imagine two assistants answering the same question. The first says, “The approved presentation font is Helvetica.” The second says, “The approved presentation font is Helvetica, according to the 2026 Brand Standards Guide.”</p>
+          <p>The second response appears more trustworthy. It offers a source and sounds verifiable. But suppose that document doesn’t actually contain the instruction.</p>
+          <p>Both answers might be correct or incorrect as factual claims. The second introduces an additional problem: it presents unsupported evidence as justification. The citation may actively encourage misplaced confidence.</p>
+          <p>A similar issue arises when language models explain their own reasoning. An explanation can sound logical without faithfully representing the factors responsible for the output. Research such as <a href="https://arxiv.org/abs/2404.03189"><cite>The Probabilities Also Matter</cite></a> investigates how to assess this faithfulness.</p>
+          <p>This doesn’t make explanations useless. They’re valuable for communicating ideas, identifying assumptions, and exposing reasoning we can independently check.</p>
+          <p class="key-thought">An explanation isn’t automatically an audit trail. A generated citation isn’t automatically proof. A confident answer isn’t automatically a well-supported conclusion.</p>
+          <p>These are different forms of evidence, each with limitations. The distinction becomes especially important when we build systems for repeated organizational use.</p>
+        </section>
+
+        <section class="essay-section" aria-labelledby="whole-system">
+          <h2 id="whole-system" data-toc-label="The problem might not be the model">The problem might not be the model</h2>
+          <p>Imagine your organization has built an assistant to answer questions about internal standards. It’s useful, but employees notice inconsistencies. Sometimes it gives outdated guidance, invents rules, or provides different answers to apparently identical questions.</p>
+          <p>Eventually, someone suggests: “We need a smarter model.” Perhaps they’re right. But what evidence supports that diagnosis?</p>
+          <p>An assistant isn’t just a language model. Depending on its architecture, it may include system instructions, reference documents, retrieval mechanisms, tools, context-selection logic, and workflows governing how information is processed. Failures can emerge from any of these components or their interactions.</p>
+          <p>Consider an assistant with three documents:</p>
+          <ul><li>A company-wide brand guide from 2024.</li><li>A campaign-specific style guide from 2025.</li><li>An internal presentation template from 2026.</li></ul>
+          <p>Each contains different typography instructions. Which should it follow?</p>
+          <p>The newest document? Not necessarily. The company-wide guide? Perhaps, but a campaign-specific exception might override it. The most relevant document? Only if the system can identify the task and determine which guidance applies.</p>
+
+          <!-- visuals-2026-10-26: precedence -->
+          <figure class="precedence-figure wide-figure" aria-labelledby="precedence-title">
+            <div class="figure-topline"><span class="eyebrow">Same documents, different tasks</span><span class="figure-number">Fig. 04</span></div>
+            <h3 id="precedence-title">Which document governs depends on the task.</h3>
+            <p class="diagram-intro">Assume the internal template and campaign guide are approved overrides within their stated scopes. Here is how the same three fictional documents apply to three requests.</p>
+            <table class="precedence-table">
+              <thead>
+                <tr>
+                  <th scope="col">Request</th>
+                  <th scope="col">Brand guide<span>2024 · company-wide</span></th>
+                  <th scope="col">Campaign guide<span>2025 · one campaign</span></th>
+                  <th scope="col">Presentation template<span>2026 · internal decks</span></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Internal team update deck, outside the campaign</th>
+                  <td data-label="Brand guide 2024"><span class="rule-state is-baseline">Baseline</span></td>
+                  <td data-label="Campaign guide 2025"><span class="rule-state is-out">Out of scope</span></td>
+                  <td data-label="Template 2026"><span class="rule-state is-governs">Governs</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">External launch deck for this campaign</th>
+                  <td data-label="Brand guide 2024"><span class="rule-state is-baseline">Baseline</span></td>
+                  <td data-label="Campaign guide 2025"><span class="rule-state is-governs">Governs</span></td>
+                  <td data-label="Template 2026"><span class="rule-state is-out">Out of scope</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">General company one-pager, outside the campaign</th>
+                  <td data-label="Brand guide 2024"><span class="rule-state is-governs">Governs</span></td>
+                  <td data-label="Campaign guide 2025"><span class="rule-state is-out">Out of scope</span></td>
+                  <td data-label="Template 2026"><span class="rule-state is-out">Out of scope</span></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="precedence-ladder">
+              <span class="small-label">One possible precedence policy</span>
+              <ol>
+                <li><strong>Scope.</strong> Does the document cover this task at all?</li>
+                <li><strong>Authority and specificity.</strong> When two in-scope documents conflict, an approved, narrower rule overrides the general one.</li>
+                <li><strong>Recency.</strong> Breaks ties only between documents with the same scope and authority.</li>
+              </ol>
+              <p>Designers may recognize the logic from the CSS cascade: the rule written last wins only after checks like importance and specificity come out even.</p>
+            </div>
+            <figcaption>An example policy, not a universal rule. Which document governs is an organizational decision, and an assistant can only follow that decision if someone has written it down.</figcaption>
+          </figure>
+          <!-- /visuals-2026-10-26: precedence -->
+
+          <p>This may be an information-governance and systems-design problem. A more capable model won’t automatically resolve it.</p>
+          <h3>Diagnose the failure before prescribing the solution</h3>
+
+          <figure class="diagnostic-figure wide-figure" aria-labelledby="diagnostic-title">
+            <div class="figure-topline"><span class="eyebrow">Follow the evidence</span><span class="figure-number">Fig. 05</span></div>
+            <h3 id="diagnostic-title">An answer has a whole system behind it.</h3>
+            <p class="diagram-intro">One possible path through an assistant. Inspect each stage before choosing a fix.</p>
+            <ol class="diagnostic-path">
+              <li><div class="path-step"><span class="path-number">01</span><strong>Source documents</strong></div><p>Are the standards current, complete, and consistent?</p><span class="path-check">Check the underlying information.</span></li>
+              <li><div class="path-step"><span class="path-number">02</span><strong>Authority &amp; scope</strong></div><p>Which rule applies? What takes precedence when sources conflict?</p><span class="path-check">Check the information architecture.</span></li>
+              <li><div class="path-step"><span class="path-number">03</span><strong>Retrieval &amp; context</strong></div><p>Did the relevant source actually reach the model for this question?</p><span class="path-check">Check the evidence supplied.</span></li>
+              <li><div class="path-step"><span class="path-number">04</span><strong>Interpretation</strong></div><p>Did the model apply the right rule, including its exceptions?</p><span class="path-check">Check instructions and model capability.</span></li>
+              <li><div class="path-step"><span class="path-number">05</span><strong>Answer &amp; verification</strong></div><p>Does the answer stay within scope, and does its citation support it?</p><span class="path-check">Check the result against the source.</span></li>
+            </ol>
+            <details class="figure-research">
+              <summary>Research note: seven failure points in retrieval-based assistants</summary>
+              <div class="figure-research-body">
+                <p><a href="https://arxiv.org/abs/2401.05856">Barnett et al. (2024)</a> identified seven failure points across three case studies. They map approximately to the stages above:</p>
+                <dl class="research-terms">
+                  <div><dt>FP1 · Missing content</dt><dd>The documents lack the answer. Check stage 01, source documents.</dd></div>
+                  <div><dt>FP2 · Missed the top-ranked documents</dt><dd>The relevant document ranked below the retrieval cutoff. Check stage 03, retrieval and context.</dd></div>
+                  <div><dt>FP3 · Not in context</dt><dd>The retrieved answer never reached the model’s context. Also check stage 03.</dd></div>
+                  <div><dt>FP4 · Not extracted</dt><dd>The answer was supplied but not extracted. Check stage 04, interpretation.</dd></div>
+                  <div><dt>FP5 · Wrong format</dt><dd>The output ignored the requested format. Check stage 05, answer and verification.</dd></div>
+                  <div><dt>FP6 · Incorrect specificity</dt><dd>The answer was too general or too specific. Also check stage 05.</dd></div>
+                  <div><dt>FP7 · Incomplete</dt><dd>Relevant information was omitted. Check stage 05 for completeness and stage 04 for the cause.</dd></div>
+                </dl>
+                <p>The paper’s taxonomy does not define a policy for deciding which conflicting source governs. Stage 02 makes that separate organizational decision explicit.</p>
+              </div>
+            </details>
+            <figcaption>A diagnostic map, not a universal architecture. Source precedence can affect retrieval and interpretation; failures often involve several stages.</figcaption>
+          </figure>
+
+          <p>The underlying information may be unreliable. Relevant documents may exist without clear rules for precedence. Retrieval may fail to include the correct source. The model may receive the right information but misinterpret it or overlook an exception.</p>
+          <p>And sometimes the model itself is the constraint: a task requires capabilities it cannot perform reliably, even with complete, unambiguous information.</p>
+          <p>These explanations aren’t mutually exclusive. A poorly organized knowledge base can interact with inconsistent retrieval and a tendency to resolve ambiguity through plausible-sounding guesses. The causes may be distributed across the system.</p>
+          <p>Replacing the model should be a hypothesis to test, not an automatic first response.</p>
+        </section>
+
+        <section class="essay-section" aria-labelledby="investigation">
+          <h2 id="investigation" data-toc-label="Investigate and evaluate">What a defensible investigation looks like</h2>
+          <p>Start by collecting failures and a representative sample of the questions the assistant is expected to answer. A few memorable mistakes alone won’t tell you how it performs across its intended use cases.</p>
+          <p>For each example, establish what a successful answer would look like and which evidence should support it. Then examine what happened:</p>
+          <ul class="investigation-questions">
+            <li>Did the system have access to the correct source?</li>
+            <li>Was that source included in the context used to generate the answer?</li>
+            <li>Did the assistant select the wrong document or misinterpret the right one?</li>
+            <li>Was the question ambiguous?</li>
+            <li>Did the answer change when the same inputs were tested again?</li>
+          </ul>
+          <p>These observations help separate symptoms from possible causes. Once you identify a plausible cause, make a targeted change and test again.</p>
+          <p>Perhaps the solution is explicit document precedence, excluding obsolete material, or improving retrieval. Perhaps it’s narrowing which tasks the assistant can answer without human review. Or perhaps controlled testing demonstrates that a stronger model performs meaningfully better with the same correct information.</p>
+          <p>The recommendation should follow from evidence. This is epistemology translated into engineering practice: asking whether our beliefs about the system’s reliability are justified.</p>
+          <h3>What David Hume would say about your evaluation results</h3>
+          <p>Suppose you test an assistant against 500 questions. It answers 490 correctly. You can reasonably conclude that it performs well on that set. How much confidence should that give you about the next 500 questions?</p>
+          <p>In the eighteenth century, David Hume explored the <strong>problem of induction</strong>: why should observations of the past justify expectations about the future?</p>
+          <p>We’ve observed the Sun rising every morning and expect it to rise tomorrow. That expectation is extraordinarily reasonable. But Hume argued that we cannot establish the uniformity of nature through deductive reasoning alone; justifying induction by appealing to its past success risks circularity. The <a href="https://plato.stanford.edu/entries/induction-problem/">Stanford overview of the problem of induction</a> examines this argument and responses to it.</p>
+          <p>Machine learning faces a related practical difficulty. Success on historical examples doesn’t guarantee success under new conditions. Statistical learning theory gives us mathematical tools for analyzing generalization under particular assumptions. It doesn’t make those assumptions disappear.</p>
+          <p>An evaluation set can represent one environment while missing important situations in another. An assistant might perform beautifully on routine brand questions yet struggle with ambiguous exceptions, unusual document combinations, or newly introduced standards.</p>
+          <p>So evaluation should ask more than “How often was the system correct?” It should also ask, <strong>“How representative were the tests, and under what conditions should we expect the results to generalize?”</strong></p>
+          <p>That’s a reason to evaluate continuously, rather than treating one successful benchmark as permanent proof of reliability.</p>
+        </section>
+
+        <section class="essay-section" aria-labelledby="one-week">
+          <h2 id="one-week" data-toc-label="When you only have a week">What if you only have a week to fix it?</h2>
+          <p>In an ideal world, every organization would have perfectly maintained documentation, rigorous evaluation, and ample time to investigate every failure. In reality, leadership often wants a solution by next Friday.</p>
+          <p>That makes epistemological thinking more important. Good judgment means understanding which uncertainties matter, what evidence is available, and how much risk is acceptable.</p>
+          <p>If an assistant is giving unreliable brand guidance and you have one week, you probably shouldn’t begin by rebuilding the entire knowledge architecture. A proportionate approach might be to narrow its supported use cases, identify a small collection of authoritative references, resolve the most consequential conflicts, and test the revised configuration against known failures and representative questions.</p>
+          <p>For questions that remain ambiguous or consequential, require human verification.</p>
+          <p>This produces a system with more clearly defined boundaries and better-understood limitations. Those boundaries are part of what makes it trustworthy. An assistant that reliably answers a narrower set of questions can be more useful than one that confidently attempts everything.</p>
+          <p class="key-thought">The objective is to establish where reliance on the AI’s outputs is justified.</p>
+        </section>
+
+        <section class="essay-section" aria-labelledby="evidence-problem">
+          <h2 id="evidence-problem" data-toc-label="Trust is an evidence problem">Trustworthy AI is an evidence problem</h2>
+          <p>We began with two students who received perfect exam scores. One understood the subject; the other memorized the answers. We asked whether identical performance demonstrated identical knowledge.</p>
+          <p>Plato’s philosophical tradition encouraged us to distinguish true belief from justified knowledge. Gettier showed that even justified true beliefs can be correct through luck. Searle challenged the assumption that successful symbol manipulation necessarily constitutes understanding. Contemporary AI research reveals sophisticated capabilities while leaving important questions about machine understanding unsettled.</p>
+          <p>The common thread is that <strong>correctness, justification, reliability, and understanding are related but distinct concepts</strong>.</p>
+          <p>A system can provide a correct answer without reliable evidence. It can offer a convincing explanation without faithfully describing how the answer was produced. It can perform well on familiar tasks without reliably generalizing. And it can exhibit sophisticated reasoning without settling whether it understands the world as humans do.</p>
+          <p>None of this diminishes AI’s usefulness. It gives us a more disciplined way to evaluate that usefulness.</p>
+          <p>When someone asks whether an AI system can be trusted, we can ask more productive questions:</p>
+          <ul class="closing-questions">
+            <li>What is the system claiming?</li>
+            <li>What evidence supports that claim?</li>
+            <li>Where did the information come from?</li>
+            <li>Under what circumstances is it reliable?</li>
+            <li>What happens when information is incomplete, contradictory, or outdated?</li>
+            <li>What observations would cause us to revise our confidence?</li>
+          </ul>
+          <p>Those questions won’t resolve every philosophical debate about artificial intelligence. But they’ll help us build better systems—and make better decisions about when to trust them.</p>
+          <p class="closing-thought">The most useful question isn’t always whether an AI knows something. Sometimes it’s whether we have good reasons to believe what it’s telling us.</p>
+        </section>
+
+        <section class="essay-section references" aria-labelledby="further-reading">
+          <h2 id="further-reading" data-toc-label="Further reading" data-toc-group="Continue exploring">Further reading</h2>
+          <p>The philosophy and research behind the essay.</p>
+          <h3>Foundational philosophy</h3>
+          <ul class="reference-list">
+            <li><a href="https://classics.mit.edu/Plato/theatu.html">Plato — <cite>Theaetetus</cite></a><span>Fourth century BCE · Knowledge, perception, true judgment, and explanation.</span></li>
+            <li><a href="https://www.caphi-philo.fr/wp-content/uploads/2015/01/Gettier_1963_Is_Justified_True_Belief_Knowledge-d75.pdf">Edmund Gettier — <cite>Is Justified True Belief Knowledge?</cite> (PDF)</a><span>1963 · The short paper that challenged a traditional account of knowledge.</span></li>
+            <li><a href="https://artscimedia.case.edu/wp-content/uploads/2013/07/14182625/Searle-Minds-Brains-and-Programs.pdf">John Searle — <cite>Minds, Brains, and Programs</cite> (PDF)</a><span>1980 · The original Chinese Room argument.</span></li>
+            <li><a href="https://web.stanford.edu/~davies/Symbsys100-Spring0708/Hume%20-%20Symbsys100%20-%202008%20-%20excerpt.pdf">David Hume — <cite>An Enquiry Concerning Human Understanding</cite> (PDF excerpt)</a><span>1748 · Human understanding, causation, and inductive reasoning.</span></li>
+          </ul>
+          <h3>Contemporary research</h3>
+          <ul class="reference-list">
+            <li><a href="https://proceedings.mlr.press/v235/band24a.html">Band et al. — <cite>Linguistic Calibration of Long-Form Generations</cite></a><span>2024 · How models communicate uncertainty and support calibrated user judgments.</span></li>
+            <li><a href="https://arxiv.org/abs/2404.03189">Siegel et al. — <cite>The Probabilities Also Matter: A More Faithful Metric for Faithfulness of Free-Text Explanations in Large Language Models</cite></a><span>2024 · Assessing whether explanations reflect the factors influencing predictions.</span></li>
+            <li><a href="https://aclanthology.org/2025.emnlp-main.1505/">Liu et al. — <cite>MetaFaith: Faithful Natural Language Uncertainty Expression in LLMs</cite></a><span>2025 · How faithfully models communicate their intrinsic uncertainty.</span></li>
+            <!-- visuals-2026-10-26: reading --><li><a href="https://arxiv.org/abs/2401.05856">Barnett et al., <cite>Seven Failure Points When Engineering a Retrieval Augmented Generation System</cite></a><span>2024 · Where retrieval-based assistants fail, drawn from three case studies.</span></li><!-- /visuals-2026-10-26: reading -->
+          </ul>
+          <h3>Reference resources</h3>
+          <ul class="reference-list compact-references">
+            <li><a href="https://plato.stanford.edu/entries/knowledge-analysis/">Stanford Encyclopedia of Philosophy — The Analysis of Knowledge</a></li>
+            <li><a href="https://plato.stanford.edu/entries/chinese-room/">Stanford Encyclopedia of Philosophy — The Chinese Room Argument</a></li>
+            <li><a href="https://plato.stanford.edu/entries/induction-problem/">Stanford Encyclopedia of Philosophy — The Problem of Induction</a></li>
+          </ul>
+        </section>
+      </article>
+
+      <aside class="series-endnote" aria-labelledby="series-title">
+        <p class="eyebrow">A five-part series</p>
+        <h2 id="series-title">Thinking in Systems</h2>
+        <p>AI Theory, Philosophy &amp; Systems Design</p>
+        <p>Exploring how philosophy, cognitive science, and systems engineering can help us understand and build more reliable AI systems.</p>
+        <!-- SERIES_NAV_START -->
+        <ol class="series-issues" aria-label="Series progress">
+          <li aria-current="page"><span>01</span><span class="issue-state">This essay</span></li>
+          <li><span>02</span><span class="issue-state">Forthcoming</span></li>
+          <li><span>03</span><span class="issue-state">Forthcoming</span></li>
+          <li><span>04</span><span class="issue-state">Forthcoming</span></li>
+          <li><span>05</span><span class="issue-state">Forthcoming</span></li>
+        </ol>
+        <!-- SERIES_NAV_END -->
+        <a href="../index.html">Explore all guides <span aria-hidden="true">↗</span></a>
+      </aside>
+    </main>
+  </div>
+
+  <footer class="series-footer"><a href="../index.html">Now in Production</a><span>Stay curious. Ask for the evidence.</span><a href="#top">Back to top ↑</a></footer>
+  <button id="tocFab" class="toc-fab" type="button" aria-controls="tocList" aria-expanded="false" aria-label="Open table of contents" hidden>Contents ≡</button>
+</body>
+</html>

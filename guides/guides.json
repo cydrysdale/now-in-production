@@ -10,5 +10,11 @@
   {
     "url": "guides/how-llms-work.html",
     "status": "published"
+  },
+  {
+    "url": "guides/when-ai-gets-the-right-answer.html",
+    "status": "published",
+    "series": "thinking-in-systems",
+    "number": 1
   }
 ]

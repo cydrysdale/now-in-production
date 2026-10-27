@@ -16,3 +16,8 @@ firebase-debug*.log
 firestore-debug*.log
 ui-debug*.log
 tools/typecast/node_modules
+
+# Optional guide authoring checks (not required to serve the site)
+tools/guides/node_modules/
+tools/guides/__pycache__/
+artifacts/guide-checks/

@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script>
+    try {
+      const theme = localStorage.getItem('theme');
+      document.documentElement.setAttribute('data-theme', theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+    } catch {}
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{title}}</title>
+  <meta name="description" content="{{description}}">
+  <meta name="guide:category" content="{{series_title}} · {{number_padded}}">
+  <meta name="guide:updated" content="{{date}}">
+  <meta name="guide:series" content="thinking-in-systems">
+  <meta name="guide:order" content="{{number}}">
+  <meta name="robots" content="noindex,follow">
+  <meta name="author" content="Chris Yasuda Drysdale">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="canonical" href="{{canonical}}">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="{{title}}">
+  <meta property="og:description" content="{{description}}">
+  <meta property="og:url" content="{{canonical}}">
+  <meta property="og:image" content="{{image}}">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" sizes="180x180" href="../images/apple-touch-icon.png">
+  <link rel="manifest" href="../site.webmanifest">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/thinking-in-systems.css">
+  <script src="../assets/js/core.js" defer></script>
+  <script src="../assets/js/thinking-in-systems.js" defer></script>
+</head>
+<body class="thinking-guide">
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="series-header" id="top">
+    <div class="header-inner">
+      <a class="site-signature" href="../index.html">
+        <img src="../images/Pixel-Chris.png" alt="" width="36" height="36">
+        <span>Now in Production<span class="signature-caption">Guides for the curious</span></span>
+      </a>
+      <div class="header-actions">
+        <a class="all-guides" href="../index.html">All guides <span aria-hidden="true">↗</span></a>
+        <div class="theme-toggle">
+          <input id="themeSwitch" type="checkbox" role="switch" aria-checked="false" aria-label="Toggle dark mode">
+          <label for="themeSwitch"><span class="track" aria-hidden="true"></span><span class="thumb" aria-hidden="true"><span class="icon sun">☼</span><span class="icon moon">☽</span></span></label>
+        </div>
+        <div class="toc-mobile">
+          <button id="tocToggle" type="button" aria-expanded="false" aria-controls="tocList">Contents <span aria-hidden="true">≡</span></button>
+          <nav id="tocList" class="toc" aria-label="On this page"></nav>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="essay-cover">
+    <div class="cover-topline">
+      <p class="eyebrow">{{series_title}}</p>
+      <span class="issue-label">Essay {{number_padded}} <span aria-hidden="true">/</span> 05</span>
+    </div>
+    <p class="series-subtitle">{{series_subtitle}}</p>
+    <h1 id="essay-title">{{title}}</h1>
+    <p class="cover-deck">{{description}}</p>
+    <div class="cover-bottomline">
+      <p class="byline">By Chris Yasuda Drysdale <span aria-hidden="true">·</span> <span id="reading-time">Reading time calculated on load</span></p>
+      <a class="begin-link" href="#content">Begin reading <span aria-hidden="true">↓</span></a>
+    </div>
+  </div>
+
+  <div class="page essay-layout">
+    <aside class="toc-desktop">
+      <p class="eyebrow">In this essay</p>
+      <nav class="toc" aria-label="On this page"></nav>
+    </aside>
+    <main id="content" tabindex="-1">
+      <article aria-labelledby="essay-title">
+        <div class="essay-opening">
+          <p class="opening-line">TODO: Begin with the essay’s central question or concrete example.</p>
+          <p>TODO: Adapt the source essay with the agreed light editorial pass.</p>
+          <noscript><nav class="reading-route" aria-label="Essay chapters"><a href="../index.html">← Home</a><a href="#the-idea">The idea</a><a href="#in-practice">In practice</a></nav></noscript>
+        </div>
+        <!-- Rename, add, or remove sections to fit the essay. The section count is not fixed. -->
+        <section class="essay-section" aria-labelledby="the-idea">
+          <p class="chapter-marker">01 <span>The idea</span></p>
+          <h2 id="the-idea" data-toc-label="The idea" data-toc-group="01 / The idea">The idea</h2>
+          <p>TODO: Explain the concept and its limits. Link supporting sources where the claims appear.</p>
+        </section>
+        <section class="essay-section" aria-labelledby="in-practice">
+          <p class="chapter-marker">02 <span>In practice</span></p>
+          <h2 id="in-practice" data-toc-label="In practice" data-toc-group="02 / In practice">In practice</h2>
+          <p>TODO: Connect the concept to a specific decision, example, or system.</p>
+        </section>
+        <section class="essay-section references" aria-labelledby="further-reading">
+          <h2 id="further-reading" data-toc-label="Further reading" data-toc-group="Continue exploring">Further reading</h2>
+          <p>TODO: Add verified references with titles, authors, dates, links, and concise descriptions.</p>
+        </section>
+      </article>
+      <aside class="series-endnote" aria-labelledby="series-title">
+        <p class="eyebrow">A five-part series</p>
+        <h2 id="series-title">{{series_title}}</h2>
+        <p>{{series_subtitle}}</p>
+        <p>{{series_description}}</p>
+        <!-- SERIES_NAV_START -->
+        <!-- SERIES_NAV_END -->
+        <a href="../index.html">Explore all guides <span aria-hidden="true">↗</span></a>
+      </aside>
+    </main>
+  </div>
+  <footer class="series-footer"><a href="../index.html">Now in Production</a><span>Stay curious. Ask for the evidence.</span><a href="#top">Back to top ↑</a></footer>
+  <button id="tocFab" class="toc-fab" type="button" aria-controls="tocList" aria-expanded="false" aria-label="Open table of contents" hidden>Contents ≡</button>
+</body>
+</html>

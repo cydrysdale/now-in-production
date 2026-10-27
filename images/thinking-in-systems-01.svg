@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <title>When AI Gets the Right Answer for the Wrong Reasons</title>
+  <desc>Thinking in Systems, essay 1 of 5. Correctness, justification, understanding.</desc>
+  <rect width="1200" height="630" fill="#f6f5ef"/>
+  <path d="M72 110H1128M72 501H1128" fill="none" stroke="#cbd0c6"/>
+  <g font-family="Arial, sans-serif" fill="#486349">
+    <text x="72" y="72" font-size="15" letter-spacing="3">THINKING IN SYSTEMS</text>
+    <text x="1128" y="72" text-anchor="end" font-size="15" letter-spacing="2">ESSAY 01 / 05</text>
+  </g>
+  <g font-family="Georgia, 'Times New Roman', serif" font-size="78" letter-spacing="-3" fill="#253b40">
+    <text x="68" y="220">When AI Gets the</text>
+    <text x="68" y="308">Right Answer for</text>
+    <text x="68" y="396">the <tspan fill="#1d5080" font-style="italic">Wrong Reasons</tspan></text>
+  </g>
+  <g fill="none" stroke="#486349" stroke-width="1.5">
+    <circle cx="1025" cy="232" r="49"/>
+    <circle cx="1025" cy="320" r="49"/>
+    <circle cx="1025" cy="408" r="49"/>
+    <path d="M1025 183V135M1025 457V477" stroke="#cbd0c6"/>
+  </g>
+  <g font-family="Arial, sans-serif" font-size="11" fill="#486349" text-anchor="middle" letter-spacing="1">
+    <text x="1025" y="236">CORRECT</text>
+    <text x="1025" y="324">JUSTIFIED</text>
+    <text x="1025" y="412">UNDERSTOOD</text>
+  </g>
+  <text x="72" y="545" font-family="Georgia, serif" font-size="24" fill="#596663">What makes an answer worth trusting?</text>
+  <text x="72" y="590" font-family="Arial, sans-serif" font-size="13" fill="#596663">NOW IN PRODUCTION</text>
+  <text x="1128" y="590" text-anchor="end" font-family="Arial, sans-serif" font-size="13" fill="#596663">AI Theory, Philosophy &amp; Systems Design</text>
+</svg>
