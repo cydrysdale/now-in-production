@@ -1,7 +1,29 @@
-# Thinking in Systems: essay four draft handoff
+# Thinking in Systems: session handoff
 
 Updated 2026-10-28. Verify this note against current files, Git status and later
 user instructions before acting.
+
+## Start here next session
+
+- Site changes are committed and pushed: `81f916b` contains the reviewed guide-four
+  draft and homepage publication dates; `f57ac05` records successful deployment.
+  Any later handoff-only commit does not change the verified site content.
+- The homepage is live with publication dates, newest first. RGB → CMYK's date is
+  **2025-08-18**, supplied by the author for its original release in another repo.
+  Keep `guide:published` separate from `guide:updated`.
+- Guide four is reviewed and saved remotely, but remains **WIP/noindex**, without
+  a homepage card or publication date. The author deferred its publication to
+  **2026-10-29**. No automated release is scheduled.
+- Read the [current guide](../guides/the-thermometer-is-in-the-wrong-room.html) and
+  [editorial brief](thinking-in-systems-04/brief.md). The latest visual/prose
+  findings are resolved; preserve the approved copy and five figures.
+- Remaining local files are unrelated `.DS_Store` changes, `presentations/`, and
+  rollback folders under essays 01–04. Leave them untouched and out of commits.
+  Original essay sources are preserved; session preview processes are closed.
+
+The dated entries below are historical records of each step. Statements that
+work was local or uncommitted describe that step; the state above and the
+current-state table reflect the completed session.
 
 ## Commit and push verified; essay four deferred — 2026-10-28
 
@@ -396,16 +418,32 @@ All seven isolated workflow tests passed after that change, as did the existing
 guide checks. The process/template changes did not alter rendered pages.
 
 Unrelated work includes OS `.DS_Store` changes, `presentations/`, and local
-rollback folders under the first three lessons. Leave these alone. If preparing
+rollback folders under lessons 01–04. Leave these alone. If preparing
 a release, stage the intended files explicitly; do not add every untracked file.
 
 ## Next session
 
-Guide four is ready as a reviewed WIP. The author plans to publish it tomorrow.
-At release, add its actual first-publication date as `guide:published`, change
-its manifest status to `published`, run sync, refresh its snapshot, run required
-checks, then commit/push and verify the hosted guide and incoming navigation.
-Preserve the approved prose, figures, captions and original source.
+Guide four is ready as a reviewed WIP. The author plans to publish it on
+2026-10-29. At release:
+
+1. Add `guide:published` to its HTML using the actual first-publication date;
+   use `2026-10-29` if released on the planned day.
+2. Change lesson four to `published` in `guides/thinking-in-systems.json` and run
+   `python3 tools/guides/maintain.py sync`. Let sync update the registry,
+   homepage cards, robots metadata, and series navigation.
+3. Refresh the edited snapshots for affected essays, normally 01–04 after the
+   navigation update, using `maintain.py snapshot --number N`.
+4. Run `python3 tools/guides/maintain.py check` and the browser smoke suite for all
+   published lessons. The installed Chrome executable is documented in the
+   [authoring guide](../docs/thinking-in-systems.md).
+5. Review and stage the intended files, commit/push, and verify the hosted guide,
+   image, publication date, homepage card, and incoming/previous/next navigation.
+   Record the release commit and verification in the brief and this handoff.
+
+Preserve the approved prose, figures, captions and original source. Today's
+source and browser reviews are complete; rerun broader checks only for new
+changes, failures, or concerns. Print coverage is basic visibility, not a full
+pagination audit. Reference-access limits remain documented in the brief.
 
 Guide five remains planned without a supplied source; do not create its notes
 folder until authoring begins. Temporary browser and preview processes are
