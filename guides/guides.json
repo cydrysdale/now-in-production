@@ -28,5 +28,11 @@
     "status": "published",
     "series": "thinking-in-systems",
     "number": 3
+  },
+  {
+    "url": "guides/the-thermometer-is-in-the-wrong-room.html",
+    "status": "wip",
+    "series": "thinking-in-systems",
+    "number": 4
   }
 ]

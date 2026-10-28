@@ -25,9 +25,9 @@
     },
     {
       "number": 4,
-      "title": null,
-      "url": null,
-      "status": "planned"
+      "title": "The Thermometer Is in the Wrong Room",
+      "url": "guides/the-thermometer-is-in-the-wrong-room.html",
+      "status": "wip"
     },
     {
       "number": 5,

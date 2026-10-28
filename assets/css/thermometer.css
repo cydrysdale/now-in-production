@@ -1,0 +1,127 @@
+/* Essay 04 figures. Shared typography and theme tokens come from the series. */
+.thinking-guide .reliability-figure .figure-number { white-space: nowrap; }
+.thinking-guide .reliability-pipeline,
+.thinking-guide .reliability-loop {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  padding: 0;
+  margin: 24px 0;
+  list-style: none;
+}
+.thinking-guide .reliability-pipeline > li,
+.thinking-guide .reliability-loop > li {
+  position: relative;
+  margin: 0;
+  padding: 18px 14px;
+  border-top: 2px solid var(--rule);
+  background: var(--paper);
+  min-width: 0;
+}
+.thinking-guide .reliability-pipeline > li + li::before {
+  content: '→';
+  position: absolute;
+  top: -14px;
+  left: -12px;
+  color: var(--quiet);
+  font-size: 16px;
+}
+.thinking-guide .reliability-pipeline .is-measured { border-color: var(--green); }
+.thinking-guide .reliability-pipeline .is-changed { border-color: var(--blue); }
+.thinking-guide .reliability-figure .small-label { font-size: 11px; line-height: 1.6; }
+.thinking-guide .reliability-pipeline strong,
+.thinking-guide .reliability-loop strong { display: block; margin-top: 10px; font-size: 15px; line-height: 1.5; }
+.thinking-guide .reliability-pipeline p,
+.thinking-guide .reliability-loop p { margin: 10px 0 0; font-size: 13px; }
+.thinking-guide .reliability-measures,
+.thinking-guide .reliability-copy-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.thinking-guide .reliability-measures { padding-top: 24px; border-top: 1px solid var(--rule); }
+.thinking-guide .reliability-measures strong { display: block; margin: 6px 0; font: 400 34px/1.3 var(--serif); color: var(--green); }
+.thinking-guide .reliability-measures p { margin: 0; font-size: 13px; }
+.thinking-guide .reliability-copy-pair { margin-bottom: 24px; }
+.thinking-guide .reliability-copy-pair > div { padding: 20px; border: 1px solid var(--rule); background: var(--paper); }
+.thinking-guide .reliability-copy-pair blockquote { margin: 16px 0 0; padding: 0; border: 0; background: none; color: var(--ink); font: 400 23px/1.6 var(--serif); }
+.thinking-guide .claim-condition { text-decoration: underline; text-decoration-color: var(--green); text-underline-offset: .2em; }
+.thinking-guide .reliability-copy-pair p { margin: 16px 0 0; font-size: 13px; color: var(--quiet); }
+.thinking-guide .reliability-loop { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.thinking-guide .reliability-loop > li { padding: 20px; border: 1px solid var(--rule); }
+.thinking-guide .reliability-return { padding: 16px 20px; border-left: 2px solid var(--green); background: var(--paper); font-size: 14px; }
+.thinking-guide .reliability-return > span { margin-right: 8px; color: var(--green); }
+@media (max-width: 700px) {
+  .thinking-guide .reliability-pipeline { grid-template-columns: 1fr; gap: 18px; }
+  .thinking-guide .reliability-pipeline > li { padding: 16px; }
+  .thinking-guide .reliability-pipeline > li + li::before { content: '↓'; top: -21px; left: 14px; }
+  .thinking-guide .reliability-measures,
+  .thinking-guide .reliability-copy-pair,
+  .thinking-guide .reliability-loop { grid-template-columns: 1fr; gap: 16px; }
+  .thinking-guide .reliability-measures > div + div { border-top: 1px solid var(--rule); padding-top: 16px; }
+}
+@media print {
+  .thinking-guide .reliability-figure { break-inside: auto; }
+  .thinking-guide .reliability-pipeline > li,
+  .thinking-guide .reliability-loop > li,
+  .thinking-guide .reliability-copy-pair > div { break-inside: avoid; }
+}
+
+/* === Visuals pass 2026-10-28 (essay 04): start === */
+/* Where the sensor sits (Fig. 01). */
+.thinking-guide .sensor-setup { margin: -8px 0 0; color: var(--quiet); font-size: 14px; }
+.thinking-guide .sensor-panels { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 20px 0 24px; padding: 0; list-style: none; }
+.thinking-guide .sensor-panels > li { margin: 0; padding: 14px 14px 16px; border: 1px solid var(--rule); border-top: 2px solid var(--rule); background: var(--paper); min-width: 0; }
+.thinking-guide .sensor-panels > li.is-regulated { border-top-color: var(--green); }
+.thinking-guide .sensor-panels > li.is-misplaced { border-top-color: var(--blue); }
+.thinking-guide .sensor-plan { position: relative; width: 100%; max-width: 320px; margin-bottom: 14px; }
+.thinking-guide .sensor-plan svg { display: block; width: 100%; height: auto; }
+.thinking-guide .sensor-panels strong { display: block; margin-top: 6px; font-size: 15px; line-height: 1.5; }
+.thinking-guide .sensor-readout { margin: 12px 0 0; }
+.thinking-guide .sensor-readout > div { display: flex; justify-content: space-between; gap: 12px; padding: 6px 0; border-top: 1px solid var(--rule); font-size: 13px; line-height: 1.45; }
+.thinking-guide .sensor-readout dt { color: var(--quiet); }
+.thinking-guide .sensor-readout dd { margin: 0; text-align: right; color: var(--ink); }
+.thinking-guide .sensor-readout .is-cold { color: var(--blue); font-weight: 600; }
+.thinking-guide .sensor-readout .is-ok { color: var(--green); font-weight: 600; }
+.thinking-guide .sensor-figure .sv-hall { fill: var(--wash); }
+.thinking-guide .sensor-figure .sv-frame { fill: none; stroke: var(--quiet); stroke-width: 2; }
+.thinking-guide .sensor-figure .sv-wall { fill: none; stroke: var(--quiet); stroke-width: 2; }
+.thinking-guide .sensor-figure .sv-window { stroke: var(--quiet); stroke-width: 2; stroke-linecap: round; }
+.thinking-guide .sensor-figure .sv-cold { fill: none; stroke: var(--blue); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+/* HTML labels keep their text size as the floor plan scales. */
+.thinking-guide .sensor-plan .sv-label,
+.thinking-guide .sensor-plan .sv-reading { position: absolute; transform: translateX(-50%); white-space: nowrap; }
+.thinking-guide .sensor-plan .sv-label { top: 6%; color: var(--quiet); font: 400 13px/1 var(--sans); }
+.thinking-guide .sensor-plan .is-hallway { left: 17.5%; }
+.thinking-guide .sensor-plan .is-room { left: 63.5%; }
+.thinking-guide .sensor-figure .sv-heater { fill: var(--quiet); }
+.thinking-guide .sensor-figure .sv-heater.is-on { fill: var(--green); }
+.thinking-guide .sensor-figure .sv-heater.is-off { fill: none; stroke: var(--quiet); stroke-width: 1.5; stroke-dasharray: 3 3; }
+.thinking-guide .sensor-figure .sv-heat { fill: none; stroke: var(--quiet); stroke-width: 1.5; stroke-linecap: round; }
+.thinking-guide .sensor-figure .sv-heat.is-on { stroke: var(--green); }
+.thinking-guide .sensor-figure .sv-sensor { fill: var(--paper); stroke: var(--ink); stroke-width: 2; }
+.thinking-guide .sensor-figure .sv-signal { fill: none; stroke: var(--ink); stroke-width: 1; stroke-dasharray: 2 3; }
+.thinking-guide .sensor-plan .sv-reading { top: 38.333%; transform: translate(-50%, -100%); color: var(--ink); font: 600 14px/1 var(--sans); }
+/* Matching responses to conditions (Fig. 02). */
+.thinking-guide .response-table { width: 100%; margin: 4px 0 24px; border-collapse: collapse; border: 1px solid var(--rule); background: var(--paper); font-family: var(--sans); }
+.thinking-guide .response-table th,
+.thinking-guide .response-table td { padding: 12px 14px; border-bottom: 1px solid var(--rule); font-size: 13px; line-height: 1.5; text-align: left; vertical-align: top; }
+.thinking-guide .response-table thead th { color: var(--quiet); font-size: 12px; font-weight: 600; }
+.thinking-guide .response-table tbody th { width: 38%; color: var(--ink); font-weight: 600; }
+.thinking-guide .response-table .is-single { width: 24%; color: var(--quiet); }
+.thinking-guide .response-table .is-suited { border-left: 2px solid var(--green); color: var(--ink); }
+@media (max-width: 700px) {
+  .thinking-guide .sensor-panels { grid-template-columns: 1fr; }
+  .thinking-guide .response-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .thinking-guide .response-table,
+  .thinking-guide .response-table tbody,
+  .thinking-guide .response-table tr { display: block; }
+  .thinking-guide .response-table tr { padding: 12px 14px; border-bottom: 1px solid var(--rule); }
+  .thinking-guide .response-table tr:last-child { border-bottom: 0; }
+  .thinking-guide .response-table tbody th { display: block; width: auto; padding: 0 0 6px; border: 0; font-size: 14px; }
+  .thinking-guide .response-table td { display: block; width: auto; padding: 4px 0; border: 0; }
+  .thinking-guide .response-table td.is-single { width: auto; }
+  .thinking-guide .response-table td.is-suited { padding-left: 10px; border-left: 2px solid var(--green); }
+  .thinking-guide .response-table td::before { content: attr(data-label); display: block; color: var(--quiet); font-size: 12px; }
+}
+@media print {
+  .thinking-guide .sensor-panels > li,
+  .thinking-guide .response-table tr { break-inside: avoid; }
+}
+/* === Visuals pass 2026-10-28 (essay 04): end === */

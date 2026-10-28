@@ -54,6 +54,10 @@ class GuideWorkflow(unittest.TestCase):
     def update_status(self, status):
         data = m.manifest(self.root)
         data['lessons'][1]['status'] = status
+        if status == 'published':
+            path = self.root / data['lessons'][1]['url']
+            if not m.Page(m.read(path)).meta.get('guide:published'):
+                path.write_text(m.read(path).replace('</head>', '  <meta name="guide:published" content="2026-10-27">\n</head>'), encoding='utf-8')
         (self.root / m.MANIFEST).write_text(m.encode(data), encoding='utf-8')
 
     def test_sync_is_idempotent_and_check_detects_drift(self):

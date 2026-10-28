@@ -118,6 +118,12 @@ def validate_page(root, series, item, source, detailed=False):
     updated = page.meta['guide:updated']
     require(re.fullmatch(r'\d{4}-\d{2}-\d{2}', updated), f'{label}: use YYYY-MM-DD')
     date.fromisoformat(updated)
+    published = page.meta.get('guide:published', '')
+    if item['status'] == 'published':
+        require(published, f'{label}: missing guide:published; set the first publication date')
+    if published:
+        require(re.fullmatch(r'\d{4}-\d{2}-\d{2}', published), f'{label}: guide:published must use YYYY-MM-DD')
+        date.fromisoformat(published)
     image = image_path(root, series, label, page.meta['og:image'])
     if not detailed:
         return page
@@ -183,14 +189,14 @@ def series_nav(series, current):
 def card(root, series, item, page):
     m = page.meta
     image = image_path(root, series, item['url'], m['og:image'])
-    return f'''          <a href="{esc(item['url'])}" style="text-decoration:none;" data-updated="{esc(m['guide:updated'])}">
+    return f'''          <a href="{esc(item['url'])}" style="text-decoration:none;" data-published="{esc(m['guide:published'])}">
             <section>
               <div class="grid" style="align-items:center; gap:16px;">
                 <div>
                   <h3 class="guide-card-title">{esc(page.title.strip())}</h3>
                   <div class="sub" style="margin-bottom:8px;">
                     <span class="pill">{esc(m['guide:category'])}</span>
-                    &nbsp;•&nbsp;<span class="pill">Updated {esc(m['guide:updated'])}</span>
+                    &nbsp;•&nbsp;<span class="pill">Published {esc(m['guide:published'])}</span>
                   </div>
                   <p style="margin:6px 0 0;">{esc(m['description'])}</p>
                 </div>
@@ -225,7 +231,7 @@ def desired_files(root):
         if item['status'] == 'published':
             page = validate_page(root, series, item, updates.get(item['url']) or read(local_path(root, item['url'])))
             cards.append((item, page))
-    cards.sort(key=lambda pair: (-date.fromisoformat(pair[1].meta['guide:updated']).toordinal(), pair[0]['url']))
+    cards.sort(key=lambda pair: (-date.fromisoformat(pair[1].meta['guide:published']).toordinal(), pair[0]['url']))
     rendered = '\n'.join(card(root, series, item, page) for item, page in cards)
     updates['index.html'] = replace_block(read(root / 'index.html'), 'GUIDE_CARDS', rendered, '          ')
     return updates

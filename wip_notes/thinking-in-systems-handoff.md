@@ -1,7 +1,183 @@
-# Thinking in Systems: handoff for guide four
+# Thinking in Systems: essay four draft handoff
 
 Updated 2026-10-28. Verify this note against current files, Git status and later
 user instructions before acting.
+
+## Commit and push authorized; essay four deferred — 2026-10-28
+
+The author authorized committing and pushing the completed site work, with
+guide four's publication deferred until tomorrow. This batch saves the reviewed
+essay-four WIP, its figures and social art, and the homepage publication-date
+changes. Guide four remains `wip`, `noindex,follow`, without a publication date
+or homepage card. On publication, set `guide:published` to the actual release
+date, change its manifest status to `published`, synchronize, and verify hosting.
+No automatic release is scheduled.
+
+Metadata/local-link and whitespace checks pass. The existing seven maintenance
+tests, published-series browser checks, essay-four checks, and targeted homepage
+date/fallback checks passed in the preceding work. Original source files are
+preserved. Stage only the completed site files and editorial records; leave
+OS files, presentations, and local rollback folders out. Commit/push and hosted
+verification results will be recorded after this batch is sent.
+
+## RGB → CMYK publication date corrected — 2026-10-28
+
+The author confirmed that the RGB → CMYK guide was first published on 2025-08-18
+in a different repository. Updated its `guide:published` metadata and regenerated
+the homepage cards. The date record now cites the author's correction rather
+than this repository's later launch. The edited date is unchanged. Metadata/local-link
+and whitespace checks passed; the generated card shows `Published 2025-08-18`.
+This correction remains local and uncommitted; no deployment was requested.
+
+## Homepage publication dates — 2026-10-28
+
+The author requested publication dates instead of edited dates on homepage cards.
+Live cards and generated fallbacks now display and sort by `guide:published`,
+newest first. Added the six published guides' dates from repository history;
+the [date record](homepage-publication-dates-2026-10-28.md) documents each source.
+Edited dates are unchanged. The maintenance tool requires publication metadata
+for published guides; the template and authoring documentation explain when to
+add it and preserve it. Essay four remains WIP without a publication date.
+
+The three published essays' snapshots are refreshed; their prose is unchanged.
+All seven maintenance tests, metadata/local-link checks, and the published-series
+browser suite passed. Additional homepage checks verify dates/order across HTTP,
+direct-file, no-JavaScript and fetch-failure fallbacks; changing an edited date
+to 2099 does not change a card's publication date or position. Desktop/light and
+mobile/dark captures were inspected. Evidence is under
+`artifacts/guide-checks/homepage-publication-dates-2026-10-28/`. All original sources
+and publication statuses are preserved. Preview processes are closed. Changes
+remain local and uncommitted; no push or deployment was requested or performed.
+
+## Essay four visual fixes applied — 2026-10-28
+
+Applied the author's request to fix the latest review findings, including its
+caption suggestions. The mobile response table now uses the full row width.
+Thermostat labels remain at 13–14px independently of the drawings' scale, with
+space around the hallway label. Shortened the prose before Fig. 02 and applied
+both caption corrections. The review record and brief document the resolution;
+the edited snapshot is current.
+
+Metadata/local-link and lesson-four browser checks passed. Additional fresh-page
+measurements at ten widths from 320–1440px verify label size and placement, mobile
+cell widths, and no horizontal overflow. Desktop/mobile and light/dark captures
+were inspected. Evidence is under
+`artifacts/guide-checks/essay-04/visual-fixes-2026-10-28/`. Print coverage remains
+basic visibility; unchanged references were not audited again. Original source,
+shared assets, links, IDs, registries and social art are preserved. Temporary
+preview processes are closed. Essay four remains local, uncommitted, and WIP;
+no publication was requested. Read its current page and brief for any next
+revision or release request. Essay five remains planned without a supplied source.
+
+## Essay four visual update review — 2026-10-28
+
+Reviewed the subsequent prose updates and both new figures against the previous
+copy pass and pre-visual rollback. No essay or stylesheet edits were made.
+The [review record](thinking-in-systems-04/visual-review-2026-10-28.md) identifies
+two rendering fixes: the response table retains its 24% column width after
+stacking on mobile, and the thermostat's SVG labels shrink to about 9.5px just
+above the stacking breakpoint. It also proposes trimming prose that Fig. 02 now
+repeats and polishing two captions. The follow-up above resolves these findings.
+
+Metadata/local-link checks and the lesson-four browser suite passed. Additional
+screenshots, SVG text measurements, and mobile accessibility-tree inspection
+support the findings; evidence is under
+`artifacts/guide-checks/essay-04/visual-review-2026-10-28/`. Print coverage remains
+basic visibility, and unchanged references were not audited again. The source
+hash is preserved and the edited snapshot matches the page. Essay four remains
+local, uncommitted, and WIP; no release was requested. Read the review record and
+current page next. Temporary browser sessions and preview servers are closed.
+
+## Essay four connected prose pass — 2026-10-28
+
+Completed the author's request for another full copy pass. Tightened abstract
+wording and repeated explanations, clarified the broken-heater example and the
+negative-feedback reference, and changed two headings to fit their sections.
+The NIST section now ends with the team's ability to act. The evaluator study's
+comparison terminology is explained in plain language, with its limits intact.
+The reviewed pilot, queue bridge, predictability and warm-hallway passages,
+humor, figures, references, and final section remain unchanged.
+
+The edited snapshot is current. Metadata/link and whitespace checks, preservation
+checks, and the lesson-four browser suite passed. Changed prose was visually
+reviewed on desktop/light and mobile/dark; print coverage remains basic visibility.
+Evidence is under `artifacts/guide-checks/essay-04/copy-pass-2026-10-28/`; the brief
+records the editorial decisions. No release was requested. Essay four remains
+local, uncommitted, and WIP; other essays and shared assets are unchanged.
+
+## Essay four pilot prose follow-up — 2026-10-28
+
+The author confirmed the eleven-point revision and requested shorter pilot
+sentences and a clear bridge to the queue paragraph. The pilot now explains the
+proposed test through short sentences and two questions. “Review delays matter
+here” replaces “That last part matters,” without ranking delays above missed
+failures. Removed the repeated sample-selection phrase from the main text;
+Fig. 01 retains the qualification. The brief records the current exact wording.
+Metadata/link and whitespace checks passed, and the edited snapshot is current.
+No figures, sources, styling, or release state changed. Earlier browser/source
+checks stand; this prose-only follow-up did not repeat them. Essay four remains
+local, uncommitted, and WIP.
+
+## Essay four review applied — 2026-10-28
+
+The author supplied an eleven-point review and invited pushback. All concerns
+are addressed in the local draft; see essay four's brief under “Author-supplied
+review” for the decisions and exact alignment passages. Fixed Kálmán and the
+explicit subject, connected fixed thermostat rules with disturbance-dependent
+timing, clarified that the 95% dashboard did not reflect the corrections, and
+returned to the eightfold scaling question with a pilot and staged expansion.
+The pilot includes independent final-output inspection and agreed limits;
+passing planted failures alone is not presented as sufficient evidence to scale.
+Sensor placement uses a warm-hallway example rather than claiming a thermostat
+can only affect its sensor's room.
+
+Reduced clustered caveats while retaining their meaning in Fig. 01's caption,
+moved the series links to a note after the example's payoff in 1–2–3 order,
+cut the retention tangent and extra concluding maxim, and applied the requested
+local wording fixes. The existing humor, offer example, queue paragraph, source,
+CSS/JS, social art, and earlier essays are preserved. The lesson plan was not
+found locally; alignment is based on the supplied review excerpts only.
+
+Metadata/link checks and the lesson-four browser suite passed, including homepage
+fallbacks, 320–1440px, themes, navigation, disclosures, and basic print visibility.
+Evidence is under `artifacts/guide-checks/essay-04/review-2026-10-28/`.
+The edited snapshot is current. Essay four remains local, uncommitted, and WIP;
+the review did not request publication or sending a message. The release state
+of essays one–three is unchanged.
+
+## Essay four draft — 2026-10-28
+
+The author supplied **The Thermometer Is in the Wrong Room** and requested
+personalization work on the prose. A complete local WIP page is now at
+`guides/the-thermometer-is-in-the-wrong-room.html`. The original essay is preserved
+verbatim in `thinking-in-systems-04/source.md`; read its `brief.md` for editorial
+decisions, source verification, exact voice changes, and validation. The edited
+snapshot matches the guide.
+
+The draft keeps the argument and fictional scenario, groups related sentences,
+trims repeated explanations and endings, and adds restrained workplace humor.
+Technical clarifications distinguish variable output from unpredictability,
+sample coverage from statistical adequacy, the two sampled failures from the
+two discovered publication failures, and text comparison from rendered-asset
+verification. Three accessible figures cover the measurement gap, a missing
+qualification, and Define → Observe → Compare → Respond. Series continuity
+links retain the earlier diagnostics and extend the investigation beyond the
+approved answer through publication.
+
+The new page uses the shared shell plus its own `assets/css/thermometer.css`;
+shared CSS/JS and essays one–three are unchanged. Social art is supplied as
+1200 × 630 PNG with SVG source. Metadata, links, generated content, original
+source preservation, and the essay-four browser suite pass. Screenshots are in
+`artifacts/guide-checks/essay-04/`; desktop/mobile figures, both themes, and the
+social image were visually inspected. Print verification is basic visibility,
+not a full pagination audit. Browser tooling used installed Google Chrome.
+
+This is an edited draft under the author's request, not a record of individual
+wording approval. It remains local and uncommitted, with `wip`/`noindex,follow`
+status and no homepage card or incoming public series links. No commit, push,
+or publication was requested for essay four. Next action: author review of the
+draft, followed by any requested revisions or release. Essay five remains
+planned without a topic or notes folder. Unrelated existing work is preserved.
 
 ## Essay three publication — 2026-10-28
 
@@ -157,11 +333,13 @@ push or publication was requested or performed in this pass.
 | Guide 01 | Published; approved copy/humor fixes complete; end section links to essay three. Snapshot current; checks pass. | Publication commit `7830a00` pushed; hosted content and navigation verified 2026-10-28. |
 | Guide 02 | Published; approved copy/humor fixes and diagnostic connections complete; end section and Next essay link include essay three. Snapshot current; checks pass. | Publication commit `7830a00` pushed; hosted content, navigation and worksheet assets verified 2026-10-28. |
 | Guide 03 | Published with seven figures, evidence worksheet, social art and approved copy/humor fixes. Snapshot current; checks pass. | Publication commit `7830a00` pushed; hosted guide, assets, homepage card and incoming navigation verified 2026-10-28. |
-| Guides 04–05 | Planned, without titles, URLs or source essays. | No pages exist yet. |
+| Guide 04 | Complete WIP draft with source, edited snapshot, editorial record, five figures (two added 2026-10-28; rollback in `thinking-in-systems-04/rollback-2026-10-28-pre-visuals/`) and social art. | Local and uncommitted; no release requested. |
+| Guide 05 | Planned, without a title, URL or source essay. | No page exists yet. |
 
 Latest publication commit: `7830a00` on `main`. Use Git status and log for the
-current tip. The author authorized committing and pushing the session's work,
-then publishing essay three. No further release approval is needed.
+current tip. The author authorized committing and pushing that session's work,
+then publishing essay three. Those instructions applied to the completed
+essays one–three release; essay four is currently a local WIP draft.
 
 ## Editorial decisions to carry forward
 

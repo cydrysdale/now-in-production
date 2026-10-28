@@ -164,6 +164,12 @@ Use sections with stable, descriptive heading IDs. `data-toc-label` supplies a s
 
 Keep the manifest title, `<title>`, visible `<h1>`, and `og:title` aligned. Inline emphasis and line breaks in the h1 are fine. Update the description and `og:description`, canonical and `og:url`, lesson category and order, image, and `guide:updated` when editing. The updated date is a deliberate editorial choice; sync does not silently change it.
 
+Set `<meta name="guide:published" content="YYYY-MM-DD">` at first publication.
+Homepage cards display and sort by this date, newest first. Preserve it on later
+edits, withdrawal, and republication; keep `guide:updated` as separate edit
+metadata. WIP pages can omit the publication date. The maintenance check requires
+it for published pages and never fills it from the current or edited date.
+
 Add a concise, lesson-specific `keywords` meta tag during assembly; the starter does not infer keywords from the title.
 
 ```bash
@@ -223,7 +229,7 @@ python3 -m unittest discover -s tools/guides -p 'test_*.py' -v
 
 Record the author’s approval and completed source/browser review in `brief.md`. A saved snapshot alone never means approval. Keep `source.md` unchanged; record any later supplied source as a separate version.
 
-When the lesson is ready, change its status to `published` in `guides/thinking-in-systems.json`, then:
+When the lesson is ready, add its first-publication date as `guide:published`, change its status to `published` in `guides/thinking-in-systems.json`, then:
 
 ```bash
 python3 tools/guides/maintain.py sync

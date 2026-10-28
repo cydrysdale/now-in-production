@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script>
+    try {
+      const theme = localStorage.getItem('theme');
+      document.documentElement.setAttribute('data-theme', theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+    } catch {}
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Thermometer Is in the Wrong Room</title>
+  <meta name="description" content="Why reliable AI systems depend on more than accurate outputs, successful tests, and increasingly sophisticated models.">
+  <meta name="guide:category" content="Thinking in Systems · 04">
+  <meta name="guide:updated" content="2026-10-28">
+  <meta name="guide:series" content="thinking-in-systems">
+  <meta name="guide:order" content="4">
+  <meta name="author" content="Chris Yasuda Drysdale">
+  <meta name="keywords" content="AI reliability, cybernetics, feedback, observability, requisite variety, AI evaluation, systems thinking">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="canonical" href="https://cydrysdale.github.io/now-in-production/guides/the-thermometer-is-in-the-wrong-room.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="The Thermometer Is in the Wrong Room">
+  <meta property="og:description" content="Why reliable AI systems depend on more than accurate outputs, successful tests, and increasingly sophisticated models.">
+  <meta property="og:url" content="https://cydrysdale.github.io/now-in-production/guides/the-thermometer-is-in-the-wrong-room.html">
+  <meta property="og:image" content="https://cydrysdale.github.io/now-in-production/images/thinking-in-systems-04.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" sizes="180x180" href="../images/apple-touch-icon.png">
+  <link rel="manifest" href="../site.webmanifest">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/thinking-in-systems.css">
+  <link rel="stylesheet" href="../assets/css/thermometer.css">
+  <script src="../assets/js/core.js" defer></script>
+  <script src="../assets/js/thinking-in-systems.js" defer></script>
+  <meta name="robots" content="noindex,follow">
+</head>
+<body class="thinking-guide">
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="series-header" id="top">
+    <div class="header-inner">
+      <a class="site-signature" href="../index.html">
+        <img src="../images/Pixel-Chris.png" alt="" width="36" height="36">
+        <span>Now in Production<span class="signature-caption">Guides for the curious</span></span>
+      </a>
+      <div class="header-actions">
+        <a class="all-guides" href="../index.html">All guides <span aria-hidden="true">↗</span></a>
+        <div class="theme-toggle">
+          <input id="themeSwitch" type="checkbox" role="switch" aria-checked="false" aria-label="Toggle dark mode">
+          <label for="themeSwitch"><span class="track" aria-hidden="true"></span><span class="thumb" aria-hidden="true"><span class="icon sun">☼</span><span class="icon moon">☽</span></span></label>
+        </div>
+        <div class="toc-mobile">
+          <button id="tocToggle" type="button" aria-expanded="false" aria-controls="tocList">Contents <span aria-hidden="true">≡</span></button>
+          <nav id="tocList" class="toc" aria-label="On this page"></nav>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="essay-cover">
+    <div class="cover-topline">
+      <p class="eyebrow">Thinking in Systems</p>
+      <span class="issue-label">Essay 04 <span aria-hidden="true">/</span> 05</span>
+    </div>
+    <p class="series-subtitle">AI Theory, Philosophy &amp; Systems Design</p>
+    <h1 id="essay-title">The Thermometer Is in the Wrong Room</h1>
+    <p class="cover-deck">Why reliable AI systems depend on more than accurate outputs, successful tests, and increasingly sophisticated models.</p>
+    <div class="cover-bottomline">
+      <p class="byline">By Chris Yasuda Drysdale <span aria-hidden="true">·</span> <span id="reading-time">Reading time calculated on load</span></p>
+      <a class="begin-link" href="#content">Begin reading <span aria-hidden="true">↓</span></a>
+    </div>
+  </div>
+
+  <div class="page essay-layout">
+    <aside class="toc-desktop">
+      <p class="eyebrow">In this essay</p>
+      <nav class="toc" aria-label="On this page"></nav>
+    </aside>
+    <main id="content" tabindex="-1">
+      <article aria-labelledby="essay-title">
+        <div class="essay-opening">
+          <p class="opening-line">The dashboard was green.</p>
+          <p>A marketing team had recently introduced an AI-powered production system. It took approved briefs, retrieved verified product information, generated copy, and placed that copy into standardized templates.</p>
+          <p>The results looked promising. In its first month, the team produced 200 assets. Every draft received editorial approval, and an additional quality assurance sample of 40 drafts achieved a 95% pass rate. Leadership was pleased. The team was already discussing how to increase production eightfold without hiring eight times as many people.</p>
+          <p>Then two published assets needed corrections.</p>
+          <p>Both contained product claims that were missing important qualifications. The team had approved the correct language, yet the published materials said something different. Attention turned to the AI.</p>
+          <p>Perhaps its instructions weren't sufficiently precise. Perhaps the model needed better examples. Maybe the team should introduce a second AI to review the first one's work.</p>
+          <p>All reasonable suggestions, assuming the AI was responsible.</p>
+          <p>But the AI had generated the correct copy. Editorial had approved it. The errors appeared afterward, when an automated layout process shortened text to fit the available space. The shortening process had done exactly what it was designed to do.</p>
+          <p>Making text fit and preserving the meaning of a product claim are not necessarily the same thing. Nothing checked whether the approved language had changed before publication.</p>
+          <p>The system's quality dashboard still reported 95%. Nothing on it reflected the two corrections.</p>
+          <p><em>This is a fictional scenario.</em> The workflow introduced errors after its final quality check, and nothing caught them before publication. The dashboard was accurately measuring one part of the process. It simply wasn't measuring the outcome that mattered.</p>
+          <p class="essay-thesis">The thermometer was in the wrong room.</p>
+          <p>How do we design reliable systems when we can't fully predict how they'll behave?</p>
+          <noscript><nav class="reading-route" aria-label="Essay chapters"><a href="../index.html">← Home</a><a href="#predictable-and-reliable">Feedback and reliability</a><a href="#observability">Seeing the failure</a><a href="#reliable-enough">Requirements and responsibility</a></nav></noscript>
+        </div>
+
+        <section class="essay-section" aria-labelledby="predictable-and-reliable">
+          <p class="chapter-marker">01 <span>Feedback and reliability</span></p>
+          <h2 id="predictable-and-reliable" data-toc-label="Predictable and reliable" data-toc-group="01 / Feedback and reliability">Predictable and reliable are not the same thing</h2>
+          <p>Consider two machines intended to maintain a room at a comfortable temperature. The first produces a fixed amount of heat, carefully calibrated to keep the room at 70°F under the expected conditions. The second measures the room's temperature and adjusts its heat output accordingly.</p>
+          <p>Now someone opens a window.</p>
+          <p>The first machine continues operating exactly as designed, even as the room becomes colder. The second detects the change and increases its output. Assuming it has enough heating capacity and responds in time, it can bring the temperature back toward the target.</p>
+          <p>Which machine would you trust to keep the room comfortable? Probably the second. Its output varies because the conditions vary. Its rules can be fixed, but the timing of its response depends on what happens in the room: we can't say when it will switch on without knowing when the window opens and how quickly the room cools.</p>
+          <p>The first machine, meanwhile, can be perfectly consistent and consistently fail to keep anyone warm.</p>
+          <p class="key-thought">Predictability concerns what a system will do. Reliability concerns whether it continues to do what is required under the conditions in which it operates.</p>
+          <p>The distinction depends on what we expect from the system. If we're designing a machine to produce an identical amount of heat every time, the first machine might be perfectly reliable. If we're designing one to maintain a comfortable room, it isn't. Reliability is always relative to a requirement.</p>
+          <p>A language model might produce slightly different answers to equivalent questions. Those differences could result from its generation process, variations in context, or changes in the surrounding workflow. But requiring identical wording is not necessarily the same as requiring reliable behavior.</p>
+          <p>An assistant that uses different language to communicate the same accurate information may be working perfectly well. One that consistently produces the same incorrect information is highly predictable and not particularly useful.</p>
+          <p>Variability alone doesn't tell us whether a system is dependable. What matters is whether its behavior remains within acceptable limits, and what happens when it doesn't.</p>
+        </section>
+
+        <section class="essay-section" aria-labelledby="feedback">
+          <h2 id="feedback" data-toc-label="What feedback changes">What feedback changes</h2>
+          <p>A mechanical device regulating its temperature, a human body maintaining its internal conditions, and an automated machine correcting its movements have something in common. Each uses information about what is happening to guide its response.</p>
+          <p>That connection helped shape <em>cybernetics</em>, the study of communication, control, and regulation across mechanical, biological, and social systems. Mathematician Norbert Wiener's <a href="https://mitpress.mit.edu/9780262537841/cybernetics-or-control-and-communication-in-the-animal-and-the-machine/"><em>Cybernetics: Or Control and Communication in the Animal and the Machine</em></a>, first published in 1948, helped establish the field.</p>
+          <p>A central concept was <strong>feedback</strong>: information about a system's behavior or effects influences what the system does next.</p>
+          <p>Our thermostat has a desired temperature, a sensor that measures the actual temperature, and a mechanism that changes the heating system's behavior. If the room becomes too cold, it activates the heat. As the temperature rises, it eventually turns it off. It doesn't need to predict every open door; it needs to detect a meaningful deviation and respond in time.</p>
+          <p>But it responds to the temperature where its sensor is. Put that sensor in a warm hallway, and the thermostat can switch the heater off while the room we care about is still cold.</p>
+          <!-- visuals-2026-10-28: thermostat -->
+          <figure class="wide-figure reliability-figure sensor-figure" aria-labelledby="sensor-placement-title">
+            <div class="figure-topline"><span class="eyebrow">Where the sensor sits</span><span class="figure-number">Fig. 01</span></div>
+            <h3 id="sensor-placement-title">A thermostat responds to what its sensor measures.</h3>
+            <p class="sensor-setup">Same room, same 70°F target. Someone opens the window.</p>
+            <ol class="sensor-panels">
+              <li><div class="sensor-plan" aria-hidden="true"><svg viewBox="0 0 200 120" aria-hidden="true" focusable="false"><rect class="sv-hall" x="1" y="1" width="69" height="118"/><path class="sv-frame" d="M199,40 V1 H1 V119 H199 V80"/><path class="sv-wall" d="M70,1 V68 M70,100 V119"/><path class="sv-window" d="M199,40 L187,49"/><path class="sv-cold" d="M195,55 H175 M179,51 L175,55 L179,59 M195,69 H175 M179,65 L175,69 L179,73"/><path class="sv-heat" d="M106,99 q3,-4 0,-8 q-3,-4 0,-8"/><path class="sv-heat" d="M120,99 q3,-4 0,-8 q-3,-4 0,-8"/><path class="sv-heat" d="M134,99 q3,-4 0,-8 q-3,-4 0,-8"/><rect class="sv-heater" x="95" y="104" width="50" height="8" rx="2"/></svg><span class="sv-label is-hallway">Hallway</span><span class="sv-label is-room">Room</span></div><span class="small-label">01 / Fixed output</span><strong>No sensor</strong><dl class="sensor-readout"><div><dt>Measures</dt><dd>Nothing</dd></div><div><dt>Heater</dt><dd>Same output as before</dd></div><div><dt>Room</dt><dd class="is-cold">Keeps cooling</dd></div></dl></li>
+              <li class="is-regulated"><div class="sensor-plan" aria-hidden="true"><svg viewBox="0 0 200 120" aria-hidden="true" focusable="false"><rect class="sv-hall" x="1" y="1" width="69" height="118"/><path class="sv-frame" d="M199,40 V1 H1 V119 H199 V80"/><path class="sv-wall" d="M70,1 V68 M70,100 V119"/><path class="sv-window" d="M199,40 L187,49"/><path class="sv-cold" d="M195,55 H175 M179,51 L175,55 L179,59 M195,69 H175 M179,65 L175,69 L179,73"/><path class="sv-heat is-on" d="M106,99 q3,-4 0,-8 q-3,-4 0,-8"/><path class="sv-heat is-on" d="M120,99 q3,-4 0,-8 q-3,-4 0,-8"/><path class="sv-heat is-on" d="M134,99 q3,-4 0,-8 q-3,-4 0,-8"/><rect class="sv-heater is-on" x="95" y="104" width="50" height="8" rx="2"/><path class="sv-signal" d="M127,66 V103"/><circle class="sv-sensor" cx="127" cy="60" r="6"/></svg><span class="sv-label is-hallway">Hallway</span><span class="sv-label is-room">Room</span><span class="sv-reading is-room">64°F</span></div><span class="small-label">02 / Thermostat</span><strong>Sensor in the room</strong><dl class="sensor-readout"><div><dt>Measures</dt><dd>The room: 64°F</dd></div><div><dt>Heater</dt><dd>On</dd></div><div><dt>Room</dt><dd class="is-ok">Warms toward 70°F</dd></div></dl></li>
+              <li class="is-misplaced"><div class="sensor-plan" aria-hidden="true"><svg viewBox="0 0 200 120" aria-hidden="true" focusable="false"><rect class="sv-hall" x="1" y="1" width="69" height="118"/><path class="sv-frame" d="M199,40 V1 H1 V119 H199 V80"/><path class="sv-wall" d="M70,1 V68 M70,100 V119"/><path class="sv-window" d="M199,40 L187,49"/><path class="sv-cold" d="M195,55 H175 M179,51 L175,55 L179,59 M195,69 H175 M179,65 L175,69 L179,73"/><rect class="sv-heater is-off" x="95" y="104" width="50" height="8" rx="2"/><path class="sv-signal" d="M35,66 V85 H100 V103"/><circle class="sv-sensor" cx="35" cy="60" r="6"/></svg><span class="sv-label is-hallway">Hallway</span><span class="sv-label is-room">Room</span><span class="sv-reading is-hallway">71°F</span></div><span class="small-label">03 / Thermostat</span><strong>Sensor in the hallway</strong><dl class="sensor-readout"><div><dt>Measures</dt><dd>The hallway: 71°F</dd></div><div><dt>Heater</dt><dd>Off</dd></div><div><dt>Room</dt><dd class="is-cold">Stays cold</dd></div></dl></li>
+            </ol>
+            <figcaption>Illustrative temperatures. The two thermostats follow the same rules; only the sensor's location differs. Fig. 03 shows the same gap in the marketing workflow, where the quality check measures drafts rather than published assets.</figcaption>
+          </figure>
+          <!-- /visuals-2026-10-28: thermostat -->
+          <p>The thermostat uses <em>negative feedback</em>: when the measured temperature falls below its target, the heater counteracts that change. The word <em>negative</em> doesn't mean harmful. It describes the direction of the feedback's effect.</p>
+          <p>Positive feedback reinforces a change. Imagine a recommendation system that promotes already-popular content. Increased visibility attracts more engagement, which causes the content to be promoted even further. Neither form is inherently good or bad. The question is what behavior the feedback encourages and whether that serves the system's purpose.</p>
+          <p>And feedback is not automatically stabilizing. A heating system that measures temperature too infrequently might overheat the room before detecting the change. It then switches off, allowing the temperature to fall too far before responding again. The result can be <em>oscillation</em>: repeated overshooting and overcorrection.</p>
+          <p>Imagine one model generates a document, a second critiques it, and the first revises its answer. The critic identifies another potential problem. The generator revises again. Eventually, the document has been rewritten six times.</p>
+          <p>Is it six revisions better? It does at least have a higher version number.</p>
+          <p>Without meaningful standards for evaluating the revisions and a sensible stopping condition, the models might simply alternate between competing interpretations. Each correction may introduce a new error. Useful feedback tells us whether the work is improving and arrives in time to guide a response.</p>
+        </section>
+
+        <section class="essay-section" aria-labelledby="requisite-variety">
+          <h2 id="requisite-variety" data-toc-label="The ability to respond">A system must be able to handle the problems it encounters</h2>
+          <p>A thermostat can measure the room's temperature perfectly and still be connected to a broken heater. Knowing the room is cold doesn't give it a way to warm it.</p>
+          <p>A second limit is the range of available responses. In <a href="https://ashby.info/Ashby-Introduction-to-Cybernetics.pdf"><em>An Introduction to Cybernetics</em> (1956)</a>, British psychiatrist and cybernetician W. Ross Ashby developed the <strong>Law of Requisite Variety</strong>. His formal treatment relates disturbances, regulatory responses, and the range of possible outcomes. The practical lesson is that regulation depends on having responses suited to the disturbances that matter.</p>
+          <p>Consider an AI assistant used to answer employees' questions. Suppose its only available behavior is to generate an answer. A more sophisticated model won't give the surrounding system a way to defer a question or escalate a decision.</p>
+          <!-- visuals-2026-10-28: responses -->
+          <figure class="wide-figure reliability-figure response-figure" aria-labelledby="response-match-title">
+            <div class="figure-topline"><span class="eyebrow">Matching responses to conditions</span><span class="figure-number">Fig. 02</span></div>
+            <h3 id="response-match-title">One behavior, four different situations.</h3>
+            <table class="response-table">
+              <thead><tr><th scope="col">Condition</th><th scope="col">With one behavior</th><th scope="col">A response suited to it</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Straightforward question</th><td class="is-single" data-label="With one behavior">Generate an answer</td><td class="is-suited" data-label="A response suited to it">Answer from authoritative information</td></tr>
+                <tr><th scope="row">Ambiguous question</th><td class="is-single" data-label="With one behavior">Generate an answer</td><td class="is-suited" data-label="A response suited to it">Ask for clarification</td></tr>
+                <tr><th scope="row">Needs confidential information the assistant can't access</th><td class="is-single" data-label="With one behavior">Generate an answer</td><td class="is-suited" data-label="A response suited to it">Say what it can't access, then defer or route the question</td></tr>
+                <tr><th scope="row">Needs approval from a qualified person</th><td class="is-single" data-label="With one behavior">Generate an answer</td><td class="is-suited" data-label="A response suited to it">Escalate the decision instead of making it</td></tr>
+              </tbody>
+            </table>
+            <figcaption>An engineering illustration, not Ashby's formula. Adding responses doesn't make a system reliable on its own. The system needs enough information to choose an appropriate response and a way to carry it out.</figcaption>
+          </figure>
+          <!-- /visuals-2026-10-28: responses -->
+          <p>Giving the assistant more freedom might help it handle unfamiliar situations, but it also creates opportunities for new mistakes. Sometimes the better solution is to increase its capacity to respond. Sometimes it's to reduce the variety of situations it's expected to handle.</p>
+          <p>An assistant restricted to a well-defined set of tasks, supported by authoritative information and clear escalation paths, may be substantially more dependable than one encouraged to handle everything.</p>
+          <aside class="research-note" aria-labelledby="ashby-note">
+            <h3 id="ashby-note">What Ashby's law does—and doesn't—give us</h3>
+            <p>Chapter 11 develops a mathematical limit under specific assumptions about disturbances and responses. The assistant example is an engineering interpretation, not a formula for choosing a model or counting its tools. More available actions do not by themselves establish effective regulation.</p>
+          </aside>
+          <p><strong>A system cannot reliably manage conditions it is unable to distinguish or respond to effectively.</strong> That includes conditions in which the appropriate response is to stop.</p>
+        </section>
+
+        <section class="essay-section" aria-labelledby="observability">
+          <p class="chapter-marker">02 <span>Seeing the failure</span></p>
+          <h2 id="observability" data-toc-label="What the dashboard sees" data-toc-group="02 / Seeing the failure">You cannot correct what you cannot see</h2>
+          <p>Let's return to our fictional marketing team. The quality dashboard reports a 95% pass rate. What, exactly, does that number tell us?</p>
+          <p>Forty drafts received additional quality checks. Thirty-eight passed. The 95% describes those reviewed drafts before layout.</p>
+          <p>The two published errors tell us the workflow failed after review. With no systematic check of final assets, we don't know how many more errors went unnoticed.</p>
+
+          <figure class="wide-figure reliability-figure" aria-labelledby="measurement-gap-title">
+            <div class="figure-topline"><span class="eyebrow">Where the measurement stops</span><span class="figure-number">Fig. 03</span></div>
+            <h3 id="measurement-gap-title">The dashboard describes the drafts.</h3>
+            <ol class="reliability-pipeline">
+              <li><span class="small-label">01 / Generate</span><strong>Draft copy</strong><p>Approved brief and verified product information.</p></li>
+              <li class="is-measured"><span class="small-label">02 / Review</span><strong>Approved copy</strong><p>Every draft receives editorial approval. Additional QA: 38 of 40 pass.</p></li>
+              <li class="is-changed"><span class="small-label">03 / Transform</span><strong>Layout shortens text</strong><p>Qualifications are removed from two claims.</p></li>
+              <li><span class="small-label">04 / Publish</span><strong>Final assets</strong><p>No check compares the final claims with approved copy.</p></li>
+            </ol>
+            <div class="reliability-measures">
+              <div><span class="small-label">Measured before layout</span><strong>95%</strong><p>Pass rate in the 40-draft QA sample.</p></div>
+              <div><span class="small-label">Discovered after publication</span><strong>2 failures</strong><p>Total failures unknown; final assets were not systematically checked.</p></div>
+            </div>
+            <figcaption>Fictional workflow, simplified to show the gap. The 95% describes the 40-draft sample; it does not establish how accurate the other drafts or the published assets were. We don't know how the sample was selected or whether its two failed drafts were the ones later corrected after publication.</figcaption>
+          </figure>
+
+          <p>At 200 assets, a sample of 40 represents 20% of production. At 1,600 assets, it represents 2.5%. That change alone doesn't tell us how informative the sample is: <a href="https://www.itl.nist.gov/div898/handbook/ppc/section3/ppc333.htm">sample size, variation in the work, and the precision we need</a> all matter. But even reviewing every draft would leave this particular gap untouched. The workflow can still introduce errors afterward.</p>
+          <p>This is an <strong>observability problem</strong>. In software operations, observability concerns our ability to understand what a system is doing through evidence such as logs, metrics, and traces of its execution. The <a href="https://opentelemetry.io/docs/concepts/observability-primer/">OpenTelemetry primer</a> provides a useful introduction.</p>
+          <aside class="research-note" aria-labelledby="observability-note">
+            <h3 id="observability-note">A term with two related meanings</h3>
+            <p>In formal control theory, observability concerns whether a system's internal state can be reconstructed from measurements over time, given its dynamics and known inputs. Rudolf Kálmán's <a href="https://ntrl.ntis.gov/NTRL/dashboard/searchResults/titleDetail/AD724842.xhtml">work around 1960</a> helped establish the concept. Software engineering uses the term more broadly; keeping useful logs does not establish observability in the mathematical sense. <a href="https://www.acin.tuwien.ac.at/fileadmin/cds/lehre/multivar/multivar_notes_2.pdf">TU Wien's lecture notes (PDF)</a> introduce the formal definition.</p>
+          </aside>
+          <p>For our workflow, the practical question is: <em>When something goes wrong, can we determine what happened and where?</em></p>
+          <p>An incorrect claim might originate in an obsolete reference document, the retrieval of the wrong source, or a model's misinterpretation of accurate information. Or the model might produce a correct answer that another component changes. If all we retain is the final document, we may struggle to tell which happened.</p>
+          <p>The team can investigate where a claim changed by comparing source versions, retrieved information, the generated draft, editorial changes, layout transformations, and the published output. Missing records, ambiguous language, or failures in other systems can still prevent a complete reconstruction.</p>
+          <p>The editor approved accurate copy. The layout automation shortened it to fit. The publishing process distributed the resulting asset. Each component accomplished its immediate task, but no step preserved the accuracy of the claim throughout the process.</p>
+          <p>The failure lived between the steps.</p>
+          <aside class="research-note" aria-label="Connection to earlier essays">
+            <p><a href="when-ai-gets-the-right-answer.html#diagnostic-title">Essay one</a> traces an answer from its source through verification. <a href="a-better-prompt-wont-fix-the-wrong-problem.html#system-boundaries">Essay two</a> asks where to draw the system boundary. <a href="all-the-information-none-of-the-context.html#context-fig-4">Essay three</a> examines the information within that boundary: its source, organization, retrieval, and application. Here, we carry the investigation past the approved answer into transformation and publication.</p>
+          </aside>
+        </section>
+
+        <section class="essay-section" aria-labelledby="monitoring-and-regulation">
+          <h2 id="monitoring-and-regulation" data-toc-label="Seeing versus responding">A dashboard is not a safety mechanism</h2>
+          <p>Imagine a dashboard that reports how many incorrect claims were published last week. It may reveal trends or justify an investigation. By itself, though, it does nothing to prevent the next incorrect claim from being published.</p>
+          <p>This is the difference between <strong>monitoring</strong> and <strong>regulation</strong>. Monitoring makes behavior visible. Regulation uses information about that behavior to influence what happens next.</p>
+          <p>In March 2026, the US National Institute of Standards and Technology published <a href="https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.800-4.pdf"><em>Challenges to the Monitoring of Deployed AI Systems</em></a>. Drawing on practitioner workshops and a literature review, it examines monitoring after deployment, where changing inputs, environments, and interactions can expose behavior that earlier evaluations missed.</p>
+          <p>The report also describes a field still developing its methods. Standardized, validated approaches are not available for every monitoring problem. Some failures are difficult to define, much less detect automatically, and monitoring itself can introduce privacy, security, and resource costs.</p>
+          <p>A corrective process needs a way to act on what monitoring reveals: reject an output, revise it, retry a failed operation, request clarification, route an exception to a specialist, or prevent a consequential action. In our marketing workflow, detecting changed copy is only part of the solution. Someone—or something—must determine whether the change is acceptable, with authority to stop publication when it isn't.</p>
+          <p>Otherwise, we've simply built a more sophisticated way to observe failure.</p>
+        </section>
+
+        <section class="essay-section" aria-labelledby="more-ai">
+          <h2 id="more-ai" data-toc-label="Does another AI help?">Does another AI solve the problem?</h2>
+          <p>A second model might identify unsupported claims, inconsistent terminology, or missing context that the generating model overlooked. But the reviewer has limitations of its own.</p>
+          <p>A <a href="https://aclanthology.org/2025.ijcnlp-long.18/">2025 study by Shi and colleagues</a> examined <em>position bias</em> in language-model evaluations: judgments influenced by the order in which candidate responses appear. The researchers compared judgments of pairs and lists of responses on two benchmarks, MTBench and DevBench. The effects varied across judges and tasks; they don't establish an error rate for reviewing our marketing assets.</p>
+          <p>The reviewer has to be tested like any other component. A separate review step doesn't automatically provide independent evidence of correctness. Two models may overlook the same ambiguity or rely on similarly inadequate information. A reviewer may also reject a correct answer or approve a plausible but incorrect one.</p>
+          <p>The useful questions are whether the reviewer detects the relevant failures, how often it misses them or raises false alarms, and what happens when its judgment is uncertain.</p>
+          <p>For our missing qualifications, one option is to ask a second AI to inspect every finished asset. A more direct first step is to preserve the approved text and compare it with the text in the final layout. Software can detect a changed passage without deciding what the change means.</p>
+
+          <figure class="wide-figure reliability-figure" aria-labelledby="claim-change-title">
+            <div class="figure-topline"><span class="eyebrow">Detect first, then evaluate</span><span class="figure-number">Fig. 04</span></div>
+            <h3 id="claim-change-title">A shorter claim can be a different claim.</h3>
+            <div class="reliability-copy-pair">
+              <div><span class="small-label">Approved copy</span><blockquote>“Save 20% on your first order <span class="claim-condition">when you spend $100 or more.</span>”</blockquote></div>
+              <div><span class="small-label">After automatic shortening</span><blockquote>“Save 20% on your first order.”</blockquote><p>The minimum-spend condition is missing.</p></div>
+            </div>
+            <details class="evidence-disclosure">
+              <summary>What should happen before publication? <span aria-hidden="true">↗</span></summary>
+              <div class="disclosure-body">
+                <p><strong>Detect:</strong> the final wording differs from the approved version. A text comparison can flag that difference.</p>
+                <p><strong>Hold and review:</strong> block publication until an authorized reviewer verifies the change. In this example, shortening has removed a condition of the offer.</p>
+                <p><strong>Correct and recheck:</strong> restore the qualification, use an approved shorter version, or change the template. Check the rendered asset again before release.</p>
+              </div>
+            </details>
+            <figcaption>Invented offer illustrating the original failure mechanism. A text comparison detects changes; it does not judge their meaning. Matching underlying text also cannot establish that every word is visible and readable in the rendered asset.</figcaption>
+          </figure>
+
+          <p>Not every change is unsafe. A shorter sentence might preserve its meaning perfectly well; a minor alteration might change the scope of a claim. Deciding whether a change preserves the claim may require a language model, a qualified reviewer, or a carefully defined combination of both.</p>
+          <p>The finished layout needs checking too. A qualification can remain in a document's underlying text while being clipped, hidden, or unreadable on the page.</p>
+          <p>And if space is routinely tight, the team can prepare for that before layout begins. It can approve short variants in advance, protect critical qualifications from automatic removal, or use a template that accommodates the required language.</p>
+          <p class="key-thought">The best safeguard is not necessarily the most sophisticated one. It's the one that addresses the relevant failure mechanism with acceptable cost and risk.</p>
+          <p>Every additional model, approval stage, and transformation creates another dependency. An extra check can provide useful protection, but its decisions take time and its failures need handling. A workflow that repeatedly sends a document between competing evaluators may be harder to operate than one with a well-placed validation step.</p>
+          <p>If the model is producing inaccurate drafts, improving its instructions or supporting context may help. If a downstream process is corrupting accurate information, those changes won't repair it. And if no adequate safeguards exist for the intended task, restricting the scope may be the better intervention.</p>
+        </section>
+
+        <section class="essay-section" aria-labelledby="reliable-enough">
+          <p class="chapter-marker">03 <span>Requirements and responsibility</span></p>
+          <h2 id="reliable-enough" data-toc-label="Reliable enough for what?" data-toc-group="03 / Requirements and responsibility">How reliable is reliable enough?</h2>
+          <p>Suppose an AI assistant answers 99% of questions correctly. Is that good?</p>
+          <p>For an optional brainstorming tool, it might be excellent. For a system generating legally consequential statements, a 1% error rate could be unacceptable, particularly if errors reach the public without verification. At 10,000 comparable operations, a true 1% failure rate corresponds to roughly 100 failures on average.</p>
+          <p>And what are those failures? An awkward headline and an inaccurate legal qualification shouldn't count as equivalent problems just because each occupies one row in a spreadsheet.</p>
+          <p>Severity, operating conditions, and the ability to detect and contain failures all matter. A system with occasional harmless variations but effective controls on dangerous outputs may be more dependable for its purpose than one with a higher average accuracy score and no safeguards.</p>
+          <p>Google's <a href="https://sre.google/sre-book/embracing-risk/">Site Reliability Engineering approach</a> recognizes that pursuing higher reliability involves costs. Engineering resources spent preventing increasingly rare failures are unavailable for other improvements. Its <a href="https://sre.google/sre-book/service-level-objectives/">service-level indicators and objectives</a> distinguish what is measured from the performance target the service is expected to meet.</p>
+          <p>Reliability targets need to reflect what users need, with a clear response when those targets aren't met. That doesn't mean accepting a fixed percentage of every kind of mistake.</p>
+          <p>Some failures may be unacceptable regardless of how rarely they occur. An average accuracy score cannot demonstrate that those failures are prevented. The workflow may need stronger preventive controls, independent validation, restricted authority, or human approval. If it cannot demonstrate adequate reliability, the appropriate response may be to delay deployment or narrow the task.</p>
+        </section>
+
+        <section class="essay-section" aria-labelledby="contact-with-reality">
+          <h2 id="contact-with-reality" data-toc-label="Before, during, and after">Reliability has to survive contact with reality</h2>
+          <p>A successful evaluation tells us how a system performed under the conditions tested. It doesn't guarantee the same performance when those conditions change. Different checks serve different purposes:</p>
+          <dl class="concept-list">
+            <div><dt><span>01</span> Before deployment</dt><dd>Test representative tasks, meaningful edge cases, and known failures. For the marketing team, include claims with qualifications and templates with tight space limits.</dd></div>
+            <div><dt><span>02</span> During execution</dt><dd>Protect consequential actions. Hold an asset when approved claim text changes, and verify the correction before publication.</dd></div>
+            <div><dt><span>03</span> After deployment</dt><dd>Look for failures and new conditions in practice. A rise in exceptions after a template update should trigger investigation; a missed error needs a correction and recovery path.</dd></div>
+          </dl>
+          <p>Together, these checks help the team find errors, limit their effects, and improve the workflow. Some failures still won't be visible until a customer reports them.</p>
+          <p>Standards of correctness can also be subjective or contested, and some risks can't be measured reliably with the evidence available. If the organization cannot tell whether a critical requirement is being met, that uncertainty should influence what the system is allowed to do.</p>
+        </section>
+
+        <section class="essay-section" aria-labelledby="closing-the-loop">
+          <h2 id="closing-the-loop" data-toc-label="Closing the loop">Closing the loop</h2>
+          <p>A dependable workflow connects its requirements to what happens in practice: <strong>Define → Observe → Compare → Respond.</strong> Then observe again to determine whether the response worked. This is a practical synthesis of control and reliability principles, not a formal theorem.</p>
+
+          <figure class="wide-figure reliability-figure" aria-labelledby="reliability-loop-title">
+            <div class="figure-topline"><span class="eyebrow">Put the loop to work</span><span class="figure-number">Fig. 05</span></div>
+            <h3 id="reliability-loop-title">What closes the loop for this team?</h3>
+            <ol class="reliability-loop">
+              <li><span class="small-label">01 / Define</span><strong>Preserve approved claims.</strong><p>Required qualifications must remain accurate, visible, and readable through publication.</p></li>
+              <li><span class="small-label">02 / Observe</span><strong>Keep evidence across stages.</strong><p>Retain approved versions, transformations, and final assets; inspect what will actually be published.</p></li>
+              <li><span class="small-label">03 / Compare</span><strong>Check against the requirement.</strong><p>Flag changed wording. Verify its meaning and presentation before treating the asset as acceptable.</p></li>
+              <li><span class="small-label">04 / Respond</span><strong>Give someone authority to act.</strong><p>Hold publication, restore approved copy, choose an approved variant, or change the template.</p></li>
+            </ol>
+            <p class="reliability-return"><span aria-hidden="true">↻</span> Observe again: did the correction preserve the claim in the final asset?</p>
+            <figcaption>A proposed control for the fictional workflow. Its effectiveness still needs testing, including missed failures, false alarms, review capacity, and delays. Decisions about changing the requirement belong to the people accountable for it.</figcaption>
+          </figure>
+
+          <p>For a workflow of your own, ask: What outcome are we trying to preserve? What evidence would show it is failing? How do we distinguish acceptable variation from consequential error? What actions are available, and who has the authority to take them?</p>
+          <p>A limited pilot would give the team evidence to consider before scaling eightfold. It could use representative assets, with missing qualifications planted on purpose. Do the controls catch them? Does an independent check of the final layouts agree? If missed failures, false alarms, and review delays stay within agreed limits, the team can raise volume in stages, rechecking those limits at each step.</p>
+          <p>Review delays matter here. A check that sends every asset to an already-overloaded reviewer has created a queue. The team still needs someone who can resolve it.</p>
+          <p>There is also a distinction between correcting an output and learning in the machine-learning sense. Restoring approved copy is an <em>operational correction</em>. Redesigning layout after repeated incidents is a <em>process improvement</em>. Retraining the model with new data is <em>model learning</em>.</p>
+          <p>All three can affect reliability. A workflow can become substantially more dependable without modifying the model at all.</p>
+        </section>
+
+        <section class="essay-section" aria-labelledby="what-matters">
+          <h2 id="what-matters" data-toc-label="Who decides what matters?">Someone still has to decide what matters</h2>
+          <p>A thermostat knows whether the room is too cold because someone selected a desired temperature. It can measure the difference and activate the heater. It doesn't independently determine what temperature the occupants ought to prefer.</p>
+          <p>An AI workflow can likewise measure performance against a defined objective and sometimes correct deviations automatically. But someone still has to decide which outcomes matter.</p>
+          <p>Our layout automation prioritized fitting text into the available space. That was a reasonable objective, but it was insufficient. The organization also needed to preserve the accuracy of product claims, including qualifications that made the copy less convenient to place.</p>
+          <p>Should the system shorten the copy, change the template, delay production, or request an exception? Production efficiency alone cannot settle that question. These are organizational decisions involving risk, authority, and accountability.</p>
+          <p>A functioning feedback loop can consistently deliver an outcome that people don't want if its objective is poorly chosen. More capable automation makes the choice of objective more consequential. It doesn't relieve anyone of responsibility for it.</p>
+          <p>Our fictional marketing team began with a green dashboard and a reasonable belief that its workflow was performing well. The dashboard wasn't lying. It was reporting what it had been built to measure. The mistake was treating that measurement as evidence for the reliability of the entire system.</p>
+          <p>Before trusting an automated workflow, we need a defensible answer to a practical question:</p>
+          <p class="closing-thought">When this system gets something wrong, how will it know—and what happens next?</p>
+          <p>If we can't answer that question, another green dashboard probably won't help. We might just need to move the thermometer.</p>
+        </section>
+
+        <section class="essay-section references" aria-labelledby="further-reading">
+          <h2 id="further-reading" data-toc-label="Further reading" data-toc-group="Continue exploring">Selected references and further reading</h2>
+          <h3>Foundational works</h3>
+          <ul class="reference-list">
+            <li><a href="https://mitpress.mit.edu/9780262537841/cybernetics-or-control-and-communication-in-the-animal-and-the-machine/">Norbert Wiener — <em>Cybernetics: Or Control and Communication in the Animal and the Machine</em> (1948)</a><span>Feedback, communication, and control across biological and mechanical systems. The linked publisher page describes a 2019 reissue of the 1961 second edition.</span></li>
+            <li><a href="https://ashby.info/Ashby-Introduction-to-Cybernetics.pdf">W. Ross Ashby — <em>An Introduction to Cybernetics</em> (1956, PDF)</a><span>Chapter 11 develops the Law of Requisite Variety; Chapter 12 examines error-controlled regulation. The linked scan is the 1957 second impression.</span></li>
+            <li><a href="https://ntrl.ntis.gov/NTRL/dashboard/searchResults/titleDetail/AD724842.xhtml">R. E. Kálmán — <em>Contributions to the Theory of Optimal Control</em> (1960)</a><span>NTIS publication record and abstract for a foundational treatment of controllability and observability. For the formal definition, see <a href="https://www.acin.tuwien.ac.at/fileadmin/cds/lehre/multivar/multivar_notes_2.pdf">TU Wien's observability lecture notes (PDF)</a>.</span></li>
+          </ul>
+          <h3>Contemporary research and applications</h3>
+          <ul class="reference-list">
+            <li><a href="https://airc.nist.gov/airmf-resources/playbook/measure/">NIST — <em>AI Risk Management Framework: Measure Playbook</em></a><span>Choosing risk measurements, tracking performance, and documenting risks that cannot be measured.</span></li>
+            <li><a href="https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.800-4.pdf">Rao et al., NIST — <em>Challenges to the Monitoring of Deployed AI Systems</em> (March 2026, PDF)</a><span>NIST AI 800-4. Practitioner workshops and a literature review identify monitoring categories, barriers, and unresolved questions. <a href="https://doi.org/10.6028/NIST.AI.800-4">DOI record</a>.</span></li>
+            <li>Google — <a href="https://sre.google/sre-book/embracing-risk/"><em>Site Reliability Engineering: Embracing Risk</em></a> and <a href="https://sre.google/sre-book/service-level-objectives/"><em>Service Level Objectives</em></a><span>Reliability targets, measurement, risk, and engineering trade-offs.</span></li>
+            <li><a href="https://aclanthology.org/2025.ijcnlp-long.18/">Shi et al. — <em>Judging the Judges: A Systematic Study of Position Bias in LLM-as-a-Judge</em> (2025)</a><span>IJCNLP–AACL research on position bias in pairwise and list-wise evaluation. Findings are specific to the tested models, benchmarks, and comparison settings.</span></li>
+            <li><a href="https://opentelemetry.io/docs/concepts/observability-primer/">OpenTelemetry — <em>Observability Primer</em></a><span>An introduction to software observability and evidence for understanding system behavior.</span></li>
+          </ul>
+        </section>
+      </article>
+      <aside class="series-endnote" aria-labelledby="series-title">
+        <p class="eyebrow">A five-part series</p>
+        <h2 id="series-title">Thinking in Systems</h2>
+        <p>AI Theory, Philosophy &amp; Systems Design</p>
+        <p>Exploring how philosophy, cognitive science, and systems engineering can help us understand and build more reliable AI systems.</p>
+        <!-- SERIES_NAV_START -->
+        <ol class="series-issues" aria-label="Series progress">
+          <li><a href="when-ai-gets-the-right-answer.html" aria-label="Essay 01: When AI Gets the Right Answer for the Wrong Reasons"><span>01</span><span class="issue-state">Read essay</span></a></li>
+          <li><a href="a-better-prompt-wont-fix-the-wrong-problem.html" aria-label="Essay 02: A Better Prompt Won&#x27;t Fix the Wrong Problem"><span>02</span><span class="issue-state">Read essay</span></a></li>
+          <li><a href="all-the-information-none-of-the-context.html" aria-label="Essay 03: All the Information, None of the Context"><span>03</span><span class="issue-state">Read essay</span></a></li>
+          <li aria-current="page"><span>04</span><span class="issue-state">This draft</span></li>
+          <li><span>05</span><span class="issue-state">Forthcoming</span></li>
+        </ol>
+        <nav class="series-adjacent" aria-label="More in this series">
+          <a rel="prev" href="all-the-information-none-of-the-context.html"><span>Previous essay · 03</span>All the Information, None of the Context</a>
+        </nav>
+        <!-- SERIES_NAV_END -->
+        <a href="../index.html">Explore all guides <span aria-hidden="true">↗</span></a>
+      </aside>
+    </main>
+  </div>
+  <footer class="series-footer"><a href="../index.html">Now in Production</a><span>Stay curious. Ask for the evidence.</span><a href="#top">Back to top ↑</a></footer>
+  <button id="tocFab" class="toc-fab" type="button" aria-controls="tocList" aria-expanded="false" aria-label="Open table of contents" hidden>Contents ≡</button>
+</body>
+</html>

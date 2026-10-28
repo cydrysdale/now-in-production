@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">The Thermometer Is in the Wrong Room</title>
+  <desc id="desc">Thinking in Systems, essay four of five. A thermometer sits in the first of two rooms, while an open window changes conditions in the second.</desc>
+  <rect width="1200" height="630" fill="#f6f5ef"/>
+  <path d="M72 110H1128M72 501H1128" stroke="#cbd0c6"/>
+  <g font-family="Arial, sans-serif" fill="#486349">
+    <text x="72" y="72" font-size="18" letter-spacing="3">THINKING IN SYSTEMS</text>
+    <text x="1128" y="72" font-size="18" text-anchor="end">ESSAY 04 / 05</text>
+  </g>
+  <g font-family="Georgia, serif" font-size="76" fill="#253b40">
+    <text x="68" y="218">The Thermometer</text>
+    <text x="68" y="310">Is in the</text>
+    <text x="68" y="402" fill="#1d5080">Wrong Room</text>
+  </g>
+  <g stroke="#486349" fill="none" stroke-width="2">
+    <path d="M865 210H1128V398H865ZM996 210V398"/>
+    <path d="M921 272V319A16 16 0 1 0 937 319V272A8 8 0 0 0 921 272Z" fill="#eaece3"/>
+    <path d="M929 286V330" stroke-width="4"/>
+    <circle cx="929" cy="332" r="7" fill="#486349" stroke="none"/>
+    <path d="M1050 210V267L1095 250V210" stroke="#1d5080"/>
+    <path d="M1065 285C1032 296 1100 311 1061 324M1087 294C1054 305 1122 320 1083 333" stroke="#1d5080"/>
+  </g>
+  <text x="72" y="545" font-family="Georgia, serif" font-size="24" fill="#596663">Feedback, observability, and the reliability of the whole system.</text>
+  <text x="72" y="590" font-family="Arial, sans-serif" font-size="15" fill="#596663">Chris Yasuda Drysdale · Now in Production</text>
+</svg>
