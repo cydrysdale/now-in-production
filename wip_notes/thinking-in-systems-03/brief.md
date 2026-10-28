@@ -3,10 +3,33 @@
 - Latest copy review: [Voice, tone and prose — 2026-10-28](copy-review-2026-10-28.md).
   Includes an addendum on guides one and two. The author approved implementing
   the fixes, and the copy edit below is complete across all three guides.
-- Status: WIP; committed to origin, not promoted to published status.
+- Status: Published in the manifest; deployment verification pending.
 - Source: source.md, preserved verbatim on 2026-10-27.
 - Edited page: ../../guides/all-the-information-none-of-the-context.html
 - Source SHA-256: `6ff26df7f516baddb41228ed7cacaff42358a97b9df0226c57c0f736596e9f34`.
+
+## Publication — 2026-10-28
+
+After asking whether essay three was linked from the homepage and the end sections
+of essays one and two, the author authorized publication: “I think it's ready to
+publish unless there's a reason you want to hold off.” The completed editorial,
+source and visual reviews contain no unresolved publication blocker.
+
+Changed the manifest status to `published` and regenerated the registry,
+homepage card and all three series footers. Essays one and two now link to
+essay three; essay two also has a Next essay link. Essay three no longer has
+`noindex,follow`, and its footer says “This essay.” All three edited snapshots
+are refreshed. The approved prose and original source remain unchanged.
+
+Metadata/local-link and whitespace checks passed. Browser checks passed for all
+three published essays, including homepage cards and fallbacks, navigation,
+320–1440px layouts, themes, keyboard disclosures, no-JavaScript access, basic
+print visibility and essay two's worksheet export. The new footer links were
+visually checked on desktop and mobile. Screenshots are under
+`artifacts/guide-checks/publish-03-2026-10-28/`.
+
+Deployment verification will be recorded after pushing. Earlier WIP and pending
+approval statements below describe the history before this publication decision.
 
 ## Repository save — 2026-10-28
 
