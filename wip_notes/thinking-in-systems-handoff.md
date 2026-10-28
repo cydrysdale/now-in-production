@@ -3,10 +3,10 @@
 Updated 2026-10-28. Verify this note against current files, Git status and later
 user instructions before acting.
 
-## Commit and push authorized; essay four deferred — 2026-10-28
+## Commit and push verified; essay four deferred — 2026-10-28
 
 The author authorized committing and pushing the completed site work, with
-guide four's publication deferred until tomorrow. This batch saves the reviewed
+guide four's publication deferred until tomorrow. Commit `81f916b` on `main` saves the reviewed
 essay-four WIP, its figures and social art, and the homepage publication-date
 changes. Guide four remains `wip`, `noindex,follow`, without a publication date
 or homepage card. On publication, set `guide:published` to the actual release
@@ -16,9 +16,16 @@ No automatic release is scheduled.
 Metadata/local-link and whitespace checks pass. The existing seven maintenance
 tests, published-series browser checks, essay-four checks, and targeted homepage
 date/fallback checks passed in the preceding work. Original source files are
-preserved. Stage only the completed site files and editorial records; leave
-OS files, presentations, and local rollback folders out. Commit/push and hosted
-verification results will be recorded after this batch is sent.
+preserved. The 26-file commit was pushed to `origin/main`; OS files, presentations,
+and local rollback folders were excluded and remain untouched.
+
+GitHub Pages reports a successful build of `81f916b`. Verified the hosted homepage
+against the committed HTML, both registries, all six published guides' publication
+metadata, and guide four's WIP/noindex state. The homepage shows RGB → CMYK as
+`Published 2025-08-18`; guide four has no card or publication date. Evidence is
+under `artifacts/guide-checks/homepage-publication-dates-2026-10-28/hosted-verification.json`.
+No automatic publication is configured for tomorrow. This handoff update records
+the completed push and deployment verification.
 
 ## RGB → CMYK publication date corrected — 2026-10-28
 
@@ -333,13 +340,13 @@ push or publication was requested or performed in this pass.
 | Guide 01 | Published; approved copy/humor fixes complete; end section links to essay three. Snapshot current; checks pass. | Publication commit `7830a00` pushed; hosted content and navigation verified 2026-10-28. |
 | Guide 02 | Published; approved copy/humor fixes and diagnostic connections complete; end section and Next essay link include essay three. Snapshot current; checks pass. | Publication commit `7830a00` pushed; hosted content, navigation and worksheet assets verified 2026-10-28. |
 | Guide 03 | Published with seven figures, evidence worksheet, social art and approved copy/humor fixes. Snapshot current; checks pass. | Publication commit `7830a00` pushed; hosted guide, assets, homepage card and incoming navigation verified 2026-10-28. |
-| Guide 04 | Complete WIP draft with source, edited snapshot, editorial record, five figures (two added 2026-10-28; rollback in `thinking-in-systems-04/rollback-2026-10-28-pre-visuals/`) and social art. | Local and uncommitted; no release requested. |
+| Guide 04 | Complete WIP draft with source, edited snapshot, editorial record, five figures and social art. | Committed and pushed in `81f916b`; hosted as WIP/noindex and absent from homepage. Publication deferred until tomorrow. |
 | Guide 05 | Planned, without a title, URL or source essay. | No page exists yet. |
 
-Latest publication commit: `7830a00` on `main`. Use Git status and log for the
-current tip. The author authorized committing and pushing that session's work,
-then publishing essay three. Those instructions applied to the completed
-essays one–three release; essay four is currently a local WIP draft.
+Latest site-content commit: `81f916b` on `main`, with hosting verified. Use Git
+status and log for the current tip, including any later handoff-only commit.
+Essays one–three remain published; their publication-date metadata is now live.
+Essay four is saved remotely as WIP, with publication deferred until tomorrow.
 
 ## Editorial decisions to carry forward
 
@@ -394,18 +401,12 @@ a release, stage the intended files explicitly; do not add every untracked file.
 
 ## Next session
 
-Use lesson slot 04 when the author supplies its essay. Do not create the notes
-folder beforehand: `maintain.py new` refuses to overwrite existing notes.
-The command now generates a structured review brief from
-`templates/thinking-in-systems/brief.md` as well as the page shell.
+Guide four is ready as a reviewed WIP. The author plans to publish it tomorrow.
+At release, add its actual first-publication date as `guide:published`, change
+its manifest status to `published`, run sync, refresh its snapshot, run required
+checks, then commit/push and verify the hosted guide and incoming navigation.
+Preserve the approved prose, figures, captions and original source.
 
-Start with the essay's contribution to the series, a prose/source pass and a
-small visual plan. Document how any new framework relates to the existing ones
-before building figures. Review figure meaning and copy before layout polish,
-then revisit the prose for repetition around the new figures. Keep worked
-examples and worksheet exports consistent. The existing copy and humor reviews
-are complete; begin from their approved wording rather than reopening them.
-
-Essay three is published and its hosted content/navigation are verified. The
-next authoring work is essay four when its source is supplied. Session browser
-and preview processes are closed; unrelated local files remain untouched.
+Guide five remains planned without a supplied source; do not create its notes
+folder until authoring begins. Temporary browser and preview processes are
+closed. Unrelated local files and rollback folders remain untouched.

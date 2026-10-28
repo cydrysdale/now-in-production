@@ -50,7 +50,12 @@ dates are not used as substitutes for publication dates.
 - Guide bodies, edited dates, original essay sources and registry states are
   preserved. Essay four remains WIP and absent from the homepage.
 
-Changes are local and uncommitted. No push or deployment was requested or performed.
+Release follow-up: the author subsequently authorized commit and push. These
+changes are committed in `81f916b` on `main` and pushed to `origin/main`. GitHub
+Pages built that commit successfully. Hosted verification confirms the homepage
+matches the committed HTML, all six published guides expose the correct dates,
+and guide four remains WIP/noindex and absent from homepage cards. Evidence is
+in `artifacts/guide-checks/homepage-publication-dates-2026-10-28/hosted-verification.json`.
 
 Author correction: changed RGB → CMYK to 2025-08-18 and regenerated the homepage
 cards. Metadata/local-link and whitespace checks passed; the generated card shows

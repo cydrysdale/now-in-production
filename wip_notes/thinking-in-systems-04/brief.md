@@ -399,8 +399,9 @@ or performed; essay four remains local, uncommitted, and WIP.
 - Author decisions: supplied review implemented with the documented qualifications;
   commit and push authorized on 2026-10-28, with publication deferred until tomorrow.
 - Local manifest: `wip`; `noindex,follow`; no homepage card.
-- Commit/push: authorized for the WIP draft and completed site changes; verification
-  will be recorded in the series handoff after push. Unrelated local work is preserved.
+- Commit/push: `81f916b` pushed to `origin/main`; GitHub Pages build succeeded.
+  Hosted registry and page checks confirm WIP/noindex status, no publication date,
+  and no homepage card. Unrelated local work is preserved.
 - Publication: retain WIP/noindex status and keep it off homepage cards today.
 - Next action: on release, add the actual `guide:published` date, change status,
   synchronize, check and verify hosting. Essay five remains planned.
