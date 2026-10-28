@@ -3,7 +3,7 @@
 - Latest copy review: [Voice, tone and prose — 2026-10-28](copy-review-2026-10-28.md).
   Includes an addendum on guides one and two. The author approved implementing
   the fixes, and the copy edit below is complete across all three guides.
-- Status: Published in the manifest; deployment verification pending.
+- Status: Published; hosted page and public navigation verified 2026-10-28.
 - Source: source.md, preserved verbatim on 2026-10-27.
 - Edited page: ../../guides/all-the-information-none-of-the-context.html
 - Source SHA-256: `6ff26df7f516baddb41228ed7cacaff42358a97b9df0226c57c0f736596e9f34`.
@@ -28,8 +28,18 @@ print visibility and essay two's worksheet export. The new footer links were
 visually checked on desktop and mobile. Screenshots are under
 `artifacts/guide-checks/publish-03-2026-10-28/`.
 
-Deployment verification will be recorded after pushing. Earlier WIP and pending
-approval statements below describe the history before this publication decision.
+Publication commit `7830a00` is pushed to `origin/main`. GitHub Pages
+[deployment 40765048549](https://github.com/cydrysdale/now-in-production/actions/runs/40765048549)
+succeeded. On 2026-10-28, all three guide pages, the homepage, both registries,
+shared CSS/JS, both worksheets and essay three's social PNG/SVG matched local
+files byte for byte. A live browser check followed the homepage card and both
+earlier essays' end-section links to essay three, confirmed essay two's Next
+essay link and removal of `noindex`, and reported no page errors. The homepage
+card was also visually checked. Verification evidence is saved alongside the
+publication screenshots in `hosted-check.json` and `hosted-homepage-card.png`.
+
+Earlier WIP and pending approval statements below describe the history before
+this publication decision. No release or editorial approvals remain pending.
 
 ## Repository save — 2026-10-28
 

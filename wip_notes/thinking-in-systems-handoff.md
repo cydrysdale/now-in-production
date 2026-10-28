@@ -3,13 +3,38 @@
 Updated 2026-10-28. Verify this note against current files, Git status and later
 user instructions before acting.
 
+## Essay three publication — 2026-10-28
+
+The author authorized publication after asking about the missing homepage and
+end-section links. Publication commit `7830a00` is pushed to `origin/main`.
+Essay three is now `published` in both registries. The homepage has its card;
+essays one and two link to it in their end sections, and essay two also has a
+Next essay link. Its `noindex,follow` metadata is removed. All three edited
+snapshots are current, with approved prose and original source files unchanged.
+
+Metadata/local-link checks, whitespace checks and the browser suite passed for
+all three published essays and homepage fallbacks. Desktop/mobile footer links
+were visually reviewed. Captures are under
+`artifacts/guide-checks/publish-03-2026-10-28/`.
+GitHub Pages [deployment 40765048549](https://github.com/cydrysdale/now-in-production/actions/runs/40765048549)
+succeeded. On 2026-10-28, twelve hosted files matched the local release byte for
+byte: the homepage, all three essays, both registries, shared CSS/JS, both
+worksheets and essay three's social PNG/SVG. A live browser followed the homepage
+card and essays one/two's end-section links to essay three, verified essay two's
+Next essay link and removal of `noindex`, and reported no page errors. The live
+homepage card was visually checked. Evidence is in the same artifact folder:
+`hosted-check.json` and `hosted-homepage-card.png`.
+
+This publication decision supersedes the WIP and pending-release statements in
+the historical session entries below. No editorial approvals remain pending.
+
 ## Repository save — 2026-10-28
 
 The author subsequently requested committing and pushing the completed session
 work. Content commit `7398fd8` is on `origin/main`. It contains the revised first
 two guides, guide three's WIP draft and assets, and their editorial records.
-The authoring workflow, template and verified handoff are recorded in the
-follow-up commit containing this entry.
+The authoring workflow, template and verified handoff are recorded in
+follow-up commit `40d4b3b`, also pushed to `origin/main`.
 Final metadata/local-link checks, all seven authoring-tool tests, and browser
 checks for all three guides passed, including the final humor wording. Captures
 are under `artifacts/guide-checks/commit-2026-10-28/`.
@@ -129,15 +154,14 @@ push or publication was requested or performed in this pass.
 
 | Work | Local state at handoff | Committed / hosted state |
 | --- | --- | --- |
-| Guide 01 | Published; approved copy/humor fixes complete, snapshot current, checks pass. | Content commit `7398fd8` pushed; hosted content verified 2026-10-28. |
-| Guide 02 | Published; approved copy/humor fixes and diagnostic connections complete, snapshot current, checks pass. | Content commit `7398fd8` pushed; hosted guide and worksheet assets verified 2026-10-28. |
-| Guide 03 | WIP with seven figures, evidence worksheet, social art and approved copy/humor fixes. Snapshot current; checks pass. | Content commit `7398fd8` pushed; direct URL and assets verified 2026-10-28. Absent from public series links and homepage cards. |
+| Guide 01 | Published; approved copy/humor fixes complete; end section links to essay three. Snapshot current; checks pass. | Publication commit `7830a00` pushed; hosted content and navigation verified 2026-10-28. |
+| Guide 02 | Published; approved copy/humor fixes and diagnostic connections complete; end section and Next essay link include essay three. Snapshot current; checks pass. | Publication commit `7830a00` pushed; hosted content, navigation and worksheet assets verified 2026-10-28. |
+| Guide 03 | Published with seven figures, evidence worksheet, social art and approved copy/humor fixes. Snapshot current; checks pass. | Publication commit `7830a00` pushed; hosted guide, assets, homepage card and incoming navigation verified 2026-10-28. |
 | Guides 04–05 | Planned, without titles, URLs or source essays. | No pages exist yet. |
 
-Latest content commit: `7398fd8` on `main`; the workflow/handoff commit follows it.
-Use Git status and log for the current tip. The author authorized committing and
-pushing this session's work; no promotion of guide three to published status was
-requested. Honor any later publication instruction without asking for it again.
+Latest publication commit: `7830a00` on `main`. Use Git status and log for the
+current tip. The author authorized committing and pushing the session's work,
+then publishing essay three. No further release approval is needed.
 
 ## Editorial decisions to carry forward
 
@@ -204,8 +228,6 @@ then revisit the prose for repetition around the new figures. Keep worked
 examples and worksheet exports consistent. The existing copy and humor reviews
 are complete; begin from their approved wording rather than reopening them.
 
-If guide three is authorized for release, set its manifest state to `published`,
-sync, refresh affected snapshots and run the appropriate checks. Review the
-complete intended diff, commit and push, then verify hosting and public navigation
-before reporting it live. Guide four's drafting can proceed independently of
-that release decision.
+Essay three is published and its hosted content/navigation are verified. The
+next authoring work is essay four when its source is supplied. Session browser
+and preview processes are closed; unrelated local files remain untouched.
