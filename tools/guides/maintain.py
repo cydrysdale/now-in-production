@@ -267,33 +267,18 @@ def new_lesson(root, args):
     source.decode('utf-8')
     image = image_path(root, series, url, series['site_url'] + args.image)
     values = dict(title=args.title.strip(), description=args.description.strip(), number=args.number,
-                  number_padded=f'{args.number:02}', date=date.today().isoformat(), canonical=series['site_url'] + url,
+                  number_padded=f'{args.number:02}', date=date.today().isoformat(), url=url, canonical=series['site_url'] + url,
                   image=series['site_url'] + image, series_title=series['title'], series_subtitle=series['subtitle'],
                   series_description=series['description'])
     template = read(root / 'templates/thinking-in-systems/lesson.html')
     page = re.sub(r'\{\{(\w+)\}\}', lambda match: esc(values[match[1]]), template)
+    brief_template = read(root / 'templates/thinking-in-systems/brief.md')
+    brief = re.sub(r'\{\{(\w+)\}\}', lambda match: str(values[match[1]]), brief_template)
     desired_files(root)  # Fail on existing problems before creating a draft.
     item.update(title=values['title'], url=url, status='wip')
     notes.mkdir(parents=True)
     (notes / 'source.md').write_bytes(source)
-    (notes / 'brief.md').write_text(f'''# Essay {args.number:02}: {args.title}
-
-- Status: draft; editorial approval pending.
-- Source: source.md, preserved verbatim on {date.today().isoformat()}.
-- Edited page: ../../{url}
-
-## Editorial review
-
-Record audience, thesis, light edits, factual corrections, and open questions.
-
-## Visual plan
-
-For each proposed figure, record the learning objective, assumptions, source, and accessible text equivalent.
-
-## Review and publication
-
-Record factual/source review, browser results, author approval, and publication date. A snapshot is a saved copy, not approval.
-''', encoding='utf-8')
+    (notes / 'brief.md').write_text(brief, encoding='utf-8')
     destination.write_text(page, encoding='utf-8')
     (root / MANIFEST).write_text(encode(series), encoding='utf-8')
     sync(root)

@@ -5,6 +5,19 @@
 - Edited page: ../../guides/a-better-prompt-wont-fix-the-wrong-problem.html
 - `edited.html` saves the current revised guide, including its figures and worksheet. It is an editorial snapshot, not a record of publication approval.
 
+## Repository save — 2026-10-28
+
+The author requested committing and pushing the completed session work. Content
+commit `7398fd8` was pushed to `origin/main`, including this guide's approved copy,
+humor and worksheet-continuity changes. Final metadata/local-link checks, all
+seven authoring-tool tests, and browser smoke checks for all three guides passed.
+The browser suite includes the final wording and worksheet export. GitHub Pages
+deployment succeeded. On 2026-10-28, the hosted guide, blank worksheet, worksheet
+export script, homepage and registries matched the local files byte for byte.
+The deployed guide still links to essay one; essay three remains WIP and is
+excluded from its public series navigation. Earlier local-only notes below
+describe the state before this repository save.
+
 ## Humor review — 2026-10-28
 
 The author supplied and approved the final sentence of the growing-queue

@@ -5,6 +5,19 @@
 - Edited snapshot: `edited.html`; relative assets are intended for the live guide location, not this notes folder.
 - Series state: published in the local registry. The author requested committing and merging to origin after completion on 2026-10-26.
 
+## Repository save — 2026-10-28
+
+The author requested committing and pushing the completed session work. Content
+commit `7398fd8` was pushed to `origin/main`, including this guide's approved copy
+and humor edits. Final metadata/local-link checks, all seven authoring-tool tests,
+and browser smoke checks for all three guides passed. These browser checks include
+the final humor wording and supersede the earlier limited checks for those edits.
+GitHub Pages deployment succeeded. On 2026-10-28, the hosted guide, homepage,
+registries and changed shared assets matched the local files byte for byte.
+The deployed guide still links to essay two; essay three remains WIP and is
+excluded from its public series navigation. Earlier local-only notes below
+describe the state before this repository save.
+
 ## Humor review — 2026-10-28
 
 During the one-at-a-time humor review, the author chose to retain the original

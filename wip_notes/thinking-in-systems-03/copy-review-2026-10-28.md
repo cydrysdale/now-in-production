@@ -14,8 +14,11 @@ The findings and sample edits below describe that version.
 **Implementation update — 2026-10-28:** The author approved the fixes. They have
 been applied across all three guides and recorded in each lesson's `brief.md`.
 Metadata/local-link and browser checks passed, and saved edited copies are
-current. Original source essays are unchanged. Changes remain local; guide three
-is still WIP. The historical line references below refer to the before copies
+current. Original source essays are unchanged. The author subsequently requested
+committing and pushing the work: content commit `7398fd8` is on `origin/main`,
+and its hosted pages and assets were verified on 2026-10-28. Guide three remains
+WIP and accessible by direct URL, with no homepage card or public series links.
+The historical line references below refer to the before copies
 saved under `artifacts/guide-checks/copy-edit-2026-10-28/before/`.
 
 ## Overall assessment

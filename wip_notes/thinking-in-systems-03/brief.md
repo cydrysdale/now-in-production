@@ -3,10 +3,28 @@
 - Latest copy review: [Voice, tone and prose — 2026-10-28](copy-review-2026-10-28.md).
   Includes an addendum on guides one and two. The author approved implementing
   the fixes, and the copy edit below is complete across all three guides.
-- Status: WIP; prepared for author review, not approved for publication.
+- Status: WIP; committed to origin, not promoted to published status.
 - Source: source.md, preserved verbatim on 2026-10-27.
 - Edited page: ../../guides/all-the-information-none-of-the-context.html
 - Source SHA-256: `6ff26df7f516baddb41228ed7cacaff42358a97b9df0226c57c0f736596e9f34`.
+
+## Repository save — 2026-10-28
+
+The author requested committing and pushing the completed session work. Content
+commit `7398fd8` was pushed to `origin/main`, including this draft, its seven
+figures, worksheet, social image, source and editorial records. WIP status and
+`noindex,follow` are retained; the guide remains excluded from homepage cards
+and other lessons' public navigation. A WIP file committed to Pages can still
+be opened directly after deployment.
+
+Final metadata/local-link checks, all seven authoring-tool tests, and browser
+smoke checks for all three guides passed, including the final humor wording.
+GitHub Pages deployment succeeded. On 2026-10-28, the hosted draft, evidence
+worksheet, social PNG/SVG, shared assets and registries matched the local files
+byte for byte. Its direct URL is accessible; its WIP status, robots metadata and
+exclusion from the homepage and essays one/two's end navigation are preserved.
+Local rollback folders and unrelated work were excluded from the commit. Earlier
+local-only notes below describe the state before this repository save.
 
 ## Humor review — 2026-10-28
 
