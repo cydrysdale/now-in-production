@@ -5,6 +5,42 @@
 - Edited snapshot: `edited.html`; relative assets are intended for the live guide location, not this notes folder.
 - Series state: published in the local registry. The author requested committing and merging to origin after completion on 2026-10-26.
 
+## Humor review — 2026-10-28
+
+During the one-at-a-time humor review, the author chose to retain the original
+opening of the one-week section and change only its final sentence to:
+“In reality, leadership often wants a solution by end of day.” This exact wording
+is implemented. The proposed philosophers/Friday replacement was not adopted.
+The author also supplied and approved the parenthetical “(that percentage sign
+is doing a lot of heavy lifting)” in the sentence about “I’m 95% certain.” Their
+complete paragraph is implemented verbatim. The edited snapshot is current;
+metadata and local-link checks pass. The series humor review is complete, with
+all five suggestions implemented in their individually approved forms.
+
+## Approved copy edit — 2026-10-28
+
+The author approved implementing the [series copy review](../thinking-in-systems-03/copy-review-2026-10-28.md).
+The font examples now carry the same facts forward: Helvetica is the old rule,
+Inter is current for a standard company presentation, and a claim about *all*
+presentations still needs a scope check. The citation example uses the correct
+Inter answer with a campaign brief that contains no typography instructions,
+isolating the unsupported citation from an incorrect answer.
+
+Removed the repeated explanation after the stopped-clock example, made the
+transition to claim/evidence/confidence more direct, grouped the calibration
+research in the existing research-note pattern, and shortened the conclusion to
+the opening question, practical checks and final thought. Research distinctions
+and citations are retained. The updated date is 2026-10-28; the edited snapshot
+and generated homepage card are current.
+
+Validation: guide metadata/local links and browser smoke checks passed for all
+three guides. Changed prose was visually reviewed at 1440px in light mode and
+390px in dark mode. All original source hashes, anchor IDs and figure markup
+match the before copies. Backups and captures are under
+`artifacts/guide-checks/copy-edit-2026-10-28/`. This was a prose edit using the
+existing source review, not a new factual audit. The changes remain local and
+uncommitted; no publication action was taken.
+
 ## Editorial decisions
 
 Build an educational long-form essay with restrained visuals and a light editorial pass. Preserve the distinction between correctness, justification, reliability, and understanding. Keep the philosophical positions and their objections visible without treating them as experimental proof about modern models.

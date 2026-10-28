@@ -3,6 +3,11 @@
 Request or project:
 Date:
 
+[Essay one's five-stage diagnostic](https://cydrysdale.github.io/now-in-production/guides/when-ai-gets-the-right-answer.html#diagnostic-title)
+helps trace an unreliable answer. This brief asks you to establish the outcome
+you want and the system you need to examine. If the problem is answer reliability,
+use that diagnostic within the boundary you define here.
+
 ## 1. What does the description include, and what does it leave out?
 
 - Requested fix:

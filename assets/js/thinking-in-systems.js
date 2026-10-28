@@ -52,7 +52,11 @@
         const question = field.labels[0]?.textContent.trim() || `Question ${index + 1}`;
         return `## ${index + 1}. ${question}\n\n${field.value.trim() || '(Not yet answered)'}\n`;
       });
-      const text = '# Problem-framing brief\n\n' + sections.join('\n')
+      const text = '# Problem-framing brief\n\n'
+        + '[Essay one\'s five-stage diagnostic](https://cydrysdale.github.io/now-in-production/guides/when-ai-gets-the-right-answer.html#diagnostic-title) '
+        + 'helps trace an unreliable answer. This brief asks you to establish the outcome you want and the system you need to examine. '
+        + 'If the problem is answer reliability, use that diagnostic within the boundary you define here.\n\n'
+        + sections.join('\n')
         + '\n## Next investigation\n\n- What we will try:\n- What we will hold constant:\n- When we will review the evidence:\n'
         + '\nBased on essay 02 of Thinking in Systems, “A Better Prompt Won’t Fix the Wrong Problem.”\n';
       const url = URL.createObjectURL(new Blob([text], { type: 'text/markdown;charset=utf-8' }));

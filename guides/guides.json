@@ -22,5 +22,11 @@
     "status": "published",
     "series": "thinking-in-systems",
     "number": 2
+  },
+  {
+    "url": "guides/all-the-information-none-of-the-context.html",
+    "status": "wip",
+    "series": "thinking-in-systems",
+    "number": 3
   }
 ]

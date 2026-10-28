@@ -13,7 +13,7 @@
   <meta name="description" content="What 2,400 years of philosophy can teach us about knowledge, understanding, and building trustworthy AI systems. Part 1 of Thinking in Systems.">
   <meta name="keywords" content="AI, epistemology, Gettier, Chinese Room, AI reliability, evidence, calibration, systems design">
   <meta name="guide:category" content="Thinking in Systems · 01">
-  <meta name="guide:updated" content="2026-10-27">
+  <meta name="guide:updated" content="2026-10-28">
   <meta name="guide:series" content="thinking-in-systems">
   <meta name="guide:order" content="1">
   <meta name="author" content="Chris Yasuda Drysdale">
@@ -198,8 +198,6 @@
             <figcaption>This example holds the use case constant. In practice, check authority and scope as well as the date: newer does not always mean applicable.</figcaption>
           </figure>
 
-          <p>It’s tempting to evaluate AI systems exclusively by whether they produce the expected answers. But a single correct answer tells us little about the reliability of the process producing it. A method that succeeds by coincidence may fail as soon as circumstances change.</p>
-          <p>That doesn’t mean the correct answer has no value. Sometimes getting the answer right is all that matters. But if we’re building a system intended to provide authoritative guidance repeatedly, the distinction becomes critical.</p>
           <p class="key-thought">A correct result is evidence of success on a particular task. It isn’t necessarily evidence of a reliable method.</p>
         </section>
 
@@ -266,7 +264,7 @@
           <h2 id="trust" data-toc-label="Claim, evidence, confidence" data-toc-group="03 / Trust">From philosophical knowledge to operational trust</h2>
           <p>Let’s change the question. Instead of asking, “Does this AI genuinely know what it’s talking about?” ask:</p>
           <p class="essay-thesis">What would justify trusting this particular answer?</p>
-          <p>That question is narrower, but much more actionable. It moves us toward the practical problem of establishing justified reliance. A useful starting framework is <strong>Claim → Evidence → Confidence</strong>.</p>
+          <p>We can investigate that question by checking the claim and its evidence. A useful starting framework is <strong>Claim → Evidence → Confidence</strong>.</p>
 
           <!-- visuals-2026-10-26: cec-card -->
           <figure class="cec-figure wide-figure" aria-labelledby="cec-title">
@@ -317,25 +315,28 @@
           <!-- /visuals-2026-10-26: cec-card -->
 
           <h3>1. Claim: What is the system actually asserting?</h3>
-          <p>Suppose an assistant responds, “The approved font for all company presentations is Helvetica.” Before evaluating that claim, we need to understand its scope. Does “all company presentations” include internal presentations? External sales materials? Campaign-specific decks? Historical templates?</p>
+          <p>Suppose our assistant now retrieves the current standard, Inter, but responds, “The approved font for all company presentations is Inter.” Before accepting that broader claim, we need to understand its scope. Does “all company presentations” include internal presentations? External sales materials? Campaign-specific decks? Historical templates?</p>
           <p>An answer can be factually correct in one context and misleading in another. Sometimes the first problem is whether the question has been defined precisely enough for a single right answer to exist.</p>
           <h3>2. Evidence: What supports the claim?</h3>
           <p>Now suppose the assistant cites a brand guide. That’s useful, but insufficient on its own. Does the document actually support the claim? Is it authoritative, current, and applicable to this use case? Has another document superseded it?</p>
           <p>This is where <strong>provenance</strong> becomes important: the origin and history of information. For an AI system, it might include which document supplied a claim, which version was used, when it was published, and whether the information was transformed or interpreted along the way.</p>
           <p>Provenance isn’t synonymous with truth. An authoritative document can be outdated. A current document can contain errors. A valid instruction can be applied in the wrong context. Provenance helps us evaluate evidence; it doesn’t eliminate the need to interpret it correctly.</p>
           <h3>3. Confidence: How strongly should we accept the claim?</h3>
-          <p>“Helvetica is the required font for all presentations.” The sentence is clear, decisive, and authoritative. None of those qualities establishes its correctness.</p>
+          <p>“Inter is the required font for all presentations.” The sentence is clear, decisive, and authoritative. None of those qualities establishes its correctness.</p>
           <p>In statistics, <strong>calibration</strong> concerns how closely predicted probabilities correspond to observed outcomes. If a forecasting system assigns an 80% probability to a large collection of events, approximately 80% of those events should occur if the forecasts are well calibrated.</p>
-          <p>A model saying “I’m 95% certain” hasn’t necessarily produced a statistically calibrated probability. And telling a model to express uncertainty more frequently doesn’t automatically improve its ability to distinguish correct claims from incorrect ones.</p>
-          <p><a href="https://proceedings.mlr.press/v235/band24a.html">Band and colleagues’ research on linguistic calibration</a> examines how generated language can help users make calibrated probabilistic judgments. <a href="https://aclanthology.org/2025.emnlp-main.1505/">MetaFaith</a> investigates a related but distinct question: whether a model’s expressed uncertainty faithfully reflects its intrinsic uncertainty.</p>
-          <aside class="research-note" aria-label="A distinction about confidence"><span class="eyebrow">A useful distinction</span><p>Faithfully expressing a model’s uncertainty and accurately predicting whether its claims are true are different goals. A faithful report of confidence can still be poorly calibrated to reality.</p></aside>
-          <p>For practical purposes, the lesson is straightforward: <strong>confidence should be justified by evidence, not inferred from how confidently an answer is written.</strong> A polished explanation can create the appearance of certainty, and a citation can create the appearance of justification, without supplying the grounds for either.</p>
+          <p>A model saying “I’m 95% certain” hasn’t necessarily produced a statistically calibrated probability (that percentage sign is doing a lot of heavy lifting). And telling a model to express uncertainty more frequently doesn’t automatically improve its ability to distinguish correct claims from incorrect ones.</p>
+          <p><strong>Confidence should be justified by evidence, not inferred from how confidently an answer is written.</strong></p>
+          <aside class="research-note" aria-label="Research note: confidence and calibration">
+            <span class="eyebrow">Research note: confidence and calibration</span>
+            <p><a href="https://proceedings.mlr.press/v235/band24a.html">Band and colleagues’ research on linguistic calibration</a> examines how generated language can help users make calibrated probabilistic judgments. <a href="https://aclanthology.org/2025.emnlp-main.1505/">MetaFaith</a> investigates a related but distinct question: whether a model’s expressed uncertainty faithfully reflects its intrinsic uncertainty.</p>
+            <p>Faithfully expressing a model’s uncertainty and accurately predicting whether its claims are true are different goals. A faithful report of confidence can still be poorly calibrated to reality.</p>
+          </aside>
         </section>
 
         <section class="essay-section" aria-labelledby="false-confidence">
           <h2 id="false-confidence" data-toc-label="When citations mislead">When explanations and citations create false confidence</h2>
-          <p>Imagine two assistants answering the same question. The first says, “The approved presentation font is Helvetica.” The second says, “The approved presentation font is Helvetica, according to the 2026 Brand Standards Guide.”</p>
-          <p>The second response appears more trustworthy. It offers a source and sounds verifiable. But suppose that document doesn’t actually contain the instruction. Both answers might be correct or incorrect as factual claims. The second introduces an additional problem: it presents unsupported evidence as justification. The citation may actively encourage misplaced confidence.</p>
+          <p>Now ask two assistants which font to use for a standard company presentation. The first says, “Use Inter.” The second says, “Use Inter, according to the 2026 Campaign Brief.” Both match the current brand standard in our example.</p>
+          <p>The second response appears more trustworthy because it offers a source. But suppose the cited campaign brief contains no typography instructions. The answer is correct, yet its citation does not support it. A reader who trusts that citation may carry the same confidence into the assistant’s next answer.</p>
           <p>A similar issue arises when language models explain their own reasoning. An explanation can sound logical without faithfully representing the factors responsible for the output. Research such as <a href="https://arxiv.org/abs/2404.03189"><cite>The Probabilities Also Matter</cite></a> investigates how to assess this faithfulness.</p>
           <p>This doesn’t make explanations useless. They’re valuable for communicating ideas, identifying assumptions, and exposing reasoning we can independently check.</p>
           <p class="key-thought">An explanation isn’t automatically an audit trail. A generated citation isn’t automatically proof. A confident answer isn’t automatically a well-supported conclusion.</p>
@@ -462,7 +463,7 @@
 
         <section class="essay-section" aria-labelledby="one-week">
           <h2 id="one-week" data-toc-label="When you only have a week">What if you only have a week to fix it?</h2>
-          <p>In an ideal world, every organization would have perfectly maintained documentation, rigorous evaluation, and ample time to investigate every failure. In reality, leadership often wants a solution by next Friday.</p>
+          <p>In an ideal world, every organization would have perfectly maintained documentation, rigorous evaluation, and ample time to investigate every failure. In reality, leadership often wants a solution by end of day.</p>
           <p>That makes epistemological thinking more important. Good judgment means understanding which uncertainties matter, what evidence is available, and how much risk is acceptable.</p>
           <p>If an assistant is giving unreliable brand guidance and you have one week, you probably shouldn’t begin by rebuilding the entire knowledge architecture. A proportionate approach might be to narrow its supported use cases, identify a small collection of authoritative references, resolve the most consequential conflicts, and test the revised configuration against known failures and representative questions. For questions that remain ambiguous or consequential, require human verification.</p>
           <p>This produces a system with more clearly defined boundaries and better-understood limitations. Those boundaries are part of what makes it trustworthy. An assistant that reliably answers a narrower set of questions can be more useful than one that confidently attempts everything.</p>
@@ -472,10 +473,7 @@
         <section class="essay-section" aria-labelledby="evidence-problem">
           <h2 id="evidence-problem" data-toc-label="Trust is an evidence problem">Trustworthy AI is an evidence problem</h2>
           <p>We began with two students who received perfect exam scores. One understood the subject; the other memorized the answers. We asked whether identical performance demonstrated identical knowledge.</p>
-          <p>Plato’s philosophical tradition encouraged us to distinguish true belief from justified knowledge. Gettier showed that even justified true beliefs can be correct through luck. Searle challenged the assumption that successful symbol manipulation necessarily constitutes understanding. Contemporary AI research reveals sophisticated capabilities while leaving important questions about machine understanding unsettled.</p>
-          <p>The common thread is that <strong>correctness, justification, reliability, and understanding are related but distinct concepts</strong>.</p>
-          <p>A system can provide a correct answer without reliable evidence. It can offer a convincing explanation without faithfully describing how the answer was produced. It can perform well on familiar tasks without reliably generalizing. And it can exhibit sophisticated reasoning without settling whether it understands the world as humans do.</p>
-          <p>None of this diminishes AI’s usefulness. It gives us a more disciplined way to evaluate that usefulness. When someone asks whether an AI system can be trusted, we can ask more productive questions:</p>
+          <p>We can investigate an assistant’s reliability without settling every question about its understanding. When someone asks whether it can be trusted, we can make the question specific:</p>
           <ul class="closing-questions">
             <li>What is the system claiming?</li>
             <li>What evidence supports that claim?</li>

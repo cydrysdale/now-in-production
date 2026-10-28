@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script>
+    try {
+      const theme = localStorage.getItem('theme');
+      document.documentElement.setAttribute('data-theme', theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+    } catch {}
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>All the Information, None of the Context</title>
+  <meta name="description" content="Why AI can have access to every document and still miss what matters.">
+  <meta name="guide:category" content="Thinking in Systems · 03">
+  <meta name="guide:updated" content="2026-10-28">
+  <meta name="guide:series" content="thinking-in-systems">
+  <meta name="guide:order" content="3">
+  <meta name="author" content="Chris Yasuda Drysdale">
+  <meta name="keywords" content="AI, information architecture, knowledge representation, retrieval-augmented generation, RAG, context engineering, systems thinking">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="canonical" href="https://cydrysdale.github.io/now-in-production/guides/all-the-information-none-of-the-context.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="All the Information, None of the Context">
+  <meta property="og:description" content="Why AI can have access to every document and still miss what matters.">
+  <meta property="og:url" content="https://cydrysdale.github.io/now-in-production/guides/all-the-information-none-of-the-context.html">
+  <meta property="og:image" content="https://cydrysdale.github.io/now-in-production/images/thinking-in-systems-03.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" sizes="180x180" href="../images/apple-touch-icon.png">
+  <link rel="manifest" href="../site.webmanifest">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/thinking-in-systems.css">
+  <script src="../assets/js/core.js" defer></script>
+  <script src="../assets/js/thinking-in-systems.js" defer></script>
+  <meta name="robots" content="noindex,follow">
+</head>
+<body class="thinking-guide">
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="series-header" id="top">
+    <div class="header-inner">
+      <a class="site-signature" href="../index.html">
+        <img src="../images/Pixel-Chris.png" alt="" width="36" height="36">
+        <span>Now in Production<span class="signature-caption">Guides for the curious</span></span>
+      </a>
+      <div class="header-actions">
+        <a class="all-guides" href="../index.html">All guides <span aria-hidden="true">↗</span></a>
+        <div class="theme-toggle">
+          <input id="themeSwitch" type="checkbox" role="switch" aria-checked="false" aria-label="Toggle dark mode">
+          <label for="themeSwitch"><span class="track" aria-hidden="true"></span><span class="thumb" aria-hidden="true"><span class="icon sun">☼</span><span class="icon moon">☽</span></span></label>
+        </div>
+        <div class="toc-mobile">
+          <button id="tocToggle" type="button" aria-expanded="false" aria-controls="tocList">Contents <span aria-hidden="true">≡</span></button>
+          <nav id="tocList" class="toc" aria-label="On this page"></nav>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="essay-cover">
+    <div class="cover-topline">
+      <p class="eyebrow">Thinking in Systems</p>
+      <span class="issue-label">Essay 03 <span aria-hidden="true">/</span> 05</span>
+    </div>
+    <p class="series-subtitle">AI Theory, Philosophy &amp; Systems Design</p>
+    <h1 id="essay-title">All the Information, None of the Context</h1>
+    <p class="cover-deck">Why AI can have access to every document and still miss what matters.</p>
+    <div class="cover-bottomline">
+      <p class="byline">By Chris Yasuda Drysdale <span aria-hidden="true">·</span> <span id="reading-time">Reading time calculated on load</span></p>
+      <a class="begin-link" href="#content">Begin reading <span aria-hidden="true">↓</span></a>
+    </div>
+  </div>
+
+  <div class="page essay-layout">
+    <aside class="toc-desktop">
+      <p class="eyebrow">In this essay</p>
+      <nav class="toc" aria-label="On this page"></nav>
+    </aside>
+    <main id="content" tabindex="-1">
+      <article aria-labelledby="essay-title">
+        <div class="essay-opening">
+        <p class="opening-line">“Approved for use.” Three perfectly ordinary words. The kind you might find in a project-management system, an email thread, or a document describing which creative assets a team can use.</p>
+        <p>Now imagine a marketing employee asks an internal AI assistant whether a particular photograph can be used in an upcoming advertising campaign. The assistant searches the company's files, finds a record marked “Approved for use,” and confidently responds that the photograph is cleared for the campaign. It even cites the approval record.</p>
+        <p>There's just one problem.</p>
+        <p>The photograph was originally licensed for a company website in the United States, the approval applied only to a specific event, and the license expired at the end of last year. The new campaign involves paid advertising in several European countries. Otherwise, everything checks out.</p>
+        <p>All of that information exists in the organization's documentation. The license agreement specifies the permitted geography and usage. The original campaign brief identifies the event. The approval record is accurately dated. The new campaign brief describes the intended distribution.</p>
+        <p>The assistant has access to every one of these documents. Yet it gives the wrong answer.</p>
+        <p>This is a fictional example. When an AI system struggles to answer questions about an organization, a common response is to give it more documents, more databases, more information.</p>
+        <p>But information doesn't become useful simply because it's available. The phrase “Approved for use” is accurate within its original context. What makes the assistant's answer wrong isn't necessarily a missing fact. It's the failure to preserve and apply the relationships that determine what the approval actually means.</p>
+        <p><strong>The usefulness of information depends not only on what it says, but on how it relates to everything else.</strong></p>
+        <p>Librarians, information scientists, and computer scientists have spent generations working on questions of organization and interpretation. Their work helps us ask what an assistant needs beyond access to the files.</p>
+        <figure class="wide-figure context-figure " aria-labelledby="context-fig-1">
+          <div class="figure-topline"><p class="eyebrow">An approval with conditions</p><span class="figure-number">Fig. 01</span></div>
+          <h3 id="context-fig-1">Approved for which use?</h3>
+          <p class="context-question">Can we use last year’s event photograph in a new paid campaign in Europe?</p>
+          <div class="context-record"><span class="small-label">What the assistant found</span><p>“Approved for use.”</p></div>
+          <details>
+            <summary>Read the conditions behind the approval</summary>
+            <div class="disclosure-body">
+              <table class="context-comparison">
+                <caption>The original permission and the proposed use</caption>
+                <thead><tr><th scope="col">Condition</th><th scope="col">Original records</th><th scope="col">New campaign</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row">Channel</th><td data-label="Original records">Company website</td><td data-label="New campaign">Paid advertising</td></tr>
+                  <tr><th scope="row">Geography</th><td data-label="Original records">United States</td><td data-label="New campaign">Several European countries</td></tr>
+                  <tr><th scope="row">Timing</th><td data-label="Original records">License expired last year</td><td data-label="New campaign">Upcoming campaign</td></tr>
+                  <tr><th scope="row">Approval scope</th><td data-label="Original records">A particular event</td><td data-label="New campaign">A different campaign</td></tr>
+                </tbody>
+              </table>
+              <p class="context-conclusion"><strong>The old approval does not establish permission for this use.</strong> Check for a renewal or amendment, and refer unresolved permission questions to the person responsible for licensing.</p>
+            </div>
+          </details>
+          <figcaption>Fictional example. The approval’s wording is accurate; applying it to another channel, place and period changes the claim. A citation to that record does not establish the new claim.</figcaption>
+        </figure>
+          <aside class="research-note" aria-label="Previously in this series">
+            <p><a href="when-ai-gets-the-right-answer.html#trust">Essay one</a> asked what justifies trusting an answer. <a href="a-better-prompt-wont-fix-the-wrong-problem.html#system-boundaries">Essay two</a> examined how we define the system responsible for it. Here, we look at the information that system has to work with.</p>
+          </aside>
+          <noscript><nav class="reading-route" aria-label="Essay chapters"><a href="../index.html">← Home</a><a href="#information-and-meaning">Meaning and relationships</a><a href="#finding-what-matters">Retrieval and context</a><a href="#diagnosing-failures">Diagnosis and decisions</a></nav></noscript>
+        </div>
+        <section class="essay-section" aria-labelledby="information-and-meaning">
+        <p class="chapter-marker">01 <span>Meaning and relationships</span></p>
+        <h2 id="information-and-meaning" data-toc-label="Information and meaning" data-toc-group="01 / Meaning and relationships">The information arrived. Did the meaning?</h2>
+        <p>In 1948, mathematician and electrical engineer Claude Shannon published <a href="https://www.nokia.com/bell-labs/publications-and-media/publications/a-mathematical-theory-of-communication/"><em>A Mathematical Theory of Communication</em></a>, a paper that helped establish modern information theory. Shannon was interested in an engineering problem: how to communicate messages reliably through channels subject to limitations and noise. His work made it possible to reason mathematically about the transmission of information without needing to understand what the information meant.</p>
+        <p>This distinction was deliberate. As Shannon explained, the semantic aspects of communication were not relevant to the particular engineering problem his theory addressed. That doesn't mean Shannon believed meaning was unimportant. He was separating two different questions.</p>
+        <p>The first concerns whether a message can be transmitted accurately. The second concerns what that message means to whoever receives it.</p>
+        <p>Imagine someone sends you a sentence written in a language you don't understand. If the message arrives without a single error, the communication system has succeeded in Shannon's engineering sense. Every character is present and correctly ordered.</p>
+        <p>But have you learned anything useful? Perhaps not. You have received the information without acquiring the ability to interpret it.</p>
+        <p>A retrieved passage can likewise reach a model intact while leaving essential questions unanswered. Which photograph does an approval refer to? What use does it cover? Does it still apply? Delivering the words doesn't settle those questions.</p>
+        <p>If meaning depends partly on context, how should information be organized so that its relevant context can be recovered?</p>
+        </section>
+        <section class="essay-section" aria-labelledby="facets">
+        <h2 id="facets" data-toc-label="More than one category">A document has more than one address</h2>
+        <p>Imagine organizing a library. A book about the economic effects of agricultural policy in nineteenth-century India could reasonably belong under economics, agriculture, political history, geography, or colonial studies. But a physical book traditionally occupies one location on a shelf.</p>
+        <p>Where should it go? Wherever you put it, someone searching according to a different subject might have difficulty finding it.</p>
+        <p>The Indian mathematician and librarian S. R. Ranganathan approached this problem by combining characteristics to describe a subject. His <em>Colon Classification</em> (1933) allowed subjects to be constructed from multiple dimensions. A <a href="https://www.nature.com/articles/133008b0">1934 review in <em>Nature</em></a> described this combinatorial structure as one of the system's defining innovations.</p>
+        <p><strong>Something can belong to several meaningful categories simultaneously, and which category matters depends on the question you're asking.</strong></p>
+        <p>Consider our photograph. A designer might search by subject matter, a campaign lead by audience, and someone responsible for licensing by the agreement and its expiration date. They're looking at the same asset, but need different information to make their decisions.</p>
+        <p>A folder called <code>Approved Images</code> doesn't show these distinctions. And some might be asking what happens to a folder named "Approved Images" when a license expires (at least I hope that's true), but that's a topic for a different time. The file can stay in that folder while its metadata describes the campaign, permitted channels, geography, and expiration date. This is the practical value of <em>faceted classification</em>: information can be described along several distinct dimensions.</p>
+        <!-- visuals-2026-10-28: facets -->
+        <figure class="wide-figure context-figure" aria-labelledby="context-fig-facets">
+          <div class="figure-topline"><p class="eyebrow">Location and description</p><span class="figure-number">Fig. 02</span></div>
+          <h3 id="context-fig-facets">One file, several ways to find it</h3>
+          <div class="context-facet-grid">
+            <div class="context-folder">
+              <span class="small-label">Filed in a folder</span>
+              <p class="context-folder-path"><span>Shared drive</span> <span aria-hidden="true">/</span> <span>Approved Images</span> <span aria-hidden="true">/</span> <span>last-years-event.jpg</span></p>
+              <p>The path tells us where the file is stored. It does not show the conditions of its approval.</p>
+              <p class="context-node-note">A file can stay in this folder and still be found through its metadata.</p>
+            </div>
+            <div class="context-facets">
+              <span class="small-label">Described by facets</span>
+              <dl class="context-facet-list">
+                <div><dt>Subject</dt><dd>Event photography</dd></div>
+                <div><dt>Campaign</dt><dd>Last year’s event</dd></div>
+                <div><dt>License</dt><dd>The agreement linked to this asset</dd></div>
+                <div><dt>Channel</dt><dd>Company website</dd></div>
+                <div><dt>Region</dt><dd>United States</dd></div>
+                <div><dt>Valid until</dt><dd>End of last year</dd></div>
+              </dl>
+            </div>
+          </div>
+          <ul class="context-facet-uses">
+            <li><strong>A designer</strong> searches by subject.</li>
+            <li><strong>A campaign lead</strong> filters by channel and region.</li>
+            <li><strong>Licensing</strong> checks the agreement and the date.</li>
+          </ul>
+          <figcaption>Fictional example. Facets make one asset discoverable along several dimensions. Metadata can also link it to other records, as the license field does here. For a decision about permission, the link must identify the governing agreement and its applicable terms.</figcaption>
+        </figure>
+        <!-- /visuals-2026-10-28: facets -->
+        <p>Describing the photograph helps people find it. To decide whether they can use it, they also need to identify the agreement that governs it and the terms that apply.</p>
+        </section>
+        <section class="essay-section" aria-labelledby="relationships">
+        <h2 id="relationships" data-toc-label="The relationships matter">The relationship might be the most important piece of information</h2>
+        <p>Does this agreement permit the planned use of this photograph in this campaign? To answer, we need to connect the photograph to the correct agreement, identify what the campaign intends to do, and compare that plan with the permitted uses. No single approval label supplies that comparison.</p>
+        <p>Representing knowledge through connections has a long history in AI. M. Ross Quillian's <a href="https://doi.org/10.1002/bs.3830120511">1967 work on semantic memory</a> explored how computers could represent concepts through interconnected networks. His experimental model used elements and associations between them, rather than isolated word entries.</p>
+        <figure class="wide-figure context-figure " aria-labelledby="context-fig-2">
+          <div class="figure-topline"><p class="eyebrow">From documents to relationships</p><span class="figure-number">Fig. 03</span></div>
+          <h3 id="context-fig-2">One photograph. Different roles for each record.</h3>
+          <div class="context-map">
+            <div class="context-map-root"><span class="small-label">The asset</span><strong>Last year’s event photograph</strong></div>
+            <ul class="context-branches">
+              <li><p class="context-edge">has an earlier approval</p><div class="context-node"><h4>Approval record</h4><p>Records the decision for the original event.</p><p class="context-node-note">Describes a past decision.</p></div></li>
+              <li><p class="context-edge">is governed by a license</p><div class="context-node"><h4>License agreement</h4><p>Specifies channel, geography and expiration.</p><p class="context-node-note">Sets the permitted uses.</p></div></li>
+              <li><p class="context-edge">is proposed in a new brief</p><div class="context-node"><h4>Campaign brief</h4><p>Calls for upcoming paid advertising in Europe.</p><p class="context-node-note">Defines the intended use.</p></div></li>
+            </ul>
+            <div class="context-map-check"><strong>The comparison the answer requires</strong><p>Match the campaign’s intended use against the agreement’s conditions, including any valid amendments.</p></div>
+          </div>
+          <figcaption>The labels on the connections matter. “Related to this photograph” does not tell us which record grants permission or which describes a request. These connections can be represented with metadata or linked records.</figcaption>
+        </figure>
+        <p>The World Wide Web Consortium's <a href="https://www.w3.org/TR/skos-primer/">Simple Knowledge Organization System (SKOS)</a> provides a way to represent concepts through preferred names, alternative labels, broader and narrower categories, and associative relationships. Two terms can refer to the same concept; two concepts can be related without either being a subtype of the other. Keeping those distinctions explicit helps people describe and discover information.</p>
+        <p>Other relationships require different representations. A licensing agreement that <em>governs</em> an asset, a document that <em>supersedes</em> an earlier policy, or a person who <em>approved</em> an exception involves more than ordinary subject classification. Different technologies can represent these connections: metadata, relational databases, explicit rules, document references, or knowledge graphs.</p>
+        <p>Language models can infer many relationships directly from natural language. They don't require every connection to be encoded in a database. If a license clearly permits website use in the United States, a capable model may recognize that this does not establish permission for European paid advertising.</p>
+        <p>The difficulty grows when conditions are scattered across files, a passage refers to “this agreement” without identifying it, or an approval leaves its scope unclear. Some connections may never have been recorded. A model might recognize that two policies conflict without knowing whether one replaced the other.</p>
+        <p>If the records don't establish which policy governs, someone needs to resolve that question and record the decision. Better language comprehension alone cannot supply a decision the organization hasn't made.</p>
+        </section>
+        <section class="essay-section" aria-labelledby="finding-what-matters">
+        <p class="chapter-marker">02 <span>Retrieval and context</span></p>
+        <h2 id="finding-what-matters" data-toc-label="Finding what matters" data-toc-group="02 / Retrieval and context">Finding something isn't the same as finding what matters</h2>
+        <p>Even with well-organized records, we may not know everything we need to look for when a search begins. A discovery can change our understanding and suggest another question. Finding an expired license, for example, gives us a reason to look for a renewal.</p>
+        <p>Information scientist Marcia J. Bates called this evolving search process <em>berrypicking</em>. In her <a href="https://pages.gseis.ucla.edu/faculty/bates/berrypicking.html">1989 paper</a>, she challenged the idea that someone begins with a fully formed question and obtains everything they need from one query. People often gather useful pieces across successive encounters.</p>
+        <p>Our assistant faces a similar task. The photograph's original approval is a starting point, but it leaves questions about the license and the proposed use. Each discovery can change what the assistant should search for next.</p>
+        <!-- visuals-2026-10-28: berrypicking -->
+        <figure class="wide-figure context-figure" aria-labelledby="context-fig-berrypicking">
+          <div class="figure-topline"><p class="eyebrow">Following the evidence</p><span class="figure-number">Fig. 04</span></div>
+          <h3 id="context-fig-berrypicking">Each answer changes the next search.</h3>
+          <p class="context-question">Can we use the photograph from last year’s event in our new campaign?</p>
+          <div class="context-search-compare">
+            <div class="context-search-one">
+              <span class="small-label">Stopping at the first match</span>
+              <p><strong>Searches for</strong> the photograph and “approved.”</p>
+              <p><strong>Finds</strong> “Approved for use.”</p>
+              <p class="context-search-stop"><strong>Stops.</strong> Answers yes and cites the approval.</p>
+            </div>
+            <div class="context-search-many">
+              <span class="small-label">Investigating missing evidence</span>
+              <ol class="context-search-steps">
+                <li><p><strong>Searches for</strong> the photograph and its approval.</p><p><strong>Finds</strong> an approval for last year’s event.</p><p class="context-search-next">Next: which license governs this asset?</p></li>
+                <li><p><strong>Searches for</strong> the license linked to the asset.</p><p><strong>Finds</strong> website use in the United States, expired at the end of last year.</p><p class="context-search-next">Next: was it renewed or amended?</p></li>
+                <li><p><strong>Searches for</strong> renewals and amendments.</p><p><strong>Finds</strong> no renewal or amendment in the records searched.</p><p class="context-search-next">Next: what does the new campaign need?</p></li>
+                <li><p><strong>Searches for</strong> the new campaign brief.</p><p><strong>Finds</strong> paid advertising in several European countries.</p><p class="context-search-next">Next: compare the two, then refer the question to licensing.</p></li>
+              </ol>
+            </div>
+          </div>
+          <p class="context-conclusion"><strong>The retrieved records do not establish current permission for this use.</strong> The license and new brief show a mismatch in channel, geography and timing. Licensing still needs to confirm whether a renewal or amendment covers the planned use.</p>
+          <figcaption>Fictional example illustrating how discoveries reshape a search, not a procedure from Bates’s paper. One search can be enough if it returns the necessary evidence. Here, each result leaves a question to investigate. See <a href="a-better-prompt-wont-fix-the-wrong-problem.html#architecture-figure-title">essay two’s architecture figure</a> for the choice between a fixed workflow and a system that selects its next step.</figcaption>
+        </figure>
+        <!-- /visuals-2026-10-28: berrypicking -->
+        <p>A title lookup may need only one search. Reconciling an approval, a license, and a campaign brief may take several. Choose the retrieval process around the evidence the question requires; an autonomous research agent isn't necessary for every task.</p>
+        </section>
+        <section class="essay-section" aria-labelledby="retrieval-and-context">
+        <h2 id="retrieval-and-context" data-toc-label="RAG and lost context">RAG doesn't eliminate the problem. It moves part of it.</h2>
+        <p>Retrieval-augmented generation, usually shortened to RAG, connects language models with external information. A RAG system searches a collection for relevant material and supplies it when the model generates an answer, alongside what the model learned during training. Patrick Lewis and colleagues introduced an influential formulation of this approach in their <a href="https://arxiv.org/abs/2005.11401">2020 paper on retrieval-augmented generation</a>.</p>
+        <p>External information can be updated without retraining the entire model. Responses can be informed by domain-specific material, and retrieved passages can make it easier to trace claims back to their sources.</p>
+        <p>But RAG doesn't turn an arbitrary collection of documents into a coherent body of organizational knowledge. It adds a retrieval process between the collection and the model. And that process introduces its own decisions.</p>
+        <p>What gets indexed? How are documents divided into searchable passages? How does the system determine relevance? How many passages should be returned? What surrounding context is preserved? These decisions influence which information becomes available when the model answers.</p>
+        <p>When a licensing agreement is divided into searchable passages, an expiration clause can become separated from the permissions it limits. A search may return the clause without the section it refers to. The assistant then knows that something expires, but lacks the information needed to apply that restriction.</p>
+        <figure class="wide-figure context-figure " aria-labelledby="context-fig-3">
+          <div class="figure-topline"><p class="eyebrow">A passage and its missing context</p><span class="figure-number">Fig. 05</span></div>
+          <h3 id="context-fig-3">What does “Section 4” permit?</h3>
+          <div class="context-passage-grid">
+            <div class="context-passage"><span class="small-label">Retrieved passage</span><blockquote>“The permissions granted in Section 4 expire on December 31.”</blockquote><p>The sentence refers to permissions it does not describe. It also leaves the year unspecified.</p></div>
+            <div class="context-passage"><span class="small-label">Context to recover from the source</span><dl class="context-recovery">
+              <div><dt>Which agreement?</dt><dd>The license linked to this photograph, including its version and amendments.</dd></div>
+              <div><dt>What does Section 4 say?</dt><dd>Which channels, territories and uses it permits.</dd></div>
+              <div><dt>Which December 31?</dt><dd>The applicable year and any later renewal.</dd></div>
+            </dl></div>
+          </div>
+          <p class="context-conclusion">Retrieve or preserve those connections before applying the sentence. If the source does not establish them, report what is missing.</p>
+          <figcaption>Illustrative passage. Added context should come from the source material and remain distinguishable from the quotation. A generated summary cannot supply terms that the agreement never established.</figcaption>
+        </figure>
+        <p>In 2024, Anthropic described an approach called <a href="https://www.anthropic.com/research/contextual-retrieval">Contextual Retrieval</a>, which enriches individual passages with information about their originating documents before indexing them. In Anthropic's reported evaluations, contextualizing passages reduced retrieval failures substantially compared with its tested baseline. Those results are specific to the company's evaluation setup, not a universal guarantee.</p>
+        <p>Retrieval introduces another important trade-off: finding enough relevant information without surrounding it with so much irrelevant material that using it becomes difficult. Information retrieval researchers describe these concerns through <em>recall</em> and <em>precision</em>. Recall asks how much of the relevant material we found. Precision asks how much of what we retrieved was actually relevant.</p>
+        <p>Relevant passages may arrive alongside obsolete policies or approvals for other photographs. The assistant still has to separate the evidence that applies from the material that doesn't. The following example shows how a search can return extra material while missing evidence the answer needs.</p>
+        <!-- visuals-2026-10-28: precision -->
+        <figure class="wide-figure context-figure" aria-labelledby="context-fig-precision">
+          <div class="figure-topline"><p class="eyebrow">Recall and precision</p><span class="figure-number">Fig. 06</span></div>
+          <h3 id="context-fig-precision">The right passages, in a crowd.</h3>
+          <p class="context-question">Can we use last year’s event photograph in a new paid campaign in Europe?</p>
+          <div class="context-retrieval-grid">
+            <div class="context-retrieved">
+              <span class="small-label">Retrieved: 6 passages</span>
+              <ul class="context-retrieved-list">
+                <li><span class="context-tag context-tag-relevant">Relevant</span><span>The approval record for last year’s event</span></li>
+                <li><span class="context-tag context-tag-relevant">Relevant</span><span>“The permissions granted in Section 4 expire on December 31.”</span></li>
+                <li><span class="context-tag">Outdated</span><span>An image-use policy that has since been replaced</span></li>
+                <li><span class="context-tag">Different asset</span><span>An approval for another photograph from the same event</span></li>
+                <li><span class="context-tag">Conflicting</span><span>An unsigned draft of the license</span></li>
+                <li><span class="context-tag">Off-question</span><span>Brand guidance on cropping photographs</span></li>
+              </ul>
+            </div>
+            <div class="context-missed">
+              <span class="small-label">Relevant but not retrieved: 2</span>
+              <ul class="context-retrieved-list">
+                <li><span class="context-tag context-tag-missing">Missing</span><span>Section 4 itself: the channels and territories it permits</span></li>
+                <li><span class="context-tag context-tag-missing">Missing</span><span>The new campaign brief</span></li>
+              </ul>
+            </div>
+          </div>
+          <dl class="context-tally">
+            <div><dt>Precision</dt><dd>2 of the 6 retrieved passages bear on the question.</dd></div>
+            <div><dt>Recall</dt><dd>2 of the 4 relevant passages reached the model.</dd></div>
+          </dl>
+          <p class="context-conclusion"><strong>Missing evidence and extra material.</strong> Four retrieved passages have been judged irrelevant, while two relevant passages are missing. The available evidence is insufficient to establish permission for the planned use.</p>
+          <figcaption>Fictional example. Counts assume four passages have been judged relevant to this question. These <a href="https://nlp.stanford.edu/IR-book/html/htmledition/evaluation-of-unranked-retrieval-sets-1.html">precision and recall</a> scores describe one query. Evaluate many representative queries, with passage-level relevance judgments, before drawing conclusions about the system.</figcaption>
+        </figure>
+        <!-- /visuals-2026-10-28: precision -->
+        </section>
+        <section class="essay-section" aria-labelledby="long-context">
+        <h2 id="long-context" data-toc-label="Why not give it everything?">Why not give the model everything?</h2>
+        <p>As language models have become capable of processing increasingly large amounts of text, it's tempting to imagine that retrieval will eventually become unnecessary. Why search for the right five documents if the model can read all five hundred?</p>
+        <p>There are circumstances where supplying the complete material is a sensible approach. It can preserve document structure, avoid retrieval omissions, and simplify the overall system.</p>
+        <p>In a <a href="https://aclanthology.org/2024.emnlp-industry.66/">2024 comparison by Zhuowan Li and colleagues</a>, long-context models outperformed RAG on average across the tested datasets when given sufficient computational resources. RAG had a lower computational cost. The result supports considering both approaches rather than assuming one will always be better.</p>
+        <p>But the ability to accept a large amount of text doesn't establish that every part of that text will be used equally well.</p>
+        <p>In <a href="https://aclanthology.org/2024.tacl-1.9/"><em>Lost in the Middle: How Language Models Use Long Contexts</em></a>, published in 2024, Nelson F. Liu and colleagues investigated how models used information placed at different positions within long inputs. Across the models and tasks studied, performance often declined when the relevant information appeared in the middle of a long context, compared with information positioned near the beginning or end.</p>
+        <p>A later study, <a href="https://aclanthology.org/2025.findings-emnlp.1264/"><em>Context Length Alone Hurts LLM Performance Despite Perfect Retrieval</em></a>, investigated a related question. Researchers tested several language models on mathematical reasoning, question answering, and coding tasks. Performance declined as input length increased even when all relevant information was retrieved. The authors also observed degradation in controlled tests that replaced irrelevant text with whitespace or masked irrelevant tokens so the model could attend only to relevant ones.</p>
+        <p>These studies reveal limitations in particular models and experimental conditions. They don't establish that every current or future model will behave identically. Long-context capabilities are improving, and the relative merits of retrieval and full-context processing depend on the task, model, cost, and quality of the input.</p>
+        <p><strong>Being able to fit information into a context window does not guarantee that the system can use it effectively.</strong></p>
+        <p>And even a hypothetical model with flawless long-context processing would face a separate problem. If two documents provide incompatible instructions and neither identifies which should govern, reading both perfectly doesn't settle the disagreement. The system can recognize the contradiction. It can't necessarily resolve an organizational decision that hasn't been made.</p>
+        <p>More context can reveal a problem without supplying the authority to solve it.</p>
+        </section>
+        <section class="essay-section" aria-labelledby="context-engineering">
+        <h2 id="context-engineering" data-toc-label="Constructing context">Context is something we construct</h2>
+        <p>Our assistant needs more than a well-phrased request. As it works, it may need system instructions, tool definitions, retrieved documents, previous interactions, workflow state, user permissions, and information discovered along the way. We have to decide what should be available at each step and what should be left out.</p>
+        <p>This work is commonly called <em>context engineering</em>. In its 2025 article <a href="https://www.anthropic.com/research/effective-context-engineering-for-ai-agents"><em>Effective Context Engineering for AI Agents</em></a>, Anthropic describes it as the deliberate curation and maintenance of information available to a language model during inference.</p>
+        <p>For the photograph question, that work depends on how the records were organized before the search began. Three overlapping concerns help us locate the responsibility:</p>
+        <dl class="concept-list">
+          <div><dt>Information and knowledge architecture</dt><dd>concern how the larger information environment is organized: what sources exist, how they are described, how they relate, who maintains them, and what makes them authoritative.</dd></div>
+          <div><dt>Retrieval</dt><dd>concerns how relevant material is discovered and selected for a particular task.</dd></div>
+          <div><dt>Context engineering</dt><dd>concerns how information, instructions, tools, and other necessary state are assembled and maintained while the model performs that task.</dd></div>
+        </dl>
+        <p>These are useful distinctions rather than rigid disciplinary boundaries; a system may combine the work in different ways. For our assistant, useful context starts with a photograph linked to the right license and a clear record of what that license permits. Someone has to maintain those records before the assistant can assemble them into an answer.</p>
+        </section>
+        <section class="essay-section" aria-labelledby="diagnosing-failures">
+        <p class="chapter-marker">03 <span>Diagnosis and decisions</span></p>
+        <h2 id="diagnosing-failures" data-toc-label="Trace a failure" data-toc-group="03 / Diagnosis and decisions">The decisions hiding inside our documentation</h2>
+        <p>Suppose we want to stop the assistant from approving the photograph for the wrong use. A different search method or more retrieved passages might help, but the choice depends on where the evidence was lost or misapplied.</p>
+        <p>We can investigate using <a href="when-ai-gets-the-right-answer.html#diagnostic-title">essay one's five-stage diagnostic in Fig. 05</a>. Here, we group those checks into four concerns: <strong>source, organization, retrieval, and application</strong>.</p>
+        <p>Source and retrieval retain their earlier roles. Organization expands authority and scope to include the connections between records. Application brings interpretation and answer verification together.</p>
+        <dl class="concept-list">
+          <div><dt>Source</dt><dd>The information is accurate, current, and sufficiently complete.</dd></div>
+          <div><dt>Organization</dt><dd>The records are connected, and their authority, scope and precedence are explicit.</dd></div>
+          <div><dt>Retrieval</dt><dd>The right material, with the necessary context, actually reaches the model.</dd></div>
+          <div><dt>Application</dt><dd>The system applies the evidence correctly, and the answer and its citations can be checked against it.</dd></div>
+        </dl>
+        <p>These are places to investigate, not mutually exclusive causes. Conflicting guidance can arise from the source records or from unclear precedence. A model's capabilities can limit application even when the evidence reaches it intact. The distinction matters because each failure suggests a different intervention.</p>
+        <p>A useful investigation examines retrieved evidence separately from the generated answer. The <a href="https://aclanthology.org/2024.naacl-long.20/">ARES framework</a>, for example, evaluates context relevance, answer faithfulness, and answer relevance rather than collapsing the entire system into one measure of answer quality.</p>
+        <p>In a practical deployment, a small set of representative questions with human-verified answers can help reveal where failures occur. We can inspect what was retrieved, whether essential information was omitted, and whether the final response correctly applied the evidence. Automated evaluation can assist, but it doesn't eliminate the need for authoritative reference answers or human judgment, especially when a question has consequential implications.</p>
+        <p>The fix may be small: link the agreement to the asset record, exclude obsolete guidance from routine search, or maintain a table of permitted uses and expiration dates. A complex knowledge graph may be appropriate in some environments; in others, a well-maintained spreadsheet might solve the problem. Where permission remains uncertain, the assistant should identify the available evidence and refer the decision to someone authorized to make it.</p>
+        <figure class="wide-figure context-figure context-diagnostic" aria-labelledby="context-fig-4">
+          <div class="figure-topline"><p class="eyebrow">A diagnostic you can use</p><span class="figure-number">Fig. 07</span></div>
+          <h3 id="context-fig-4">Trace one answer back to its evidence.</h3>
+          <p>Choose a failed answer and record what the system actually had at each stage.</p>
+          <ol class="diagnostic-path">
+            <li><span class="path-number" aria-hidden="true">1</span><div class="path-step"><strong>Source</strong><p>Does the collection contain the correct, current agreement?</p><p class="context-next-check">Check the record with its owner. Add missing terms or resolve conflicting versions.</p></div></li>
+            <li><span class="path-number" aria-hidden="true">2</span><div class="path-step"><strong>Organization</strong><p>Can the photograph be connected to that agreement, and is it clear which record governs this use?</p><p class="context-next-check">Inspect the asset identifier, document links and precedence rules. Refer unresolved authority questions to the responsible owner.</p></div></li>
+            <li><span class="path-number" aria-hidden="true">3</span><div class="path-step"><strong>Retrieval</strong><p>Did the agreement and the new campaign brief reach the model?</p><p class="context-next-check">Inspect the actual retrieved passages, including restrictions and amendments.</p></div></li>
+            <li><span class="path-number" aria-hidden="true">4</span><div class="path-step"><strong>Application</strong><p>Did the answer compare the permitted and planned uses? Does its citation support the conclusion?</p><p class="context-next-check">Check each condition and the claim's scope. If the evidence was present, investigate instructions, presentation and model performance.</p></div></li>
+          </ol>
+          <div class="context-worksheet"><strong>Try it with one of your own questions.</strong><p>Write down the expected answer, the evidence it needs, and what the system received. Keep an unresolved approval decision separate from a retrieval failure.</p><a href="../assets/downloads/thinking-in-systems-03-evidence-worksheet.md" download>Download the evidence worksheet <span aria-hidden="true">↓</span></a></div>
+          <figcaption>A regrouping of <a href="when-ai-gets-the-right-answer.html#diagnostic-title">essay one's Fig. 05</a>: organization includes authority and scope; application combines interpretation with answer and verification. This is a working diagnostic, not a standard taxonomy. Several stages can fail together. Use the findings to choose a change and retest the same question.</figcaption>
+        </figure>
+        </section>
+        <section class="essay-section" aria-labelledby="undocumented-decisions">
+        <h2 id="undocumented-decisions" data-toc-label="What is not in the files">Some missing information isn't in the files</h2>
+        <p><a href="when-ai-gets-the-right-answer.html#precedence-title">Essay one's document-precedence example</a> depended on the organization having decided which rule applied. But organizations often operate through knowledge that has never been adequately documented.</p>
+        <ul>
+          <li>A person knows which approval is still valid.</li>
+          <li>A team knows that a process described in an old document was quietly replaced.</li>
+          <li>Someone remembers that an exception applied to only one project.</li>
+          <li>Two departments use the same terminology to mean different things.</li>
+        </ul>
+        <p>Much of this can work reasonably well when experienced people are present to interpret the situation. The problems become more visible when we expect an AI system to operate from written records alone.</p>
+        <p>An experienced colleague may be able to explain which process replaced the old one. A different kind of gap appears when nobody has agreed on the rule.</p>
+        <p>Suppose two departments disagree about who is authorized to approve a particular use of a creative asset. An AI assistant might identify the competing procedures, compare their dates, and explain the apparent conflict. But deciding which department has authority is an organizational governance question.</p>
+        <p>Unless that authority is already established through some valid rule or decision, the AI has no reliable basis for inventing one. It can assist with the investigation. It cannot legitimately substitute its own preference for a decision the organization has not made.</p>
+        <p>Maintaining these records means keeping track of who owns a policy, which uses it covers, and who can authorize an exception. The assistant also needs a way to recognize an unresolved question and direct it to the person who can decide.</p>
+        </section>
+        <section class="essay-section" aria-labelledby="making-information-useful">
+        <h2 id="making-information-useful" data-toc-label="Making information useful">What becomes possible when the relationships are visible?</h2>
+        <p>Return to the photograph. A more useful answer would explain that the old approval does not establish permission for the new campaign, show which conditions differ, and identify what licensing still needs to confirm. The employee could see the evidence and take a specific question to the person responsible for the decision.</p>
+        <p>Making that answer possible starts with records the organization already holds: an asset linked to its agreement, an approval with a clear scope, and a brief that describes the proposed use. We can then test whether those records reach the model and whether it applies them correctly. Any remaining gap becomes something we can investigate.</p>
+        <p>And sometimes, in trying to teach AI what our organization knows, we discover how much of that knowledge we've never actually made explicit.</p>
+        </section>
+        <section class="essay-section references" aria-labelledby="further-reading">
+        <h2 id="further-reading" data-toc-label="Sources and further reading" data-toc-group="Continue exploring">Sources and further reading</h2>
+        <p>The following works informed this essay. They provide historical foundations, formal approaches to knowledge representation, and contemporary research into retrieval and context use.</p>
+        <p><strong>Claude E. Shannon (1948)</strong> — <a href="https://www.nokia.com/bell-labs/publications-and-media/publications/a-mathematical-theory-of-communication/"><em>A Mathematical Theory of Communication</em></a>. The foundational paper distinguishing the engineering problem of information transmission from semantic interpretation.</p>
+        <p><strong>S. R. Ranganathan (1933)</strong> — <em>Colon Classification</em>. See the <a href="https://www.nature.com/articles/133008b0">contemporary review in <em>Nature</em> (1934)</a> for a description of the system's combinatorial approach to classification.</p>
+        <p><strong>M. Ross Quillian (1967)</strong> — <a href="https://doi.org/10.1002/bs.3830120511"><em>Word Concepts: A Theory and Simulation of Some Basic Semantic Capabilities</em></a>. An early investigation of representing semantic information through interconnected networks.</p>
+        <p><strong>Marcia J. Bates (1989)</strong> — <a href="https://pages.gseis.ucla.edu/faculty/bates/berrypicking.html"><em>The Design of Browsing and Berrypicking Techniques for the Online Search Interface</em></a>. A model of information seeking as iterative and evolving rather than a single static search.</p>
+        <p><strong>W3C (2009)</strong> — <a href="https://www.w3.org/TR/skos-primer/"><em>SKOS Simple Knowledge Organization System Primer</em></a>. A reference for representing concepts through labels, hierarchies, and associative relationships.</p>
+        <p><strong>Lewis et al. (2020)</strong> — <a href="https://arxiv.org/abs/2005.11401"><em>Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks</em></a>. Foundational research combining language models with externally retrieved information.</p>
+        <p><strong>Liu et al. (2024)</strong> — <a href="https://aclanthology.org/2024.tacl-1.9/"><em>Lost in the Middle: How Language Models Use Long Contexts</em></a>. An empirical investigation of how information position affects long-context performance.</p>
+        <p><strong>Li et al. (2024)</strong> — <a href="https://aclanthology.org/2024.emnlp-industry.66/"><em>Retrieval Augmented Generation or Long-Context LLMs? A Comprehensive Study and Hybrid Approach</em></a>. A comparison of performance and computational cost across retrieval-based and long-context approaches, with a proposed hybrid method.</p>
+        <p><strong>Anthropic (2024)</strong> — <a href="https://www.anthropic.com/research/contextual-retrieval"><em>Introducing Contextual Retrieval</em></a>. An applied technique for preserving information about a passage's originating document during retrieval.</p>
+        <p><strong>Saad-Falcon et al. (2024)</strong> — <a href="https://aclanthology.org/2024.naacl-long.20/"><em>ARES: An Automated Evaluation Framework for Retrieval-Augmented Generation Systems</em></a>. Research on evaluating retrieval relevance and generated-answer quality as distinct concerns.</p>
+        <p><strong>Du et al. (2025)</strong> — <a href="https://aclanthology.org/2025.findings-emnlp.1264/"><em>Context Length Alone Hurts LLM Performance Despite Perfect Retrieval</em></a>. Evidence that long inputs can affect model performance independently of ordinary retrieval failures.</p>
+        <p><strong>Anthropic (2025)</strong> — <a href="https://www.anthropic.com/research/effective-context-engineering-for-ai-agents"><em>Effective Context Engineering for AI Agents</em></a>. A contemporary engineering perspective on assembling and maintaining useful context during AI inference.</p>
+        </section>
+      </article>
+      <aside class="series-endnote" aria-labelledby="series-title">
+        <p class="eyebrow">A five-part series</p>
+        <h2 id="series-title">Thinking in Systems</h2>
+        <p>AI Theory, Philosophy &amp; Systems Design</p>
+        <p>Exploring how philosophy, cognitive science, and systems engineering can help us understand and build more reliable AI systems.</p>
+        <!-- SERIES_NAV_START -->
+        <ol class="series-issues" aria-label="Series progress">
+          <li><a href="when-ai-gets-the-right-answer.html" aria-label="Essay 01: When AI Gets the Right Answer for the Wrong Reasons"><span>01</span><span class="issue-state">Read essay</span></a></li>
+          <li><a href="a-better-prompt-wont-fix-the-wrong-problem.html" aria-label="Essay 02: A Better Prompt Won&#x27;t Fix the Wrong Problem"><span>02</span><span class="issue-state">Read essay</span></a></li>
+          <li aria-current="page"><span>03</span><span class="issue-state">This draft</span></li>
+          <li><span>04</span><span class="issue-state">Forthcoming</span></li>
+          <li><span>05</span><span class="issue-state">Forthcoming</span></li>
+        </ol>
+        <nav class="series-adjacent" aria-label="More in this series">
+          <a rel="prev" href="a-better-prompt-wont-fix-the-wrong-problem.html"><span>Previous essay · 02</span>A Better Prompt Won&#x27;t Fix the Wrong Problem</a>
+        </nav>
+        <!-- SERIES_NAV_END -->
+        <a href="../index.html">Explore all guides <span aria-hidden="true">↗</span></a>
+      </aside>
+    </main>
+  </div>
+  <footer class="series-footer"><a href="../index.html">Now in Production</a><span>Stay curious. Ask for the evidence.</span><a href="#top">Back to top ↑</a></footer>
+  <button id="tocFab" class="toc-fab" type="button" aria-controls="tocList" aria-expanded="false" aria-label="Open table of contents" hidden>Contents ≡</button>
+</body>
+</html>

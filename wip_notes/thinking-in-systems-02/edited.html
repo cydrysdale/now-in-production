@@ -13,7 +13,7 @@
   <meta name="description" content="How problem framing, system boundaries, and the relationships between components shape what we should build with AI. Part 2 of Thinking in Systems.">
   <meta name="keywords" content="AI, problem framing, systems thinking, system boundaries, decomposition, Theory of Constraints, creative workflows, AI prompts">
   <meta name="guide:category" content="Thinking in Systems · 02">
-  <meta name="guide:updated" content="2026-10-27">
+  <meta name="guide:updated" content="2026-10-28">
   <meta name="guide:series" content="thinking-in-systems">
   <meta name="guide:order" content="2">
   <meta name="author" content="Chris Yasuda Drysdale">
@@ -182,7 +182,7 @@
             <li>Get completed campaigns into market sooner.</li>
             <li>Stop lower-priority work from delaying important requests.</li>
           </ul>
-          <p>These objectives are related, but they are not interchangeable. Reducing the amount of time spent designing an individual asset doesn&#x27;t necessarily shorten the time between receiving a request and delivering the finished work. Likewise, increasing the number of assets a team can produce doesn&#x27;t necessarily mean the organization is using its resources more effectively. We can optimize one measurement while making another worse.</p>
+          <p>Each objective calls for different evidence: time spent drafting, time to delivery, or which requests take priority. Agreeing on the outcome tells us what to investigate.</p>
           <p>That&#x27;s why problem-setting requires more than clarifying what someone wants. It requires understanding <strong>why they want it, what outcome they&#x27;re trying to achieve, and what assumptions connect their proposed solution to that outcome.</strong></p>
           <p>A request often contains an implicit theory about the cause of a problem. &quot;We need more designers&quot; assumes that insufficient design capacity is the relevant constraint. &quot;We need fewer meetings&quot; assumes that meetings are preventing valuable work. &quot;We need a better AI prompt&quot; assumes that the instructions given to the model are responsible for the unsatisfactory result.</p>
           <p>These explanations might be correct. But their plausibility isn&#x27;t evidence of their accuracy. An experienced problem-solver needs to recognize the difference between the situation being described and the explanation being proposed. Otherwise, we risk becoming exceptionally good at solving problems that nobody has established actually exist.</p>
@@ -261,8 +261,6 @@
           <h2 id="system-boundaries" data-toc-label="Where the system ends">Where does the system actually begin and end?</h2>
           <p>Imagine we&#x27;re designing an AI assistant to support the creative team. We could define the system narrowly: a language model that receives a creative brief and generates an initial draft. Within that boundary, we can evaluate whether the generated material follows instructions, matches the requested format, and meets certain quality standards. That may be entirely appropriate if our objective is to improve initial drafting.</p>
           <p>But suppose our actual objective is to reduce the time required to deliver completed projects. Now our system boundary might need to include request intake, clarification, content preparation, creative production, stakeholder review, revision, approval, and delivery. The language model is only one component within that larger system.</p>
-          <p>Changing the boundary changes what counts as success. An assistant that generates drafts in thirty seconds may be excellent when evaluated as a drafting tool. The same assistant might have almost no measurable effect on the delivery process if most delays occur elsewhere.</p>
-          <p>Both evaluations can be correct. They&#x27;re evaluating different systems.</p>
           <!-- visuals-2026-10-27: boundary -->
           <figure class="wide-figure boundary-figure" aria-labelledby="boundary-figure-title">
             <div class="figure-topline"><span class="eyebrow">System boundaries</span><span class="figure-number">Fig. 04</span></div>
@@ -306,8 +304,8 @@
           <p>Imagine an AI-assisted creative workflow that generates layouts. We could construct it as a chain of specialized agents. One interprets the brief. Another determines the content structure. A third creates layout instructions. A fourth checks compliance with design requirements. A fifth prepares the final output.</p>
           <p>This might be a sensible architecture. But merely dividing the work among five agents doesn&#x27;t establish that we&#x27;ve created a well-designed system.</p>
           <p>What information does each agent need? What assumptions does it make about the output of the previous one? What happens when the requirements change?</p>
-          <p>Suppose the first agent interprets &quot;modern and minimal&quot; as a request for sparse typography and subdued color. The layout agent interprets the same language as a request for large typography and expansive whitespace.</p>
-          <p>Neither interpretation is necessarily unreasonable. But if their responsibilities and interfaces don&#x27;t establish how design decisions should be communicated, the system can produce contradictory or unusable results even when the individual agents are performing their assigned tasks. We can create a great deal of activity without creating much coordination.</p>
+          <p>Suppose the first agent decides that all six product features must appear on the opening panel. The layout agent, working from a request for a minimal design, reserves that panel for a headline and image only. Its layout has no place for the required feature copy.</p>
+          <p>Both agents have made a design decision, but the system has no shared rule for resolving the conflict. Their responsibilities and interfaces need to establish how those decisions are communicated and which component can revise them.</p>
           <p>Parnas&#x27;s principle offers a useful way to reconsider the architecture. Instead of asking how many specialized agents we can create, we might ask which decisions should be made independently, which information needs to pass between components, and which changes should remain contained. We could compare several designs:</p>
           <ul>
             <li>Translate the requirements into a shared specification before layout generation begins.</li>
@@ -322,20 +320,11 @@
         </section>
         <section class="essay-section" aria-labelledby="the-whole-system">
           <h2 id="the-whole-system" data-toc-label="When the whole gets worse">When improving the parts makes the whole worse</h2>
-          <p>There&#x27;s another reason we need to think beyond individual components. Sometimes every component can perform exactly as intended while the complete system produces an undesirable outcome.</p>
-          <p>Let&#x27;s return to the creative team. Suppose we introduce AI-assisted drafting and dramatically increase the number of assets designers can produce. From the perspective of drafting, the improvement is undeniable.</p>
-          <p>But the review team has a relatively fixed amount of capacity. Previously, designers produced a manageable number of drafts each week. Now they can produce substantially more. If all those drafts still require the same level of review, the volume of work arriving at the review stage may increase faster than reviewers can process it.</p>
-          <p>The queue grows. Completed designs spend more time waiting. The organization might even experience longer turnaround times, despite having made its production capabilities substantially faster.</p>
+          <p>AI-assisted drafting can also change how much work enters the process. Suppose our designers use the time saved to produce more variations, each requiring the same level of review. The review team&#x27;s capacity stays fixed.</p>
+          <p>If drafts arrive faster than reviewers can process them, the queue grows. Completed designs spend more time waiting, and turnaround may become longer. And this is how you successfully automate the creation of a backlog.</p>
           <p>This isn&#x27;t an inevitable consequence of AI adoption. If demand remains fixed, review capacity is sufficient, or the automation removes work elsewhere, faster drafting may improve delivery. The point is that the outcome depends on the relationships between the parts.</p>
-          <p>A local improvement doesn&#x27;t automatically produce a system-level improvement.</p>
-          <p>This distinction is central to systems thinking. Ludwig von Bertalanffy&#x27;s work on general systems theory emphasized the importance of studying organized wholes and the relationships among their components, rather than assuming that every phenomenon can be adequately explained by examining isolated parts. A similar concern appears in Simon&#x27;s treatment of complexity. The properties of individual components don&#x27;t always make the behavior of their interactions obvious.</p>
-          <p>This brings us to the concept of <strong>emergence</strong>. In its practical sense, emergence describes system-level patterns or properties that arise from interactions among components. The word sometimes carries stronger philosophical implications, particularly in debates about whether certain properties can be reduced to the behavior of underlying parts. We don&#x27;t need to settle those debates to understand the engineering problem.</p>
-          <p>Our creative workflow isn&#x27;t displaying some mysterious new property that defies explanation. It&#x27;s demonstrating that the outcome of the complete system depends on how the components interact.</p>
-          <p>A production tool can become faster while the process becomes slower. Individual teams can meet their objectives while the organization fails to meet its own. A workflow can satisfy every local requirement while producing an outcome nobody intended.</p>
-          <p>The mistake is treating success at one level as sufficient evidence of success at another.</p>
-          <p>This is especially relevant when evaluating AI. We often measure AI systems through discrete tasks: how quickly they generate a response, how accurately they complete an instruction, or how consistently they produce a particular format. Those measurements can be useful. But they don&#x27;t necessarily tell us whether the system improves the work around them.</p>
-          <p>An assistant that creates excellent drafts might also generate additional work for reviewers. An automation that eliminates manual data entry might create more exceptions for someone else to reconcile. A highly capable agent might complete an assigned workflow successfully while consuming more resources than the problem justifies.</p>
-          <p>The relevant question isn&#x27;t simply whether the technology works. It&#x27;s whether the technology produces the intended improvement within the larger system.</p>
+          <p>Ludwig von Bertalanffy&#x27;s work on general systems theory emphasized studying organized wholes and the relationships among their components. One useful concept here is <strong>emergence</strong>: in its practical sense, patterns or properties that arise from interactions among components. The growing queue follows from the interaction between drafting and review.</p>
+          <p>To evaluate the change, we need to track the review backlog, revision work, and time to delivery alongside drafting speed. Those measures help us see whether the extra production is useful or simply creates more work for someone else.</p>
         </section>
         <section class="essay-section" aria-labelledby="learning-by-designing">
           <p class="chapter-marker">03 <span>Choosing the intervention</span></p>
@@ -401,9 +390,7 @@
             <figcaption>These choices can overlap: a workflow may contain an agent, and several agents may follow a fixed workflow. Effort and cost depend on the implementation. Examples apply the distinctions in Anthropic&#x27;s <a href="https://www.anthropic.com/research/building-effective-agents"><cite>Building Effective Agents</cite></a> (2024) to this essay&#x27;s design questions.</figcaption>
           </figure>
           <!-- /visuals-2026-10-27: architecture -->
-          <p>The architecture should follow the problem. Not the other way around.</p>
           <p><strong>The ability to implement a solution doesn&#x27;t establish that the solution is worth implementing.</strong></p>
-          <p>As AI reduces the technical difficulty of building systems, the judgment required to decide what those systems should accomplish becomes more consequential, not less. We&#x27;re gaining the ability to build more things. That makes choosing the right things to build increasingly important.</p>
         </section>
         <section class="essay-section" aria-labelledby="frontload-understanding">
           <h2 id="frontload-understanding" data-toc-label="Build your problem brief">Frontload the understanding, not the implementation</h2>
@@ -412,6 +399,7 @@
             <div class="figure-topline"><span class="eyebrow">Build your own problem brief</span><span class="example-label">Four questions to run before building</span></div>
             <h3 id="framing-worksheet-title">What needs to change?</h3>
             <p>Choose one real request, such as “make our AI assistant more consistent.” Use these questions to write a brief you can take to the person requesting the work.</p>
+            <p><a href="when-ai-gets-the-right-answer.html#diagnostic-title">Essay one's five-stage diagnostic</a> helps trace an unreliable answer. This brief asks you to establish the outcome you want and the system you need to examine. If the problem is answer reliability, use that diagnostic within the boundary you define here.</p>
             <ol class="framing-questions">
               <li>
                 <label for="framing-representation">What does the description include, and what does it leave out?</label>
@@ -453,8 +441,7 @@
           </aside>
           <p>These aren&#x27;t steps in a rigid procedure. They&#x27;re different ways of interrogating the assumptions behind a design.</p>
           <p>Let&#x27;s apply them to our creative-production example one last time. The original request was to use AI to accelerate creative production. Rather than immediately designing the assistant, we establish that the desired outcome is shorter turnaround time for completed work. That&#x27;s a more useful definition because it identifies the result we&#x27;re trying to influence.</p>
-          <p>We then examine the current process. How much time is spent actively producing assets? How much is spent waiting? Where does work return for revision? Which activities constrain the movement of projects through the system? This reveals whether production speed is actually the relevant limitation.</p>
-          <p>We also examine responsibilities. Who defines the requirements? Who can approve an exception? Which decisions require specialist judgment? Who is accountable for the final result? These questions may reveal coordination problems that aren&#x27;t visible in a chronological workflow.</p>
+          <p>We record how much time projects spend in production, waiting for decisions, and returning for revision. We also identify who defines the requirements and who can approve the work. Together, those observations help distinguish a shortage of production capacity from a delay caused by missing information or unclear ownership.</p>
           <p>Then we consider interventions. The evidence might support:</p>
           <ul>
             <li>Automating repetitive production work to free up design capacity.</li>
@@ -471,15 +458,10 @@
           <h2 id="what-not-to-build" data-toc-label="Choosing what to build">Sometimes the most important decision is what not to build</h2>
           <p>There&#x27;s something appealing about elegant solutions. A sophisticated agent architecture is interesting. An elaborate automation can be satisfying to design. A beautifully organized workflow gives us the sense that we&#x27;ve imposed order on a complicated situation. I enjoy that kind of work.</p>
           <p>But sophistication isn&#x27;t the same as effectiveness. The difficult intellectual work often happens before we begin implementing a solution: deciding what matters, what can be ignored, which relationships need to be preserved, and what outcome would justify the effort.</p>
-          <p>Korzybski reminds us that our representations are not reality. Schön shows why defining the problem is itself a form of professional judgment. Simon helps explain how complex systems can be understood through carefully chosen subsystems. Parnas demonstrates why the criteria used to establish boundaries can matter as much as the components themselves. And systems theory reminds us that improving individual parts doesn&#x27;t guarantee that the whole will improve.</p>
-          <p>These ideas come from different disciplines and address different questions. They aren&#x27;t interchangeable, and none provides a universal method for designing the perfect system. What they offer is a more deliberate way of thinking.</p>
-          <p>Before asking how to make something work better, we can ask what <em>better</em> actually means. Before automating a workflow, we can examine why that workflow exists and what it is supposed to accomplish. Before dividing a system into specialized components, we can establish which responsibilities benefit from being separated. And before accepting someone&#x27;s description of a problem, we can ask whether it preserves the relationships necessary to understand what&#x27;s happening.</p>
           <p>None of this requires us to distrust every proposed solution or turn every project into a philosophical investigation. Sometimes the obvious solution really is the right one.</p>
           <p>Sometimes a better prompt is all we need.</p>
           <p>But we should reach that conclusion because the available evidence supports it, not because we decided what to build before understanding what needed to change.</p>
-          <p>The goal of frontloading the work isn&#x27;t to spend more time planning. It&#x27;s to reduce the amount of effort committed to assumptions that haven&#x27;t been examined.</p>
           <p>A useful model doesn&#x27;t need to capture everything. It needs to preserve what matters for the decision we&#x27;re making. And when that model stops explaining what we observe, we should be willing to redraw it. After all, there&#x27;s little value in creating an exceptionally detailed map if it keeps taking us to the wrong destination.</p>
-          <p><strong>The quality of a solution depends, in part, on the quality of the problem we&#x27;ve chosen to solve.</strong> And choosing that problem is itself one of the most important design decisions we make.</p>
         </section>
         <section class="essay-section references" aria-labelledby="further-reading">
           <h2 id="further-reading" data-toc-label="Further reading" data-toc-group="Continue exploring">Further reading</h2>

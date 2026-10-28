@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">All the Information, None of the Context</title>
+  <desc id="desc">Thinking in Systems, essay three of five. Linked records accompany the title on a pale paper background.</desc>
+  <rect width="1200" height="630" fill="#f6f5ef"/>
+  <path d="M72 110H1128M72 501H1128" stroke="#cbd0c6"/>
+  <g font-family="Arial, sans-serif" fill="#486349">
+    <text x="72" y="72" font-size="18" letter-spacing="3">THINKING IN SYSTEMS</text>
+    <text x="1128" y="72" font-size="18" text-anchor="end">ESSAY 03 / 05</text>
+  </g>
+  <g font-family="Georgia, serif" font-size="76" fill="#253b40">
+    <text x="68" y="218">All the Information,</text>
+    <text x="68" y="310">None of the</text>
+    <text x="68" y="402" fill="#1d5080">Context</text>
+  </g>
+  <g stroke="#486349" fill="none" stroke-width="2">
+    <path d="M998 249V294M935 294H1061M935 294V330M1061 294V330"/>
+    <rect x="953" y="183" width="90" height="66" rx="2" fill="#eaece3"/>
+    <rect x="890" y="330" width="90" height="66" rx="2"/>
+    <rect x="1016" y="330" width="90" height="66" rx="2"/>
+    <path d="M972 205H1024M972 220H1008M909 352H961M909 367H945M1035 352H1087M1035 367H1071" stroke="#cbd0c6"/>
+  </g>
+  <text x="72" y="545" font-family="Georgia, serif" font-size="24" fill="#596663">Why AI can have access to every document and still miss what matters.</text>
+  <text x="72" y="590" font-family="Arial, sans-serif" font-size="15" fill="#596663">Chris Yasuda Drysdale · Now in Production</text>
+</svg>

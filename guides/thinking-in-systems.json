@@ -19,9 +19,9 @@
     },
     {
       "number": 3,
-      "title": null,
-      "url": null,
-      "status": "planned"
+      "title": "All the Information, None of the Context",
+      "url": "guides/all-the-information-none-of-the-context.html",
+      "status": "wip"
     },
     {
       "number": 4,

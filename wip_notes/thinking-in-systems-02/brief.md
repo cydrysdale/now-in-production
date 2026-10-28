@@ -5,6 +5,40 @@
 - Edited page: ../../guides/a-better-prompt-wont-fix-the-wrong-problem.html
 - `edited.html` saves the current revised guide, including its figures and worksheet. It is an editorial snapshot, not a record of publication approval.
 
+## Humor review — 2026-10-28
+
+The author supplied and approved the final sentence of the growing-queue
+paragraph: “And this is how you successfully automate the creation of a backlog.”
+Their complete paragraph is implemented verbatim. The following qualification
+about demand, review capacity and work removed elsewhere remains intact.
+The edited snapshot is current. All five individually reviewed humor suggestions
+are now resolved and implemented in their approved forms across the series.
+
+## Approved copy edit — 2026-10-28
+
+The author approved implementing the [series copy review](../thinking-in-systems-03/copy-review-2026-10-28.md).
+The agent example now contains incompatible requirements: all six product
+features must appear on the opening panel, while the proposed layout allows
+only a headline and image. The following paragraph identifies the need to
+communicate and resolve that decision.
+
+Reduced repeated drafting-versus-delivery explanations. The queue section now
+focuses on additional drafts entering a review stage with fixed capacity,
+retains the conditions under which no queue growth follows, and uses a short
+practical definition of emergence. Trimmed repeated architecture takeaways and
+the worked application. The conclusion retains the personal admission, the
+better-prompt callback and its qualification, and ends with the map metaphor.
+The author's exact brief-quality aside, other humor, figures, worksheet and
+series continuity are preserved.
+
+Validation: metadata/local links and browser smoke checks passed for all three
+guides, including this guide's four-answer worksheet export. Changed prose was
+visually reviewed on desktop in light mode and mobile in dark mode. Source
+hashes, anchor IDs, figure markup and worksheet markup match the before copies.
+Backups and captures are under `artifacts/guide-checks/copy-edit-2026-10-28/`.
+The edited snapshot is current. These copy edits and the earlier worksheet
+continuity changes remain local and uncommitted; no publication action was taken.
+
 ## Revision following the author’s review
 
 Implemented on 2026-10-27:
@@ -153,3 +187,11 @@ Release checks passed with both lessons published: `maintain.py check`, the comp
 ## Opening aside — 2026-10-27
 
 At the author's request, added their exact wording: “Of course, this assumes the brief was good to begin with. Otherwise, we may have just become much faster at producing terrible content.” Following their placement correction, the aside comes after “The overall project might still take five days.” It stays within the existing paragraph and anticipates the later discussion of incomplete briefs. The author explicitly requested committing and pushing this addition. The original essay source remains preserved; the edited snapshot includes the new aside.
+
+## Connection to essay one — 2026-10-28
+
+During the review of essay three, the author asked whether essay two also needed a clearer connection to its predecessor. The opening already links the model-versus-prompt diagnosis to essay one. Added one targeted explanation in the problem-framing worksheet: essay one's five-stage diagnostic traces an unreliable answer, while this brief establishes the desired outcome and the boundary of the investigation. Readers can apply the diagnostic within that boundary when answer reliability is the problem; the two aids are not alternate versions of the same taxonomy.
+
+The link and explanation appear in the page, blank Markdown worksheet and generated completed-brief download. The original essay and four worksheet questions are unchanged. Updated the metadata date to 2026-10-28, synchronized the homepage fallback card and refreshed the edited snapshot. These revisions are local and have not been committed or pushed.
+
+Validation: metadata/local links, the published-lesson browser suite, worksheet keyboard export and homepage fallbacks passed. Both the blank and generated downloads were checked for the diagnostic link and boundary explanation. The updated worksheet was visually reviewed. Essay three's browser checks also passed during the same review.
