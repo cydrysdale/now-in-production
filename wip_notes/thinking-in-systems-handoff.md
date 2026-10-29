@@ -1,29 +1,31 @@
 # Thinking in Systems: session handoff
 
-Updated 2026-10-28. Verify this note against current files, Git status and later
+Updated 2026-10-29. Verify this note against current files, Git status and later
 user instructions before acting.
 
 ## Start here next session
 
-- Site changes are committed and pushed: `81f916b` contains the reviewed guide-four
-  draft and homepage publication dates; `f57ac05` records successful deployment.
-  Any later handoff-only commit does not change the verified site content.
-- The homepage is live with publication dates, newest first. RGB → CMYK's date is
-  **2025-08-18**, supplied by the author for its original release in another repo.
-  Keep `guide:published` separate from `guide:updated`.
-- Guide four is reviewed and saved remotely, but remains **WIP/noindex**, without
-  a homepage card or publication date. The author deferred its publication to
-  **2026-10-29**. No automated release is scheduled.
-- Read the [current guide](../guides/the-thermometer-is-in-the-wrong-room.html) and
-  [editorial brief](thinking-in-systems-04/brief.md). The latest visual/prose
-  findings are resolved; preserve the approved copy and five figures.
-- Remaining local files are unrelated `.DS_Store` changes, `presentations/`, and
-  rollback folders under essays 01–04. Leave them untouched and out of commits.
-  Original essay sources are preserved; session preview processes are closed.
+- The author explicitly requested publication of essay four on 2026-10-29.
+  The release is prepared with its first-publication date, homepage card, and
+  incoming series links. Deployment verification will be recorded below.
+- Read [essay four](../guides/the-thermometer-is-in-the-wrong-room.html) and its
+  [brief](thinking-in-systems-04/brief.md). Approved prose and five figures are
+  unchanged; this is a publication and navigation update.
+- Essay five and an unrelated guide-two prose edit are under local review and
+  excluded from this release. Local work and rollback folders are preserved.
+- Historical WIP and deferred-release entries below describe earlier states.
 
-The dated entries below are historical records of each step. Statements that
-work was local or uncommitted describe that step; the state above and the
-current-state table reflect the completed session.
+## Essay four publication authorized — 2026-10-29
+
+The author requested publication. Added the 2026-10-29 first-publication date,
+set essay four to published, and synchronized homepage and series navigation.
+Prepared the release separately from local work on essay five and guide two.
+The source, reviewed prose, five figures, and social art are unchanged.
+Local metadata/link and whitespace checks passed, as did browser checks for all
+four published essays and homepage fallbacks. The new card and series navigation
+were visually inspected; original article bodies and assets are unchanged. Hosted
+verification follows the push. Screenshots are under
+`artifacts/guide-checks/publish-04-2026-10-29/`.
 
 ## Commit and push verified; essay four deferred — 2026-10-28
 
@@ -362,13 +364,13 @@ push or publication was requested or performed in this pass.
 | Guide 01 | Published; approved copy/humor fixes complete; end section links to essay three. Snapshot current; checks pass. | Publication commit `7830a00` pushed; hosted content and navigation verified 2026-10-28. |
 | Guide 02 | Published; approved copy/humor fixes and diagnostic connections complete; end section and Next essay link include essay three. Snapshot current; checks pass. | Publication commit `7830a00` pushed; hosted content, navigation and worksheet assets verified 2026-10-28. |
 | Guide 03 | Published with seven figures, evidence worksheet, social art and approved copy/humor fixes. Snapshot current; checks pass. | Publication commit `7830a00` pushed; hosted guide, assets, homepage card and incoming navigation verified 2026-10-28. |
-| Guide 04 | Complete WIP draft with source, edited snapshot, editorial record, five figures and social art. | Committed and pushed in `81f916b`; hosted as WIP/noindex and absent from homepage. Publication deferred until tomorrow. |
+| Guide 04 | Publication authorized and prepared for 2026-10-29; reviewed prose and five figures unchanged. Homepage and series navigation updated. | Release and hosting verification recorded in the latest entry above. |
 | Guide 05 | Planned, without a title, URL or source essay. | No page exists yet. |
 
 Latest site-content commit: `81f916b` on `main`, with hosting verified. Use Git
 status and log for the current tip, including any later handoff-only commit.
 Essays one–three remain published; their publication-date metadata is now live.
-Essay four is saved remotely as WIP, with publication deferred until tomorrow.
+Essay four publication is authorized for 2026-10-29; see the latest release entry.
 
 ## Editorial decisions to carry forward
 
@@ -423,28 +425,7 @@ a release, stage the intended files explicitly; do not add every untracked file.
 
 ## Next session
 
-Guide four is ready as a reviewed WIP. The author plans to publish it on
-2026-10-29. At release:
-
-1. Add `guide:published` to its HTML using the actual first-publication date;
-   use `2026-10-29` if released on the planned day.
-2. Change lesson four to `published` in `guides/thinking-in-systems.json` and run
-   `python3 tools/guides/maintain.py sync`. Let sync update the registry,
-   homepage cards, robots metadata, and series navigation.
-3. Refresh the edited snapshots for affected essays, normally 01–04 after the
-   navigation update, using `maintain.py snapshot --number N`.
-4. Run `python3 tools/guides/maintain.py check` and the browser smoke suite for all
-   published lessons. The installed Chrome executable is documented in the
-   [authoring guide](../docs/thinking-in-systems.md).
-5. Review and stage the intended files, commit/push, and verify the hosted guide,
-   image, publication date, homepage card, and incoming/previous/next navigation.
-   Record the release commit and verification in the brief and this handoff.
-
-Preserve the approved prose, figures, captions and original source. Today's
-source and browser reviews are complete; rerun broader checks only for new
-changes, failures, or concerns. Print coverage is basic visibility, not a full
-pagination audit. Reference-access limits remain documented in the brief.
-
-Guide five remains planned without a supplied source; do not create its notes
-folder until authoring begins. Temporary browser and preview processes are
-closed. Unrelated local files and rollback folders remain untouched.
+Continue from the current release status above and essay four's brief. The older
+WIP and deferred-publication entries are historical. Essay five is under separate
+local review and was excluded from this publication. Preserve that local draft,
+the unrelated guide-two prose edit, OS files, presentations, and rollback folders.

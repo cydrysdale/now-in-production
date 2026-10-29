@@ -1,6 +1,6 @@
 # Essay 04: The Thermometer Is in the Wrong Room
 
-- Status: complete local editorial draft; WIP in the manifest.
+- Status: publication authorized; release checks passed.
 - Source: [source.md](source.md), preserved verbatim on 2026-10-28.
 - Edited page: [the-thermometer-is-in-the-wrong-room.html](../../guides/the-thermometer-is-in-the-wrong-room.html).
 - Workflow: [authoring guide](../../docs/thinking-in-systems.md).
@@ -395,14 +395,22 @@ or performed; essay four remains local, uncommitted, and WIP.
 
 ## Publication and handoff
 
-- Editorial instruction: assemble and personalize supplied essay; draft work complete.
-- Author decisions: supplied review implemented with the documented qualifications;
-  commit and push authorized on 2026-10-28, with publication deferred until tomorrow.
-- Local manifest: `wip`; `noindex,follow`; no homepage card.
-- Commit/push: `81f916b` pushed to `origin/main`; GitHub Pages build succeeded.
-  Hosted registry and page checks confirm WIP/noindex status, no publication date,
-  and no homepage card. Unrelated local work is preserved.
-- Publication: retain WIP/noindex status and keep it off homepage cards today.
-- Next action: on release, add the actual `guide:published` date, change status,
-  synchronize, check and verify hosting. Essay five remains planned.
-- Updated [series handoff](../thinking-in-systems-handoff.md) with this state.
+- Author explicitly requested publication on 2026-10-29 while reviewing essay five.
+- Local release state: `published`; publication date and updated date 2026-10-29.
+  Homepage card and series links are generated; WIP robots metadata is removed.
+- The reviewed prose, five figures, sources, styles, scripts, and social art are
+  preserved. This release changes publication metadata and navigation only.
+- Release prepared in an isolated checkout so essay five and unrelated local
+  prose changes are excluded. Essay five remains under separate local review.
+- Release checks and hosted verification are recorded below as completed.
+
+### Publication checks — 2026-10-29
+
+Metadata/local-link checks, synchronization, snapshot agreement, and whitespace
+checks passed. All four published lessons passed the browser suite at 320–1440px,
+including themes, navigation, disclosures, no-JavaScript use, homepage fallbacks,
+and lesson two's worksheet export. There were no unexpected browser errors.
+The new homepage card, essay three's Next link, and essay four's series footer
+were visually inspected. Print coverage is basic visibility only. Original
+article bodies and assets are unchanged. Captures are under
+`artifacts/guide-checks/publish-04-2026-10-29/` in the main workspace.
