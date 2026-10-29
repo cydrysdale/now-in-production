@@ -5,9 +5,9 @@ user instructions before acting.
 
 ## Start here next session
 
-- The author explicitly requested publication of essay four on 2026-10-29.
-  The release is prepared with its first-publication date, homepage card, and
-  incoming series links. Deployment verification will be recorded below.
+- Essay four is published. Release commit `cecf247` is pushed to `origin/main`;
+  GitHub Pages deployment succeeded and hosted content/navigation were verified
+  on 2026-10-29. The homepage and earlier essays link to it.
 - Read [essay four](../guides/the-thermometer-is-in-the-wrong-room.html) and its
   [brief](thinking-in-systems-04/brief.md). Approved prose and five figures are
   unchanged; this is a publication and navigation update.
@@ -15,7 +15,7 @@ user instructions before acting.
   excluded from this release. Local work and rollback folders are preserved.
 - Historical WIP and deferred-release entries below describe earlier states.
 
-## Essay four publication authorized — 2026-10-29
+## Essay four publication verified — 2026-10-29
 
 The author requested publication. Added the 2026-10-29 first-publication date,
 set essay four to published, and synchronized homepage and series navigation.
@@ -24,8 +24,27 @@ The source, reviewed prose, five figures, and social art are unchanged.
 Local metadata/link and whitespace checks passed, as did browser checks for all
 four published essays and homepage fallbacks. The new card and series navigation
 were visually inspected; original article bodies and assets are unchanged. Hosted
-verification follows the push. Screenshots are under
+content and navigation verification passed; details follow. Screenshots are under
 `artifacts/guide-checks/publish-04-2026-10-29/`.
+
+
+### Hosted publication verified — 2026-10-29
+
+Release commit `cecf247` is pushed to `origin/main`. GitHub Pages
+[deployment 40912999445](https://github.com/cydrysdale/now-in-production/actions/runs/40912999445)
+completed successfully. Verified fourteen hosted files byte for byte against
+that release: the homepage, both registries, essays one–four, shared and
+lesson-specific CSS/JS, and essay four's PNG/SVG social art.
+
+The live browser followed the homepage card and essay three's Next link to essay
+four, checked incoming series links from all earlier essays and the Previous
+link back to essay three, and confirmed the publication date, removal of noindex,
+five figures, and mobile layout. No browser errors occurred. Hosted card and
+mobile screenshots were inspected. The approved article bodies remain unchanged.
+Evidence is under `artifacts/guide-checks/publish-04-2026-10-29/` in the main workspace,
+including `deployment.json` and `hosted-verification.json`. Temporary browser and
+preview sessions are closed. Essay five and the unrelated guide-two prose edit
+were excluded from the release.
 
 ## Commit and push verified; essay four deferred — 2026-10-28
 
@@ -364,13 +383,13 @@ push or publication was requested or performed in this pass.
 | Guide 01 | Published; approved copy/humor fixes complete; end section links to essay three. Snapshot current; checks pass. | Publication commit `7830a00` pushed; hosted content and navigation verified 2026-10-28. |
 | Guide 02 | Published; approved copy/humor fixes and diagnostic connections complete; end section and Next essay link include essay three. Snapshot current; checks pass. | Publication commit `7830a00` pushed; hosted content, navigation and worksheet assets verified 2026-10-28. |
 | Guide 03 | Published with seven figures, evidence worksheet, social art and approved copy/humor fixes. Snapshot current; checks pass. | Publication commit `7830a00` pushed; hosted guide, assets, homepage card and incoming navigation verified 2026-10-28. |
-| Guide 04 | Publication authorized and prepared for 2026-10-29; reviewed prose and five figures unchanged. Homepage and series navigation updated. | Release and hosting verification recorded in the latest entry above. |
+| Guide 04 | Published 2026-10-29; reviewed prose and five figures unchanged. Homepage and series navigation updated. Snapshot current; checks pass. | Release commit `cecf247` pushed; hosted content, assets, date and links verified 2026-10-29. |
 | Guide 05 | Planned, without a title, URL or source essay. | No page exists yet. |
 
-Latest site-content commit: `81f916b` on `main`, with hosting verified. Use Git
+Latest site-content commit: `cecf247` on `main`, with hosting verified. Use Git
 status and log for the current tip, including any later handoff-only commit.
 Essays one–three remain published; their publication-date metadata is now live.
-Essay four publication is authorized for 2026-10-29; see the latest release entry.
+Essay four is published and verified; see the latest release entry.
 
 ## Editorial decisions to carry forward
 

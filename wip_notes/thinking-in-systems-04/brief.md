@@ -1,6 +1,6 @@
 # Essay 04: The Thermometer Is in the Wrong Room
 
-- Status: publication authorized; release checks passed.
+- Status: published 2026-10-29; hosted content and navigation verified.
 - Source: [source.md](source.md), preserved verbatim on 2026-10-28.
 - Edited page: [the-thermometer-is-in-the-wrong-room.html](../../guides/the-thermometer-is-in-the-wrong-room.html).
 - Workflow: [authoring guide](../../docs/thinking-in-systems.md).
@@ -414,3 +414,21 @@ The new homepage card, essay three's Next link, and essay four's series footer
 were visually inspected. Print coverage is basic visibility only. Original
 article bodies and assets are unchanged. Captures are under
 `artifacts/guide-checks/publish-04-2026-10-29/` in the main workspace.
+
+### Hosted publication verified — 2026-10-29
+
+Release commit `cecf247` is pushed to `origin/main`. GitHub Pages
+[deployment 40912999445](https://github.com/cydrysdale/now-in-production/actions/runs/40912999445)
+completed successfully. Verified fourteen hosted files byte for byte against
+that release: the homepage, both registries, essays one–four, shared and
+lesson-specific CSS/JS, and essay four's PNG/SVG social art.
+
+The live browser followed the homepage card and essay three's Next link to essay
+four, checked incoming series links from all earlier essays and the Previous
+link back to essay three, and confirmed the publication date, removal of noindex,
+five figures, and mobile layout. No browser errors occurred. Hosted card and
+mobile screenshots were inspected. The approved article bodies remain unchanged.
+Evidence is under `artifacts/guide-checks/publish-04-2026-10-29/` in the main workspace,
+including `deployment.json` and `hosted-verification.json`. Temporary browser and
+preview sessions are closed. Essay five and the unrelated guide-two prose edit
+were excluded from the release.
