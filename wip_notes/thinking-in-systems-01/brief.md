@@ -95,3 +95,14 @@ justified-true-belief account, and made the stopped clock explicitly analog.
 The source is unchanged. Modification date and snapshot are current; publication
 date is preserved. Metadata and browser checks pass. These fixes are included in the author-requested audit release. See the [audit record](../thinking-in-systems-audit-2026-10-29.md)
 for source access levels, decisions, and validation.
+
+### Audit release verified — 2026-10-29
+
+Audit commit `998bba0` is pushed to `origin/main`. GitHub Pages
+[deployment 40975211990](https://github.com/cydrysdale/now-in-production/actions/runs/40975211990)
+succeeded. All four hosted guides, the homepage, both registries, and four social
+images match the release byte for byte. Browser checks confirm the corrections,
+original publication dates, homepage cards, series links, and mobile layout,
+with no browser errors. Essay five and its supporting files were excluded.
+Evidence is under `artifacts/guide-checks/publish-audit-2026-10-29/` in the main
+workspace. The original sources and unrelated local work are preserved.

@@ -12,8 +12,19 @@ user instructions before acting.
 - The restored “assumptions” wording in essay two is part of this audit release.
 - Essay five and its supporting files remain local. The author plans to publish
   it tomorrow morning; no automatic publication is scheduled.
-- Hosted verification of the audit release is pending deployment. Historical
-  entries below describe earlier releases, not the current audit corrections.
+- Hosted verification of audit release `998bba0` passed on 2026-10-29.
+  Historical entries below describe earlier releases.
+
+## Audit release verified — 2026-10-29
+
+Audit commit `998bba0` is pushed to `origin/main`. GitHub Pages
+[deployment 40975211990](https://github.com/cydrysdale/now-in-production/actions/runs/40975211990)
+succeeded. All four hosted guides, the homepage, both registries, and four social
+images match the release byte for byte. Browser checks confirm the corrections,
+original publication dates, homepage cards, series links, and mobile layout,
+with no browser errors. Essay five and its supporting files were excluded.
+Evidence is under `artifacts/guide-checks/publish-audit-2026-10-29/` in the main
+workspace. The original sources and unrelated local work are preserved.
 
 ## Essay four publication verified — 2026-10-29
 
