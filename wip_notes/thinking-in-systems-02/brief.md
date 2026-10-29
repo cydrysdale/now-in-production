@@ -208,3 +208,15 @@ During the review of essay three, the author asked whether essay two also needed
 The link and explanation appear in the page, blank Markdown worksheet and generated completed-brief download. The original essay and four worksheet questions are unchanged. Updated the metadata date to 2026-10-28, synchronized the homepage fallback card and refreshed the edited snapshot. These revisions are local and have not been committed or pushed.
 
 Validation: metadata/local links, the published-lesson browser suite, worksheet keyboard export and homepage fallbacks passed. Both the blank and generated downloads were checked for the diagnostic link and boundary explanation. The updated worksheet was visually reviewed. Essay three's browser checks also passed during the same review.
+
+## Audit follow-up — 2026-10-29
+
+Restored “assumptions” in the local problem-setting sentence, keeping “what
+they're trying to accomplish.” The worked brief now repeats each representative
+question within each source condition, holds model/prompt/settings fixed, uses
+fresh sessions and varied condition order, and compares within-condition variation.
+The blank worksheet and export logic are unchanged; browser export checks pass.
+Modification date and snapshot are current, and publication date is preserved.
+These edits are included in the author-requested audit release. The previous local guide-two wording change
+is now part of this audit correction, not an unrelated edit to discard or publish
+incidentally. See the [audit record](../thinking-in-systems-audit-2026-10-29.md).

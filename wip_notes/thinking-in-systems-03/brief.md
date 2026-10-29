@@ -231,3 +231,13 @@ The author approved fixing the issues identified in the visual review. These cor
 The original essay, earlier diagnostic connections, figure IDs and numbering, styles, scripts and worksheet remain unchanged. The edited snapshot was refreshed. Status remains WIP; this instruction approves the figure corrections, not publication.
 
 Validation: metadata/local-link checks, `git diff --check` and the lesson-three browser smoke suite passed, including 320–1440px layouts, themes, navigation, disclosures, no-JavaScript use, basic print visibility and homepage filtering/fallbacks. Final screenshots of the three figures were visually reviewed in desktop and mobile layouts and both themes. The original source hash is unchanged, and comparison against the pre-visuals snapshot confirms that changes to the page are confined to the added figures and their numbering. Captures are in ignored `artifacts/guide-checks/essay-03/visual-fixes/`. No shared CSS or JS changed during these corrections, so the already-passing published-lesson checks were not repeated.
+
+## Audit follow-up — 2026-10-29
+
+Removed the unnecessary computational-resources qualification from the Li et al.
+summary; their paper does discuss computation cost. Clarified that Du et al.'s
+retrieval means a model locating and reproducing evidence from its own input,
+with separate retrieval checks, rather than an external retriever returning
+documents. Updated that reference's description too. Precision and recall are
+unchanged. Source and publication date are preserved; modification date and
+snapshot are current. Metadata and browser checks pass. These fixes are included in the author-requested audit release. See the [audit record](../thinking-in-systems-audit-2026-10-29.md).

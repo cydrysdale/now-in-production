@@ -5,15 +5,15 @@ user instructions before acting.
 
 ## Start here next session
 
-- Essay four is published. Release commit `cecf247` is pushed to `origin/main`;
-  GitHub Pages deployment succeeded and hosted content/navigation were verified
-  on 2026-10-29. The homepage and earlier essays link to it.
-- Read [essay four](../guides/the-thermometer-is-in-the-wrong-room.html) and its
-  [brief](thinking-in-systems-04/brief.md). Approved prose and five figures are
-  unchanged; this is a publication and navigation update.
-- Essay five and an unrelated guide-two prose edit are under local review and
-  excluded from this release. Local work and rollback folders are preserved.
-- Historical WIP and deferred-release entries below describe earlier states.
+- The author requested committing and pushing the audit corrections to published
+  essays 01–04. Read the [audit record](thinking-in-systems-audit-2026-10-29.md)
+  and the four updated briefs for the changes and source verification limits.
+  Original sources and first-publication dates are preserved.
+- The restored “assumptions” wording in essay two is part of this audit release.
+- Essay five and its supporting files remain local. The author plans to publish
+  it tomorrow morning; no automatic publication is scheduled.
+- Hosted verification of the audit release is pending deployment. Historical
+  entries below describe earlier releases, not the current audit corrections.
 
 ## Essay four publication verified — 2026-10-29
 

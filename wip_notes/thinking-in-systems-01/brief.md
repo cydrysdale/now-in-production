@@ -86,3 +86,12 @@ Validation: metadata/local-link checks and browser smoke checks passed for both 
 ## Release — 2026-10-27
 
 The author subsequently requested committing and pushing the completed guide work. This release includes the paragraphing revisions above and a generated link to the published second essay. The edited snapshot reflects the release navigation.
+
+## Audit follow-up — 2026-10-29
+
+Corrected the two Gettier links to the DOI, replaced the incomplete MIT Plato
+page with the complete Gutenberg translation, qualified the history of the
+justified-true-belief account, and made the stopped clock explicitly analog.
+The source is unchanged. Modification date and snapshot are current; publication
+date is preserved. Metadata and browser checks pass. These fixes are included in the author-requested audit release. See the [audit record](../thinking-in-systems-audit-2026-10-29.md)
+for source access levels, decisions, and validation.

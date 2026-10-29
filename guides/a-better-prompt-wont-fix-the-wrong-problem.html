@@ -13,7 +13,7 @@
   <meta name="description" content="How problem framing, system boundaries, and the relationships between components shape what we should build with AI. Part 2 of Thinking in Systems.">
   <meta name="keywords" content="AI, problem framing, systems thinking, system boundaries, decomposition, Theory of Constraints, creative workflows, AI prompts">
   <meta name="guide:category" content="Thinking in Systems · 02">
-  <meta name="guide:updated" content="2026-10-28">
+  <meta name="guide:updated" content="2026-10-29">
   <meta name="guide:published" content="2026-10-27">
   <meta name="guide:series" content="thinking-in-systems">
   <meta name="guide:order" content="2">
@@ -184,7 +184,7 @@
             <li>Stop lower-priority work from delaying important requests.</li>
           </ul>
           <p>Each objective calls for different evidence: time spent drafting, time to delivery, or which requests take priority. Agreeing on the outcome tells us what to investigate.</p>
-          <p>That&#x27;s why problem-setting requires more than clarifying what someone wants. It requires understanding <strong>why they want it, what outcome they&#x27;re trying to achieve, and what assumptions connect their proposed solution to that outcome.</strong></p>
+          <p>That&#x27;s why problem-setting requires more than clarifying what someone wants. It requires understanding <strong>why they want it, what they&#x27;re trying to accomplish, and what assumptions link their proposed solution to that outcome.</strong></p>
           <p>A request often contains an implicit theory about the cause of a problem. &quot;We need more designers&quot; assumes that insufficient design capacity is the relevant constraint. &quot;We need fewer meetings&quot; assumes that meetings are preventing valuable work. &quot;We need a better AI prompt&quot; assumes that the instructions given to the model are responsible for the unsatisfactory result.</p>
           <p>These explanations might be correct. But their plausibility isn&#x27;t evidence of their accuracy. An experienced problem-solver needs to recognize the difference between the situation being described and the explanation being proposed. Otherwise, we risk becoming exceptionally good at solving problems that nobody has established actually exist.</p>
         </section>
@@ -434,8 +434,8 @@
               <summary>Compare with a worked brief for an internal AI assistant</summary>
               <dl class="worked-brief">
                 <div><dt>Representation</dt><dd>The request is “rewrite the prompt.” The desired outcome is consistent, applicable font guidance. We do not yet know whether the supplied documents agree for the same use case.</dd></div>
-                <div><dt>Assumption to test</dt><dd>We are assuming the prompt is the cause. Hold the question and prompt fixed; compare responses with all three documents against responses with a source set whose scope and precedence the brand owner has resolved. Repeat on several representative questions.</dd></div>
-                <div><dt>Failure and evidence</dt><dd>Conflicting source instructions are a possible cause. Improvement with the resolved source set would support that diagnosis; continued inconsistency would require investigating retrieval, interpretation, or the prompt. One successful response would not settle it.</dd></div>
+                <div><dt>Assumption to test</dt><dd>We are assuming the prompt is the cause. For each representative question, hold the model, prompt, and generation settings fixed. Run it several times in fresh sessions under each condition: all three documents, and a source set whose scope and precedence the brand owner has resolved. Vary the order of the conditions.</dd></div>
+                <div><dt>Failure and evidence</dt><dd>Conflicting source instructions are a possible cause. Compare answer accuracy and supported citations across the repeated runs, including variation within each condition. Consistent improvement with the resolved source set would support that diagnosis; continued inconsistency would require investigating retrieval, interpretation, or the prompt. One successful response would not settle it.</dd></div>
                 <div><dt>Boundary and measure</dt><dd>Include source ownership, scope, retrieval, and answers. The brand owner resolves policy; the assistant applies it. Check answer accuracy and supported citations for defined use cases, with human review of unresolved exceptions.</dd></div>
               </dl>
             </details>

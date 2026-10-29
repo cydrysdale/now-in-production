@@ -432,3 +432,12 @@ Evidence is under `artifacts/guide-checks/publish-04-2026-10-29/` in the main wo
 including `deployment.json` and `hosted-verification.json`. Temporary browser and
 preview sessions are closed. Essay five and the unrelated guide-two prose edit
 were excluded from the release.
+
+## Audit follow-up — 2026-10-29
+
+The author's new audit request authorizes one narrow Figure 03 correction:
+“Qualifications are removed from some claims.” The two discovered failures
+remain distinguished from the unknown total. The prose, source, publication
+date, and other figures are unchanged. Snapshot and checks are current. This
+fix is included in the author-requested audit release; the earlier hosted
+verification describes the previous version. See the [audit record](../thinking-in-systems-audit-2026-10-29.md).
