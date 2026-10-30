@@ -7,7 +7,7 @@
 
 ## Flow fixes — 2026-10-30
 
-The author approved the [flow-fix plan](../thinking-in-systems-flow-fixes-2026-10-30.md) on 2026-10-30 without striking anything, so all proposed wording and new humor are applied as written, including optional lines. This approval does not cover publication: the change is local and uncommitted, and the hosted page still shows the earlier text. `source.md` is unchanged.
+The author approved the [flow-fix plan](../thinking-in-systems-flow-fixes-2026-10-30.md) on 2026-10-30 without striking anything, so all proposed wording and new humor are applied as written, including optional lines. The author then requested committing and pushing. Released in `fcf0052`; [GitHub Pages deployment 41092860822](https://github.com/cydrysdale/now-in-production/actions/runs/41092860822) succeeded, and the hosted page matched the commit byte for byte on 2026-10-30. `source.md` is unchanged.
 
 Fixes 1.1–1.8. The conclusion now answers the students' question. The font facts appear in the main text at the Claim section, and the two disclosures are unchanged. The second brand-document example is signaled as new. The audit's justified-true-belief correction is reworded with its Stanford link retained. Gettier's first case (job applicants and coins) was checked against Wikipedia's summary only; the paper itself remains inaccessible to automated access. `guide:updated` is 2026-10-30; the publication date is preserved. The “end of day” line stays: the flow review misread it as an inconsistency and withdrew that finding.
 

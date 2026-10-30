@@ -11,7 +11,7 @@
 
 ## Flow fixes — 2026-10-30
 
-The author approved the [flow-fix plan](../thinking-in-systems-flow-fixes-2026-10-30.md) on 2026-10-30 without striking anything, so all proposed wording and new humor are applied as written, including optional lines. This approval does not cover publication: the change is local and uncommitted, and the hosted page still shows the earlier text. `source.md` is unchanged.
+The author approved the [flow-fix plan](../thinking-in-systems-flow-fixes-2026-10-30.md) on 2026-10-30 without striking anything, so all proposed wording and new humor are applied as written, including optional lines. The author then requested committing and pushing. Released in `fcf0052`; [GitHub Pages deployment 41092860822](https://github.com/cydrysdale/now-in-production/actions/runs/41092860822) succeeded, and the hosted page matched the commit byte for byte on 2026-10-30. `source.md` is unchanged.
 
 Fixes 5.1–5.9, including the optional lines in 5.2 and 5.3 and the bridge aside in 5.9. No idea is removed; section headings, the five questions, the conclusion, and personalization lines are unchanged. Buçinca et al. was checked against the full PDF (§§3.2–3.3, §4.1, Tables 1–2): the conditions are on demand, update, and a 30-second wait. “As a group” replaces “Some” because results are by category with no significant differences among designs. Overreliance was significantly lower for carb-source detection, and lower but not significantly so for overall decisions. The relative-strength sentence reuses Fig. 02's values, checked 2026-10-29. `guide:updated` was already 2026-10-30.
 

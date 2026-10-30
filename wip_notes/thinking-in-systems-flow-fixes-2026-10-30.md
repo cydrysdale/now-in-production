@@ -1,6 +1,6 @@
 # Thinking in Systems: flow-fix plan, 2026-10-30
 
-**Status:** approved by the author and applied locally on 2026-10-30, with nothing struck, so all new humor and optional lines are in. Not committed or released. Line numbers below refer to the essays before these edits; before copies are in `artifacts/guide-checks/flow-fixes-2026-10-30/before/`.
+**Status:** approved by the author and applied locally on 2026-10-30, with nothing struck, so all new humor and optional lines are in. Released in `fcf0052` and verified on the hosted site the same day. Line numbers below refer to the essays before these edits; before copies are in `artifacts/guide-checks/flow-fixes-2026-10-30/before/`.
 **Scope:** every fix from the flow review of the five published essays, with exact wording.
 
 How to read an entry, following the review format in `docs/thinking-in-systems.md`:

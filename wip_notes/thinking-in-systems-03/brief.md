@@ -10,7 +10,7 @@
 
 ## Flow fixes — 2026-10-30
 
-The author approved the [flow-fix plan](../thinking-in-systems-flow-fixes-2026-10-30.md) on 2026-10-30 without striking anything, so all proposed wording and new humor are applied as written, including optional lines. This approval does not cover publication: the change is local and uncommitted, and the hosted page still shows the earlier text. `source.md` is unchanged.
+The author approved the [flow-fix plan](../thinking-in-systems-flow-fixes-2026-10-30.md) on 2026-10-30 without striking anything, so all proposed wording and new humor are applied as written, including optional lines. The author then requested committing and pushing. Released in `fcf0052`; [GitHub Pages deployment 41092860822](https://github.com/cydrysdale/now-in-production/actions/runs/41092860822) succeeded, and the hosted page matched the commit byte for byte on 2026-10-30. `source.md` is unchanged.
 
 Fixes 3.1–3.9. The author's “Approved Images” aside is untouched; only the following sentence changed, after the flow review's suggestion to cut the aside was withdrawn. Both Du et al. qualifications moved verbatim into a research note. The three concerns, four concerns, and mapping to essay one all remain, and the worksheet still matches because “four concerns” is kept. One original sentence was cut with approval (3.9). `guide:updated` is 2026-10-30; the publication date is preserved. After seeing the page, the author approved swapping the two sentences in 3.3 so “these four” no longer points ahead to the list.
 

@@ -8,7 +8,7 @@
 
 ## Flow fixes — 2026-10-30
 
-The author approved the [flow-fix plan](../thinking-in-systems-flow-fixes-2026-10-30.md) on 2026-10-30 without striking anything, so all proposed wording and new humor are applied as written, including optional lines. This approval does not cover publication: the change is local and uncommitted, and the hosted page still shows the earlier text. `source.md` is unchanged.
+The author approved the [flow-fix plan](../thinking-in-systems-flow-fixes-2026-10-30.md) on 2026-10-30 without striking anything, so all proposed wording and new humor are applied as written, including optional lines. The author then requested committing and pushing. Released in `fcf0052`; [GitHub Pages deployment 41092860822](https://github.com/cydrysdale/now-in-production/actions/runs/41092860822) succeeded, and the hosted page matched the commit byte for byte on 2026-10-30. `source.md` is unchanged.
 
 Fixes 4.1–4.8. The original central question and thermometer line are both verbatim, with a bridge before the question and “And connect it to the heater.” after the line. No scenario facts changed; what happened to the two failed QA drafts stays unspecified. The overlap caveat moved from Fig. 03's caption into the main text, in stronger form. The NIST paragraphs stay in place with short bridges. Shi et al. was checked at abstract level. This approval supersedes the earlier instruction to leave this essay's prose alone, for these fixes only. `guide:updated` is 2026-10-30; the publication date is preserved.
 

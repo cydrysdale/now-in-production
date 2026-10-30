@@ -7,7 +7,7 @@
 
 ## Flow fixes — 2026-10-30
 
-The author approved the [flow-fix plan](../thinking-in-systems-flow-fixes-2026-10-30.md) on 2026-10-30 without striking anything, so all proposed wording and new humor are applied as written, including optional lines. This approval does not cover publication: the change is local and uncommitted, and the hosted page still shows the earlier text. `source.md` is unchanged.
+The author approved the [flow-fix plan](../thinking-in-systems-flow-fixes-2026-10-30.md) on 2026-10-30 without striking anything, so all proposed wording and new humor are applied as written, including optional lines. The author then requested committing and pushing. Released in `fcf0052`; [GitHub Pages deployment 41092860822](https://github.com/cydrysdale/now-in-production/actions/runs/41092860822) succeeded, and the hosted page matched the commit byte for byte on 2026-10-30. `source.md` is unchanged.
 
 Fixes 2.1–2.9. The prompt sidebar stays, and a new paragraph resolves its case before the conclusion. The “When improving the parts” section moved before “Good decomposition,” with IDs unchanged and the backlog joke and queue conditions moved verbatim. Author-approved changes to original wording: the Simon paragraphs (2.2), the third framing (2.4), and “frontloading” at its first use (2.6). The application of near-decomposability to the creative team is the essay's, not Simon's. `guide:updated` is 2026-10-30; the publication date is preserved. Worksheets are unchanged.
 
