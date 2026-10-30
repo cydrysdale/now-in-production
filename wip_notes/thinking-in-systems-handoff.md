@@ -1,19 +1,29 @@
 # Thinking in Systems: session handoff
 
-Updated 2026-10-29. Verify this note against current files, Git status and later
+Updated 2026-10-30. Verify this note against current files, Git status and later
 user instructions before acting.
 
 ## Start here next session
 
-- The author requested committing and pushing the audit corrections to published
-  essays 01–04. Read the [audit record](thinking-in-systems-audit-2026-10-29.md)
-  and the four updated briefs for the changes and source verification limits.
+- The author requested publication of essay five on 2026-10-30. Release
+  preparation is in progress: first-publication date and published status are
+  set, homepage and all five series footers are synchronized, and snapshots
+  are current. Metadata, browser, and publication-navigation checks pass; hosted
+  verification is pending.
+- Read the [guide](../guides/the-human-in-the-loop-isnt-always-in-control.html)
+  and [brief](thinking-in-systems-05/brief.md). The reviewed prose, six figures,
+  original ending, research qualifications, and social art are unchanged.
+  Figure 02 retains the author's latest no-list layout and valid heading.
+- Essays 01–04 retain the audit corrections released in `998bba0` and verified
+  on 2026-10-29. Today's changes to those pages only add essay-five navigation.
   Original sources and first-publication dates are preserved.
-- The restored “assumptions” wording in essay two is part of this audit release.
-- Essay five and its supporting files remain local. The author plans to publish
-  it tomorrow morning; no automatic publication is scheduled.
-- Hosted verification of audit release `998bba0` passed on 2026-10-29.
-  Historical entries below describe earlier releases.
+- This release includes essay-five source/review files and the series-map rows
+  for essays four and five. Presentations, OS files, rollback folders, and other
+  unrelated local work remain outside the commit.
+
+The dated entries below are historical records of each step. Statements that
+work was local or uncommitted describe that step; the state above and the
+current-state table reflect the completed session.
 
 ## Audit release verified — 2026-10-29
 
@@ -25,6 +35,67 @@ original publication dates, homepage cards, series links, and mobile layout,
 with no browser errors. Essay five and its supporting files were excluded.
 Evidence is under `artifacts/guide-checks/publish-audit-2026-10-29/` in the main
 workspace. The original sources and unrelated local work are preserved.
+
+## Essay audit corrections — 2026-10-29
+
+The author supplied findings for all five essays and asked us to check them.
+The [audit record](thinking-in-systems-audit-2026-10-29.md) records the findings,
+source access levels, corrections, and qualifications. Changes include essay
+one's citations/history/clock, repeated experimental runs and explicit assumptions
+in essay two, narrower research summaries in essay three, the known-versus-total
+failure count in essay four, and essay five's figure heading and raw HTML repair.
+The latest manual removal of Figure 02's list is preserved. Its question now
+states the comparison directly, without an unused “benchmark” label.
+
+Essay five's “Most” title is corrected; Figure 05's title was already softened.
+The audit did not identify its second title, so clarification was requested.
+No other title was changed speculatively. The who-owns-type guide has no local
+prose or em-dash change; its latest committed update only added publication-date
+metadata. Precision and recall in essay three remain unchanged.
+
+The author subsequently requested a commit and push. Essays 01–04 are included
+in release `998bba0`; essay-five corrections remain local for tomorrow morning.
+Evidence and pre-edit backups, including the current manual edits,
+are under `artifacts/guide-checks/essay-audit-2026-10-29/`.
+
+## Essay five review follow-up — 2026-10-29
+
+Applied the redundant-question and terminology fixes, one optional word cut,
+and two short links back to essay four. The 96% example now explicitly asks
+whether human reviewers caught errors, could stop publication, and could sustain
+that work with a full day's queue. Preserved the original example and full ending
+under the author's light-edit direction. Three proposed “necessarily” cuts are
+declined because they change the qualifications; the series recap is unnecessary
+given the cover's Essay 05 / 05 label and existing conclusion.
+
+The review's “reviewer has to be tested” quotation concerns a second model in
+essay four. Its marketing workflow is fictional; the callback says so. The
+five oversight questions are useful diagnostically but remain a practical
+heuristic, not a validated test. Added them and essay four's feedback loop to the
+authoring map. The social PNG and SVG source are ready, and the page's Open Graph
+reference is updated. Essay five remains local WIP; no release was performed.
+See its current brief for validation and the review response for detailed reasons.
+
+The author's subsequent review follow-up is applied: the essay-four callback now
+begins “Decisions can come after approval, too.” and appears before the section's
+closing paragraph. This explicitly connects the examples before and after approval.
+No other essay wording changed. Snapshot and metadata/local-link checks pass;
+essay five remains WIP and essays four and two are unchanged.
+
+## Essay five visuals pass — 2026-10-29
+
+At the author's request, researched representation techniques
+([visual research note](thinking-in-systems-05/visual-research-2026-10-29.md)) and
+implemented six figures plus a closing "Across the series" section, using a new
+lesson stylesheet, `assets/css/human-in-the-loop.css`. No shared CSS/JS or other guide
+changed; no essay prose outside the new section changed. The pre-visuals page, snapshot
+and brief are preserved with hashes and restore steps in
+`wip_notes/thinking-in-systems-05/rollback-2026-10-29-pre-visuals/`. The brief records
+figure facts, draft wording for author review, three proposed (unapplied) prose trims,
+and validation. `maintain.py check` and smoke checks for lesson five, all published
+lessons and the homepage passed. Captures are under
+`artifacts/guide-checks/essay-05/visuals-2026-10-29/`. Still local, uncommitted and `wip`;
+no commit, push or publication was requested.
 
 ## Essay four publication verified — 2026-10-29
 
@@ -56,6 +127,87 @@ Evidence is under `artifacts/guide-checks/publish-04-2026-10-29/` in the main wo
 including `deployment.json` and `hosted-verification.json`. Temporary browser and
 preview sessions are closed. Essay five and the unrelated guide-two prose edit
 were excluded from the release.
+
+## Essay five restored to the original with light edits — 2026-10-29
+
+The author superseded the compressed rewrite and the one-at-a-time review with:
+“Lets just revert to the original and make the usual paragraphing and
+personalization edits.” The page is rebuilt from the preserved source, retaining
+every prose block in its original sequence and restoring the original headings,
+examples, research qualifications, ten references, and complete conclusion.
+There is no pending question about the opening; its original “Technically” turn
+and following question are restored under this instruction.
+
+Grouped related sentences into paragraphs, retaining deliberate short turns and
+the original dry irony. Six local personalization changes add conversational
+address and a few observations; four narrow factual corrections reuse the prior
+source verification. The brief records all ten wording changes. The essay is
+back to approximately 5,000 words, with no reduction target. The “Hopefully” aside
+and the first rewrite's expanded scenarios and shortened ending are removed.
+
+The prior review is marked historical. The guide retains its shell, anchor IDs,
+WIP status, and existing placeholder social image. No other guide or shared asset
+is edited; the existing guide-two wording change is unrelated and preserved.
+Source-block and wording checks, source preservation, snapshot agreement, and
+metadata/local-link checks pass. Lesson-five browser checks passed at 320–1440px,
+including theme persistence, navigation, no-JavaScript access, and homepage
+filtering/fallbacks. The desktop/light opening and mobile/dark opening, approval
+sequence, and ending were visually inspected. Print coverage is article visibility
+only. Preview/browser processes are closed. Artifacts are under
+`artifacts/guide-checks/essay-05/original-light-edit-2026-10-29/`.
+
+No commit, push, or publication was requested or performed. Continue from the
+restored page and current brief, rather than the superseded review suggestions.
+
+## Essay five second voice pass started — 2026-10-29 (superseded)
+
+The author approved revisiting the first edit to preserve deliberate irony,
+understatement, pauses, and callbacks. Review the original, current edit, and
+recommended version in context, one passage at a time until the balance is clear.
+Retain useful cuts and research corrections; do not treat the 31% reduction as
+a target. The brief records pending item 1: replace the explanatory opening
+paragraph with the original “Technically, a human made the final decision.” and
+“Did that human actually exercise any meaningful control?” as separate paragraphs.
+This is approval of the review process, not a recorded decision on that wording.
+The guide and snapshot are unchanged; earlier validation remains applicable.
+
+## Essay five critical prose review and draft — 2026-10-29
+
+The author supplied essay five and requested a critical review to make the prose
+less AI-like, more conversational and personable. The local WIP page retains the
+title, subtitle, nine principal sections, research spine, and approval-button
+callback. It is about 3,450 words including references versus about 4,970 in the
+source. The edit removes repeated setup and conclusions, varies historical
+introductions, develops paragraphs, and carries the fictional proposal example
+through the human roles. No personal work history was invented.
+
+The separate critical review gives priorities and original/replacement passages.
+The brief records source verification, access limits, exact draft voice choices,
+example assumptions, and validation. These are editorial choices under the
+requested pass, not individually approved final wording. Substantive changes
+clarify authorization scope, exception routing as a possible failure, testing
+reviewers on valid recommendations as well as errors, and the distinction between
+accuracy and authority over a commitment. All ten original works are retained;
+two primary references support automation bias and algorithm aversion.
+
+The page uses the existing shell without new figures or shared CSS/JS changes.
+Its five questions remain a practical heuristic, explicitly separate from NIST's
+guidance. Lesson-specific social art is still needed before publication; WIP
+metadata currently uses the existing default image.
+
+Metadata/local-link, source-preservation, and whitespace checks pass. Lesson-five
+browser checks passed at 320–1440px, including navigation, theme persistence,
+no-JavaScript access, and homepage filtering/fallbacks, with no unexpected browser
+errors. Desktop/light and mobile/dark cover and body captures were inspected.
+Print review covers article visibility only. Evidence is under
+`artifacts/guide-checks/essay-05/prose-review-2026-10-29/`. Preview/browser processes
+are closed. No broader regression run was needed because earlier guides and
+shared assets are unchanged.
+
+Essay five is local, uncommitted, `wip`/`noindex,follow`, without a publication date,
+homepage card, or incoming public series link. No commit, push, or hosted release
+was requested or performed. Essay four's existing publication plan remains a
+separate task. Next: author review of the draft and the recorded edits.
 
 ## Commit and push verified; essay four deferred — 2026-10-28
 
@@ -391,16 +543,15 @@ push or publication was requested or performed in this pass.
 
 | Work | Local state at handoff | Committed / hosted state |
 | --- | --- | --- |
-| Guide 01 | Published; approved copy/humor fixes complete; end section links to essay three. Snapshot current; checks pass. | Publication commit `7830a00` pushed; hosted content and navigation verified 2026-10-28. |
-| Guide 02 | Published; approved copy/humor fixes and diagnostic connections complete; end section and Next essay link include essay three. Snapshot current; checks pass. | Publication commit `7830a00` pushed; hosted content, navigation and worksheet assets verified 2026-10-28. |
-| Guide 03 | Published with seven figures, evidence worksheet, social art and approved copy/humor fixes. Snapshot current; checks pass. | Publication commit `7830a00` pushed; hosted guide, assets, homepage card and incoming navigation verified 2026-10-28. |
-| Guide 04 | Published 2026-10-29; reviewed prose and five figures unchanged. Homepage and series navigation updated. Snapshot current; checks pass. | Release commit `cecf247` pushed; hosted content, assets, date and links verified 2026-10-29. |
-| Guide 05 | Planned, without a title, URL or source essay. | No page exists yet. |
+| Guide 01 | Audit corrections to citations, history, and clock example. Snapshot current; checks pass. | Released in `998bba0`; hosted verification passed 2026-10-29. |
+| Guide 02 | “Assumptions” restored and each experimental condition repeated. Snapshot and worksheet-export checks pass. | Released in `998bba0`; hosted verification passed 2026-10-29. |
+| Guide 03 | Li/Du research clarifications. Seven figures and precision/recall explanation preserved. Snapshot current; checks pass. | Released in `998bba0`; hosted verification passed 2026-10-29. |
+| Guide 04 | Figure 03 distinguishes discovered failures from the unknown total. Prose and other figures preserved. Snapshot current; checks pass. | Released in `998bba0`; hosted verification passed 2026-10-29. |
+| Guide 05 | Publication requested 2026-10-30; date, manifest, homepage, navigation, and snapshots prepared. Reviewed prose and figures unchanged. | Release checks pass; hosted verification pending. |
 
-Latest site-content commit: `cecf247` on `main`, with hosting verified. Use Git
-status and log for the current tip, including any later handoff-only commit.
-Essays one–three remain published; their publication-date metadata is now live.
-Essay four is published and verified; see the latest release entry.
+Previous site-content commit: `998bba0`, followed by verification record `04e934f`.
+Essay-five publication is in progress. Use Git status and log for the current tip.
+All earlier essays retain their first-publication dates.
 
 ## Editorial decisions to carry forward
 
@@ -455,7 +606,9 @@ a release, stage the intended files explicitly; do not add every untracked file.
 
 ## Next session
 
-Continue from the current release status above and essay four's brief. The older
-WIP and deferred-publication entries are historical. Essay five is under separate
-local review and was excluded from this publication. Preserve that local draft,
-the unrelated guide-two prose edit, OS files, presentations, and rollback folders.
+Complete and verify the authorized essay-five publication if not recorded above.
+The author has approved release of the current guide; no additional publication
+permission is required. Preserve its original source and reviewed body, including
+the latest Figure 02 layout. Release evidence is under
+`artifacts/guide-checks/publish-05-2026-10-30/`. Keep rollback copies and unrelated
+local work out of the release, and stop temporary browser/preview processes.

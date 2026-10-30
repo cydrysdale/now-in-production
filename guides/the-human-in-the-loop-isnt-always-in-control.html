@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script>
+    try {
+      const theme = localStorage.getItem('theme');
+      document.documentElement.setAttribute('data-theme', theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+    } catch {}
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Human in the Loop Isn&#x27;t Always in Control</title>
+  <meta name="description" content="What reviewers need to exercise judgment, and why an approval button alone cannot give them control of an AI workflow.">
+  <meta name="keywords" content="human oversight, distributed cognition, cognitive offloading, automation bias, human-AI collaboration, judgment, accountability">
+  <meta name="guide:category" content="Thinking in Systems · 05">
+  <meta name="guide:updated" content="2026-10-30">
+  <meta name="guide:published" content="2026-10-30">
+  <meta name="guide:series" content="thinking-in-systems">
+  <meta name="guide:order" content="5">
+  <meta name="author" content="Chris Yasuda Drysdale">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="canonical" href="https://cydrysdale.github.io/now-in-production/guides/the-human-in-the-loop-isnt-always-in-control.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="The Human in the Loop Isn&#x27;t Always in Control">
+  <meta property="og:description" content="What reviewers need to exercise judgment, and why an approval button alone cannot give them control of an AI workflow.">
+  <meta property="og:url" content="https://cydrysdale.github.io/now-in-production/guides/the-human-in-the-loop-isnt-always-in-control.html">
+  <meta property="og:image" content="https://cydrysdale.github.io/now-in-production/images/thinking-in-systems-05.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" sizes="180x180" href="../images/apple-touch-icon.png">
+  <link rel="manifest" href="../site.webmanifest">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/thinking-in-systems.css">
+  <link rel="stylesheet" href="../assets/css/human-in-the-loop.css">
+  <script src="../assets/js/core.js" defer></script>
+  <script src="../assets/js/thinking-in-systems.js" defer></script>
+</head>
+<body class="thinking-guide">
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="series-header" id="top">
+    <div class="header-inner">
+      <a class="site-signature" href="../index.html">
+        <img src="../images/Pixel-Chris.png" alt="" width="36" height="36">
+        <span>Now in Production<span class="signature-caption">Guides for the curious</span></span>
+      </a>
+      <div class="header-actions">
+        <a class="all-guides" href="../index.html">All guides <span aria-hidden="true">↗</span></a>
+        <div class="theme-toggle">
+          <input id="themeSwitch" type="checkbox" role="switch" aria-checked="false" aria-label="Toggle dark mode">
+          <label for="themeSwitch"><span class="track" aria-hidden="true"></span><span class="thumb" aria-hidden="true"><span class="icon sun">☼</span><span class="icon moon">☽</span></span></label>
+        </div>
+        <div class="toc-mobile">
+          <button id="tocToggle" type="button" aria-expanded="false" aria-controls="tocList">Contents <span aria-hidden="true">≡</span></button>
+          <nav id="tocList" class="toc" aria-label="On this page"></nav>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="essay-cover">
+    <div class="cover-topline">
+      <p class="eyebrow">Thinking in Systems</p>
+      <span class="issue-label">Essay 05 <span aria-hidden="true">/</span> 05</span>
+    </div>
+    <p class="series-subtitle">AI Theory, Philosophy &amp; Systems Design</p>
+    <h1 id="essay-title">The Human in the Loop Isn&#x27;t Always in Control</h1>
+    <p class="cover-deck">Why distributing cognitive work is easy—and distributing judgment responsibly is not.</p>
+    <div class="cover-bottomline">
+      <p class="byline">By Chris Yasuda Drysdale <span aria-hidden="true">·</span> <span id="reading-time">Reading time calculated on load</span></p>
+      <a class="begin-link" href="#content">Begin reading <span aria-hidden="true">↓</span></a>
+    </div>
+  </div>
+
+  <div class="page essay-layout">
+    <aside class="toc-desktop">
+      <p class="eyebrow">In this essay</p>
+      <nav class="toc" aria-label="On this page"></nav>
+    </aside>
+    <main id="content" tabindex="-1">
+      <article aria-labelledby="essay-title">
+        <div class="essay-opening">
+          <p class="opening-line">At the end of an automated workflow, there's a button labeled <strong>Approve</strong>.</p>
+          <p>A person clicks it. A document gets published, a recommendation becomes a decision, or an action is taken on someone's behalf. The system records who approved the result. There's an audit trail, a timestamp, and a human name attached to the outcome.</p>
+          <p>Everything appears to be working as intended.</p>
+          <p>But suppose the result turns out to be wrong. The person who approved it didn't have access to the original information. They weren't qualified to evaluate one of the claims. They had thirty seconds to review something that would ordinarily take twenty minutes to verify.</p>
+          <p>Technically, a human made the final decision.</p>
+          <p>Did that human actually exercise any meaningful control?</p>
+          <p>This is one of the more consequential problems emerging from the adoption of artificial intelligence. Organizations increasingly rely on AI to perform work that once required human expertise, then preserve some form of human approval as a safeguard against mistakes.</p>
+          <p>The arrangement sounds reasonable. Machines handle the repetitive work. Humans provide the judgment. Unfortunately, putting those two things together doesn't guarantee that either will happen.</p>
+          <p>The deeper problem is that we've been treating human involvement as though it were equivalent to human judgment. We've also been treating judgment as though it necessarily occurs at the end of a process, when someone accepts or rejects a finished result. Neither assumption holds up particularly well.</p>
+          <p>To understand why, we need to reconsider something even more fundamental: where thinking actually happens.</p>
+          <noscript><nav class="reading-route" aria-label="Essay chapters"><a href="../index.html">← Home</a><a href="#distributed-cognition">Sharing the work</a><a href="#supervising-automation">The reviewer's job</a><a href="#decisions-before-approval">Making oversight work</a></nav></noscript>
+        </div>
+
+        <section class="essay-section" aria-labelledby="distributed-cognition">
+          <p class="chapter-marker">01 <span>Sharing the work</span></p>
+          <h2 id="distributed-cognition" data-toc-label="The mind was never alone" data-toc-group="01 / Sharing the work">The mind was never working alone</h2>
+          <p>In 1995, cognitive scientist and anthropologist Edwin Hutchins published <a href="https://mitpress.mit.edu/9780262581462/cognition-in-the-wild/"><em>Cognition in the Wild</em></a>, an unusual investigation into how people think while performing complicated tasks. Hutchins had spent years studying navigation, including the work performed aboard large naval vessels. Rather than bringing participants into a laboratory to investigate isolated mental processes, he examined cognition where it occurred naturally.</p>
+          <p>Consider what it takes to navigate a ship into port. No single crew member necessarily performs every calculation, maintains every relevant piece of information, or personally observes everything needed to bring the vessel safely to its destination.</p>
+          <p>Different people perform different functions. Instruments provide measurements. Charts preserve spatial information. Established procedures coordinate activities. Information moves between participants, sometimes changing form as it moves.</p>
+          <p>Someone measures a bearing. Someone else records it. Another person incorporates the information into a representation of the ship's position. The resulting navigation depends on how these activities work together.</p>
+          <p>Hutchins proposed that we could understand this process more effectively by treating the entire arrangement—people, instruments, representations, and procedures—as a cognitive system. This perspective is known as <strong>distributed cognition</strong>. Instead of asking only what an individual knows or calculates, distributed cognition examines how information is represented, transformed, communicated, and used across a larger system.</p>
+          <p>The distinction is important. A chart doesn't need to understand navigation to participate in the process. A measuring instrument doesn't need to know why a particular reading matters. Individual crew members don't need to hold identical knowledge. Yet their coordinated activity can produce an outcome that depends on all of them.</p>
+          <p>This doesn't establish that an organization has a conscious mind or that every tool participating in a cognitive process possesses understanding. Those are separate philosophical questions.</p>
+          <p>Distributed cognition offers something more immediately useful: a different unit of analysis. When we want to understand how a complicated task gets accomplished, the individual person may not be the most informative place to begin.</p>
+          <p>In 2000, James Hollan, Hutchins, and David Kirsh <a href="https://doi.org/10.1145/353485.353487">extended this perspective into human-computer interaction</a>, arguing that understanding how people work with technology requires examining the broader environments in which their activities unfold.</p>
+          <p>If you've worked on a complicated project, you've probably relied on some version of this. A designer uses reference materials, established standards, and feedback from colleagues. A developer relies on documentation, test suites, and version control. A project manager maintains timelines and dependencies in systems that other people update. The information required to accomplish the work is distributed across the organization.</p>
+          <p>We don't ordinarily conclude that these people are less capable because they rely on external resources. In fact, those resources are often what make sophisticated work possible.</p>
+          <p>A good checklist doesn't replace professional competence. It allows competence to operate without depending entirely on memory. A shared design system doesn't eliminate creative judgment. It preserves decisions that shouldn't need to be reconsidered every time someone creates a new document.</p>
+          <p>The distinction matters because artificial intelligence isn't the first technology to redistribute cognitive work. It's simply expanding the range of activities that can be redistributed. And that raises a much harder question than whether machines can think.</p>
+          <p><strong>What happens when the work we redistribute includes the work of making judgments?</strong></p>
+        </section>
+
+        <section class="essay-section" aria-labelledby="delegating-decisions">
+          <h2 id="delegating-decisions" data-toc-label="Delegating work and decisions">Delegating work is not the same as delegating decisions</h2>
+          <p>Cognitive scientists Evan Risko and Sam Gilbert describe <a href="https://pubmed.ncbi.nlm.nih.gov/27542527/"><em>cognitive offloading</em></a> as using external actions or resources to reduce the mental demands of a task. Writing down a phone number is a simple example. Instead of maintaining the number in working memory, we store it somewhere in the environment. The information hasn't disappeared. We've changed where it resides and how we access it.</p>
+          <p>Something similar happens when we use calendars, reminders, search engines, or reference documents. These tools let us spend less cognitive effort on activities that don't deserve our undivided attention. That can be enormously useful.</p>
+          <p>The trouble begins when we treat every kind of cognitive offloading as though it had the same implications. There's a substantial difference between asking a system to remember information, asking it to analyze information, and allowing it to decide what should happen next.</p>
+          <p>In 2000, researchers Raja Parasuraman, Thomas Sheridan, and Christopher Wickens proposed <a href="https://pubmed.ncbi.nlm.nih.gov/11760769/">a model distinguishing four broad functions</a> that can be automated. A system can acquire information, analyze it, select a decision or action, and implement that action. Each function can be automated to a different degree.</p>
+          <p>Let's try this with a hypothetical assistant that helps employees create business proposals.</p>
+          <p>It might retrieve relevant material from an internal knowledge base. That's information acquisition. It might compare the client's requirements against the organization's available services. That's analysis.</p>
+          <p>It might recommend a particular proposal or pricing arrangement. That's decision selection. And it might send the finished proposal. That's action implementation.</p>
+          <p>The assistant could perform all four activities, but giving it permission to perform one doesn't necessarily justify allowing it to perform the others. More importantly, the decisions involved aren't confined to the recommendation itself.</p>
+          <p>Someone must decide which sources the assistant can use, which rules govern its recommendations, what information it's allowed to disclose, and under what circumstances it can act without additional authorization. Those are also decisions. They may be made by people who never see the finished proposal.</p>
+          <p>The organization has already exercised considerable judgment before the person at the end of the process clicks anything. This exposes a limitation in the way we commonly discuss human–AI collaboration.</p>
+          <p>We tend to imagine a division between human thinking and machine execution. The machine handles the preparation, and the human supplies the final judgment. But a modern AI workflow doesn't necessarily divide itself along those lines.</p>
+          <p>The system might make consequential choices while retrieving information, interpreting a request, or deciding which instructions apply. A person might then approve the result without realizing which decisions have already been made.</p>
+          <p>Decisions can come after approval, too. In <a href="the-thermometer-is-in-the-wrong-room.html#observability">essay four's fictional marketing workflow</a>, the editor approved accurate copy, and the layout process changed its meaning afterward.</p>
+          <p>In other words, <strong>the moment of approval may not be the moment when the most important decisions occur</strong>. If we want to understand who controls a system, we have to examine the entire sequence of decisions—not simply the last person to touch its output.</p>
+          <figure class="wide-figure hitl-figure" aria-labelledby="approval-layers-title">
+            <div class="figure-topline"><span class="eyebrow">Behind the Approve button</span><span class="figure-number">Fig. 01</span></div>
+            <h3 id="approval-layers-title">Important decisions happen before and after approval.</h3>
+            <div class="hitl-band">
+              <span class="small-label">Decided before anyone clicks</span>
+              <ul>
+                <li>Which sources the assistant can use</li>
+                <li>Which rules govern its recommendations</li>
+                <li>What it's allowed to disclose</li>
+                <li>When it can act without additional authorization</li>
+              </ul>
+              <p>Often decided by people who never see the finished proposal.</p>
+            </div>
+            <ol class="hitl-pipeline">
+              <li><span class="small-label">01 / Acquire</span><strong>Retrieves material</strong><p>From an internal knowledge base.</p></li>
+              <li><span class="small-label">02 / Analyze</span><strong>Compares requirements</strong><p>The client's needs against available services.</p></li>
+              <li><span class="small-label">03 / Select</span><strong>Recommends</strong><p>A proposal or pricing arrangement.</p></li>
+              <li class="is-approve"><span class="small-label">The click</span><span class="hitl-button">Approve</span></li>
+              <li><span class="small-label">04 / Implement</span><strong>Sends</strong><p>The finished proposal goes out.</p></li>
+            </ol>
+            <p class="hitl-after"><span class="small-label">After approval</span>Later steps can still change the approved result. <a href="the-thermometer-is-in-the-wrong-room.html#measurement-gap-title">See essay four's example.</a></p>
+            <figcaption>The hypothetical proposal assistant from the text. The four functions follow Parasuraman, Sheridan, and Wickens (2000), and each can be automated to a different degree. Where approval sits, and what it covers, is a design choice rather than a fixed stage.</figcaption>
+          </figure>
+        </section>
+
+        <section class="essay-section" aria-labelledby="supervising-automation">
+          <p class="chapter-marker">02 <span>The reviewer&#x27;s job</span></p>
+          <h2 id="supervising-automation" data-toc-label="Supervising rare failures" data-toc-group="02 / The reviewer&#x27;s job">The strange problem of supervising something that rarely fails</h2>
+          <p>The risks of automation are not new. In 1983, psychologist Lisanne Bainbridge published a paper titled <a href="https://doi.org/10.1016/0005-1098(83)90046-8"><em>Ironies of Automation</em></a>. Bainbridge was concerned with industrial automation, particularly systems designed to perform routine operations while leaving human operators responsible for monitoring and handling exceptional conditions.</p>
+          <p>The arrangement had an obvious appeal. Machines could perform repetitive tasks more consistently. Human operators could intervene when something unusual happened.</p>
+          <p>But Bainbridge identified an uncomfortable contradiction. The more successfully a system automated routine activities, the less opportunity its human operators had to practice the skills needed when automation failed. At the same time, those operators could be left responsible for diagnosing unfamiliar problems under unusually difficult circumstances.</p>
+          <p>Think about what that demands of the person. They must remain attentive while the system performs correctly, sometimes for extended periods. They must recognize the rare occasion when its behavior becomes inappropriate. They must understand the situation well enough to diagnose the problem. And they must do this despite having less direct experience performing the underlying task.</p>
+          <p>Automation can remove ordinary work while making the remaining work more difficult.</p>
+          <p>Bainbridge was writing about industrial control systems, not generative AI. The specific operating conditions are different, and her conclusions shouldn't be transferred indiscriminately. But the underlying design problem is remarkably relevant.</p>
+          <p>Consider someone responsible for reviewing AI-generated documents. The assistant produces twenty documents a day. Most are correct. The reviewer gradually learns that accepting its recommendations rarely causes problems. Over time, review can become less an investigation and more a ritual.</p>
+          <p>Then, one day, the assistant produces a document containing a subtle but consequential error. The reviewer has the authority to reject it. They may even have the technical ability to correct it.</p>
+          <p>But do they have the information, expertise, attention, and practiced judgment required to recognize the problem?</p>
+          <p>These are separate questions. A person can possess formal authority over a decision without possessing the practical means to evaluate it.</p>
+          <p>The difficulty becomes especially pronounced when automation is introduced specifically to reduce the time people spend on a task. If the financial justification for automation assumes that a reviewer will spend almost no time examining the result, we shouldn't be surprised when their review becomes superficial. We budget thirty seconds, then ask why someone didn't do twenty minutes of checking.</p>
+          <p>We've created a system that depends on human judgment while simultaneously discouraging the conditions required to exercise it.</p>
+          <p>That isn't necessarily a failure of the individual reviewer. It's a failure to design the human role as carefully as the automated one.</p>
+        </section>
+
+        <section class="essay-section" aria-labelledby="human-ai-performance">
+          <h2 id="human-ai-performance" data-toc-label="Do we work better together?">Two heads aren&#x27;t automatically better than one</h2>
+          <p>There's a comforting assumption behind much of the enthusiasm for human–AI collaboration. Humans are good at some things. Machines are good at others. Combine them, and the result should be better than either working independently.</p>
+          <p>Sometimes that's true. But it's not a mathematical certainty.</p>
+          <p>In 2024, researchers Michelle Vaccaro, Abdullah Almaatouq, and Thomas Malone published <a href="https://www.nature.com/articles/s41562-024-02024-1">a systematic review and meta-analysis</a> examining when combinations of humans and AI actually improve performance. They analyzed 106 experimental studies reporting 370 effect sizes. The studies included comparisons between humans working alone, AI systems working alone, and combinations of the two.</p>
+          <figure class="wide-figure hitl-figure" aria-labelledby="pair-prediction-title">
+            <div class="figure-topline"><span class="eyebrow">Make a prediction</span><span class="figure-number">Fig. 02</span></div>
+            <h3 id="pair-prediction-title">Do humans and AI perform better together?</h3>
+            <p>Across 106 experiments, researchers compared people working alone, AI systems working alone, and people working with AI.</p>
+            <h4>On average, how would you expect the human–AI combination to compare with whichever performed better alone—the human or the AI?</h4>
+            <p>Consider your answer before opening the results.</p>
+            <details>
+              <summary>Reveal the results <span aria-hidden="true">›</span></summary>
+              <div class="disclosure-body hitl-forest">
+                <p>On average, the combination performed worse than the stronger of the human-only and AI-only alternatives. It did outperform humans working alone.</p>
+                <h4>Compared with humans working alone</h4>
+                <ul>
+                  <li class="hitl-row"><span class="hitl-row-label">All tasks</span><span class="hitl-track" aria-hidden="true" style="--lo: 83.12%; --hi: 96.25%; --g: 90.00%;"><span class="hitl-interval"></span><span class="hitl-dot"></span></span><span class="hitl-value">g = +0.64<small>95% CI +0.53 to +0.74</small></span></li>
+                </ul>
+                <h4>Compared with the better of human or AI alone</h4>
+                <ul>
+                  <li class="hitl-row"><span class="hitl-row-label">All tasks</span><span class="hitl-track" aria-hidden="true" style="--lo: 25.62%; --hi: 45.62%; --g: 35.62%;"><span class="hitl-interval"></span><span class="hitl-dot"></span></span><span class="hitl-value">g = −0.23<small>95% CI −0.39 to −0.07</small></span></li>
+                  <li class="hitl-row is-sub"><span class="hitl-row-label">Decision tasks</span><span class="hitl-track" aria-hidden="true" style="--lo: 22.50%; --hi: 43.75%; --g: 33.12%;"><span class="hitl-interval"></span><span class="hitl-dot"></span></span><span class="hitl-value">g = −0.27<small>95% CI −0.44 to −0.10</small></span></li>
+                  <li class="hitl-row is-sub is-uncertain"><span class="hitl-row-label">Creation tasks</span><span class="hitl-track" aria-hidden="true" style="--lo: 44.38%; --hi: 80.00%; --g: 61.87%;"><span class="hitl-interval"></span><span class="hitl-dot"></span></span><span class="hitl-value">g = +0.19<small>95% CI −0.09 to +0.48; not significant</small></span></li>
+                  <li class="hitl-row is-sub"><span class="hitl-row-label">When the human alone did better</span><span class="hitl-track" aria-hidden="true" style="--lo: 67.50%; --hi: 91.25%; --g: 78.75%;"><span class="hitl-interval"></span><span class="hitl-dot"></span></span><span class="hitl-value">g = +0.46<small>95% CI +0.28 to +0.66</small></span></li>
+                  <li class="hitl-row is-sub"><span class="hitl-row-label">When the AI alone did better</span><span class="hitl-track" aria-hidden="true" style="--lo: 5.63%; --hi: 26.88%; --g: 16.25%;"><span class="hitl-interval"></span><span class="hitl-dot"></span></span><span class="hitl-value">g = −0.54<small>95% CI −0.71 to −0.37</small></span></li>
+                </ul>
+                <div class="hitl-axis" aria-hidden="true"><span></span><span class="hitl-axis-scale"><span>← Worse</span><span class="hitl-axis-zero">0</span><span>Better →</span></span><span></span></div>
+              </div>
+            </details>
+            <details class="figure-research">
+              <summary>Research note: reading the numbers, and why we asked for a guess</summary>
+              <div class="figure-research-body">
+                <p>Each value is Hedges' <em>g</em>, a standardized difference between two conditions; zero means no difference. Dots are pooled averages and lines are 95% confidence intervals. Results varied widely from study to study, and they describe the experimental configurations studied, published between January 2020 and June 2023.</p>
+                <p>Asking for a prediction first borrows from <a href="https://mucollective.northwestern.edu/files/2017-ExplainingTheGap-CHI.pdf">Kim, Reinecke, and Hullman (2017)</a>. In their experiment, people who predicted data before seeing it, and then explained the gap or received feedback, remembered and understood it better than people who only looked. This figure uses the idea; it doesn't test it.</p>
+              </div>
+            </details>
+            <figcaption>Source: <a href="https://www.nature.com/articles/s41562-024-02024-1">Vaccaro, Almaatouq, and Malone (2024)</a>, a meta-analysis of 106 experiments reporting 370 effect sizes. The lower rows break down the comparison with the better of the two, by task type and by whether the human or the AI performed better alone in each study.</figcaption>
+          </figure>
+          <p>The findings complicate the usual story. On average, human–AI combinations performed better than humans working alone. However, they performed worse than the stronger of the human-only and AI-only alternatives.</p>
+          <p>This is an important distinction. Adding AI can improve human performance without producing a system that is better than its best component.</p>
+          <p>The researchers also found meaningful differences between types of tasks. Combining humans and AI was associated with performance losses in decision-making tasks. Creative or content-generation tasks showed more promising results, although the average evidence for synergy in that category did not establish a statistically significant advantage over the best individual performer.</p>
+          <p>These findings concern the experimental configurations studied, from research published between January 2020 and June 2023. They aren't a universal verdict on every contemporary AI system.</p>
+          <p>Nevertheless, they challenge a remarkably persistent assumption. <strong>Collaboration is not automatically an improvement. Its value depends on how the work is divided and coordinated.</strong></p>
+          <p>Think about a person evaluating an AI recommendation. If the AI is better at the task, but the person routinely substitutes a less accurate judgment, adding human involvement can reduce performance. If the person is more knowledgeable but tends to defer to the machine, the same problem can occur in reverse.</p>
+          <p>Even when both participants are individually competent, their interaction can introduce errors that neither would have made independently. Researchers have studied several related phenomena. <a href="https://ntrs.nasa.gov/citations/20020043179/"><em>Automation bias</em></a> describes forms of inappropriate reliance on automated recommendations, including accepting incorrect suggestions or overlooking problems that the system fails to identify.</p>
+          <p>The opposite problem also exists. Research on <a href="https://faculty.wharton.upenn.edu/wp-content/uploads/2016/11/20-Dietvorst-Simmons-Massey-2015.pdf"><em>algorithm aversion</em></a> has found that people may become reluctant to rely on algorithms after observing errors, even when the algorithms outperform human alternatives.</p>
+          <p>The goal, then, isn't to maximize human involvement or maximize automation. It's to develop arrangements in which each participant's involvement improves the outcome.</p>
+          <p>John Lee and Katrina See explored this problem in their <a href="https://pubmed.ncbi.nlm.nih.gov/15151155/">2004 review of trust in automation</a>. Their emphasis was on <strong>appropriate reliance</strong>: people should use automation in ways that reflect its actual capabilities and limitations, rather than trusting or rejecting it indiscriminately.</p>
+          <p>That requires more than presenting a confidence score or telling people to be careful. It requires designing the interaction itself.</p>
+          <p>In a <a href="https://www.eecs.harvard.edu/~kgajos/papers/2021/bucinca21trust.pdf">2021 experiment</a> involving 199 participants, Zana Buçinca and colleagues studied interventions intended to make people engage more critically with AI recommendations. Participants made food-substitution decisions with simulated AI advice. Some interventions significantly reduced overreliance compared with simpler approaches that provided AI explanations.</p>
+          <p>There was a catch.</p>
+          <p>Participants tended to rate the interventions that most effectively reduced overreliance less favorably. The methods that encouraged better judgment weren't necessarily the methods people preferred using.</p>
+          <p>If you design AI products, that trade-off deserves a closer look. We often treat friction as a defect in an interface. Sometimes it is. An unnecessary confirmation screen or redundant approval step can make a process slower without making it safer.</p>
+          <p>But friction can also create the conditions for deliberate thought. The challenge is distinguishing between the two.</p>
+          <p>A pause that merely forces someone to click another button accomplishes very little. A pause that requires someone to identify the evidence supporting a consequential claim may serve an entirely different purpose.</p>
+          <p>The difference isn't the number of actions. It's what those actions require the person to think about.</p>
+          <figure class="wide-figure hitl-figure" aria-labelledby="friction-title">
+            <div class="figure-topline"><span class="eyebrow">Two kinds of friction</span><span class="figure-number">Fig. 03</span></div>
+            <h3 id="friction-title">One pause asks for a click. The other asks for a judgment.</h3>
+            <div class="hitl-friction">
+              <div>
+                <span class="small-label">A · Confirms an action</span>
+                <div class="hitl-mock">
+                  <span class="hitl-mock-title">Proposal ready</span>
+                  <p>Approve this proposal and send it to the client?</p>
+                  <div class="hitl-mock-actions"><span class="hitl-button is-quiet">Cancel</span><span class="hitl-button">Approve</span></div>
+                </div>
+                <p class="hitl-friction-note">One more action. The reviewer can complete it without reading anything.</p>
+              </div>
+              <div>
+                <span class="small-label">B · Asks for evidence</span>
+                <div class="hitl-mock">
+                  <span class="hitl-mock-title">Before you approve</span>
+                  <span class="small-label">Claim in a Standard plan proposal</span>
+                  <blockquote>“Includes onboarding support at no extra cost.”</blockquote>
+                  <div class="hitl-source">
+                    <span class="small-label">Current service catalog · Onboarding</span>
+                    <blockquote>“Onboarding support is included with Premium. Standard customers can purchase it separately.”</blockquote>
+                  </div>
+                  <p>Does this passage support the proposal's claim?</p>
+                  <div class="hitl-mock-actions"><span class="hitl-button">Supported · approve</span><span class="hitl-button is-quiet">Unsupported or unsure · hold for review</span></div>
+                </div>
+                <p class="hitl-friction-note">Puts the evidence beside the claim and offers a way to hold it for review. It prompts examination; it cannot guarantee that the reviewer pays attention.</p>
+              </div>
+            </div>
+            <figcaption>Invented, non-interactive mockups of the distinction in the text, not a tested design. Buçinca and colleagues tested different interventions in a food-substitution task. A pause like the second one adds effort that people may dislike; whether it's worth it depends on what the claim could cost if it's wrong.</figcaption>
+          </figure>
+        </section>
+
+        <section class="essay-section" aria-labelledby="maintaining-judgment">
+          <h2 id="maintaining-judgment" data-toc-label="What happens to judgment?">What happens to judgment when the machine does the work?</h2>
+          <p>Automation changes more than the distribution of tasks. It can change the cognitive habits of the people using it.</p>
+          <p>A <a href="https://www.microsoft.com/en-us/research/publication/the-impact-of-generative-ai-on-critical-thinking-self-reported-reductions-in-cognitive-effort-and-confidence-effects-from-a-survey-of-knowledge-workers/">2025 study</a> by researchers including Hao-Ping Lee and Advait Sarkar examined how knowledge workers reported using critical thinking when working with generative AI. The researchers surveyed 319 knowledge workers, collecting 936 examples of AI-assisted tasks. They found an association between greater confidence in generative AI and lower self-reported critical-thinking effort. Greater confidence in one's own ability to perform a task was associated with more critical-thinking engagement.</p>
+          <p>But the findings were more nuanced than the claim that AI makes people stop thinking. Participants described changes in where they directed their attention.</p>
+          <p>Work that previously involved gathering information increasingly involved verifying information. Work that required solving a problem shifted toward integrating AI-generated responses. And work that involved directly producing an outcome increasingly involved supervising or managing the process. These are different forms of cognitive activity.</p>
+          <p>The study relied on self-reports and associations. It doesn't establish that generative AI causes a general decline in critical-thinking ability, nor does it tell us what happens to those abilities over a period of years.</p>
+          <p>Still, it identifies a possibility worth taking seriously. If AI changes what people spend their time thinking about, then the design of AI workflows influences which cognitive skills they continue to exercise.</p>
+          <p>That isn't necessarily bad. Someone who spends less time assembling routine documents may have more time to evaluate strategy, investigate unusual problems, or improve the systems responsible for producing those documents. That would be a meaningful improvement.</p>
+          <p>But consider a different possibility. Suppose someone no longer performs the work required to understand a process, yet remains responsible for detecting mistakes in its output. Their job hasn't disappeared. It's changed from performing work to supervising work they may gradually become less equipped to evaluate.</p>
+          <p>This is an organizational problem as much as a cognitive one. An experienced employee might be capable of detecting subtle AI errors because they developed expertise through years of direct practice. A newer employee entering a heavily automated workflow may never encounter enough of the underlying work to develop the same expertise.</p>
+          <p>If organizations expect people to provide meaningful oversight, they need to consider how those people acquire and maintain the judgment that oversight requires. That might mean preserving opportunities for independent practice, providing examples of known failure modes, conducting structured reviews, or deliberately involving specialists in difficult cases. The right approach depends on the work.</p>
+          <p>What matters is recognizing that human expertise is not a permanent resource that exists independently of how the work is organized. It develops through experience, feedback, and opportunities to make decisions. And, under some conditions, it can deteriorate when those opportunities disappear.</p>
+          <figure class="wide-figure hitl-figure" aria-labelledby="irony-loop-title">
+            <div class="figure-topline"><span class="eyebrow">A loop to watch for</span><span class="figure-number">Fig. 04</span></div>
+            <h3 id="irony-loop-title">How review can turn into ritual</h3>
+            <div class="hitl-loop-wrap">
+              <span class="hitl-loop-center">Reinforcing loop</span>
+              <ol class="hitl-loop">
+                <li><span class="small-label">01</span><strong>More routine work moves to the system.</strong><p>It handles ordinary cases well.</p></li>
+                <li><span class="small-label">02</span><strong>Hands-on practice declines.</strong><p>Accepting its output rarely causes problems.</p></li>
+                <li><span class="small-label">03</span><strong>Skill for the rare failure weakens.</strong><p>Newcomers may never build it at all.</p></li>
+                <li><span class="small-label">04</span><strong>Review becomes a ritual.</strong><p>Reliance grows, and more work moves over.</p></li>
+              </ol>
+            </div>
+            <div class="hitl-breaks">
+              <span class="small-label">Ways to interrupt it, from this essay</span>
+              <ul>
+                <li>Preserve opportunities for independent practice.</li>
+                <li>Share examples of known failure modes.</li>
+                <li>Conduct structured reviews.</li>
+                <li>Involve specialists in difficult cases.</li>
+              </ul>
+            </div>
+            <figcaption>A mechanism to watch for, not a measured effect. Step four leads back to step one. Bainbridge (1983) described the underlying irony in industrial control systems; Lee and colleagues (2025) report self-reported associations among knowledge workers, not causes or change over time.</figcaption>
+          </figure>
+        </section>
+
+        <section class="essay-section" aria-labelledby="decisions-before-approval">
+          <p class="chapter-marker">03 <span>Making oversight work</span></p>
+          <h2 id="decisions-before-approval" data-toc-label="Decisions before approval" data-toc-group="03 / Making oversight work">The decision that happened before the decision</h2>
+          <p>Let's return to our automated business proposal. The organization wants employees to generate customized materials without sending every request through a specialist team.</p>
+          <p>That's a legitimate goal. Much of the work may be repetitive. A well-designed system could reduce unnecessary production effort, improve consistency, and allow specialists to spend more time on problems that genuinely require their expertise.</p>
+          <p>Now suppose the organization decides that every AI-generated proposal must be approved by the employee requesting it.</p>
+          <p>A human remains in the loop.</p>
+          <p>Does that solve the accountability problem?</p>
+          <p>Not necessarily.</p>
+          <p>The employee might understand the customer's needs and recognize whether the proposal is commercially appropriate. But they might not know whether a technical claim is accurate, whether a particular statement is authorized, or whether the information being used is current. Requiring that employee to approve the entire document gives them responsibility for judgments they may not be qualified to make.</p>
+          <p>We could require a specialist to review every proposal instead. That would address some of the expertise problem, but it might reproduce the bottleneck that motivated automation in the first place. And if the volume of generated content becomes sufficiently large, even specialist review can deteriorate into superficial approval.</p>
+          <p>A better approach begins by identifying the different decisions involved. Consider two proposals.</p>
+          <p>The first assembles previously authorized information into a standard format. Its content is drawn from maintained sources, and the system operates within clearly defined constraints.</p>
+          <p>The second introduces a new competitive comparison and makes a customer-specific claim that hasn't been evaluated before.</p>
+          <p>Both documents might look equally polished. Both might be produced by the same assistant. But the decisions required to produce them are different.</p>
+          <p>The first may involve relatively predictable operations that can be validated in advance. The second requires judgments about evidence, context, acceptable claims, and the consequences of getting something wrong. Treating them as equivalent because they share the same document format would be a mistake.</p>
+          <p>One reasonable design would allow narrowly defined, low-risk activities to proceed automatically while routing unfamiliar or consequential decisions to people with relevant expertise and authority. But this only works if the boundaries are meaningful.</p>
+          <p>Someone must establish what qualifies as previously authorized information. Someone must maintain that authorization as circumstances change. The system needs a reliable way to distinguish ordinary use cases from exceptions. And the organization needs to decide who can accept the risks associated with releasing an output.</p>
+          <p>These responsibilities may belong to different people or functions. The person defining the rules need not be the person operating the assistant. The person verifying factual claims need not be the person approving a commercial commitment. The person responsible for maintaining the technology need not be authorized to accept every consequence of its use. What matters is that the responsibilities are explicit and coordinated.</p>
+          <p>This is where the distributed cognition perspective becomes especially useful. The question is no longer whether a human or a machine should produce the proposal. It's how information, judgment, authority, and action should move through the entire system.</p>
+          <p>A system designed around that question may require fewer individual approvals while providing more effective oversight. That isn't a contradiction.</p>
+          <p>Oversight doesn't have to mean manually inspecting every result. It can also mean defining appropriate boundaries in advance, validating behavior, monitoring outcomes, detecting exceptions, and retaining the ability to intervene. Sometimes the most consequential human judgment occurs long before the individual document exists.</p>
+        </section>
+
+        <section class="essay-section" aria-labelledby="meaningful-oversight">
+          <h2 id="meaningful-oversight" data-toc-label="Meaningful oversight">When oversight actually means something</h2>
+          <p>The phrase <em>human in the loop</em> has become a convenient way to describe AI systems that preserve some form of human participation. Unfortunately, it tells us very little about what that participation accomplishes.</p>
+          <p>A person might supply input, receive information, make recommendations, authorize decisions, monitor performance, or intervene after a problem occurs. Those are different roles.</p>
+          <p>In its <a href="https://airc.nist.gov/airmf-resources/airmf/appendices/app-c-ai-risk-management-and-human-ai-interaction/">2023 AI Risk Management Framework</a>, the National Institute of Standards and Technology emphasizes the importance of defining and differentiating human roles and responsibilities. NIST also recognizes that different systems may justify different arrangements, from extensive human involvement to activities that can operate without individual oversight. The appropriate arrangement depends on context. That's a more useful starting point than declaring that every consequential AI output needs a human signature.</p>
+          <p id="oversight-questions">When I look at a proposed oversight arrangement, I want to know whether the person has the information, competence, authority, capacity, and recourse needed to fulfill their role.</p>
+          <p>Can they access enough evidence to evaluate the decision?</p>
+          <p>Do they possess the expertise to recognize relevant mistakes?</p>
+          <p>Can they reject, modify, or halt the outcome when necessary?</p>
+          <p>Do they have sufficient time and attention to exercise that judgment?</p>
+          <p>And when something goes wrong, is there a workable process for identifying the failure, correcting its consequences, and improving the system?</p>
+          <p>These questions aren't a scientifically validated test. They're a design heuristic. But they expose the difference between a person participating in a workflow and a person meaningfully governing its outcome.</p>
+          <p>Consider the implications. A reviewer who has expertise but cannot stop publication lacks authority. A reviewer who has authority but cannot inspect the relevant evidence lacks information. A reviewer who has both but must process hundreds of complicated decisions without adequate time lacks capacity.</p>
+          <p>And a system that allows errors to occur without providing a way to investigate and correct them lacks an essential mechanism for learning. Simply adding another approval stage won't necessarily fix any of these problems.</p>
+          <figure class="wide-figure hitl-figure" aria-labelledby="oversight-gaps-title">
+            <div class="figure-topline"><span class="eyebrow">Five questions, five gaps</span><span class="figure-number">Fig. 05</span></div>
+            <h3 id="oversight-gaps-title">Where meaningful oversight can break down.</h3>
+            <table class="hitl-matrix">
+              <caption class="hitl-sr">Five oversight situations from the essay, each missing one of the five conditions</caption>
+              <thead><tr><th scope="col">Situation</th><th scope="col">Information</th><th scope="col">Competence</th><th scope="col">Authority</th><th scope="col">Capacity</th><th scope="col">Recourse</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">A reviewer has authority but can't inspect the relevant evidence.</th><td><span class="hitl-cell-label">Information</span><span class="hitl-mark is-missing" aria-hidden="true"></span><span class="hitl-missing-label">Missing</span></td><td><span class="hitl-cell-label">Competence</span><span class="hitl-mark" aria-hidden="true"></span><span class="hitl-sr">Present</span></td><td><span class="hitl-cell-label">Authority</span><span class="hitl-mark" aria-hidden="true"></span><span class="hitl-sr">Present</span></td><td><span class="hitl-cell-label">Capacity</span><span class="hitl-mark" aria-hidden="true"></span><span class="hitl-sr">Present</span></td><td><span class="hitl-cell-label">Recourse</span><span class="hitl-mark" aria-hidden="true"></span><span class="hitl-sr">Present</span></td></tr>
+                <tr><th scope="row">An employee approves technical claims outside their expertise.</th><td><span class="hitl-cell-label">Information</span><span class="hitl-mark" aria-hidden="true"></span><span class="hitl-sr">Present</span></td><td><span class="hitl-cell-label">Competence</span><span class="hitl-mark is-missing" aria-hidden="true"></span><span class="hitl-missing-label">Missing</span></td><td><span class="hitl-cell-label">Authority</span><span class="hitl-mark" aria-hidden="true"></span><span class="hitl-sr">Present</span></td><td><span class="hitl-cell-label">Capacity</span><span class="hitl-mark" aria-hidden="true"></span><span class="hitl-sr">Present</span></td><td><span class="hitl-cell-label">Recourse</span><span class="hitl-mark" aria-hidden="true"></span><span class="hitl-sr">Present</span></td></tr>
+                <tr><th scope="row">A reviewer has expertise but can't stop publication.</th><td><span class="hitl-cell-label">Information</span><span class="hitl-mark" aria-hidden="true"></span><span class="hitl-sr">Present</span></td><td><span class="hitl-cell-label">Competence</span><span class="hitl-mark" aria-hidden="true"></span><span class="hitl-sr">Present</span></td><td><span class="hitl-cell-label">Authority</span><span class="hitl-mark is-missing" aria-hidden="true"></span><span class="hitl-missing-label">Missing</span></td><td><span class="hitl-cell-label">Capacity</span><span class="hitl-mark" aria-hidden="true"></span><span class="hitl-sr">Present</span></td><td><span class="hitl-cell-label">Recourse</span><span class="hitl-mark" aria-hidden="true"></span><span class="hitl-sr">Present</span></td></tr>
+                <tr><th scope="row">A qualified reviewer must process hundreds of complicated decisions without enough time to check them.</th><td><span class="hitl-cell-label">Information</span><span class="hitl-mark" aria-hidden="true"></span><span class="hitl-sr">Present</span></td><td><span class="hitl-cell-label">Competence</span><span class="hitl-mark" aria-hidden="true"></span><span class="hitl-sr">Present</span></td><td><span class="hitl-cell-label">Authority</span><span class="hitl-mark" aria-hidden="true"></span><span class="hitl-sr">Present</span></td><td><span class="hitl-cell-label">Capacity</span><span class="hitl-mark is-missing" aria-hidden="true"></span><span class="hitl-missing-label">Missing</span></td><td><span class="hitl-cell-label">Recourse</span><span class="hitl-mark" aria-hidden="true"></span><span class="hitl-sr">Present</span></td></tr>
+                <tr class="is-system"><th scope="row">The organization has no workable way to investigate and correct errors.</th><td><span class="hitl-cell-label">Information</span><span class="hitl-mark" aria-hidden="true"></span><span class="hitl-sr">Present</span></td><td><span class="hitl-cell-label">Competence</span><span class="hitl-mark" aria-hidden="true"></span><span class="hitl-sr">Present</span></td><td><span class="hitl-cell-label">Authority</span><span class="hitl-mark" aria-hidden="true"></span><span class="hitl-sr">Present</span></td><td><span class="hitl-cell-label">Capacity</span><span class="hitl-mark" aria-hidden="true"></span><span class="hitl-sr">Present</span></td><td><span class="hitl-cell-label">Recourse</span><span class="hitl-mark is-missing" aria-hidden="true"></span><span class="hitl-missing-label">Missing</span></td></tr>
+              </tbody>
+            </table>
+            <figcaption>Each row isolates one gap and assumes the other conditions are met. The situations come from this essay; the second is the proposal approval described earlier. Recourse belongs to the surrounding system rather than to the reviewer. The five questions are a design heuristic, not a validated test.</figcaption>
+          </figure>
+          <p>Sometimes the right intervention is to improve the information available to the reviewer. Sometimes it's to give the reviewer genuine authority. Sometimes it's to reduce review volume by automating well-characterized tasks. And sometimes the problem is that the organization has assigned the decision to the wrong person entirely.</p>
+          <p>Effective oversight is not a property of a button. It's a property of the surrounding system.</p>
+        </section>
+
+        <section class="essay-section" aria-labelledby="testing-oversight">
+          <h2 id="testing-oversight" data-toc-label="Design for exceptions">Design for the exceptions, not just the demonstration</h2>
+          <p>In <a href="the-thermometer-is-in-the-wrong-room.html#reliable-enough">essay four</a>, we saw how much an accuracy score can leave out. Here I want to look more closely at the people expected to catch the mistakes.</p>
+          <p>Demonstrations tend to show what a system can do when everything works. But the value of an oversight arrangement often becomes apparent only when something doesn't.</p>
+          <p>Suppose an organization tests an AI-assisted workflow on one hundred documents and determines that ninety-six are acceptable.</p>
+          <p>Is 96% good enough?</p>
+          <p>The percentage alone doesn't tell us. I'd want to read the four that failed. What kinds of documents were tested? Were they representative of actual use? How was acceptability determined?</p>
+          <p>If those four documents contained minor formatting problems, the result might support expanding the system's use. If one contained a materially incorrect claim and another exposed information to someone who wasn't authorized to receive it, the same aggregate score would carry very different implications. The distribution and consequences of errors matter.</p>
+          <p>So does the performance of the complete workflow. An AI assistant might generate impressive individual documents while depending on outdated inputs, inadequate permissions, or review procedures that fail under realistic workloads. Testing the model's output without testing the process around it provides an incomplete picture of reliability. This is another reason why human–AI collaboration must be evaluated as a system rather than as two independent participants.</p>
+          <p>For oversight, I'd also want to know whether reviewers caught these errors before release, whether they could stop publication, and whether they could still do both with a full day's queue.</p>
+          <p>A meaningful evaluation should examine whether the entire arrangement performs better than the alternatives.</p>
+          <p>Does it reduce the total time required to produce usable work, including verification and corrections? Does it improve quality, or merely increase the quantity of output?</p>
+          <p>Can it recognize situations that fall outside its validated capabilities? When something goes wrong, can the organization determine what happened and respond effectively? And, crucially, does the workflow preserve the human judgment it actually depends on?</p>
+          <p>These questions don't imply that automation must be perfect before it can be useful. Human workflows are not perfect either. A reasonable comparison considers the performance and consequences of the existing process, the automated alternative, and any proposed combination of the two.</p>
+          <p>In some situations, automation may be demonstrably more accurate than human performance and appropriate even without individual review of every result. In others, the available evidence may justify only a limited deployment while the organization learns more.</p>
+          <p>The objective is not to eliminate uncertainty before making a decision. It's to understand which uncertainties matter, what evidence would change the decision, and how to detect when the system is operating outside acceptable limits.</p>
+          <p>That is a more demanding approach than counting successful demonstrations. It's also considerably more useful.</p>
+        </section>
+
+        <section class="essay-section" aria-labelledby="responsibility">
+          <h2 id="responsibility" data-toc-label="Responsibility">The intelligence of a system is not the responsibility of a system</h2>
+          <p>There's a philosophical distinction underneath all of this. Distributed cognition encourages us to understand intelligence and cognitive performance as properties that can emerge from coordinated activity across people, tools, and environments. But that doesn't mean responsibility should become equally diffuse.</p>
+          <p>A system may distribute the work required to produce a decision without eliminating the need for someone to be accountable for how that decision is made.</p>
+          <p>The AI might retrieve the information. Another system might verify its format. A human might provide contextual judgment. An automated process might execute the resulting action. Those activities can be distributed. The authority to establish acceptable behavior, authorize consequential actions, and respond to failures still needs to be assigned within the organization.</p>
+          <p>Otherwise, distributed cognition can become distributed ambiguity.</p>
+          <p>Everyone performs their part. Everyone assumes someone else is handling the risks. When a problem finally appears, the organization discovers that the workflow was designed to produce outcomes without adequately defining who was responsible for them.</p>
+          <p>It's tempting to respond by inserting a human at the end. But a final approval cannot retroactively supply missing expertise, correct flawed responsibilities, or resolve decisions that were poorly defined upstream.</p>
+          <p>Nor should we assume that keeping every decision with a human is automatically safer. Humans make mistakes. They become distracted, overconfident, fatigued, and inconsistent. They misunderstand instructions, overlook relevant information, and sometimes reject better recommendations simply because those recommendations came from machines.</p>
+          <p>The relevant question is not which participant is inherently more trustworthy. It's whether the overall arrangement allows the right judgments to be made, with the right information, by participants capable of making them—and whether the system can respond when those judgments prove inadequate.</p>
+          <p>Perhaps that's the most useful lesson artificial intelligence offers about human thinking. We've become accustomed to treating intelligence as something an individual possesses and responsibility as something an individual accepts. But sophisticated work rarely happens that neatly.</p>
+          <p>Our knowledge is distributed. Our decisions depend on shared representations, inherited rules, specialized expertise, and tools whose behavior we don't always fully understand. AI makes those dependencies more visible, even as it introduces new ones.</p>
+          <p>The challenge isn't to keep humans performing tasks that machines could accomplish better. Nor is it to automate every activity until humans exist only to authorize the results. It's to design a division of cognitive work that actually improves the system, while remaining clear about who has the authority and obligation to govern its consequences.</p>
+          <p>We can redistribute the work of thinking. We can delegate the work of analysis, recommendation, and execution. We can even design systems that make particular operational decisions without requiring individual human approval.</p>
+          <p>But we cannot treat the distribution of work as an excuse for the disappearance of responsibility.</p>
+          <p>That takes us back to the approval button.</p>
+          <p>The interesting question was never whether a human clicked it.</p>
+          <p><strong>The interesting question was what had to be true for that click to mean anything.</strong></p>
+        </section>
+
+        <section class="essay-section" aria-labelledby="across-the-series">
+          <h2 id="across-the-series" data-toc-label="Across the series" data-toc-group="Continue exploring">Across the series</h2>
+          <p>The five essays offer different questions to bring to the same workflow. You may need to return to any of them as the work changes.</p>
+          <figure class="wide-figure hitl-figure" aria-labelledby="series-map-title">
+            <div class="figure-topline"><span class="eyebrow">How the essays fit</span><span class="figure-number">Fig. 06</span></div>
+            <h3 id="series-map-title">Five questions to bring to a workflow</h3>
+            <ul class="hitl-series">
+              <li><span class="small-label">Essay 01<span class="hitl-stage">Evidence</span></span><strong>Is the answer supported, or just correct?</strong><p>Claim, evidence, confidence.</p><a href="when-ai-gets-the-right-answer.html#trust">Justified trust</a></li>
+              <li><span class="small-label">Essay 02<span class="hitl-stage">Frame</span></span><strong>Are we solving the right problem?</strong><p>Define the outcome, test assumptions, and choose the system boundary.</p><a href="a-better-prompt-wont-fix-the-wrong-problem.html#framing-worksheet-title">Framing worksheet</a></li>
+              <li><span class="small-label">Essay 03<span class="hitl-stage">Context</span></span><strong>Did the meaning arrive with the information?</strong><p>Source, organization, retrieval, application.</p><a href="all-the-information-none-of-the-context.html#context-fig-4">Where context fails</a></li>
+              <li><span class="small-label">Essay 04<span class="hitl-stage">Feedback</span></span><strong>Can we detect and respond when the workflow fails?</strong><p>Define, observe, compare, respond.</p><a href="the-thermometer-is-in-the-wrong-room.html#reliability-loop-title">Closing the loop</a></li>
+              <li class="is-current"><span class="small-label">Essay 05<span class="hitl-stage">Oversight</span></span><strong>Who can evaluate a decision and act on what they find?</strong><p>Information, competence, authority, capacity, recourse.</p><a href="#oversight-questions">The five questions</a></li>
+            </ul>
+            <figcaption>These questions apply across the workflow. Evidence can change the framing; feedback can expose missing context; oversight determines who can act on what is found. Essay one's investigation spans source documents through verification.</figcaption>
+          </figure>
+        </section>
+
+        <section class="essay-section references" aria-labelledby="further-reading">
+          <h2 id="further-reading" data-toc-label="Further reading">Further reading</h2>
+          <p>The following sources provide the intellectual and empirical foundations for this essay.</p>
+          <h3>Distributed cognition and cognitive offloading</h3>
+          <ul>
+            <li><a href="https://mitpress.mit.edu/9780262581462/cognition-in-the-wild/">Edwin Hutchins — <em>Cognition in the Wild</em> (1995)</a>. A foundational examination of cognition distributed across people, instruments, and cultural practices.</li>
+            <li><a href="https://doi.org/10.1145/353485.353487">James Hollan, Edwin Hutchins, and David Kirsh — <em>Distributed Cognition: Toward a New Foundation for Human-Computer Interaction Research</em> (2000)</a>. Connects distributed cognition to the design of technological systems.</li>
+            <li><a href="https://doi.org/10.1016/j.tics.2016.07.002">Evan Risko and Sam Gilbert — <em>Cognitive Offloading</em> (2016)</a>. Reviews how people use external resources to reduce cognitive demands.</li>
+          </ul>
+          <h3>Automation and human judgment</h3>
+          <ul>
+            <li><a href="https://doi.org/10.1016/0005-1098(83)90046-8">Lisanne Bainbridge — <em>Ironies of Automation</em> (1983)</a>. Explores the paradoxes created when automation leaves humans responsible for unusual failures.</li>
+            <li><a href="https://pubmed.ncbi.nlm.nih.gov/11760769/">Raja Parasuraman, Thomas Sheridan, and Christopher Wickens — <em>A Model for Types and Levels of Human Interaction with Automation</em> (2000)</a>. Provides a foundational distinction between different functions and degrees of automation.</li>
+            <li><a href="https://doi.org/10.1518/hfes.46.1.50_30392">John Lee and Katrina See — <em>Trust in Automation: Designing for Appropriate Reliance</em> (2004)</a>. Examines how reliance on automation can be calibrated to its capabilities and context.</li>
+            <li><a href="https://www.eecs.harvard.edu/~kgajos/papers/2021/bucinca2021trust.shtml">Zana Buçinca, Maja Barbara Malaya, and Krzysztof Gajos — <em>To Trust or to Think</em> (2021)</a>. Experimental research on interventions that reduce overreliance on AI recommendations.</li>
+          </ul>
+          <h3>Contemporary research and governance</h3>
+          <ul>
+            <li><a href="https://www.nature.com/articles/s41562-024-02024-1">Michelle Vaccaro, Abdullah Almaatouq, and Thomas Malone — <em>When Combinations of Humans and AI Are Useful</em> (2024)</a>. A meta-analysis examining when human–AI combinations outperform independent alternatives.</li>
+            <li><a href="https://www.microsoft.com/en-us/research/publication/the-impact-of-generative-ai-on-critical-thinking-self-reported-reductions-in-cognitive-effort-and-confidence-effects-from-a-survey-of-knowledge-workers/">Hao-Ping Lee and colleagues — <em>The Impact of Generative AI on Critical Thinking</em> (2025)</a>. Survey research examining how knowledge workers report changes in critical-thinking practices and effort.</li>
+            <li><a href="https://airc.nist.gov/airmf-resources/airmf/appendices/app-c-ai-risk-management-and-human-ai-interaction/">National Institute of Standards and Technology — <em>AI Risk Management Framework: Human-AI Interaction</em> (2023)</a>. Guidance on defining human roles, responsibilities, and oversight in AI systems.</li>
+          </ul>
+        </section>
+      </article>
+      <aside class="series-endnote" aria-labelledby="series-title">
+        <p class="eyebrow">A five-part series</p>
+        <h2 id="series-title">Thinking in Systems</h2>
+        <p>AI Theory, Philosophy &amp; Systems Design</p>
+        <p>Exploring how philosophy, cognitive science, and systems engineering can help us understand and build more reliable AI systems.</p>
+        <!-- SERIES_NAV_START -->
+        <ol class="series-issues" aria-label="Series progress">
+          <li><a href="when-ai-gets-the-right-answer.html" aria-label="Essay 01: When AI Gets the Right Answer for the Wrong Reasons"><span>01</span><span class="issue-state">Read essay</span></a></li>
+          <li><a href="a-better-prompt-wont-fix-the-wrong-problem.html" aria-label="Essay 02: A Better Prompt Won&#x27;t Fix the Wrong Problem"><span>02</span><span class="issue-state">Read essay</span></a></li>
+          <li><a href="all-the-information-none-of-the-context.html" aria-label="Essay 03: All the Information, None of the Context"><span>03</span><span class="issue-state">Read essay</span></a></li>
+          <li><a href="the-thermometer-is-in-the-wrong-room.html" aria-label="Essay 04: The Thermometer Is in the Wrong Room"><span>04</span><span class="issue-state">Read essay</span></a></li>
+          <li aria-current="page"><span>05</span><span class="issue-state">This essay</span></li>
+        </ol>
+        <nav class="series-adjacent" aria-label="More in this series">
+          <a rel="prev" href="the-thermometer-is-in-the-wrong-room.html"><span>Previous essay · 04</span>The Thermometer Is in the Wrong Room</a>
+        </nav>
+        <!-- SERIES_NAV_END -->
+        <a href="../index.html">Explore all guides <span aria-hidden="true">↗</span></a>
+      </aside>
+    </main>
+  </div>
+  <footer class="series-footer"><a href="../index.html">Now in Production</a><span>Stay curious. Ask for the evidence.</span><a href="#top">Back to top ↑</a></footer>
+  <button id="tocFab" class="toc-fab" type="button" aria-controls="tocList" aria-expanded="false" aria-label="Open table of contents" hidden>Contents ≡</button>
+</body>
+</html>

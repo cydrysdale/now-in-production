@@ -34,5 +34,11 @@
     "status": "published",
     "series": "thinking-in-systems",
     "number": 4
+  },
+  {
+    "url": "guides/the-human-in-the-loop-isnt-always-in-control.html",
+    "status": "published",
+    "series": "thinking-in-systems",
+    "number": 5
   }
 ]

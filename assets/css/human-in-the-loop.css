@@ -1,0 +1,146 @@
+/* Essay 05 figures. Shared typography and theme tokens come from the series. */
+.thinking-guide .hitl-figure .figure-number { white-space: nowrap; }
+.thinking-guide .hitl-figure .small-label { font-size: 11px; line-height: 1.6; }
+.thinking-guide .hitl-sr {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* Fig. 01: behind the Approve button */
+.thinking-guide .hitl-band { padding: 18px 20px; border: 1px solid var(--rule); background: var(--paper); }
+.thinking-guide .hitl-band ul { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 10px 0 0; padding: 0; list-style: none; }
+.thinking-guide .hitl-band li { margin: 0; padding-top: 10px; border-top: 2px solid var(--blue); font-size: 13px; line-height: 1.5; }
+.thinking-guide .hitl-band p { margin: 12px 0 0; font-size: 13px; color: var(--quiet); }
+.thinking-guide .hitl-pipeline { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) auto minmax(0, 1fr); gap: 12px; margin: 22px 0; padding: 0; list-style: none; align-items: stretch; }
+.thinking-guide .hitl-pipeline > li { position: relative; margin: 0; padding: 16px 14px; border-top: 2px solid var(--rule); background: var(--paper); min-width: 0; }
+.thinking-guide .hitl-pipeline > li + li::before { content: '→'; position: absolute; top: -14px; left: -12px; color: var(--quiet); font-size: 16px; }
+.thinking-guide .hitl-pipeline strong { display: block; margin-top: 8px; font-size: 15px; line-height: 1.4; }
+.thinking-guide .hitl-pipeline p { margin: 8px 0 0; font-size: 13px; }
+.thinking-guide .hitl-pipeline > .is-approve { display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 8px; padding: 16px 10px; border-top-color: var(--green); text-align: center; }
+.thinking-guide .hitl-button { display: inline-block; padding: 6px 14px; border: 1px solid var(--ink); border-radius: 3px; background: var(--ink); color: var(--paper); font: 600 12px/1.4 var(--sans); letter-spacing: .02em; }
+.thinking-guide .hitl-button.is-quiet { background: transparent; color: var(--ink); }
+.thinking-guide .hitl-after { margin: 0; padding: 16px 20px; border: 1px dashed var(--quiet); background: var(--paper); font-size: 14px; }
+.thinking-guide .hitl-after .small-label { margin-bottom: 6px; }
+
+/* Fig. 02: predict, then reveal */
+.thinking-guide .hitl-predictions { margin: 0 0 18px; padding-left: 22px; font-size: 14px; line-height: 1.6; }
+.thinking-guide .hitl-predictions li { margin: 6px 0; }
+.thinking-guide .hitl-forest { margin: 8px 0 0; }
+.thinking-guide .hitl-forest h4 { margin: 18px 0 6px; color: var(--quiet); font: 10px/1.6 var(--sans); letter-spacing: .06em; text-transform: uppercase; }
+.thinking-guide .hitl-forest ul { margin: 0; padding: 0; list-style: none; }
+.thinking-guide .hitl-row { display: grid; grid-template-columns: minmax(150px, 1.3fr) minmax(140px, 2fr) minmax(118px, 1fr); gap: 14px; align-items: center; margin: 0; padding: 9px 0; border-top: 1px solid var(--rule); font-size: 13px; line-height: 1.45; }
+.thinking-guide .hitl-row.is-sub .hitl-row-label { padding-left: 14px; }
+.thinking-guide .hitl-track { position: relative; height: 18px; }
+.thinking-guide .hitl-track::before { content: ''; position: absolute; left: 50%; top: -6px; bottom: -6px; border-left: 1px solid var(--quiet); }
+.thinking-guide .hitl-track::after { content: ''; position: absolute; left: 0; right: 0; top: 50%; border-top: 1px dotted var(--rule); }
+.thinking-guide .hitl-interval { position: absolute; z-index: 1; top: 50%; left: var(--lo); width: calc(var(--hi) - var(--lo)); height: 2px; margin-top: -1px; background: var(--green); }
+.thinking-guide .hitl-dot { position: absolute; z-index: 2; top: 50%; left: var(--g); width: 11px; height: 11px; margin: -5.5px 0 0 -5.5px; border-radius: 50%; background: var(--green); border: 2px solid var(--paper); box-sizing: content-box; }
+.thinking-guide .is-uncertain .hitl-interval { background: var(--quiet); }
+.thinking-guide .is-uncertain .hitl-dot { background: var(--wash); border-color: var(--quiet); }
+.thinking-guide .hitl-value { font-variant-numeric: tabular-nums; }
+.thinking-guide .hitl-value small { display: block; color: var(--quiet); font-size: 11px; }
+.thinking-guide .hitl-axis { display: grid; grid-template-columns: minmax(150px, 1.3fr) minmax(140px, 2fr) minmax(118px, 1fr); gap: 14px; padding-top: 6px; border-top: 1px solid var(--rule); color: var(--quiet); font-size: 11px; }
+.thinking-guide .hitl-axis-scale { position: relative; display: flex; justify-content: space-between; white-space: nowrap; }
+.thinking-guide .hitl-axis-zero { position: absolute; left: 50%; transform: translateX(-50%); }
+
+/* Fig. 03: two kinds of friction */
+.thinking-guide .hitl-friction { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; margin: 0; }
+.thinking-guide .hitl-mock { margin-top: 8px; padding: 18px; border: 1px solid var(--rule); border-radius: 6px; background: var(--paper); }
+.thinking-guide .hitl-mock-title { display: block; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid var(--rule); font-weight: 600; font-size: 14px; }
+.thinking-guide .hitl-mock p { margin: 0 0 12px; font-size: 14px; }
+.thinking-guide .hitl-mock blockquote { margin: 0 0 12px; padding: 0 0 0 12px; border: 0; border-left: 2px solid var(--blue); background: none; color: var(--ink); font: 400 17px/1.5 var(--serif); }
+.thinking-guide .hitl-source { margin: 0 0 14px; padding: 12px; border: 1px solid var(--rule); background: var(--wash); }
+.thinking-guide .hitl-source blockquote { margin: 6px 0 0; padding: 0; border: 0; font: 400 14px/1.6 var(--sans); }
+.thinking-guide .hitl-mock-actions { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 8px; }
+.thinking-guide .hitl-friction-note { margin: 12px 0 0; font-size: 13px; color: var(--quiet); }
+
+/* Fig. 04: the irony loop */
+.thinking-guide .hitl-loop-wrap { position: relative; }
+.thinking-guide .hitl-loop { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-areas: "one two" "four three"; gap: 44px 56px; margin: 24px 0; padding: 0; list-style: none; }
+.thinking-guide .hitl-loop > li { position: relative; margin: 0; padding: 16px 16px; border-top: 2px solid var(--green); background: var(--paper); min-width: 0; }
+.thinking-guide .hitl-loop > li:nth-child(1) { grid-area: one; }
+.thinking-guide .hitl-loop > li:nth-child(2) { grid-area: two; }
+.thinking-guide .hitl-loop > li:nth-child(3) { grid-area: three; }
+.thinking-guide .hitl-loop > li:nth-child(4) { grid-area: four; }
+.thinking-guide .hitl-loop > li::after { position: absolute; color: var(--green); font-size: 20px; line-height: 1; }
+.thinking-guide .hitl-loop > li:nth-child(1)::after { content: '→'; top: 50%; right: -38px; margin-top: -10px; }
+.thinking-guide .hitl-loop > li:nth-child(2)::after { content: '↓'; bottom: -34px; left: 50%; }
+.thinking-guide .hitl-loop > li:nth-child(3)::after { content: '←'; top: 50%; left: -38px; margin-top: -10px; }
+.thinking-guide .hitl-loop > li:nth-child(4)::after { content: '↑'; top: -34px; left: 50%; }
+.thinking-guide .hitl-loop strong { display: block; margin-top: 8px; font-size: 15px; line-height: 1.4; }
+.thinking-guide .hitl-loop p { margin: 8px 0 0; font-size: 13px; }
+.thinking-guide .hitl-loop-center { position: absolute; top: 50%; left: 50%; z-index: 1; transform: translate(-50%, -50%); padding: 6px 12px; border: 1px solid var(--green); border-radius: 999px; background: var(--wash); color: var(--green); font: 600 11px/1.4 var(--sans); letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; }
+.thinking-guide .hitl-breaks { padding: 16px 20px; border-left: 2px solid var(--blue); background: var(--paper); }
+.thinking-guide .hitl-breaks ul { margin: 6px 0 0; padding-left: 18px; font-size: 14px; }
+.thinking-guide .hitl-breaks li { margin: 4px 0; }
+
+/* Fig. 05: five questions, five gaps */
+.thinking-guide .hitl-matrix { width: 100%; margin: 4px 0 0; border-collapse: collapse; background: var(--paper); font-size: 13px; line-height: 1.5; }
+.thinking-guide .hitl-matrix th,
+.thinking-guide .hitl-matrix td { padding: 12px 10px; border-top: 1px solid var(--rule); text-align: center; vertical-align: middle; }
+.thinking-guide .hitl-matrix thead th { color: var(--quiet); font: 600 11px/1.4 var(--sans); letter-spacing: .04em; text-transform: uppercase; border-top: 0; }
+.thinking-guide .hitl-matrix th[scope="row"] { width: 36%; text-align: left; font-weight: 400; }
+.thinking-guide .hitl-matrix thead th:first-child { text-align: left; }
+.thinking-guide .hitl-mark { display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: var(--green); vertical-align: middle; }
+.thinking-guide .hitl-mark.is-missing { background: transparent; border: 2px dashed var(--blue); width: 14px; height: 14px; box-sizing: border-box; }
+.thinking-guide .hitl-missing-label { display: block; margin-top: 4px; color: var(--blue); font-size: 11px; font-weight: 600; }
+.thinking-guide .hitl-matrix .is-system th[scope="row"] { color: var(--quiet); }
+.thinking-guide .hitl-cell-label { display: none; }
+
+/* Fig. 06: across the series */
+.thinking-guide .hitl-series { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin: 24px 0; padding: 0; list-style: none; }
+.thinking-guide .hitl-series > li { position: relative; display: flex; flex-direction: column; margin: 0; padding: 16px 12px; border-top: 2px solid var(--rule); background: var(--paper); min-width: 0; }
+.thinking-guide .hitl-series > li.is-current { border-top-color: var(--green); }
+.thinking-guide .hitl-stage { display: block; color: var(--green); }
+.thinking-guide .hitl-series strong { display: block; margin-top: 8px; font-size: 14px; line-height: 1.4; }
+.thinking-guide .hitl-series p { margin: 8px 0 12px; font-size: 12.5px; line-height: 1.55; }
+.thinking-guide .hitl-series a { margin-top: auto; font-size: 12.5px; }
+
+@media (max-width: 1100px) {
+  .thinking-guide .hitl-series { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+}
+
+@media (max-width: 760px) {
+  .thinking-guide .hitl-band ul { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .thinking-guide .hitl-pipeline { grid-template-columns: 1fr; gap: 18px; }
+  .thinking-guide .hitl-pipeline > li + li::before { content: '↓'; top: -21px; left: 14px; }
+  .thinking-guide .hitl-pipeline > .is-approve { flex-direction: row; justify-content: flex-start; }
+  .thinking-guide .hitl-friction { grid-template-columns: 1fr; }
+  .thinking-guide .hitl-loop { grid-template-columns: 1fr; grid-template-areas: "one" "two" "three" "four"; gap: 30px; }
+  .thinking-guide .hitl-loop > li:nth-child(n)::after { content: '↓'; top: auto; right: auto; bottom: -26px; left: 14px; margin: 0; }
+  .thinking-guide .hitl-loop > li:nth-child(4)::after { content: '↺ back to the first step'; bottom: -26px; font: 600 12px/1 var(--sans); }
+  .thinking-guide .hitl-loop { margin-bottom: 44px; }
+  .thinking-guide .hitl-loop-center { position: static; display: inline-block; transform: none; margin-top: 8px; }
+}
+
+@media (max-width: 420px) {
+  .thinking-guide .hitl-band ul { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+  .thinking-guide .hitl-row,
+  .thinking-guide .hitl-axis { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 4px 12px; }
+  .thinking-guide .hitl-row-label { grid-column: 1 / -1; }
+  .thinking-guide .hitl-row.is-sub .hitl-row-label { padding-left: 0; }
+  .thinking-guide .hitl-axis > span:first-child { display: none; }
+  .thinking-guide .hitl-matrix thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .thinking-guide .hitl-matrix tr { display: block; padding: 12px 0; border-top: 1px solid var(--rule); }
+  .thinking-guide .hitl-matrix th,
+  .thinking-guide .hitl-matrix td { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px 4px 0; border: 0; text-align: left; }
+  .thinking-guide .hitl-matrix th[scope="row"] { display: block; width: auto; padding: 0 0 6px; }
+  .thinking-guide .hitl-cell-label { display: inline; color: var(--quiet); font-size: 12px; }
+  .thinking-guide .hitl-missing-label { display: inline; margin: 0; }
+  .thinking-guide .hitl-series { grid-template-columns: 1fr; }
+}
+
+@media print {
+  .thinking-guide .hitl-figure { break-inside: auto; }
+  .thinking-guide .hitl-pipeline > li,
+  .thinking-guide .hitl-loop > li,
+  .thinking-guide .hitl-series > li,
+  .thinking-guide .hitl-mock { break-inside: avoid; }
+  .thinking-guide .hitl-button { background: #fff; color: #000; }
+  .thinking-guide .hitl-dot,
+  .thinking-guide .hitl-interval,
+  .thinking-guide .hitl-mark { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}

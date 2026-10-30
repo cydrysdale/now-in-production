@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">The Human in the Loop Isn't Always in Control</title>
+  <desc id="desc">Thinking in Systems, essay five of five. A cursor rests on an Approve button within a workflow loop. Clicking the button alone does not establish meaningful control.</desc>
+  <rect width="1200" height="630" fill="#f6f5ef"/>
+  <path d="M72 110H1128M72 501H1128" stroke="#cbd0c6"/>
+  <g font-family="Arial, sans-serif" fill="#486349">
+    <text x="72" y="72" font-size="18" letter-spacing="3">THINKING IN SYSTEMS</text>
+    <text x="1128" y="72" font-size="18" text-anchor="end">ESSAY 05 / 05</text>
+  </g>
+  <g font-family="Georgia, serif" font-size="70" fill="#253b40">
+    <text x="68" y="214">The Human in the Loop</text>
+    <text x="68" y="306">Isn't Always</text>
+    <text x="68" y="398" fill="#1d5080">in Control</text>
+  </g>
+  <g stroke="#486349" fill="none" stroke-width="2">
+    <path d="M993 238H1068Q1098 238 1098 268V375Q1098 405 1068 405H934Q904 405 904 375V268Q904 238 934 238H960"/>
+    <path d="M952 231L960 238L952 245"/>
+    <rect x="873" y="284" width="256" height="76" rx="6" fill="#eaece3"/>
+  </g>
+  <text x="1001" y="332" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" letter-spacing="2" fill="#486349">APPROVE</text>
+  <path d="M1062 342V389L1075 376L1085 397L1096 392L1086 371L1105 369Z" fill="#f6f5ef" stroke="#1d5080" stroke-width="2" stroke-linejoin="round"/>
+  <text x="72" y="545" font-family="Georgia, serif" font-size="24" fill="#596663">What has to be true for an approval to mean anything?</text>
+  <text x="72" y="590" font-family="Arial, sans-serif" font-size="15" fill="#596663">Chris Yasuda Drysdale · Now in Production</text>
+</svg>
