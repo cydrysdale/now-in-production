@@ -1,6 +1,6 @@
 # Essay 05: The Human in the Loop Isn't Always in Control
 
-- Status: publication authorized for 2026-10-30; local release checks passed, hosted verification pending.
+- Status: published 2026-10-30 in `61020ee`; deployment and hosted content/navigation verified.
 - Source: [source.md](source.md), supplied 2026-10-29 and preserved verbatim.
 - Edited page: [guide](../../guides/the-human-in-the-loop-isnt-always-in-control.html).
 - Snapshot: [edited.html](edited.html), matches the guide.
@@ -362,4 +362,23 @@ Targeted checks confirm the new card, incoming series links, and Figure 02 revea
 Desktop/mobile captures were inspected. All five article bodies and source essays
 are unchanged; snapshots match their pages. Hosted verification is pending.
 Evidence is saved under
-`artifacts/guide-checks/publish-05-2026-10-30/`.
+`artifacts/guide-checks/publish-05-2026-10-30/`. The verification entry below supersedes this pre-release status.
+
+## Publication verified — 2026-10-30
+
+Release commit `61020ee` is pushed to `origin/main`. GitHub Pages
+[deployment 41075067813](https://github.com/cydrysdale/now-in-production/actions/runs/41075067813)
+succeeded. Fifteen hosted files match the release byte for byte: the homepage,
+both registries, all five essays, shared and lesson-specific CSS/JS, and essay
+five's PNG/SVG social art. The live browser confirmed the newest homepage card,
+publication date 2026-10-30, absence of noindex, incoming links from essays 01–04,
+essay four's Next link, essay five's Previous link, six figures, Figure 02's
+native reveal, and mobile layout. No browser errors occurred.
+
+Metadata and all-five-essay browser checks passed before release, including
+homepage fallbacks and worksheet export. Desktop/mobile captures were inspected.
+All article bodies, original sources, earlier publication dates, and social art
+are unchanged by publication. Local rollback folders, presentations, and OS files
+were excluded and preserved. Evidence and captures are under
+`artifacts/guide-checks/publish-05-2026-10-30/`. Temporary browser/preview processes
+are closed. All five Thinking in Systems essays are now published.

@@ -5,25 +5,44 @@ user instructions before acting.
 
 ## Start here next session
 
-- The author requested publication of essay five on 2026-10-30. Release
-  preparation is in progress: first-publication date and published status are
-  set, homepage and all five series footers are synchronized, and snapshots
-  are current. Metadata, browser, and publication-navigation checks pass; hosted
-  verification is pending.
+- All five Thinking in Systems essays are published. Essay five was released in
+  `61020ee` on 2026-10-30, with GitHub Pages deployment and hosted content/navigation
+  verified. The homepage and essays 01–04 link to it.
 - Read the [guide](../guides/the-human-in-the-loop-isnt-always-in-control.html)
   and [brief](thinking-in-systems-05/brief.md). The reviewed prose, six figures,
   original ending, research qualifications, and social art are unchanged.
   Figure 02 retains the author's latest no-list layout and valid heading.
-- Essays 01–04 retain the audit corrections released in `998bba0` and verified
-  on 2026-10-29. Today's changes to those pages only add essay-five navigation.
-  Original sources and first-publication dates are preserved.
-- This release includes essay-five source/review files and the series-map rows
-  for essays four and five. Presentations, OS files, rollback folders, and other
-  unrelated local work remain outside the commit.
+- Essays 01–04 retain the audit corrections released in `998bba0`. Today's
+  changes to those pages only add essay-five navigation. Original sources and
+  first-publication dates are preserved; all five snapshots match their guides.
+- Essay-five source/review files and the series-map rows for essays four and five
+  are committed. Presentations, OS files, and rollback folders remain local.
+- Metadata and browser checks pass. Hosted verification compared fifteen files
+  byte for byte and checked the homepage card, incoming links, previous/next
+  navigation, disclosures, and mobile layout. No publication work remains.
 
 The dated entries below are historical records of each step. Statements that
 work was local or uncommitted describe that step; the state above and the
 current-state table reflect the completed session.
+
+## Publication verified — 2026-10-30
+
+Release commit `61020ee` is pushed to `origin/main`. GitHub Pages
+[deployment 41075067813](https://github.com/cydrysdale/now-in-production/actions/runs/41075067813)
+succeeded. Fifteen hosted files match the release byte for byte: the homepage,
+both registries, all five essays, shared and lesson-specific CSS/JS, and essay
+five's PNG/SVG social art. The live browser confirmed the newest homepage card,
+publication date 2026-10-30, absence of noindex, incoming links from essays 01–04,
+essay four's Next link, essay five's Previous link, six figures, Figure 02's
+native reveal, and mobile layout. No browser errors occurred.
+
+Metadata and all-five-essay browser checks passed before release, including
+homepage fallbacks and worksheet export. Desktop/mobile captures were inspected.
+All article bodies, original sources, earlier publication dates, and social art
+are unchanged by publication. Local rollback folders, presentations, and OS files
+were excluded and preserved. Evidence and captures are under
+`artifacts/guide-checks/publish-05-2026-10-30/`. Temporary browser/preview processes
+are closed. All five Thinking in Systems essays are now published.
 
 ## Audit release verified — 2026-10-29
 
@@ -547,11 +566,11 @@ push or publication was requested or performed in this pass.
 | Guide 02 | “Assumptions” restored and each experimental condition repeated. Snapshot and worksheet-export checks pass. | Released in `998bba0`; hosted verification passed 2026-10-29. |
 | Guide 03 | Li/Du research clarifications. Seven figures and precision/recall explanation preserved. Snapshot current; checks pass. | Released in `998bba0`; hosted verification passed 2026-10-29. |
 | Guide 04 | Figure 03 distinguishes discovered failures from the unknown total. Prose and other figures preserved. Snapshot current; checks pass. | Released in `998bba0`; hosted verification passed 2026-10-29. |
-| Guide 05 | Publication requested 2026-10-30; date, manifest, homepage, navigation, and snapshots prepared. Reviewed prose and figures unchanged. | Release checks pass; hosted verification pending. |
+| Guide 05 | Published 2026-10-30. Reviewed prose and six figures unchanged; snapshot and checks current. | Release `61020ee` pushed; deployment and hosted content/navigation verified 2026-10-30. |
 
-Previous site-content commit: `998bba0`, followed by verification record `04e934f`.
-Essay-five publication is in progress. Use Git status and log for the current tip.
-All earlier essays retain their first-publication dates.
+Latest site-content commit: `61020ee`, with hosting verified. Use Git status and
+log for the current tip, including any later verification-only commit. All five
+essays are published, and earlier essays retain their first-publication dates.
 
 ## Editorial decisions to carry forward
 
@@ -606,9 +625,8 @@ a release, stage the intended files explicitly; do not add every untracked file.
 
 ## Next session
 
-Complete and verify the authorized essay-five publication if not recorded above.
-The author has approved release of the current guide; no additional publication
-permission is required. Preserve its original source and reviewed body, including
-the latest Figure 02 layout. Release evidence is under
-`artifacts/guide-checks/publish-05-2026-10-30/`. Keep rollback copies and unrelated
-local work out of the release, and stop temporary browser/preview processes.
+The five-part series is published and verified. No release or review step remains
+from the publication request. Continue from the current guides and briefs if the
+author requests further work; do not replay historical pending-review instructions.
+Preserve sources and local rollback copies. Release evidence is under
+`artifacts/guide-checks/publish-05-2026-10-30/`. Browser and preview sessions are closed.

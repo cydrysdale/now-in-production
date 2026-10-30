@@ -72,4 +72,6 @@ The author requested publication of the current essay-five draft. Its audit fixe
 are included in that release, with the latest manual no-list Figure 02 layout
 preserved. The first-publication date is 2026-10-30; current release and hosted
 verification status are recorded in its [brief](thinking-in-systems-05/brief.md).
-Earlier descriptions of local-only changes above record the audit's prior state.
+Release `61020ee` is pushed, and deployment plus hosted content/navigation were
+verified on 2026-10-30. Earlier descriptions of local-only changes above record
+the audit’s prior state.
