@@ -9,6 +9,14 @@
 - Latest changes: publication metadata and series navigation. The reviewed prose and six figures are unchanged, including Figure 02’s latest no-list layout.
 - Workflow: [authoring guide](../../docs/thinking-in-systems.md).
 
+## Flow fixes — 2026-10-30
+
+The author approved the [flow-fix plan](../thinking-in-systems-flow-fixes-2026-10-30.md) on 2026-10-30 without striking anything, so all proposed wording and new humor are applied as written, including optional lines. This approval does not cover publication: the change is local and uncommitted, and the hosted page still shows the earlier text. `source.md` is unchanged.
+
+Fixes 5.1–5.9, including the optional lines in 5.2 and 5.3 and the bridge aside in 5.9. No idea is removed; section headings, the five questions, the conclusion, and personalization lines are unchanged. Buçinca et al. was checked against the full PDF (§§3.2–3.3, §4.1, Tables 1–2): the conditions are on demand, update, and a 30-second wait. “As a group” replaces “Some” because results are by category with no significant differences among designs. Overreliance was significantly lower for carb-source detection, and lower but not significantly so for overall decisions. The relative-strength sentence reuses Fig. 02's values, checked 2026-10-29. `guide:updated` was already 2026-10-30.
+
+Validation: `maintain.py check` passes and all five lessons plus the homepage pass `smoke.mjs`, run with installed Chrome because the bundled Playwright Chromium was out of date. Every removed word was compared against the plan, and protected wording and audit corrections were confirmed present. Ten of twenty captures of changed passages (1280px light, 390px dark) were inspected. Evidence and before copies: `artifacts/guide-checks/flow-fixes-2026-10-30/`.
+
 ## Current editorial direction — 2026-10-29
 
 The author's editing baseline is: “Lets just revert to the original and make

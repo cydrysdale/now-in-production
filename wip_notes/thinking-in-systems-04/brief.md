@@ -6,6 +6,14 @@
 - Workflow: [authoring guide](../../docs/thinking-in-systems.md).
 - Source SHA-256: `cf8f1d57457f9b2955d52ab4b8be35fe89228ca41c3c23fd8295fc58fc5e030e`.
 
+## Flow fixes — 2026-10-30
+
+The author approved the [flow-fix plan](../thinking-in-systems-flow-fixes-2026-10-30.md) on 2026-10-30 without striking anything, so all proposed wording and new humor are applied as written, including optional lines. This approval does not cover publication: the change is local and uncommitted, and the hosted page still shows the earlier text. `source.md` is unchanged.
+
+Fixes 4.1–4.8. The original central question and thermometer line are both verbatim, with a bridge before the question and “And connect it to the heater.” after the line. No scenario facts changed; what happened to the two failed QA drafts stays unspecified. The overlap caveat moved from Fig. 03's caption into the main text, in stronger form. The NIST paragraphs stay in place with short bridges. Shi et al. was checked at abstract level. This approval supersedes the earlier instruction to leave this essay's prose alone, for these fixes only. `guide:updated` is 2026-10-30; the publication date is preserved.
+
+Validation: `maintain.py check` passes and all five lessons plus the homepage pass `smoke.mjs`, run with installed Chrome because the bundled Playwright Chromium was out of date. Every removed word was compared against the plan, and protected wording and audit corrections were confirmed present. Ten of twenty captures of changed passages (1280px light, 390px dark) were inspected. Evidence and before copies: `artifacts/guide-checks/flow-fixes-2026-10-30/`.
+
 ## Editorial brief
 
 The audience is people designing, managing, or evaluating AI-assisted creative

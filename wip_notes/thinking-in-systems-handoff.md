@@ -5,6 +5,10 @@ user instructions before acting.
 
 ## Start here next session
 
+- **Uncommitted flow fixes.** The author approved the [flow-fix plan](thinking-in-systems-flow-fixes-2026-10-30.md) on 2026-10-30, and all
+  43 edits are applied locally to the five guides and their snapshots. They are not committed or pushed, so the
+  hosted pages still show the earlier text. Release only on the author's request, then run hosted verification.
+  The older bullets below describe the last release.
 - All five Thinking in Systems essays are published. Essay five was released in
   `61020ee` on 2026-10-30, with GitHub Pages deployment and hosted content/navigation
   verified. The homepage and essays 01–04 link to it.
@@ -24,6 +28,18 @@ user instructions before acting.
 The dated entries below are historical records of each step. Statements that
 work was local or uncommitted describe that step; the state above and the
 current-state table reflect the completed session.
+
+## Flow fixes applied locally — 2026-10-30
+
+The author asked for a review of the published essays for leaps in logic, dropped topics, and anything confusing to newcomers, then for a
+detailed fix plan, then approved it without striking anything. All proposed wording and new humor are applied, including optional lines.
+See the [plan](thinking-in-systems-flow-fixes-2026-10-30.md) for each edit and each lesson's brief for its decisions.
+
+`maintain.py check` passes. `smoke.mjs` passes for all five lessons and the homepage, using installed Chrome because the bundled Playwright
+Chromium is out of date (`GUIDE_BROWSER_EXECUTABLE`; see the series guide). Removals, protected wording, and audit corrections were
+compared against the before copies in `artifacts/guide-checks/flow-fixes-2026-10-30/`. Ten of twenty captures of changed passages were inspected.
+`source.md` files are unchanged. To publish, include the five guides, five snapshots, five briefs, this handoff, and the plan. `sync`
+produced no homepage or registry changes. Exclude OS files, `presentations/`, and rollback folders.
 
 ## Publication verified — 2026-10-30
 
@@ -562,11 +578,11 @@ push or publication was requested or performed in this pass.
 
 | Work | Local state at handoff | Committed / hosted state |
 | --- | --- | --- |
-| Guide 01 | Audit corrections to citations, history, and clock example. Snapshot current; checks pass. | Released in `998bba0`; hosted verification passed 2026-10-29. |
-| Guide 02 | “Assumptions” restored and each experimental condition repeated. Snapshot and worksheet-export checks pass. | Released in `998bba0`; hosted verification passed 2026-10-29. |
-| Guide 03 | Li/Du research clarifications. Seven figures and precision/recall explanation preserved. Snapshot current; checks pass. | Released in `998bba0`; hosted verification passed 2026-10-29. |
-| Guide 04 | Figure 03 distinguishes discovered failures from the unknown total. Prose and other figures preserved. Snapshot current; checks pass. | Released in `998bba0`; hosted verification passed 2026-10-29. |
-| Guide 05 | Published 2026-10-30. Reviewed prose and six figures unchanged; snapshot and checks current. | Release `61020ee` pushed; deployment and hosted content/navigation verified 2026-10-30. |
+| Guide 01 | Flow fixes applied 2026-10-30, uncommitted. Before that: Audit corrections to citations, history, and clock example. Snapshot current; checks pass. | Released in `998bba0`; hosted verification passed 2026-10-29. |
+| Guide 02 | Flow fixes applied 2026-10-30, uncommitted. Before that: “Assumptions” restored and each experimental condition repeated. Snapshot and worksheet-export checks pass. | Released in `998bba0`; hosted verification passed 2026-10-29. |
+| Guide 03 | Flow fixes applied 2026-10-30, uncommitted. Before that: Li/Du research clarifications. Seven figures and precision/recall explanation preserved. Snapshot current; checks pass. | Released in `998bba0`; hosted verification passed 2026-10-29. |
+| Guide 04 | Flow fixes applied 2026-10-30, uncommitted. Before that: Figure 03 distinguishes discovered failures from the unknown total. Prose and other figures preserved. Snapshot current; checks pass. | Released in `998bba0`; hosted verification passed 2026-10-29. |
+| Guide 05 | Flow fixes applied 2026-10-30, uncommitted. Before that: Published 2026-10-30. Reviewed prose and six figures unchanged; snapshot and checks current. | Release `61020ee` pushed; deployment and hosted content/navigation verified 2026-10-30. |
 
 Latest site-content commit: `61020ee`, with hosting verified. Use Git status and
 log for the current tip, including any later verification-only commit. All five

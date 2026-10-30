@@ -12,7 +12,7 @@
   <title>The Thermometer Is in the Wrong Room</title>
   <meta name="description" content="Why reliable AI systems depend on more than accurate outputs, successful tests, and increasingly sophisticated models.">
   <meta name="guide:category" content="Thinking in Systems · 04">
-  <meta name="guide:updated" content="2026-10-29">
+  <meta name="guide:updated" content="2026-10-30">
   <meta name="guide:published" content="2026-10-29">
   <meta name="guide:series" content="thinking-in-systems">
   <meta name="guide:order" content="4">
@@ -91,7 +91,7 @@
           <p>The system's quality dashboard still reported 95%. Nothing on it reflected the two corrections.</p>
           <p><em>This is a fictional scenario.</em> The workflow introduced errors after its final quality check, and nothing caught them before publication. The dashboard was accurately measuring one part of the process. It simply wasn't measuring the outcome that mattered.</p>
           <p class="essay-thesis">The thermometer was in the wrong room.</p>
-          <p>How do we design reliable systems when we can't fully predict how they'll behave?</p>
+          <p>And that was the easy version: the step that caused the trouble did exactly what it was designed to do. A language model doesn't even offer that much certainty. How do we design reliable systems when we can't fully predict how they'll behave?</p>
           <noscript><nav class="reading-route" aria-label="Essay chapters"><a href="../index.html">← Home</a><a href="#predictable-and-reliable">Feedback and reliability</a><a href="#observability">Seeing the failure</a><a href="#reliable-enough">Requirements and responsibility</a></nav></noscript>
         </div>
 
@@ -163,7 +163,7 @@
           <p>An assistant restricted to a well-defined set of tasks, supported by authoritative information and clear escalation paths, may be substantially more dependable than one encouraged to handle everything.</p>
           <aside class="research-note" aria-labelledby="ashby-note">
             <h3 id="ashby-note">What Ashby's law does—and doesn't—give us</h3>
-            <p>Chapter 11 develops a mathematical limit under specific assumptions about disturbances and responses. The assistant example is an engineering interpretation, not a formula for choosing a model or counting its tools. More available actions do not by themselves establish effective regulation.</p>
+            <p>Chapter 11 of Ashby's book develops a mathematical limit under specific assumptions about disturbances and responses. The assistant example is an engineering interpretation, not a formula for choosing a model or counting its tools. More available actions do not by themselves establish effective regulation.</p>
           </aside>
           <p><strong>A system cannot reliably manage conditions it is unable to distinguish or respond to effectively.</strong> That includes conditions in which the appropriate response is to stop.</p>
         </section>
@@ -172,7 +172,7 @@
           <p class="chapter-marker">02 <span>Seeing the failure</span></p>
           <h2 id="observability" data-toc-label="What the dashboard sees" data-toc-group="02 / Seeing the failure">You cannot correct what you cannot see</h2>
           <p>Let's return to our fictional marketing team. The quality dashboard reports a 95% pass rate. What, exactly, does that number tell us?</p>
-          <p>Forty drafts received additional quality checks. Thirty-eight passed. The 95% describes those reviewed drafts before layout.</p>
+          <p>Forty drafts received additional quality checks. Thirty-eight passed. The 95% describes those reviewed drafts before layout. (The matching twos are a coincidence of my own making: those two drafts failed before layout, and the published errors appeared after it.)</p>
           <p>The two published errors tell us the workflow failed after review. With no systematic check of final assets, we don't know how many more errors went unnoticed.</p>
 
           <figure class="wide-figure reliability-figure" aria-labelledby="measurement-gap-title">
@@ -188,10 +188,10 @@
               <div><span class="small-label">Measured before layout</span><strong>95%</strong><p>Pass rate in the 40-draft QA sample.</p></div>
               <div><span class="small-label">Discovered after publication</span><strong>2 failures</strong><p>Total failures unknown; final assets were not systematically checked.</p></div>
             </div>
-            <figcaption>Fictional workflow, simplified to show the gap. The 95% describes the 40-draft sample; it does not establish how accurate the other drafts or the published assets were. We don't know how the sample was selected or whether its two failed drafts were the ones later corrected after publication.</figcaption>
+            <figcaption>Fictional workflow, simplified to show the gap. The 95% describes the 40-draft sample; it does not establish how accurate the other drafts or the published assets were. We don't know how the sample was selected.</figcaption>
           </figure>
 
-          <p>At 200 assets, a sample of 40 represents 20% of production. At 1,600 assets, it represents 2.5%. That change alone doesn't tell us how informative the sample is: <a href="https://www.itl.nist.gov/div898/handbook/ppc/section3/ppc333.htm">sample size, variation in the work, and the precision we need</a> all matter. But even reviewing every draft would leave this particular gap untouched. The workflow can still introduce errors afterward.</p>
+          <p>Scale eightfold, to the 1,600 assets the team was discussing, and that sample of 40 falls from 20% of production to 2.5%. How much that matters depends on <a href="https://www.itl.nist.gov/div898/handbook/ppc/section3/ppc333.htm">sample size, variation in the work, and the precision we need</a>. But a bigger sample wouldn't close this particular gap. You could check every draft twice and still miss these errors, because at that point they don't exist yet.</p>
           <p>This is an <strong>observability problem</strong>. In software operations, observability concerns our ability to understand what a system is doing through evidence such as logs, metrics, and traces of its execution. The <a href="https://opentelemetry.io/docs/concepts/observability-primer/">OpenTelemetry primer</a> provides a useful introduction.</p>
           <aside class="research-note" aria-labelledby="observability-note">
             <h3 id="observability-note">A term with two related meanings</h3>
@@ -211,16 +211,16 @@
           <h2 id="monitoring-and-regulation" data-toc-label="Seeing versus responding">A dashboard is not a safety mechanism</h2>
           <p>Imagine a dashboard that reports how many incorrect claims were published last week. It may reveal trends or justify an investigation. By itself, though, it does nothing to prevent the next incorrect claim from being published.</p>
           <p>This is the difference between <strong>monitoring</strong> and <strong>regulation</strong>. Monitoring makes behavior visible. Regulation uses information about that behavior to influence what happens next.</p>
-          <p>In March 2026, the US National Institute of Standards and Technology published <a href="https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.800-4.pdf"><em>Challenges to the Monitoring of Deployed AI Systems</em></a>. Drawing on practitioner workshops and a literature review, it examines monitoring after deployment, where changing inputs, environments, and interactions can expose behavior that earlier evaluations missed.</p>
+          <p>Monitoring alone is harder than it sounds. In March 2026, the US National Institute of Standards and Technology published <a href="https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.800-4.pdf"><em>Challenges to the Monitoring of Deployed AI Systems</em></a>. Drawing on practitioner workshops and a literature review, it examines monitoring after deployment, where changing inputs, environments, and interactions can expose behavior that earlier evaluations missed.</p>
           <p>The report also describes a field still developing its methods. Standardized, validated approaches are not available for every monitoring problem. Some failures are difficult to define, much less detect automatically, and monitoring itself can introduce privacy, security, and resource costs.</p>
-          <p>A corrective process needs a way to act on what monitoring reveals: reject an output, revise it, retry a failed operation, request clarification, route an exception to a specialist, or prevent a consequential action. In our marketing workflow, detecting changed copy is only part of the solution. Someone—or something—must determine whether the change is acceptable, with authority to stop publication when it isn't.</p>
+          <p>And seeing a problem still isn't fixing it. A corrective process needs a way to act on what monitoring reveals: reject an output, revise it, retry a failed operation, request clarification, route an exception to a specialist, or prevent a consequential action. In our marketing workflow, detecting changed copy is only part of the solution. Someone—or something—must determine whether the change is acceptable, with authority to stop publication when it isn't.</p>
           <p>Otherwise, we've simply built a more sophisticated way to observe failure.</p>
         </section>
 
         <section class="essay-section" aria-labelledby="more-ai">
           <h2 id="more-ai" data-toc-label="Does another AI help?">Does another AI solve the problem?</h2>
           <p>A second model might identify unsupported claims, inconsistent terminology, or missing context that the generating model overlooked. But the reviewer has limitations of its own.</p>
-          <p>A <a href="https://aclanthology.org/2025.ijcnlp-long.18/">2025 study by Shi and colleagues</a> examined <em>position bias</em> in language-model evaluations: judgments influenced by the order in which candidate responses appear. The researchers compared judgments of pairs and lists of responses on two benchmarks, MTBench and DevBench. The effects varied across judges and tasks; they don't establish an error rate for reviewing our marketing assets.</p>
+          <p>A <a href="https://aclanthology.org/2025.ijcnlp-long.18/">2025 study by Shi and colleagues</a> examined <em>position bias</em> in language-model evaluations: judgments influenced by the order in which candidate responses appear. Comparing judgments of pairs and lists of responses on two benchmarks, MTBench and DevBench, the researchers found that the bias wasn't random chance. Swap the order of two answers and a judge might change its verdict, which is not the quality you're hoping for in a reviewer. The effects varied across judges and tasks; they don't establish an error rate for reviewing our marketing assets.</p>
           <p>The reviewer has to be tested like any other component. A separate review step doesn't automatically provide independent evidence of correctness. Two models may overlook the same ambiguity or rely on similarly inadequate information. A reviewer may also reject a correct answer or approve a plausible but incorrect one.</p>
           <p>The useful questions are whether the reviewer detects the relevant failures, how often it misses them or raises false alarms, and what happens when its judgment is uncertain.</p>
           <p>For our missing qualifications, one option is to ask a second AI to inspect every finished asset. A more direct first step is to preserve the approved text and compare it with the text in the final layout. Software can detect a changed passage without deciding what the change means.</p>
@@ -295,7 +295,7 @@
           <p>For a workflow of your own, ask: What outcome are we trying to preserve? What evidence would show it is failing? How do we distinguish acceptable variation from consequential error? What actions are available, and who has the authority to take them?</p>
           <p>A limited pilot would give the team evidence to consider before scaling eightfold. It could use representative assets, with missing qualifications planted on purpose. Do the controls catch them? Does an independent check of the final layouts agree? If missed failures, false alarms, and review delays stay within agreed limits, the team can raise volume in stages, rechecking those limits at each step.</p>
           <p>Review delays matter here. A check that sends every asset to an already-overloaded reviewer has created a queue. The team still needs someone who can resolve it.</p>
-          <p>There is also a distinction between correcting an output and learning in the machine-learning sense. Restoring approved copy is an <em>operational correction</em>. Redesigning layout after repeated incidents is a <em>process improvement</em>. Retraining the model with new data is <em>model learning</em>.</p>
+          <p>You may have noticed that nobody has retrained anything yet. Correcting an output and learning in the machine-learning sense are different things. Restoring approved copy is an <em>operational correction</em>. Redesigning layout after repeated incidents is a <em>process improvement</em>. Retraining the model with new data is <em>model learning</em>.</p>
           <p>All three can affect reliability. A workflow can become substantially more dependable without modifying the model at all.</p>
         </section>
 
@@ -309,7 +309,7 @@
           <p>Our fictional marketing team began with a green dashboard and a reasonable belief that its workflow was performing well. The dashboard wasn't lying. It was reporting what it had been built to measure. The mistake was treating that measurement as evidence for the reliability of the entire system.</p>
           <p>Before trusting an automated workflow, we need a defensible answer to a practical question:</p>
           <p class="closing-thought">When this system gets something wrong, how will it know—and what happens next?</p>
-          <p>If we can't answer that question, another green dashboard probably won't help. We might just need to move the thermometer.</p>
+          <p>If we can't answer that question, another green dashboard probably won't help. We might just need to move the thermometer. And connect it to the heater.</p>
         </section>
 
         <section class="essay-section references" aria-labelledby="further-reading">

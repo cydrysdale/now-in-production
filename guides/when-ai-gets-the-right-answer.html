@@ -13,7 +13,7 @@
   <meta name="description" content="What 2,400 years of philosophy can teach us about knowledge, understanding, and building trustworthy AI systems. Part 1 of Thinking in Systems.">
   <meta name="keywords" content="AI, epistemology, Gettier, Chinese Room, AI reliability, evidence, calibration, systems design">
   <meta name="guide:category" content="Thinking in Systems · 01">
-  <meta name="guide:updated" content="2026-10-29">
+  <meta name="guide:updated" content="2026-10-30">
   <meta name="guide:published" content="2026-10-26">
   <meta name="guide:series" content="thinking-in-systems">
   <meta name="guide:order" content="1">
@@ -106,7 +106,7 @@
           <p>These are different routes to the same conclusion. Does accepting reliable testimony count as knowledge? Must you personally understand the evidence? Can you know something without understanding the mechanisms that make it true? Philosophers have been wrestling with these distinctions since antiquity.</p>
           <h3>Plato and the problem of justified belief</h3>
           <p>In the fourth century BCE, Plato explored the nature of knowledge in <a href="https://www.gutenberg.org/files/1726/1726-h/1726-h.htm"><cite>Theaetetus</cite></a>. Among the possibilities examined is the idea that knowledge involves true judgment accompanied by an account or explanation. The dialogue doesn’t settle on a definitive answer, but helped establish questions that would shape centuries of inquiry.</p>
-          <p>A familiar starting point in modern discussions is the <strong>justified true belief</strong> account. Its <a href="https://plato.stanford.edu/entries/knowledge-analysis/">status as a historically accepted definition is disputed</a>. Under this framework, knowledge requires three conditions:</p>
+          <p>A familiar starting point in modern discussions is the <strong>justified true belief</strong> account, though <a href="https://plato.stanford.edu/entries/knowledge-analysis/">scholars dispute whether it was ever the standard definition</a>. Under this framework, knowledge requires three conditions:</p>
           <dl class="concept-list">
             <div><dt><span>01</span> Belief</dt><dd>You accept a proposition as true.</dd></div>
             <div><dt><span>02</span> Truth</dt><dd>The proposition actually is true.</dd></div>
@@ -122,7 +122,7 @@
           <p>Unfortunately, the clock stopped working exactly twelve hours earlier.</p>
           <p>You have a true belief and what ordinarily seems like a reasonable justification: you checked a public clock. Yet something feels wrong about claiming that you <em>knew</em> the time. You were correct by coincidence.</p>
           <p>This illustrates a problem famously explored by Edmund Gettier in his 1963 paper, <a href="https://doi.org/10.1093/analys/23.6.121"><cite>Is Justified True Belief Knowledge?</cite></a>. Gettier presented cases in which people held justified, true beliefs that nevertheless seemed insufficient to count as knowledge.</p>
-          <p>These cases expose a problem of <strong>epistemic luck</strong>: your conclusion can be correct even when the process that produced it doesn’t reliably connect you to the truth. The stopped clock illustrates the broader Gettier problem; it is not one of Gettier’s original cases.</p>
+          <p>These cases expose a problem of <strong>epistemic luck</strong>: your conclusion can be correct even when the process that produced it doesn’t reliably connect you to the truth. The stopped clock isn’t one of Gettier’s own cases (his first involves job applicants and the coins in someone’s pocket). It illustrates the same broader problem and is easier to picture.</p>
 
           <!-- visuals-2026-10-26: knowledge-venn -->
           <figure class="knowledge-figure wide-figure" aria-labelledby="knowledge-title">
@@ -205,7 +205,7 @@
         <section class="essay-section" aria-labelledby="meaning">
           <p class="chapter-marker">02 <span>Performance versus understanding</span></p>
           <h2 id="meaning" data-toc-label="Symbols and meaning" data-toc-group="02 / Understanding">Can something manipulate information without understanding it?</h2>
-          <p>Consider this sequence of characters: <code>#1D5080</code>. By itself, it might not mean much. If you recognize hexadecimal color notation, you can interpret it as a particular shade of blue. Within an organization’s design system, it might represent an approved brand color. And if you understand the organization’s standards, you might know when to use it, which combinations are permitted, and when exceptions apply.</p>
+          <p>Set aside whether the assistant’s blue was justified. Does it understand what it just told us? Consider this sequence of characters: <code>#1D5080</code>. By itself, it might not mean much. If you recognize hexadecimal color notation, you can interpret it as a particular shade of blue. Within an organization’s design system, it might represent an approved brand color. And if you understand the organization’s standards, you might know when to use it, which combinations are permitted, and when exceptions apply.</p>
           <p>One sequence of characters. Several layers of interpretation.</p>
           <p>There’s a useful distinction here between <strong>syntax</strong> and <strong>semantics</strong>. Syntax concerns the structure and arrangement of symbols. Semantics concerns their meaning. The hexadecimal value has a defined structure; interpreting it as a color depends on a notation system, and interpreting it as a brand standard depends on organizational context.</p>
           <p>A system can process the same characters at multiple levels without necessarily possessing every kind of understanding we associate with those interpretations. A calculator offers a simple analogy. It can multiply two numbers and return the correct result, but we don’t ordinarily claim that it understands multiplication in the same way a mathematician does.</p>
@@ -252,7 +252,7 @@
 
         <section class="essay-section" aria-labelledby="modern-ai">
           <h2 id="modern-ai" data-toc-label="What modern AI changes">Modern AI complicates the old arguments</h2>
-          <p>You’ll sometimes hear people dismiss large language models by saying they “just predict the next token.” This describes an important part of how many language models are trained and generate text. It doesn’t settle what capabilities can emerge from that process.</p>
+          <p>You’ll sometimes hear people dismiss large language models by saying they “just predict the next token” (a token is a word or a piece of one; <a href="how-llms-work.html">Demystifying AI</a> covers the mechanics). This describes an important part of how many language models are trained and generate text. It doesn’t settle what capabilities can emerge from that process.</p>
           <p>A training objective describes what a system is optimized to do. It doesn’t automatically establish the limits of what the resulting system can learn. Language models develop internal representations that encode relationships between words, concepts, structures, and patterns in their training data. These can support capabilities considerably more sophisticated than simple memorization: translating, solving mathematical problems, writing software, recognizing analogies, and applying familiar concepts in unfamiliar contexts.</p>
           <p>At the same time, demonstrating these capabilities doesn’t establish that a model understands language in precisely the way humans do. We should resist two tempting conclusions:</p>
           <ul class="argument-pair"><li>“AI predicts tokens, therefore it cannot reason.”</li><li>“AI can reason, therefore it must understand exactly as humans do.”</li></ul>
@@ -316,7 +316,7 @@
           <!-- /visuals-2026-10-26: cec-card -->
 
           <h3>1. Claim: What is the system actually asserting?</h3>
-          <p>Suppose our assistant now retrieves the current standard, Inter, but responds, “The approved font for all company presentations is Inter.” Before accepting that broader claim, we need to understand its scope. Does “all company presentations” include internal presentations? External sales materials? Campaign-specific decks? Historical templates?</p>
+          <p>Ask our assistant which font to use for a standard company presentation, and the old source finally catches up with it: the 2022 guide says Helvetica, while the 2026 edition says Inter. So suppose we fix the source. The assistant now retrieves the current standard, Inter, but responds, “The approved font for all company presentations is Inter.” Before accepting that broader claim, we need to understand its scope. Does “all company presentations” include internal presentations? External sales materials? Campaign-specific decks? Historical templates?</p>
           <p>An answer can be factually correct in one context and misleading in another. Sometimes the first problem is whether the question has been defined precisely enough for a single right answer to exist.</p>
           <h3>2. Evidence: What supports the claim?</h3>
           <p>Now suppose the assistant cites a brand guide. That’s useful, but insufficient on its own. Does the document actually support the claim? Is it authoritative, current, and applicable to this use case? Has another document superseded it?</p>
@@ -348,8 +348,8 @@
           <h2 id="whole-system" data-toc-label="The problem might not be the model">The problem might not be the model</h2>
           <p>Imagine your organization has built an assistant to answer questions about internal standards. It’s useful, but employees notice inconsistencies. Sometimes it gives outdated guidance, invents rules, or provides different answers to apparently identical questions.</p>
           <p>Eventually, someone suggests: “We need a smarter model.” Perhaps they’re right. But what evidence supports that diagnosis?</p>
-          <p>An assistant isn’t just a language model. Depending on its architecture, it may include system instructions, reference documents, retrieval mechanisms, tools, context-selection logic, and workflows governing how information is processed. Failures can emerge from any of these components or their interactions.</p>
-          <p>Consider an assistant with three documents:</p>
+          <p>An assistant isn’t just a language model. Depending on its architecture, it may include standing instructions, reference documents, a retrieval step that searches those documents, tools, logic for choosing what the model gets to see, and workflows governing how information is processed. Failures can emerge from any of these components or their interactions.</p>
+          <p>Forget our 2022 brand guide for a moment. Say this assistant has three documents:</p>
           <ul><li>A company-wide brand guide from 2024.</li><li>A campaign-specific style guide from 2025.</li><li>An internal presentation template from 2026.</li></ul>
           <p>Each contains different typography instructions. Which should it follow? The newest document? Not necessarily. The company-wide guide? Perhaps, but a campaign-specific exception might override it. The most relevant document? Only if the system can identify the task and determine which guidance applies.</p>
 
@@ -474,6 +474,7 @@
         <section class="essay-section" aria-labelledby="evidence-problem">
           <h2 id="evidence-problem" data-toc-label="Trust is an evidence problem">Trustworthy AI is an evidence problem</h2>
           <p>We began with two students who received perfect exam scores. One understood the subject; the other memorized the answers. We asked whether identical performance demonstrated identical knowledge.</p>
+          <p>On its own, it doesn’t. Keep testing from the same answer key and the second student stays on the honor roll. You learn more from a question that isn’t on the key, the way the font question exposed our assistant’s outdated source.</p>
           <p>We can investigate an assistant’s reliability without settling every question about its understanding. When someone asks whether it can be trusted, we can make the question specific:</p>
           <ul class="closing-questions">
             <li>What is the system claiming?</li>

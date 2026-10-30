@@ -8,6 +8,14 @@
 - Edited page: ../../guides/all-the-information-none-of-the-context.html
 - Source SHA-256: `6ff26df7f516baddb41228ed7cacaff42358a97b9df0226c57c0f736596e9f34`.
 
+## Flow fixes — 2026-10-30
+
+The author approved the [flow-fix plan](../thinking-in-systems-flow-fixes-2026-10-30.md) on 2026-10-30 without striking anything, so all proposed wording and new humor are applied as written, including optional lines. This approval does not cover publication: the change is local and uncommitted, and the hosted page still shows the earlier text. `source.md` is unchanged.
+
+Fixes 3.1–3.9. The author's “Approved Images” aside is untouched; only the following sentence changed, after the flow review's suggestion to cut the aside was withdrawn. Both Du et al. qualifications moved verbatim into a research note. The three concerns, four concerns, and mapping to essay one all remain, and the worksheet still matches because “four concerns” is kept. One original sentence was cut with approval (3.9). `guide:updated` is 2026-10-30; the publication date is preserved. After seeing the page, the author approved swapping the two sentences in 3.3 so “these four” no longer points ahead to the list.
+
+Validation: `maintain.py check` passes and all five lessons plus the homepage pass `smoke.mjs`, run with installed Chrome because the bundled Playwright Chromium was out of date. Every removed word was compared against the plan, and protected wording and audit corrections were confirmed present. Ten of twenty captures of changed passages (1280px light, 390px dark) were inspected. Evidence and before copies: `artifacts/guide-checks/flow-fixes-2026-10-30/`.
+
 ## Publication — 2026-10-28
 
 After asking whether essay three was linked from the homepage and the end sections

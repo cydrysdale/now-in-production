@@ -5,6 +5,14 @@
 - Edited snapshot: `edited.html`; relative assets are intended for the live guide location, not this notes folder.
 - Series state: published in the local registry. The author requested committing and merging to origin after completion on 2026-10-26.
 
+## Flow fixes — 2026-10-30
+
+The author approved the [flow-fix plan](../thinking-in-systems-flow-fixes-2026-10-30.md) on 2026-10-30 without striking anything, so all proposed wording and new humor are applied as written, including optional lines. This approval does not cover publication: the change is local and uncommitted, and the hosted page still shows the earlier text. `source.md` is unchanged.
+
+Fixes 1.1–1.8. The conclusion now answers the students' question. The font facts appear in the main text at the Claim section, and the two disclosures are unchanged. The second brand-document example is signaled as new. The audit's justified-true-belief correction is reworded with its Stanford link retained. Gettier's first case (job applicants and coins) was checked against Wikipedia's summary only; the paper itself remains inaccessible to automated access. `guide:updated` is 2026-10-30; the publication date is preserved. The “end of day” line stays: the flow review misread it as an inconsistency and withdrew that finding.
+
+Validation: `maintain.py check` passes and all five lessons plus the homepage pass `smoke.mjs`, run with installed Chrome because the bundled Playwright Chromium was out of date. Every removed word was compared against the plan, and protected wording and audit corrections were confirmed present. Ten of twenty captures of changed passages (1280px light, 390px dark) were inspected. Evidence and before copies: `artifacts/guide-checks/flow-fixes-2026-10-30/`.
+
 ## Repository save — 2026-10-28
 
 The author requested committing and pushing the completed session work. Content

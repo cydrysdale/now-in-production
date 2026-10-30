@@ -86,9 +86,12 @@
           <p>Technically, a human made the final decision.</p>
           <p>Did that human actually exercise any meaningful control?</p>
           <p>This is one of the more consequential problems emerging from the adoption of artificial intelligence. Organizations increasingly rely on AI to perform work that once required human expertise, then preserve some form of human approval as a safeguard against mistakes.</p>
-          <p>The arrangement sounds reasonable. Machines handle the repetitive work. Humans provide the judgment. Unfortunately, putting those two things together doesn't guarantee that either will happen.</p>
+          <p>The arrangement sounds reasonable, and it has a reassuring name: keeping a human in the loop. Machines handle the repetitive work. Humans provide the judgment. Unfortunately, putting those two things together doesn't guarantee that either will happen.</p>
           <p>The deeper problem is that we've been treating human involvement as though it were equivalent to human judgment. We've also been treating judgment as though it necessarily occurs at the end of a process, when someone accepts or rejects a finished result. Neither assumption holds up particularly well.</p>
           <p>To understand why, we need to reconsider something even more fundamental: where thinking actually happens.</p>
+          <aside class="research-note" aria-label="Previously in this series">
+            <p><a href="the-thermometer-is-in-the-wrong-room.html#reliability-loop-title">Essay four</a> ended by asking what happens when a system gets something wrong. Often, part of the answer is a person and this button.</p>
+          </aside>
           <noscript><nav class="reading-route" aria-label="Essay chapters"><a href="../index.html">← Home</a><a href="#distributed-cognition">Sharing the work</a><a href="#supervising-automation">The reviewer's job</a><a href="#decisions-before-approval">Making oversight work</a></nav></noscript>
         </div>
 
@@ -107,7 +110,7 @@
           <p>If you've worked on a complicated project, you've probably relied on some version of this. A designer uses reference materials, established standards, and feedback from colleagues. A developer relies on documentation, test suites, and version control. A project manager maintains timelines and dependencies in systems that other people update. The information required to accomplish the work is distributed across the organization.</p>
           <p>We don't ordinarily conclude that these people are less capable because they rely on external resources. In fact, those resources are often what make sophisticated work possible.</p>
           <p>A good checklist doesn't replace professional competence. It allows competence to operate without depending entirely on memory. A shared design system doesn't eliminate creative judgment. It preserves decisions that shouldn't need to be reconsidered every time someone creates a new document.</p>
-          <p>The distinction matters because artificial intelligence isn't the first technology to redistribute cognitive work. It's simply expanding the range of activities that can be redistributed. And that raises a much harder question than whether machines can think.</p>
+          <p>That matters because artificial intelligence isn't the first technology to redistribute cognitive work. It's simply expanding the range of activities that can be redistributed. And that raises a much harder question than whether machines can think.</p>
           <p><strong>What happens when the work we redistribute includes the work of making judgments?</strong></p>
         </section>
 
@@ -211,7 +214,7 @@
           </figure>
           <p>The findings complicate the usual story. On average, human–AI combinations performed better than humans working alone. However, they performed worse than the stronger of the human-only and AI-only alternatives.</p>
           <p>This is an important distinction. Adding AI can improve human performance without producing a system that is better than its best component.</p>
-          <p>The researchers also found meaningful differences between types of tasks. Combining humans and AI was associated with performance losses in decision-making tasks. Creative or content-generation tasks showed more promising results, although the average evidence for synergy in that category did not establish a statistically significant advantage over the best individual performer.</p>
+          <p>The researchers also found meaningful differences between types of tasks. Combining humans and AI was associated with performance losses in decision-making tasks. Creative or content-generation tasks showed more promising results, although the average evidence for synergy in that category did not establish a statistically significant advantage over the best individual performer. Relative strength mattered as well: on average, combinations gained when the human was the stronger performer alone and lost when the AI was. That's an awkward result for the button at the end of the workflow.</p>
           <p>These findings concern the experimental configurations studied, from research published between January 2020 and June 2023. They aren't a universal verdict on every contemporary AI system.</p>
           <p>Nevertheless, they challenge a remarkably persistent assumption. <strong>Collaboration is not automatically an improvement. Its value depends on how the work is divided and coordinated.</strong></p>
           <p>Think about a person evaluating an AI recommendation. If the AI is better at the task, but the person routinely substitutes a less accurate judgment, adding human involvement can reduce performance. If the person is more knowledgeable but tends to defer to the machine, the same problem can occur in reverse.</p>
@@ -220,7 +223,7 @@
           <p>The goal, then, isn't to maximize human involvement or maximize automation. It's to develop arrangements in which each participant's involvement improves the outcome.</p>
           <p>John Lee and Katrina See explored this problem in their <a href="https://pubmed.ncbi.nlm.nih.gov/15151155/">2004 review of trust in automation</a>. Their emphasis was on <strong>appropriate reliance</strong>: people should use automation in ways that reflect its actual capabilities and limitations, rather than trusting or rejecting it indiscriminately.</p>
           <p>That requires more than presenting a confidence score or telling people to be careful. It requires designing the interaction itself.</p>
-          <p>In a <a href="https://www.eecs.harvard.edu/~kgajos/papers/2021/bucinca21trust.pdf">2021 experiment</a> involving 199 participants, Zana Buçinca and colleagues studied interventions intended to make people engage more critically with AI recommendations. Participants made food-substitution decisions with simulated AI advice. Some interventions significantly reduced overreliance compared with simpler approaches that provided AI explanations.</p>
+          <p>In a <a href="https://www.eecs.harvard.edu/~kgajos/papers/2021/bucinca21trust.pdf">2021 experiment</a> involving 199 participants, Zana Buçinca and colleagues studied interventions intended to make people engage more critically with AI recommendations. Participants made food-substitution decisions with simulated AI advice. One design had people decide first and only then see the AI's suggestion. Another hid the suggestion behind a button. A third made them wait thirty seconds, this time on purpose, while a message said the AI was processing the image. As a group, these significantly reduced overreliance compared with simpler approaches that provided AI explanations.</p>
           <p>There was a catch.</p>
           <p>Participants tended to rate the interventions that most effectively reduced overreliance less favorably. The methods that encouraged better judgment weren't necessarily the methods people preferred using.</p>
           <p>If you design AI products, that trade-off deserves a closer look. We often treat friction as a defect in an interface. Sometimes it is. An unnecessary confirmation screen or redundant approval step can make a process slower without making it safer.</p>
@@ -294,7 +297,7 @@
                 <li>Involve specialists in difficult cases.</li>
               </ul>
             </div>
-            <figcaption>A mechanism to watch for, not a measured effect. Step four leads back to step one. Bainbridge (1983) described the underlying irony in industrial control systems; Lee and colleagues (2025) report self-reported associations among knowledge workers, not causes or change over time.</figcaption>
+            <figcaption>A mechanism to watch for, not a measured effect. Step four leads back to step one, the kind of <a href="the-thermometer-is-in-the-wrong-room.html#feedback">positive feedback</a> essay four describes. Bainbridge (1983) described the underlying irony in industrial control systems; Lee and colleagues (2025) report self-reported associations among knowledge workers, not causes or change over time.</figcaption>
           </figure>
         </section>
 
@@ -335,7 +338,7 @@
           <p>And when something goes wrong, is there a workable process for identifying the failure, correcting its consequences, and improving the system?</p>
           <p>These questions aren't a scientifically validated test. They're a design heuristic. But they expose the difference between a person participating in a workflow and a person meaningfully governing its outcome.</p>
           <p>Consider the implications. A reviewer who has expertise but cannot stop publication lacks authority. A reviewer who has authority but cannot inspect the relevant evidence lacks information. A reviewer who has both but must process hundreds of complicated decisions without adequate time lacks capacity.</p>
-          <p>And a system that allows errors to occur without providing a way to investigate and correct them lacks an essential mechanism for learning. Simply adding another approval stage won't necessarily fix any of these problems.</p>
+          <p>And a system that allows errors to occur without providing a way to investigate and correct them lacks recourse, and with it an essential mechanism for learning. Simply adding another approval stage won't necessarily fix any of these problems.</p>
           <figure class="wide-figure hitl-figure" aria-labelledby="oversight-gaps-title">
             <div class="figure-topline"><span class="eyebrow">Five questions, five gaps</span><span class="figure-number">Fig. 05</span></div>
             <h3 id="oversight-gaps-title">Where meaningful oversight can break down.</h3>
@@ -358,7 +361,7 @@
 
         <section class="essay-section" aria-labelledby="testing-oversight">
           <h2 id="testing-oversight" data-toc-label="Design for exceptions">Design for the exceptions, not just the demonstration</h2>
-          <p>In <a href="the-thermometer-is-in-the-wrong-room.html#reliable-enough">essay four</a>, we saw how much an accuracy score can leave out. Here I want to look more closely at the people expected to catch the mistakes.</p>
+          <p>In <a href="the-thermometer-is-in-the-wrong-room.html#reliable-enough">essay four</a>, we saw how much an accuracy score can leave out. Here the question gets wider: how do we test the whole arrangement, including the people expected to catch the mistakes?</p>
           <p>Demonstrations tend to show what a system can do when everything works. But the value of an oversight arrangement often becomes apparent only when something doesn't.</p>
           <p>Suppose an organization tests an AI-assisted workflow on one hundred documents and determines that ninety-six are acceptable.</p>
           <p>Is 96% good enough?</p>
@@ -408,7 +411,7 @@
               <li><span class="small-label">Essay 04<span class="hitl-stage">Feedback</span></span><strong>Can we detect and respond when the workflow fails?</strong><p>Define, observe, compare, respond.</p><a href="the-thermometer-is-in-the-wrong-room.html#reliability-loop-title">Closing the loop</a></li>
               <li class="is-current"><span class="small-label">Essay 05<span class="hitl-stage">Oversight</span></span><strong>Who can evaluate a decision and act on what they find?</strong><p>Information, competence, authority, capacity, recourse.</p><a href="#oversight-questions">The five questions</a></li>
             </ul>
-            <figcaption>These questions apply across the workflow. Evidence can change the framing; feedback can expose missing context; oversight determines who can act on what is found. Essay one's investigation spans source documents through verification.</figcaption>
+            <figcaption>These questions apply across the workflow. Evidence can change the framing; feedback can expose missing context; oversight determines who can act on what is found. To trace a failed answer, essay one's five-stage investigation still runs from source documents through verification.</figcaption>
           </figure>
         </section>
 

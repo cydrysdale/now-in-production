@@ -5,6 +5,14 @@
 - Edited page: ../../guides/a-better-prompt-wont-fix-the-wrong-problem.html
 - `edited.html` saves the current revised guide, including its figures and worksheet. It is an editorial snapshot, not a record of publication approval.
 
+## Flow fixes — 2026-10-30
+
+The author approved the [flow-fix plan](../thinking-in-systems-flow-fixes-2026-10-30.md) on 2026-10-30 without striking anything, so all proposed wording and new humor are applied as written, including optional lines. This approval does not cover publication: the change is local and uncommitted, and the hosted page still shows the earlier text. `source.md` is unchanged.
+
+Fixes 2.1–2.9. The prompt sidebar stays, and a new paragraph resolves its case before the conclusion. The “When improving the parts” section moved before “Good decomposition,” with IDs unchanged and the backlog joke and queue conditions moved verbatim. Author-approved changes to original wording: the Simon paragraphs (2.2), the third framing (2.4), and “frontloading” at its first use (2.6). The application of near-decomposability to the creative team is the essay's, not Simon's. `guide:updated` is 2026-10-30; the publication date is preserved. Worksheets are unchanged.
+
+Validation: `maintain.py check` passes and all five lessons plus the homepage pass `smoke.mjs`, run with installed Chrome because the bundled Playwright Chromium was out of date. Every removed word was compared against the plan, and protected wording and audit corrections were confirmed present. Ten of twenty captures of changed passages (1280px light, 390px dark) were inspected. Evidence and before copies: `artifacts/guide-checks/flow-fixes-2026-10-30/`.
+
 ## Repository save — 2026-10-28
 
 The author requested committing and pushing the completed session work. Content
